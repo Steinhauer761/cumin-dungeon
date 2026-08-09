@@ -22,13 +22,13 @@
 <body class="text-gray-100 min-h-screen flex flex-col antialiased bg-[#05060b]">
 
     <div class="w-full flex-1 flex justify-center items-stretch bg-[#020204]">
-        <div class="w-full max-w-md bg-[#05060b] flex flex-col relative border-x border-gray-900 shadow-2xl">
+        <div class="w-full max-w-md bg-[#05060b] flex flex-col relative border-x border-gray-900 shadow-2xl min-h-screen">
 
             <!-- STAGE 1: 18+ LEGAL AGE GATE -->
             <div id="age-gate" class="absolute inset-0 bg-[#020204] z-50 flex flex-col items-center justify-center p-6 text-center">
                 <div class="max-w-xs space-y-6">
                     <h2 class="text-xs font-black tracking-[0.3em] text-red-600 uppercase">Warning / Avertissement</h2>
-                    <h1 class="text-3xl font-black text-white branding-font tracking-wide">RESTRICTED ACCESS</h1>
+                    <h1 class="text-2xl font-black text-white branding-font">RESTRICTED ACCESS</h1>
                     <p class="text-xs text-gray-400 leading-relaxed">This private venue contains highly explicit adult material, orientation-specific corridors, and digital lifestyle entertainment. You must be of legal age in your jurisdiction to enter.</p>
                     <div class="grid grid-cols-2 gap-3 pt-2">
                         <button onclick="window.location.href='https://google.com'" class="w-full bg-gray-900 hover:bg-gray-800 text-gray-400 font-bold py-3 rounded-xl text-xs uppercase tracking-wide transition">Leave</button>
@@ -51,7 +51,7 @@
                         <h2 class="text-sm font-bold text-gray-200 text-center">Bouncer Entry Clearance</h2>
                         <div class="space-y-2 pt-2">
                             <input id="invite-code-input" type="text" placeholder="Enter VIP Pass Key" class="w-full bg-[#05060b] border border-gray-800 rounded-xl px-4 py-3 text-sm text-center font-mono uppercase focus:outline-none focus:border-purple-500 text-white transition">
-                            <button onclick="checkInviteCode()" class="w-full bg-gradient-to-r from-red-600 to-purple-800 text-white font-extrabold py-3 rounded-xl text-xs tracking-wider uppercase transition shadow-lg">Verify Pass Key</button>
+                            <button onclick="checkInviteCode()" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-extrabold py-3 rounded-xl text-xs tracking-wider uppercase transition shadow-lg">Verify Pass Key</button>
                         </div>
                     </div>
 
@@ -98,7 +98,7 @@
                 </div>
             </div>
 
-            <!-- COMPLIANT PERFORMER INTAKE WITH CUSTOM SUITE DESIGN SLOTS -->
+            <!-- STAGE 4: THE COMPLIANT PERFORMER INTAKE & CO-PERFORMER MATRIX BUREAU -->
             <div id="performer-panel" class="absolute inset-0 bg-[#06070d] z-40 hidden flex flex-col p-6 overflow-y-auto">
                 <div class="flex justify-between items-center border-b border-gray-800 pb-3 mb-4 shrink-0">
                     <div>
