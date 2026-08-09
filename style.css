@@ -1,0 +1,5 @@
+.premium-blur {
+    filter: blur(5px);
+    pointer-events: none;
+    user-select: none;
+}
