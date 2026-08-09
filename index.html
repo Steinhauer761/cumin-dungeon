@@ -3,137 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KinkLick AfterHours — VIP Weekend Club</title>
+    <title>CumIN Dungeon — VIP Weekend Club</title>
     <script src="https://tailwindcss.com"></script>
     <link href="https://googleapis.com" rel="stylesheet">
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #05060b; }
+        .branding-font { font-family: 'Cinzel', serif; }
         .club-blur { filter: blur(12px); pointer-events: none; opacity: 0.1; transition: all 0.5s ease; }
         ::-webkit-scrollbar { display: none; }
+        @keyframes flameGlow {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(220, 38, 38, 0.6)); }
+            50% { transform: scale(1.05); filter: drop-shadow(0 0 25px rgba(147, 51, 234, 0.8)); }
+        }
+        .torch-glow { animation: flameGlow 2s infinite ease-in-out; }
+        .servant-slide { transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
     </style>
 </head>
-<body class="text-gray-100 min-h-screen flex flex-col antialiased selection:bg-purple-500/30">
+<body class="text-gray-100 min-h-screen flex flex-col antialiased bg-[#05060b]">
 
-    <!-- ELITE GATEKEEPER WALL -->
-    <div id="invite-gate" class="fixed inset-0 bg-[#05060b] z-50 flex flex-col items-center justify-center p-6 text-center overflow-y-auto">
-        <div class="absolute top-0 w-full bg-purple-900/30 text-purple-400 py-2.5 text-xs font-black tracking-widest uppercase border-b border-purple-800/40 animate-pulse">
-            ✨ UNFILTERED • UNCUT • UNZIPPED — WEEKEND CLUBHOUSE
-        </div>
-        
-        <div class="max-w-sm space-y-6 w-full pt-12 pb-6">
-            <div class="space-y-1">
-                <h1 class="text-4xl font-extrabold tracking-tighter text-white bg-gradient-to-r from-purple-400 via-pink-500 to-amber-400 bg-clip-text text-transparent">KINKLICK</h1>
-                <p class="text-[10px] font-black tracking-widest text-purple-400 uppercase">After Hours Invite Only</p>
-            </div>
-            
-            <!-- Standard Membership Verification Box -->
-            <div class="p-6 bg-[#0f111a] border border-gray-800/80 rounded-2xl shadow-2xl space-y-4 text-left">
-                <h2 class="text-sm font-bold text-gray-200 text-center">Enter the Clubhouse</h2>
-                <p class="text-xs text-gray-400 leading-relaxed text-center">
-                    Doors open <span class="text-pink-500 font-extrabold">Friday to Sunday</span>. Input your premium membership key or a verified guest referral key.
-                </p>
-                
-                <div class="space-y-2 pt-2">
-                    <input id="invite-code-input" type="text" placeholder="Enter VIP Pass Key" class="w-full bg-[#05060b] border border-gray-800 rounded-xl px-4 py-3 text-sm text-center font-mono uppercase focus:outline-none focus:border-purple-500 text-white transition">
-                    <button onclick="checkInviteCode()" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-extrabold py-3 rounded-xl text-xs tracking-wider uppercase transition shadow-lg shadow-purple-900/30">
-                        Verify Pass Key
-                    </button>
-                </div>
-            </div>
+    <div class="w-full flex-1 flex justify-center items-stretch bg-[#020204]">
+        <div class="w-full max-w-md bg-[#05060b] flex flex-col relative border-x border-gray-900 shadow-2xl">
 
-            <!-- Sleek Guest RSVP Referral Box -->
-            <div class="p-5 bg-[#0f111a]/60 border border-gray-900 rounded-2xl text-left space-y-3">
-                <h3 class="text-xs font-black text-purple-400 uppercase tracking-wider text-center">VIP Member Guest RSVP</h3>
-                <p class="text-[11px] text-gray-400 text-center leading-relaxed">Brought by a current club member? Submit your details to check into the weekend guest list.</p>
-                
-                <div class="space-y-2">
-                    <input id="guest-name" type="text" placeholder="Your Name / Handle" class="w-full bg-[#05060b] border border-gray-800 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-pink-500 text-white">
-                    <input id="sponsor-name" type="text" placeholder="Inviting VIP Member's Name" class="w-full bg-[#05060b] border border-gray-800 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-pink-500 text-white">
-                    <button onclick="submitGuestRSVP()" class="w-full bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 rounded-lg text-xs uppercase tracking-wide transition">
-                        Submit Guest RSVP Form
-                    </button>
-                </div>
-            </div>
-
-            <!-- High Ticket No-Invite Option Box -->
-            <div class="space-y-2">
-                <p class="text-[11px] text-gray-500">No invitation code or sponsor?</p>
-                <a id="door-fee-link" href="#" target="_blank" class="block w-full bg-gradient-to-r from-amber-600 to-yellow-500 hover:from-amber-500 hover:to-yellow-400 text-gray-950 font-black py-3 rounded-xl text-xs tracking-wider text-center transition uppercase shadow-lg shadow-yellow-900/10">
-                    💥 Pay Walk-Up Door Fee ($30)
-                </a>
-                <a id="vetting-link" href="#" target="_blank" class="block text-center text-xs text-gray-400 hover:text-white underline transition">
-                    Or apply for standard Monthly Membership ($10/mo)
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- MAIN EXCLUSIVE LIVE INTERFACE -->
-    <div id="club-dashboard" class="hidden flex-col min-h-screen">
-        <!-- Top Navbar -->
-        <header class="bg-[#0f111a]/95 backdrop-blur-md p-4 sticky top-0 z-40 border-b border-gray-800/60 shadow-lg">
-            <div class="max-w-xl mx-auto flex justify-between items-center">
-                <div>
-                    <h1 class="text-lg font-extrabold tracking-tight text-white">KINKLICK</h1>
-                    <p class="text-[9px] font-bold text-pink-500 tracking-widest uppercase">AfterHours Live</p>
-                </div>
-                <div class="flex gap-2 items-center">
-                    <span class="text-[9px] bg-amber-500/10 text-amber-400 font-black px-2.5 py-1 rounded-md border border-amber-500/20 tracking-wider uppercase">
-                        👑 VIP MEMBER
-                    </span>
-                    <div id="user-balance" class="text-xs bg-gray-800/90 px-3 py-1.5 rounded-xl text-yellow-400 font-bold border border-gray-700">
-                        3 Chats Left
+            <!-- STAGE 1: 18+ LEGAL AGE GATE -->
+            <div id="age-gate" class="absolute inset-0 bg-[#020204] z-50 flex flex-col items-center justify-center p-6 text-center">
+                <div class="max-w-xs space-y-6">
+                    <h2 class="text-xs font-black tracking-[0.3em] text-red-600 uppercase">Warning / Avertissement</h2>
+                    <h1 class="text-3xl font-black text-white branding-font tracking-wide">RESTRICTED ACCESS</h1>
+                    <p class="text-xs text-gray-400 leading-relaxed">This private venue contains highly explicit adult material, orientation-specific corridors, and digital lifestyle entertainment. You must be of legal age in your jurisdiction to enter.</p>
+                    <div class="grid grid-cols-2 gap-3 pt-2">
+                        <button onclick="window.location.href='https://google.com'" class="w-full bg-gray-900 hover:bg-gray-800 text-gray-400 font-bold py-3 rounded-xl text-xs uppercase tracking-wide transition">Leave</button>
+                        <button onclick="bypassAgeGate()" class="w-full bg-gradient-to-r from-red-700 to-purple-800 hover:from-red-600 hover:to-purple-700 text-white font-black py-3 rounded-xl text-xs uppercase tracking-wide transition shadow-lg">I am 18+ / Enter</button>
                     </div>
                 </div>
             </div>
-        </header>
 
-        <!-- Perks Status Panel -->
-        <div class="max-w-xl mx-auto w-full px-4 mt-4 grid grid-cols-2 gap-2">
-            <div class="bg-gradient-to-br from-purple-950/20 to-[#0f111a] border border-purple-900/40 rounded-xl p-3 text-center shadow-xl">
-                <p class="text-[10px] font-black text-purple-400 uppercase tracking-wider">User Account Status</p>
-                <p class="text-xs font-bold text-white mt-0.5">Tokens 50% Off Today</p>
-            </div>
-            <div class="bg-gradient-to-br from-emerald-950/20 to-[#0f111a] border border-emerald-900/40 rounded-xl p-3 text-center shadow-xl">
-                <p class="text-[10px] font-black text-emerald-400 uppercase tracking-wider">Creator Privileges</p>
-                <p class="text-xs font-bold text-white mt-0.5">⚡ 0% Weekend Fees</p>
-            </div>
-        </div>
+            <!-- STAGE 2: THE OUTSIDE DUNGEON GATE (THE ENTRY CHOICES) -->
+            <div id="invite-gate" class="absolute inset-0 bg-[#05060b] z-40 hidden flex flex-col items-center justify-center p-6 text-center overflow-y-auto">
+                <div class="absolute top-0 w-full bg-purple-900/20 text-purple-400 py-2.5 text-xs font-black tracking-widest uppercase border-b border-purple-800/40 animate-pulse">✨ UNFILTERED • UNCUT • UNZIPPED — WEEKEND CLUBHOUSE</div>
+                <div class="absolute inset-x-0 top-16 max-w-sm mx-auto flex justify-between px-8 pointer-events-none"><div class="text-2xl torch-glow">🔥</div><div class="text-2xl torch-glow">🔥</div></div>
+                <div class="space-y-6 w-full pt-16 pb-6">
+                    <div class="space-y-1">
+                        <h1 class="text-4xl font-extrabold tracking-tight text-white bg-gradient-to-r from-red-600 via-purple-600 to-pink-500 bg-clip-text text-transparent branding-font uppercase">CUMIN DUNGEON</h1>
+                        <p class="text-[10px] font-black tracking-widest text-purple-400 uppercase">After Hours Invite Only</p>
+                    </div>
+                    
+                    <div class="p-6 bg-[#0f111a] border border-gray-800/80 rounded-2xl shadow-2xl space-y-4 text-left">
+                        <h2 class="text-sm font-bold text-gray-200 text-center">Bouncer Entry Clearance</h2>
+                        <div class="space-y-2 pt-2">
+                            <input id="invite-code-input" type="text" placeholder="Enter VIP Pass Key" class="w-full bg-[#05060b] border border-gray-800 rounded-xl px-4 py-3 text-sm text-center font-mono uppercase focus:outline-none focus:border-purple-500 text-white transition">
+                            <button onclick="checkInviteCode()" class="w-full bg-gradient-to-r from-red-600 to-purple-800 text-white font-extrabold py-3 rounded-xl text-xs tracking-wider uppercase transition shadow-lg">Verify Pass Key</button>
+                        </div>
+                    </div>
 
-        <!-- Room Type Navigation Tab Filters -->
-        <div class="max-w-xl mx-auto w-full mt-4 px-4 flex gap-2 overflow-x-auto pb-1">
-            <button onclick="filterRooms('all')" class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-1.5 rounded-xl text-xs font-bold transition shadow-md">All Rooms</button>
-            <button onclick="filterRooms('group')" class="bg-[#0f111a] border border-purple-900/50 text-purple-400 px-4 py-1.5 rounded-xl text-xs font-black transition">🔥 Main Floor (Group/Open)</button>
-            <button onclick="filterRooms('private')" class="bg-[#0f111a] border border-gray-800 px-4 py-1.5 rounded-xl text-xs font-medium text-gray-400 transition">Private 1-on-1 Rooms</button>
-        </div>
+                    <div class="p-4 bg-[#0f111a]/40 border border-gray-900 rounded-2xl text-left space-y-3">
+                        <h3 class="text-xs font-black text-purple-400 uppercase tracking-wider text-center">New Member Registrations</h3>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="launchWatcherOnboarding()" class="bg-purple-900/20 border border-purple-800/40 rounded-xl p-3 text-xs font-bold text-purple-400 hover:bg-purple-900/30 transition text-center">👁️ Join as Cumster<br><span class="text-[9px] text-gray-500 font-normal">Watcher Allocation</span></button>
+                            <button onclick="launchPerformerOnboarding()" class="bg-emerald-900/20 border border-emerald-800/40 rounded-xl p-3 text-xs font-bold text-emerald-400 hover:bg-emerald-900/30 transition text-center">🎭 Join as Performer<br><span class="text-[9px] text-gray-500 font-normal">Design Custom Suites</span></button>
+                        </div>
+                        <div class="pt-2 border-t border-gray-900">
+                            <input id="guest-name" type="text" placeholder="Your Name" class="w-full bg-[#05060b] border border-gray-800 rounded-lg px-3 py-2 text-xs text-white mb-2">
+                            <input id="sponsor-name" type="text" placeholder="Inviting VIP Member's Name" class="w-full bg-[#05060b] border border-gray-800 rounded-lg px-3 py-2 text-xs text-white mb-2">
+                            <button onclick="submitGuestRSVP()" class="w-full bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 rounded-lg text-xs uppercase tracking-wide transition">Submit Guest RSVP Form</button>
+                        </div>
+                    </div>
 
-        <!-- Live Feed Grids -->
-        <main id="directory-feed" class="max-w-xl mx-auto w-full p-4 space-y-4">
-            <!-- Loaded dynamically -->
-        </main>
-    </div>
-
-    <!-- Active Chat Overlay View Drawer -->
-    <div id="chat-modal" class="fixed inset-0 bg-black/95 hidden z-50 flex items-end justify-center backdrop-blur-sm">
-        <div class="bg-[#0f111a] w-full max-w-md rounded-t-3xl p-4 flex flex-col h-[80vh] border-t border-gray-800 shadow-2xl">
-            <div class="flex justify-between items-center border-b border-gray-800 pb-3 mb-2">
-                <h3 id="chat-header-title" class="font-extrabold text-sm text-purple-400">Private Session</h3>
-                <button onclick="closeChat()" class="text-gray-400 text-2xl font-bold hover:text-white transition">&times;</button>
-            </div>
-            <div id="message-stream" class="flex-1 overflow-y-auto space-y-2 p-2 bg-[#06070d] rounded-xl"></div>
-
-            <!-- Paywall Dynamic Lock Panel -->
-            <div id="paywall-lock" class="hidden text-center p-5 bg-[#06070d] border border-yellow-500/30 rounded-2xl my-2 shadow-2xl">
-                <p class="text-yellow-400 font-extrabold text-xs tracking-wider uppercase mb-1">Tokens Exhausted</p>
-                <p class="text-[11px] text-gray-400 mb-4">Your VIP membership cuts token rates in half! Top up your wallet to continue infinite weekend text/photo chats.</p>
-                <a id="paywall-link" href="#" target="_blank" class="block w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-extrabold py-3 rounded-xl text-xs tracking-wider text-center transition uppercase shadow-lg">
-                    Buy 50 Discounted Tokens ($5)
-                </a>
+                    <div class="space-y-2">
+                        <a id="door-fee-link" href="#" target="_blank" class="block w-full bg-gradient-to-r from-amber-600 to-yellow-500 text-gray-950 font-black py-3 rounded-xl text-xs tracking-wider text-center transition uppercase shadow-lg">💥 Pay Walk-Up Door Fee ($30)</a>
+                        <a id="vetting-link" href="#" target="_blank" class="block text-center text-xs text-gray-400 hover:text-white underline transition">Or apply for standard Monthly Membership ($10/mo)</a>
+                    </div>
+                </div>
             </div>
 
-            <div id="chat-input-area" class="mt-2 flex gap-2 items-center bg-[#06070d] p-1.5 rounded-xl border border-gray-800">
-                <input id="message-input" type="text" placeholder="Send premium text..." class="flex-1 bg-transparent px-3 py-2 text-sm text-white focus:outline-none">
-                <button onclick="sendMessage()" class="bg-gradient-to-r from-purple-600 to-pink-600 px-4 py-2 rounded-lg text-xs font-extrabold text-white transition">Send</button>
+            <!-- TIER 2 REGISTRATION DESK: THE WATCHER ENTRY -->
+            <div id="register-desk" class="absolute inset-0 bg-[#0a0b12] z-30 hidden flex flex-col items-center justify-center p-6 text-center overflow-y-auto">
+                <div class="max-w-xs space-y-6 w-full">
+                    <div class="space-y-1">
+                        <span class="text-purple-400 text-xs font-bold uppercase tracking-widest">👁️ Cumster Registry Counter</span>
+                        <h2 class="text-xl font-black text-white branding-font">INITIALIZE PROFILE</h2>
+                        <p class="text-xs text-gray-400">Set up your clubhouse handle and claim your physical VIP Black Card tracking parameters.</p>
+                    </div>
+                    <div class="p-5 bg-[#0f111a] border border-gray-800 rounded-2xl text-left space-y-4 shadow-xl">
+                        <div class="p-3 bg-purple-950/20 border border-purple-900/30 rounded-xl text-[10px] text-gray-400 leading-tight">⚖️ By checking into this platform, you verify you are over 18, agree to keep all member interactions completely private, and understand that minor activity is strictly prohibited.</div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-purple-400 uppercase tracking-wider mb-1">Choose Username</label>
+                            <input id="reg-username" type="text" placeholder="@HighRoller" class="w-full bg-[#05060b] border border-gray-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500 font-mono">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-purple-400 uppercase tracking-wider mb-1">VIP Gold/Black Card Serial (Optional)</label>
+                            <input id="reg-card-id" type="text" placeholder="ID-0000-XXXX" class="w-full bg-[#05060b] border border-gray-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500 font-mono uppercase">
+                        </div>
+                        <button onclick="finalizeAccountRegistration()" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-extrabold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow-md">Accept Terms & Enter Corridors</button>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
+
+            <!-- COMPLIANT PERFORMER INTAKE WITH CUSTOM SUITE DESIGN SLOTS -->
+            <div id="performer-panel" class="absolute inset-0 bg-[#06070d] z-40 hidden flex flex-col p-6 overflow-y-auto">
+                <div class="flex justify-between items-center border-b border-gray-800 pb-3 mb-4 shrink-0">
+                    <div>
