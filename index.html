@@ -3,102 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CumIN Dungeon — VIP Weekend Club</title>
+    <title>CUMin Dungeon - VIP Weekend Club</title>
+    
+    <!-- Working Tailwind Play CDN -->
     <script src="https://tailwindcss.com"></script>
-    <link href="https://googleapis.com" rel="stylesheet">
+    
+    <!-- Corrected Google Fonts Embeds -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Cinzel:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #05060b; }
-        .branding-font { font-family: 'Cinzel', serif; }
-        .club-blur { filter: blur(12px); pointer-events: none; opacity: 0.1; transition: all 0.5s ease; }
-        ::-webkit-scrollbar { display: none; }
-        @keyframes flameGlow {
-            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(220, 38, 38, 0.6)); }
-            50% { transform: scale(1.05); filter: drop-shadow(0 0 25px rgba(147, 51, 234, 0.8)); }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #05060b; 
         }
-        .torch-glow { animation: flameGlow 2s infinite ease-in-out; }
-        .servant-slide { transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .branding-font { 
+            font-family: 'Cinzel', serif; 
+        }
+        .club-blur { 
+            filter: blur(12px); 
+            pointer-events: none; 
+            opacity: 0.1; 
+            transition: all 0.5s ease; 
+        }
+        ::-webkit-scrollbar { 
+            display: none; 
+        }
+        @keyframes flameGlow {
+            0%, 100% { 
+                transform: scale(1); 
+                filter: drop-shadow(0 0 15px rgba(220, 38, 38, 0.6)); 
+            }
+            50% { 
+                transform: scale(1.05); 
+                filter: drop-shadow(0 0 25px rgba(147, 51, 234, 0.8)); 
+            }
+        }
+        .torch-glow { 
+            animation: flameGlow 2s infinite ease-in-out; 
+        }
+        .servant-slide { 
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
     </style>
 </head>
 <body class="text-gray-100 min-h-screen flex flex-col antialiased bg-[#05060b]">
 
     <div class="w-full flex-1 flex justify-center items-stretch bg-[#020204]">
         <div class="w-full max-w-md bg-[#05060b] flex flex-col relative border-x border-gray-900 shadow-2xl min-h-screen">
-
+            
             <!-- STAGE 1: 18+ LEGAL AGE GATE -->
             <div id="age-gate" class="absolute inset-0 bg-[#020204] z-50 flex flex-col items-center justify-center p-6 text-center">
                 <div class="max-w-xs space-y-6">
                     <h2 class="text-xs font-black tracking-[0.3em] text-red-600 uppercase">Warning / Avertissement</h2>
                     <h1 class="text-2xl font-black text-white branding-font">RESTRICTED ACCESS</h1>
-                    <p class="text-xs text-gray-400 leading-relaxed">This private venue contains highly explicit adult material, orientation-specific corridors, and digital lifestyle entertainment. You must be of legal age in your jurisdiction to enter.</p>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        This private venue contains highly explicit adult material, orientation-specific corridors, and digital lifestyle entertainment. You must be of legal age in your jurisdiction to enter.
+                    </p>
                     <div class="grid grid-cols-2 gap-3 pt-2">
-                        <button onclick="window.location.href='https://google.com'" class="w-full bg-gray-900 hover:bg-gray-800 text-gray-400 font-bold py-3 rounded-xl text-xs uppercase tracking-wide transition">Leave</button>
-                        <button onclick="bypassAgeGate()" class="w-full bg-gradient-to-r from-red-700 to-purple-800 hover:from-red-600 hover:to-purple-700 text-white font-black py-3 rounded-xl text-xs uppercase tracking-wide transition shadow-lg">I am 18+ / Enter</button>
+                        <button onclick="window.location.href='https://google.com'" class="w-full bg-gray-900 hover:bg-gray-800 text-text-gray-400 font-bold py-2.5 px-4 rounded-xl text-xs transition">
+                            Leave
+                        </button>
+                        <button onclick="document.getElementById('age-gate').style.display='none'" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition torch-glow">
+                            I am 18+
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <!-- STAGE 2: THE OUTSIDE DUNGEON GATE -->
-            <div id="invite-gate" class="absolute inset-0 bg-[#05060b] z-40 hidden flex flex-col items-center justify-center p-6 text-center overflow-y-auto">
-                <div class="absolute top-0 w-full bg-purple-900/20 text-purple-400 py-2.5 text-xs font-black tracking-widest uppercase border-b border-purple-800/40 animate-pulse">✨ UNFILTERED • UNCUT • UNZIPPED — WEEKEND CLUBHOUSE</div>
-                <div class="absolute inset-x-0 top-16 max-w-sm mx-auto flex justify-between px-8 pointer-events-none"><div class="text-2xl torch-glow">🔥</div><div class="text-2xl torch-glow">🔥</div></div>
-                <div class="space-y-6 w-full pt-16 pb-6">
-                    <div class="space-y-1">
-                        <h1 class="text-4xl font-extrabold tracking-tight text-white bg-gradient-to-r from-red-600 via-purple-600 to-pink-500 bg-clip-text text-transparent branding-font uppercase">CUMIN DUNGEON</h1>
-                        <p class="text-[10px] font-black tracking-widest text-purple-400 uppercase">After Hours Invite Only</p>
-                    </div>
-                    
-                    <div class="p-6 bg-[#0f111a] border border-gray-800/80 rounded-2xl shadow-2xl space-y-4 text-left">
-                        <h2 class="text-sm font-bold text-gray-200 text-center">Bouncer Entry Clearance</h2>
-                        <div class="space-y-2 pt-2">
-                            <input id="invite-code-input" type="text" placeholder="Enter VIP Pass Key" class="w-full bg-[#05060b] border border-gray-800 rounded-xl px-4 py-3 text-sm text-center font-mono uppercase focus:outline-none focus:border-purple-500 text-white transition">
-                            <button onclick="checkInviteCode()" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-extrabold py-3 rounded-xl text-xs tracking-wider uppercase transition shadow-lg">Verify Pass Key</button>
-                        </div>
-                    </div>
-
-                    <div class="p-4 bg-[#0f111a]/40 border border-gray-900 rounded-2xl text-left space-y-3">
-                        <h3 class="text-xs font-black text-purple-400 uppercase tracking-wider text-center">New Member Registrations</h3>
-                        <div class="grid grid-cols-2 gap-2">
-                            <button onclick="launchWatcherOnboarding()" class="bg-purple-900/20 border border-purple-800/40 rounded-xl p-3 text-xs font-bold text-purple-400 hover:bg-purple-900/30 transition text-center">👁️ Join as Cumster<br><span class="text-[9px] text-gray-500 font-normal">Watcher Allocation</span></button>
-                            <button onclick="launchPerformerOnboarding()" class="bg-emerald-900/20 border border-emerald-800/40 rounded-xl p-3 text-xs font-bold text-emerald-400 hover:bg-emerald-900/30 transition text-center">🎭 Join as Performer<br><span class="text-[9px] text-gray-500 font-normal">Design Custom Suites</span></button>
-                        </div>
-                        <div class="pt-2 border-t border-gray-900">
-                            <input id="guest-name" type="text" placeholder="Your Name" class="w-full bg-[#05060b] border border-gray-800 rounded-lg px-3 py-2 text-xs text-white mb-2">
-                            <input id="sponsor-name" type="text" placeholder="Inviting VIP Member's Name" class="w-full bg-[#05060b] border border-gray-800 rounded-lg px-3 py-2 text-xs text-white mb-2">
-                            <button onclick="submitGuestRSVP()" class="w-full bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 rounded-lg text-xs uppercase tracking-wide transition">Submit Guest RSVP Form</button>
-                        </div>
-                    </div>
-
-                    <div class="space-y-2">
-                        <a id="door-fee-link" href="#" target="_blank" class="block w-full bg-gradient-to-r from-amber-600 to-yellow-500 text-gray-950 font-black py-3 rounded-xl text-xs tracking-wider text-center transition uppercase shadow-lg">💥 Pay Walk-Up Door Fee ($30)</a>
-                        <a id="vetting-link" href="#" target="_blank" class="block text-center text-xs text-gray-400 hover:text-white underline transition">Or apply for standard Monthly Membership ($10/mo)</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TIER 2 REGISTRATION DESK: THE WATCHER ENTRY -->
-            <div id="register-desk" class="absolute inset-0 bg-[#0a0b12] z-30 hidden flex flex-col items-center justify-center p-6 text-center overflow-y-auto">
-                <div class="max-w-xs space-y-6 w-full">
-                    <div class="space-y-1">
-                        <span class="text-purple-400 text-xs font-bold uppercase tracking-widest">👁️ Cumster Registry Counter</span>
+            <!-- REGISTRY & INTAKE INTERFACE -->
+            <div class="p-6 space-y-6 flex-1 overflow-y-auto">
+                <div class="flex justify-between items-center border-b border-gray-900 pb-4">
+                    <div>
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-purple-400">Cumster Registry Counter</span>
                         <h2 class="text-xl font-black text-white branding-font">INITIALIZE PROFILE</h2>
-                        <p class="text-xs text-gray-400">Set up your clubhouse handle and claim your physical VIP Black Card tracking parameters.</p>
                     </div>
-                    <div class="p-5 bg-[#0f111a] border border-gray-800 rounded-2xl text-left space-y-4 shadow-xl">
-                        <div class="p-3 bg-purple-950/20 border border-purple-900/30 rounded-xl text-[10px] text-gray-400 leading-tight">⚖️ By checking into this platform, you verify you are over 18, agree to keep all member interactions completely private, and understand that minor activity is strictly prohibited.</div>
+                </div>
+
+                <p class="text-xs text-gray-400">
+                    Set up your clubhouse handle and claim your physical VIP Black Card tracking parameters.
+                </p>
+
+                <div class="p-5 bg-[#0f111a] border border-gray-800 rounded-2xl text-left space-y-4 shadow-xl">
+                    <div class="p-3 bg-purple-950/20 border border-purple-900/30 rounded-xl text-[10px] text-gray-400 leading-tight">
+                        By checking into this platform, you verify you are over 18, agree to keep all member interactions completely private, and understand that minor activity is strictly prohibited.
+                    </div>
+
+                    <div class="space-y-4">
                         <div>
                             <label class="block text-[10px] font-bold text-purple-400 uppercase tracking-wider mb-1">Choose Username</label>
-                            <input id="reg-username" type="text" placeholder="@HighRoller" class="w-full bg-[#05060b] border border-gray-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500 font-mono">
+                            <input id="reg-username" type="text" placeholder="@HighRoller" class="w-full bg-[#05060b] border border-gray-800 rounded-xl px-3 py-3 text-xs text-white focus:outline-none focus:border-purple-500 font-mono">
                         </div>
+
                         <div>
                             <label class="block text-[10px] font-bold text-purple-400 uppercase tracking-wider mb-1">VIP Gold/Black Card Serial (Optional)</label>
-                            <input id="reg-card-id" type="text" placeholder="ID-0000-XXXX" class="w-full bg-[#05060b] border border-gray-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500 font-mono uppercase">
+                            <input id="reg-card-id" type="text" placeholder="ID-0000-XXXX" class="w-full bg-[#05060b] border border-gray-800 rounded-xl px-3 py-3 text-xs text-white focus:outline-none focus:border-purple-500 font-mono uppercase">
                         </div>
-                        <button onclick="finalizeAccountRegistration()" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-extrabold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow-md">Accept Terms & Enter Corridors</button>
+
+                        <button onclick="finalizeAccountRegistration()" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-extrabold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow-md hover:opacity-90">
+                            Accept Terms & Enter Corridors
+                        </button>
                     </div>
                 </div>
             </div>
 
             <!-- STAGE 4: THE COMPLIANT PERFORMER INTAKE -->
-            <div id="performer-panel" class="absolute inset-0 bg-[#06070d] z-40 hidden flex flex-col p-6 overflow-y-auto">
+            <div id="performer-panel" class="absolute inset-0 bg-[#06070d] z-40 hidden flex-col p-6 overflow-y-auto">
                 <div class="flex justify-between items-center border-b border-gray-800 pb-3 mb-4 shrink-0">
-                    <div>
+                    <h3 class="text-sm font-black uppercase text-white tracking-wider">Performer Dashboard</h3>
+                </div>
+                <!-- Performer content structures go here -->
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function finalizeAccountRegistration() {
+            const username = document.getElementById('reg-username').value.trim();
+            if(!username) {
+                alert('Please enter a username to clear clearance.');
+                return;
+            }
+            alert('Profile registered successfully! Entrance open.');
+            // Toggle stages or redirect patterns here
+        }
+    </script>
+</body>
+</html>
