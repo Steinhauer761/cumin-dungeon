@@ -1,1 +1,883 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Operations</title><script src="https://tailwindcss.com"></script><link href="https://googleapis.com" rel="stylesheet"><style>body{font-family:'Plus Jakarta Sans',sans-serif;background-color:#0b0f19;}::-webkit-scrollbar{display:none;}</style></head><body class="text-gray-100 min-h-screen flex flex-col antialiased bg-[#0b0f19]"><div class="w-full flex-1 flex justify-center items-stretch bg-[#060814]"><div class="w-full max-w-md bg-[#0b0f19] flex flex-col relative border-x border-gray-800 shadow-2xl min-h-screen"><header class="bg-[#111827] p-4 border-b border-gray-800 sticky top-0 z-50"><div class="flex justify-between items-center"><div><h1 class="text-base font-extrabold tracking-tight text-white uppercase">HUSTLE OPERATIONS</h1><p class="text-[10px] font-bold text-blue-500 tracking-widest uppercase">Pipeline</p></div><span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-1 rounded-full font-black">LIVE</span></div></header><div class="p-4 grid grid-cols-2 gap-2 text-center text-[10px] font-bold"><div class="bg-gradient-to-br from-slate-900 to-[#111827] border border-gray-800 rounded-xl p-3 shadow-xl"><div id="total-revenue" class="text-blue-400 font-black text-sm">$0.00</div><p class="text-gray-500 text-[9px] uppercase tracking-wider mt-0.5">Gross Revenue</p></div><div class="bg-gradient-to-br from-slate-900 to-[#111827] border border-gray-800 rounded-xl p-3 shadow-xl"><div id="active-accounts" class="text-emerald-400 font-black text-sm">0 Active</div><p class="text-gray-500 text-[9px] uppercase tracking-wider mt-0.5">Vetted Clients</p></div></div><main class="p-4 flex-1 space-y-4"><div class="bg-[#111827] border border-gray-800 p-4 rounded-2xl shadow-xl space-y-3"><h3 class="text-xs font-black text-gray-300 uppercase tracking-widest border-b border-gray-800 pb-2">📋 Client Vetting Onboarding</h3><div class="space-y-2 pt-1 text-xs"><div><label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Corporate / Client Handle</label><input id="client-handle" type="text" placeholder="@EnterpriseVIP" class="w-full bg-[#060814] border border-gray-800 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-blue-500 font-mono"></div><div><label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Security Authentication Serial</label><input id="client-serial" type="text" placeholder="SERIAL-0000-XXXX" class="w-full bg-[#060814] border border-gray-800 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-blue-500 font-mono uppercase"></div><button onclick="onboardClient()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-extrabold py-3 rounded-xl text-xs uppercase tracking-wider shadow-lg">Process Account Admission</button></div></div><div class="bg-[#111827] border border-gray-800 p-4 rounded-2xl shadow-xl space-y-3"><h3 class="text-xs font-black text-amber-400 uppercase tracking-widest border-b border-gray-800 pb-2">📦 Premium Packaging Logistics</h3><div class="grid grid-cols-2 gap-2 text-center text-white"><button onclick="logAssetOrder('Elite Matte Card',10)" class="bg-[#060814] hover:bg-slate-900 p-3 rounded-xl border border-gray-800 transition"><div class="text-xl">💳</div><div class="text-[9px] text-gray-400 font-bold mt-1 uppercase tracking-wide">Elite Member Card</div></button><button onclick="logAssetOrder('Discreet Stealth Box',30)" class="bg-[#060814] hover:bg-slate-900 p-3 rounded-xl border border-gray-800 transition"><div class="text-xl">📦</div><div class="text-[9px] text-gray-400 font-bold mt-1 uppercase tracking-wide">Stealth Envelope</div></button></div></div><div class="bg-[#111827] border border-gray-800 p-4 rounded-2xl shadow-xl flex flex-col h-48"><h3 class="text-xs font-black text-gray-300 uppercase tracking-widest border-b border-gray-800 pb-2 mb-2">⚡ Real-Time Operational Activity</h3><div id="activity-stream" class="flex-1 overflow-y-auto space-y-1.5 p-2 bg-[#060814] rounded-xl text-[11px] font-mono text-gray-400"><div class="text-blue-400">[SYSTEM] Operations console initialized. Waiting for pipeline entry data...</div></div></div></main><footer class="p-4 bg-[#111827] border-t border-gray-800 text-center text-[9px] text-gray-500 uppercase tracking-widest">Secure Distribution Framework</footer></div></div><script>let revenueCount=0.00;let accountsCount=0;function onboardClient(){const handle=document.getElementById('client-handle').value.trim();const serial=document.getElementById('client-serial').value.trim().toUpperCase();if(handle===""||serial===""){alert("❌ Input fields cannot be empty.");return;}accountsCount++;document.getElementById('active-accounts').innerText=`\${accountsCount} Active`;const stream=document.getElementById('activity-stream');const log=document.createElement('div');log.className="text-emerald-400";log.innerText=`[🟢 VETTED] Client \${handle} initialized under Serial Key: \${serial}`;stream.appendChild(log);document.getElementById('client-handle').value='';document.getElementById('client-serial').value='';stream.scrollTop=stream.scrollHeight;}function logAssetOrder(assetName,assetCost){revenueCount+=assetCost;document.getElementById('total-revenue').innerText=`$\${revenueCount.toFixed(2)}`;const stream=document.getElementById('activity-stream');const log=document.createElement('div');log.className="text-amber-400";log.innerText=`[📦 LOGISTICS] Premium Order Added: \${assetName} (+\$\${assetCost}.00)`;stream.appendChild(log);stream.scrollTop=stream.scrollHeight;}</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090503">
+  <meta name="description" content="Cum IN Dungeon — a private 18+ digital venue concept.">
+  <title>Cum IN Dungeon — Private Adult Venue</title>
+  <style>
+    :root {
+      --ink: #080503;
+      --surface: #120c08;
+      --surface-2: #1a110c;
+      --line: rgba(190, 137, 77, .24);
+      --gold: #d59a4b;
+      --gold-light: #f5c77e;
+      --red: #8d1d24;
+      --cream: #f5eee4;
+      --muted: #a6998b;
+      --green: #58a77a;
+      --shadow: 0 24px 80px rgba(0, 0, 0, .55);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--cream);
+      background:
+        radial-gradient(circle at 50% -10%, rgba(141, 29, 36, .17), transparent 30rem),
+        linear-gradient(180deg, #0b0704 0%, #050403 100%);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { color: inherit; }
+    a { color: inherit; }
+    [hidden] { display: none !important; }
+    :focus-visible { outline: 2px solid var(--gold-light); outline-offset: 3px; }
+
+    .serif { font-family: Georgia, "Times New Roman", serif; }
+    .eyebrow {
+      margin: 0 0 .7rem;
+      color: var(--gold);
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+    .muted { color: var(--muted); }
+    .shell { width: min(1180px, calc(100% - 2rem)); margin-inline: auto; }
+    .screen { min-height: 100vh; }
+
+    .btn {
+      min-height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .55rem;
+      padding: .85rem 1.05rem;
+      border: 1px solid var(--line);
+      border-radius: .8rem;
+      background: rgba(255,255,255,.035);
+      color: var(--cream);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease, filter .18s ease;
+    }
+    .btn:hover { transform: translateY(-1px); border-color: rgba(213,154,75,.6); }
+    .btn--gold {
+      border-color: rgba(245,199,126,.55);
+      background: linear-gradient(180deg, var(--gold-light), #a86422);
+      color: #140b04;
+      box-shadow: 0 12px 34px rgba(180, 104, 34, .18);
+    }
+    .btn--gold:hover { filter: brightness(1.08); }
+    .btn--red { border-color: rgba(175,48,57,.55); background: rgba(125,22,29,.3); }
+    .btn--wide { width: 100%; }
+    .btn:disabled { opacity: .3; cursor: not-allowed; transform: none; filter: none; }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      border: 0;
+      background: transparent;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.07rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .brand__mark {
+      width: 2rem;
+      height: 2rem;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(213,154,75,.45);
+      border-radius: 50% 50% .45rem .45rem;
+      color: var(--gold-light);
+      background: rgba(213,154,75,.07);
+    }
+    .brand strong { color: var(--gold); }
+
+    /* Gate */
+    .gate {
+      position: relative;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: 2rem 1rem;
+      isolation: isolate;
+    }
+    .gate::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(circle at 50% 22%, rgba(174,89,28,.19), transparent 28rem),
+        radial-gradient(circle at 50% 95%, rgba(120,18,28,.25), transparent 26rem),
+        linear-gradient(180deg, rgba(5,3,2,.3), rgba(5,3,2,.95));
+    }
+    .gate::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      opacity: .18;
+      background-image: linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: linear-gradient(to bottom, black, transparent 75%);
+    }
+    .torch {
+      position: absolute;
+      top: 15%;
+      width: .45rem;
+      height: 9rem;
+      border-radius: .4rem;
+      background: linear-gradient(#835220, #2b211b 58%, #0d0b09);
+      box-shadow: 0 0 0 .28rem rgba(128,76,32,.3);
+      opacity: .75;
+    }
+    .torch::before {
+      content: "";
+      position: absolute;
+      width: 2.1rem;
+      height: 3.7rem;
+      left: 50%;
+      bottom: calc(100% - .25rem);
+      translate: -50% 0;
+      border-radius: 58% 42% 60% 40%;
+      background: radial-gradient(circle at 50% 65%, #fff0a1 0 8%, #ef9c2f 25%, #a72d1e 55%, transparent 60%);
+      filter: drop-shadow(0 0 18px rgba(239,156,47,.7));
+      animation: flame 1.5s ease-in-out infinite alternate;
+    }
+    .torch--left { left: clamp(1rem, 8vw, 7rem); }
+    .torch--right { right: clamp(1rem, 8vw, 7rem); }
+    @keyframes flame { to { transform: scale(.92, 1.08) rotate(2deg); filter: drop-shadow(0 0 27px rgba(239,156,47,.85)); } }
+
+    .gate-card {
+      width: min(760px, 100%);
+      position: relative;
+      padding: clamp(2rem, 7vw, 5rem) clamp(1rem, 5vw, 3.5rem) 2rem;
+      border: 1px solid rgba(213,154,75,.36);
+      border-radius: 11rem 11rem 2rem 2rem;
+      background: radial-gradient(circle at 50% 0, rgba(148,82,31,.24), transparent 33%), linear-gradient(180deg, rgba(29,20,15,.95), rgba(7,5,4,.98));
+      box-shadow: var(--shadow), inset 0 0 0 4px rgba(0,0,0,.45);
+      text-align: center;
+    }
+    .gate-card::before {
+      content: "♜";
+      position: absolute;
+      top: 1.3rem;
+      left: 50%;
+      translate: -50% 0;
+      color: var(--gold);
+      font-size: 2.8rem;
+      opacity: .9;
+    }
+    .gate-card h1 {
+      margin: .15rem 0 .8rem;
+      font-size: clamp(2.45rem, 8vw, 5.2rem);
+      line-height: .92;
+      letter-spacing: -.045em;
+    }
+    .gate-card h1 strong { color: var(--gold); }
+    .gate-copy { max-width: 520px; margin: 0 auto; color: var(--muted); line-height: 1.65; font-size: .94rem; }
+    .dragon-banner {
+      position: relative;
+      min-height: 76px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid rgba(213,154,75,.33);
+      border-radius: .7rem;
+      background: linear-gradient(145deg, #030202, #120908 55%, #020202);
+      box-shadow: inset 0 0 25px rgba(0,0,0,.85), 0 10px 34px rgba(0,0,0,.28);
+      isolation: isolate;
+    }
+    .dragon-banner::before, .dragon-banner::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      z-index: -1;
+      border: 1px solid rgba(213,154,75,.09);
+      border-radius: .45rem;
+      pointer-events: none;
+    }
+    .dragon-banner::after { inset: auto 7% 9px; height: 1px; border: 0; background: linear-gradient(90deg, transparent, rgba(245,199,126,.4), transparent); }
+    .dragon-banner svg { position: absolute; inset: 0; width: 100%; height: 100%; filter: drop-shadow(0 0 10px rgba(155,24,33,.4)); }
+    .dragon-banner__copy { position: relative; z-index: 2; padding: .45rem 3.4rem; background: radial-gradient(ellipse at center, rgba(4,2,2,.88), rgba(4,2,2,.55) 55%, transparent 78%); text-align: center; text-transform: uppercase; }
+    .dragon-banner__copy strong { display: block; color: var(--cream); font-family: Georgia, "Times New Roman", serif; font-size: clamp(.95rem, 3vw, 1.35rem); letter-spacing: .12em; text-shadow: 0 2px 8px #000; }
+    .dragon-banner__copy strong em { color: var(--gold-light); font-style: normal; }
+    .dragon-banner__copy small { display: block; margin-top: .25rem; color: rgba(245,199,126,.68); font-size: .48rem; font-weight: 850; letter-spacing: .28em; }
+    .dragon-banner--gate { max-width: 560px; margin: 1.15rem auto .9rem; }
+    .dragon-banner--doors { max-width: 900px; margin: 1.7rem auto -1.25rem; transform: translateY(.2rem); z-index: 3; }
+    .dragon-banner--compact { min-height: 58px; margin: .75rem 0; }
+    .dragon-banner--compact .dragon-banner__copy strong { font-size: .78rem; }
+    .dragon-banner--compact .dragon-banner__copy small { font-size: .42rem; }
+    .dragon-banner--stage { position: absolute; left: 4%; right: 4%; top: 43%; z-index: 1; min-height: 86px; opacity: .62; border-color: rgba(213,154,75,.22); transform: rotate(-1deg); }
+    .dragon-banner--doors { box-shadow: inset 0 0 30px #000, 0 12px 45px rgba(0,0,0,.5), 0 0 0 6px rgba(48,30,17,.5), 0 0 0 7px rgba(213,154,75,.14); }
+    .grand-rug {
+      position: relative;
+      width: min(760px, 85%);
+      height: 170px;
+      margin: 1.2rem auto -4.2rem;
+      overflow: hidden;
+      border: 2px solid rgba(213,154,75,.4);
+      background: radial-gradient(ellipse at center, rgba(113,18,27,.5), transparent 42%), repeating-linear-gradient(90deg, rgba(213,154,75,.07) 0 2px, transparent 2px 28px), linear-gradient(180deg, #190609, #040202);
+      box-shadow: inset 0 0 0 7px #070303, inset 0 0 0 9px rgba(213,154,75,.22), inset 0 0 55px #000, 0 28px 48px rgba(0,0,0,.5);
+      clip-path: polygon(9% 0, 91% 0, 100% 100%, 0 100%);
+      transform: perspective(650px) rotateX(58deg);
+      transform-origin: 50% 0;
+      pointer-events: none;
+    }
+    .grand-rug::before, .grand-rug::after { content: ""; position: absolute; top: 0; bottom: 0; width: 8%; background: repeating-linear-gradient(180deg, #ad7b3b 0 2px, #32110d 2px 7px); opacity: .45; }
+    .grand-rug::before { left: 2.5%; }
+    .grand-rug::after { right: 2.5%; }
+    .grand-rug svg { position: absolute; inset: 18% 8%; width: 84%; height: 64%; filter: drop-shadow(0 0 12px rgba(169,31,41,.65)); }
+    .grand-rug__crest { position: absolute; inset: 0; display: grid; place-items: center; color: rgba(245,199,126,.82); font-family: Georgia, "Times New Roman", serif; font-size: clamp(.75rem, 2.3vw, 1.35rem); font-weight: 900; letter-spacing: .22em; text-shadow: 0 2px 8px #000; }
+    .grand-rug--gate { width: min(470px, 78%); height: 130px; margin: .7rem auto -3.2rem; opacity: .88; }
+    .adult-badge {
+      width: fit-content;
+      margin: 0 auto 1rem;
+      padding: .45rem .72rem;
+      border: 1px solid rgba(213,154,75,.35);
+      border-radius: 999px;
+      background: rgba(0,0,0,.35);
+      color: var(--gold-light);
+      font-size: .62rem;
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    .confirm-box {
+      max-width: 560px;
+      margin: 1.6rem auto 1rem;
+      padding: .55rem;
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 1rem;
+      background: rgba(0,0,0,.28);
+      text-align: left;
+    }
+    .confirm {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: .8rem;
+      align-items: start;
+      padding: .85rem;
+      border-radius: .7rem;
+      cursor: pointer;
+    }
+    .confirm:hover { background: rgba(255,255,255,.025); }
+    .confirm input { width: 1rem; height: 1rem; margin-top: .12rem; accent-color: var(--gold); }
+    .confirm span { font-size: .8rem; font-weight: 750; line-height: 1.4; }
+    .confirm small { display: block; margin-top: .22rem; color: var(--muted); font-size: .67rem; font-weight: 500; }
+    .gate-legal-links { display: flex; flex-wrap: wrap; gap: .7rem; padding: .4rem .85rem .7rem 2.65rem; }
+    .gate-legal-links button { padding: 0; border: 0; background: transparent; color: var(--gold-light); font-size: .65rem; text-decoration: underline; text-underline-offset: .2rem; cursor: pointer; }
+    .gate-actions { max-width: 560px; margin: 1rem auto 0; display: grid; grid-template-columns: 1.35fr 1fr; gap: .7rem; }
+    .gate-note { max-width: 520px; margin: 1rem auto 0; color: #756a61; font-size: .62rem; line-height: 1.5; }
+
+    /* Venue */
+    .venue-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: rgba(7,5,4,.87);
+      backdrop-filter: blur(18px);
+    }
+    .venue-nav { min-height: 66px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .nav-actions { display: flex; gap: .55rem; align-items: center; }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .38rem .65rem;
+      border: 1px solid rgba(175,48,57,.4);
+      border-radius: 999px;
+      background: rgba(125,22,29,.18);
+      color: #ef9aa0;
+      font-size: .6rem;
+      font-weight: 850;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .status-pill::before { content: ""; width: .42rem; height: .42rem; border-radius: 50%; background: #e5444e; box-shadow: 0 0 11px #e5444e; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(4rem, 9vw, 7.5rem) 0 3.5rem;
+      border-bottom: 1px solid var(--line);
+      text-align: center;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: radial-gradient(circle at 50% 15%, rgba(172,99,33,.2), transparent 35%), radial-gradient(circle at 15% 90%, rgba(126,25,34,.15), transparent 30%);
+    }
+    .hero h2 { max-width: 850px; margin: 0 auto; font-size: clamp(2.35rem, 6vw, 4.8rem); line-height: 1.02; letter-spacing: -.035em; }
+    .hero-copy { max-width: 650px; margin: 1rem auto 0; color: var(--muted); line-height: 1.65; }
+
+    .doors { margin: 2.4rem auto 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: .75rem; }
+    .door {
+      position: relative;
+      min-height: 150px;
+      padding: 2rem .7rem 1.15rem;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 4rem 4rem 1rem 1rem;
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.35));
+      cursor: pointer;
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+    .door::before {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      width: 145%;
+      height: 18px;
+      left: -22%;
+      top: 46%;
+      border-block: 1px solid rgba(213,154,75,.22);
+      background: linear-gradient(180deg, rgba(70,5,10,.2), rgba(173,30,39,.5) 45%, rgba(74,5,10,.22));
+      box-shadow: 0 0 15px rgba(143,23,31,.28);
+      transform: rotate(-8deg);
+      transition: opacity .2s ease, transform .2s ease;
+      opacity: .42;
+    }
+    .door::after { content: "◆"; position: absolute; z-index: 0; right: 9%; top: 42%; color: rgba(245,199,126,.38); font-size: .55rem; filter: drop-shadow(0 0 5px #c8383f); }
+    .door > * { position: relative; z-index: 1; }
+    .door:hover { transform: translateY(-4px); border-color: rgba(213,154,75,.55); }
+    .door:hover::before, .door.is-active::before { opacity: .85; transform: rotate(-4deg) scaleX(1.04); }
+    .door.is-active { border-color: rgba(245,199,126,.72); background: linear-gradient(180deg, rgba(148,82,31,.25), rgba(60,31,15,.25)); box-shadow: 0 0 36px rgba(180,104,34,.13); }
+    .door__icon { display: block; color: var(--gold); font-size: 1.8rem; }
+    .door strong { display: block; margin-top: .6rem; font-family: Georgia, "Times New Roman", serif; font-size: 1.06rem; }
+    .door small { display: block; margin-top: .35rem; color: #766c64; font-size: .52rem; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; }
+
+    .venue-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(270px, .68fr); gap: 1.25rem; padding: 2.2rem 0 3rem; }
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+    .section-heading h3 { margin: 0; font-size: clamp(1.7rem, 4vw, 2.5rem); }
+    .room-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .8rem; }
+    .room-card {
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 1rem;
+      background: #100b08;
+      text-align: left;
+      cursor: pointer;
+      transition: transform .2s ease, border-color .2s ease;
+    }
+    .room-card:hover { transform: translateY(-3px); border-color: rgba(213,154,75,.5); }
+    .room-preview { position: relative; min-height: 170px; display: grid; place-items: center; overflow: hidden; }
+    .room-preview::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 50% 35%, rgba(239,180,93,.19), transparent 27%), linear-gradient(135deg, #40151a, #100807 72%); }
+    .room-card:nth-child(2) .room-preview::before { background: radial-gradient(circle at 50% 35%, rgba(235,166,77,.18), transparent 27%), linear-gradient(135deg, #3e2915, #0c0806 72%); }
+    .room-card:nth-child(3) .room-preview::before { background: radial-gradient(circle at 50% 35%, rgba(147,85,186,.18), transparent 27%), linear-gradient(135deg, #28132d, #090608 72%); }
+    .room-crest { position: relative; color: rgba(213,154,75,.58); font-size: 3.4rem; }
+    .live-tag { position: absolute; top: .75rem; left: .75rem; display: flex; align-items: center; gap: .35rem; padding: .35rem .55rem; border-radius: 999px; background: rgba(0,0,0,.72); color: #ff9ca3; font-size: .55rem; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+    .live-tag::before { content: ""; width: .4rem; height: .4rem; border-radius: 50%; background: #e9434e; box-shadow: 0 0 9px #e9434e; }
+    .room-info { padding: .9rem; }
+    .room-info-row { display: flex; justify-content: space-between; gap: .65rem; }
+    .room-info h4 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: 1.02rem; }
+    .room-info p { margin: .35rem 0 0; color: var(--muted); font-size: .68rem; }
+    .viewers { color: #80756d; font-size: .64rem; white-space: nowrap; }
+
+    .sidebar { display: grid; align-content: start; gap: .85rem; }
+    .panel { padding: 1.15rem; border: 1px solid rgba(255,255,255,.08); border-radius: 1rem; background: linear-gradient(145deg, rgba(255,255,255,.03), rgba(0,0,0,.2)); }
+    .panel--after { border-color: rgba(175,48,57,.4); background: linear-gradient(145deg, rgba(125,22,29,.25), rgba(0,0,0,.25) 55%); }
+    .panel h4 { margin: 0; font-size: 1.25rem; }
+    .panel p { margin: .65rem 0 1rem; color: var(--muted); font-size: .76rem; line-height: 1.55; }
+    .panel-list { display: grid; gap: .6rem; margin: 1rem 0; padding: 0; list-style: none; color: #b0a59b; font-size: .7rem; }
+    .panel-list li { display: flex; gap: .55rem; align-items: center; }
+    .panel-list li::before { content: "✓"; color: var(--green); font-weight: 900; }
+    .admission-options { display: grid; grid-template-columns: 1fr 1fr; gap: .55rem; margin: .95rem 0; }
+    .price-tile { padding: .75rem; border: 1px solid rgba(255,255,255,.08); border-radius: .75rem; background: rgba(0,0,0,.25); }
+    .price-tile strong { display: block; font-size: 1rem; color: var(--gold-light); }
+    .price-tile small { color: var(--muted); font-size: .58rem; }
+
+    .safety-strip { padding: 1.2rem 0 2.7rem; }
+    .safety-box { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1rem; padding: 1rem; border: 1px solid var(--line); border-radius: 1rem; background: rgba(213,154,75,.045); }
+    .safety-icon { width: 2.7rem; height: 2.7rem; display: grid; place-items: center; border-radius: .75rem; background: rgba(88,167,122,.1); color: #70bd91; }
+    .safety-box strong { display: block; font-size: .8rem; }
+    .safety-box span { display: block; margin-top: .2rem; color: var(--muted); font-size: .68rem; }
+
+    .footer { border-top: 1px solid var(--line); padding: 1.5rem 0 2rem; color: #7f746b; font-size: .65rem; }
+    .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 1rem; }
+    .footer button { padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; }
+    .footer button:hover { color: var(--gold-light); }
+
+    /* Room view */
+    .room-stage { min-height: calc(100vh - 67px); padding: 1.25rem 0 2.5rem; }
+    .breadcrumb { display: flex; align-items: center; gap: .6rem; margin-bottom: 1rem; color: var(--muted); font-size: .69rem; }
+    .breadcrumb button { border: 0; padding: 0; background: transparent; color: var(--gold-light); cursor: pointer; }
+    .stage-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 1rem; }
+    .stage-video { min-height: min(65vh, 610px); position: relative; display: grid; place-items: center; overflow: hidden; border: 1px solid rgba(255,255,255,.09); border-radius: 1.2rem; background: radial-gradient(circle at 50% 35%, rgba(191,116,47,.19), transparent 22%), linear-gradient(135deg, #291014, #080504 70%); }
+    .stage-video::before { content: "♛"; color: rgba(213,154,75,.34); font-size: clamp(6rem, 18vw, 13rem); }
+    .stage-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 1rem; background: linear-gradient(to bottom, rgba(0,0,0,.4), transparent 35%, rgba(0,0,0,.75)); }
+    .stage-top, .stage-bottom { display: flex; justify-content: space-between; align-items: center; gap: .8rem; }
+    .stage-title h3 { margin: 0; font-size: 1.35rem; }
+    .stage-title p { margin: .25rem 0 0; color: #c2b6ab; font-size: .7rem; }
+    .room-side { display: grid; grid-template-rows: auto minmax(240px, 1fr) auto; min-height: min(65vh, 610px); border: 1px solid rgba(255,255,255,.09); border-radius: 1.2rem; background: #0e0907; overflow: hidden; }
+    .room-side-head { padding: .9rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .room-side-head strong { font-size: .8rem; }
+    .chat { padding: .9rem; display: grid; align-content: start; gap: .65rem; overflow: auto; }
+    .chat-line { display: grid; grid-template-columns: 1.7rem 1fr; gap: .55rem; align-items: start; }
+    .avatar { width: 1.7rem; height: 1.7rem; display: grid; place-items: center; border-radius: 50%; background: rgba(213,154,75,.14); color: var(--gold-light); font-size: .6rem; font-weight: 900; }
+    .chat-line p { margin: 0; color: #b7aca2; font-size: .68rem; line-height: 1.4; }
+    .chat-line strong { color: var(--cream); }
+    .chat-compose { display: grid; grid-template-columns: 1fr auto; gap: .5rem; padding: .75rem; border-top: 1px solid rgba(255,255,255,.07); }
+    .chat-compose input { min-width: 0; padding: .7rem .8rem; border: 1px solid rgba(255,255,255,.09); border-radius: .65rem; background: #080504; color: var(--cream); }
+    .gift-row { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: 1rem; }
+    .gift { border: 1px solid var(--line); border-radius: 999px; padding: .55rem .75rem; background: rgba(213,154,75,.05); font-size: .68rem; cursor: pointer; }
+    .gift:hover { background: rgba(213,154,75,.12); }
+
+    /* Modals */
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      place-items: center;
+      padding: 1rem;
+      background: rgba(0,0,0,.78);
+      backdrop-filter: blur(12px);
+    }
+    .modal-card { width: min(650px, 100%); max-height: 88vh; overflow: auto; padding: 1.25rem; border: 1px solid rgba(213,154,75,.35); border-radius: 1.1rem; background: #120c08; box-shadow: var(--shadow); }
+    .modal-head { display: flex; align-items: start; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+    .modal-head h3 { margin: 0; font-size: 1.7rem; }
+    .close { width: 2.2rem; height: 2.2rem; border: 1px solid rgba(255,255,255,.1); border-radius: .7rem; background: rgba(255,255,255,.03); cursor: pointer; }
+    .legal-copy { color: #b6aa9f; font-size: .76rem; line-height: 1.65; }
+    .legal-copy h4 { margin: 1rem 0 .35rem; color: var(--cream); font-size: .82rem; }
+    .verify-steps { display: grid; gap: .7rem; margin: 1rem 0; }
+    .verify-step { display: grid; grid-template-columns: 2rem 1fr; gap: .75rem; padding: .8rem; border: 1px solid rgba(255,255,255,.07); border-radius: .8rem; }
+    .step-number { width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: rgba(213,154,75,.12); color: var(--gold-light); font-weight: 900; }
+    .verify-step strong { display: block; font-size: .76rem; }
+    .verify-step span { display: block; margin-top: .2rem; color: var(--muted); font-size: .66rem; line-height: 1.45; }
+    .toast { position: fixed; left: 50%; bottom: 1.25rem; z-index: 150; translate: -50% 0; width: min(430px, calc(100% - 2rem)); padding: .8rem 1rem; border: 1px solid rgba(88,167,122,.35); border-radius: .8rem; background: #101b14; color: #b6e0c4; box-shadow: var(--shadow); font-size: .75rem; text-align: center; }
+
+    @media (max-width: 900px) {
+      .doors { grid-template-columns: repeat(2, 1fr); }
+      .venue-grid, .stage-grid { grid-template-columns: 1fr; }
+      .room-side { min-height: 430px; }
+    }
+    @media (max-width: 680px) {
+      .torch { opacity: .28; }
+      .gate-card { border-radius: 7rem 7rem 1.4rem 1.4rem; padding-top: 4.4rem; }
+      .gate-actions { grid-template-columns: 1fr; }
+      .nav-actions .status-pill { display: none; }
+      .nav-actions .btn { min-height: 40px; padding: .65rem .75rem; font-size: .66rem; }
+      .doors { gap: .55rem; }
+      .door { min-height: 130px; padding-top: 1.5rem; }
+      .room-grid { grid-template-columns: 1fr; }
+      .room-preview { min-height: 190px; }
+      .safety-box { grid-template-columns: auto 1fr; }
+      .safety-box .btn { grid-column: 1 / -1; }
+      .stage-video { min-height: 56vh; }
+      .grand-rug { width: 100%; height: 115px; margin-bottom: -2.7rem; }
+      .grand-rug--gate { width: 92%; height: 100px; margin-bottom: -2.3rem; }
+    }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+    <defs>
+      <linearGradient id="dragon-red" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#4d070d"/><stop offset=".45" stop-color="#b12631"/><stop offset=".72" stop-color="#7f121c"/><stop offset="1" stop-color="#300408"/></linearGradient>
+      <linearGradient id="dragon-gold" x1="0" x2="1"><stop stop-color="#8a5928"/><stop offset=".5" stop-color="#f2c277"/><stop offset="1" stop-color="#835120"/></linearGradient>
+      <filter id="dragon-glow"><feGaussianBlur stdDeviation="1.7" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <symbol id="dragon-serpent" viewBox="0 0 1000 120">
+        <path d="M-35 88 C95 12 175 18 278 70 S470 119 565 52 S740 -2 861 55 S1012 100 1055 45" fill="none" stroke="url(#dragon-gold)" stroke-width="30" opacity=".34"/>
+        <path d="M-35 88 C95 12 175 18 278 70 S470 119 565 52 S740 -2 861 55 S1012 100 1055 45" fill="none" stroke="url(#dragon-red)" stroke-width="25" stroke-linecap="round"/>
+        <path d="M-30 81 C94 18 177 24 280 76 S470 125 567 58 S741 4 862 61 S1010 106 1050 52" fill="none" stroke="#e26a68" stroke-width="2.2" opacity=".48"/>
+        <path d="M851 55 l40 -22 46 12 -30 15 25 18 -48 -2z" fill="url(#dragon-red)" stroke="#b77a39" stroke-width="2"/>
+        <path d="M892 42 l16 -17 7 22z" fill="#6e0c14" stroke="#b77a39" stroke-width="1.4"/>
+        <circle cx="906" cy="47" r="3.4" fill="#ffd888" filter="url(#dragon-glow)"/>
+        <path d="M120 47 l-16 -17 M218 49 l-13 -22 M655 29 l-10 -20 M740 30 l14 -21" stroke="#9b672f" stroke-width="2" opacity=".7"/>
+        <g fill="none" stroke="#e07873" stroke-width="1" opacity=".36"><path d="M55 58 l12 12 -12 12"/><path d="M170 37 l13 12 -13 12"/><path d="M334 85 l13 12 -13 12"/><path d="M510 78 l13 12 -13 12"/><path d="M708 24 l13 12 -13 12"/><path d="M805 38 l13 12 -13 12"/></g>
+      </symbol>
+    </defs>
+  </svg>
+  <section id="gate" class="gate screen" aria-labelledby="gate-title">
+    <span class="torch torch--left" aria-hidden="true"></span>
+    <span class="torch torch--right" aria-hidden="true"></span>
+    <div class="gate-card">
+      <div class="adult-badge">Private digital venue · 18+ only</div>
+      <p class="eyebrow">Welcome to</p>
+      <h1 id="gate-title" class="serif">Cum <strong>IN</strong> Dungeon</h1>
+      <div class="dragon-banner dragon-banner--gate" aria-label="Cum IN Dungeon — Private by Design">
+        <svg viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true"><use href="#dragon-serpent"></use></svg>
+        <span class="dragon-banner__copy"><strong>Cum <em>IN</em> Dungeon</strong><small>Private by Design</small></span>
+      </div>
+      <p class="gate-copy">A live adult social club built like a real night out: enter the castle, choose your room, meet members and verified creators, and move through the venue your way.</p>
+
+      <div class="confirm-box">
+        <label class="confirm">
+          <input id="age-check" type="checkbox">
+          <span>I confirm that I am at least 18 years old.<small>Entry is restricted to adults. Age and identity checks may be required.</small></span>
+        </label>
+        <label class="confirm">
+          <input id="terms-check" type="checkbox">
+          <span>I accept the Venue Rules, Terms and Privacy Policy.<small>Consent, verified performers, reporting tools and a strict no-recording policy apply throughout the venue.</small></span>
+        </label>
+        <div class="gate-legal-links" aria-label="Review entrance policies">
+          <button type="button" data-modal="rules-modal">Read Venue Rules</button>
+          <button type="button" data-modal="terms-modal">Read Terms</button>
+          <button type="button" data-modal="privacy-modal">Read Privacy Summary</button>
+        </div>
+      </div>
+
+      <div class="gate-actions">
+        <button id="enter-btn" class="btn btn--gold" type="button" disabled>Enter the Dungeon <span aria-hidden="true">→</span></button>
+        <button class="btn" type="button" data-modal="creator-modal">♢ Creator Entrance</button>
+      </div>
+      <div class="grand-rug grand-rug--gate" aria-hidden="true">
+        <svg viewBox="0 0 1000 120" preserveAspectRatio="none"><use href="#dragon-serpent"></use></svg>
+        <span class="grand-rug__crest">ENTER THE DUNGEON</span>
+      </div>
+      <p class="gate-note">Interactive concept only. Payments, livestreaming, identity verification and legal acceptance are represented as prototype flows and are not processing real information yet.</p>
+    </div>
+  </section>
+
+  <section id="venue" class="screen" hidden>
+    <header class="venue-header">
+      <nav class="shell venue-nav" aria-label="Main venue navigation">
+        <button class="brand" type="button" id="brand-home"><span class="brand__mark">♜</span><span>Cum <strong>IN</strong> Dungeon</span></button>
+        <div class="nav-actions">
+          <span class="status-pill">Rooms live</span>
+          <button class="btn" type="button" data-modal="creator-modal">Creator Entrance</button>
+          <button class="btn" type="button" id="exit-btn">Exit</button>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section id="hall-view">
+        <div class="hero">
+          <div class="shell">
+            <p class="eyebrow">The Grand Hall</p>
+            <h2 class="serif">Where do you want to go tonight?</h2>
+            <p class="hero-copy">Choose a doorway to filter the club. Weekday lounges stay focused and easy to navigate; After Hours opens the bigger weekend event flow.</p>
+            <div class="dragon-banner dragon-banner--doors" aria-label="Choose your doorway — Discretion Above All">
+              <svg viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true"><use href="#dragon-serpent"></use></svg>
+              <span class="dragon-banner__copy"><strong>Choose Your Door</strong><small>Discretion Above All</small></span>
+            </div>
+
+            <div class="doors" role="list" aria-label="Venue categories">
+              <button class="door" type="button" data-room="Women"><span class="door__icon">♛</span><strong>Women</strong><small>Live rooms</small></button>
+              <button class="door" type="button" data-room="Men"><span class="door__icon">♜</span><strong>Men</strong><small>Live rooms</small></button>
+              <button class="door" type="button" data-room="Couples"><span class="door__icon">♞</span><strong>Couples</strong><small>Live rooms</small></button>
+              <button class="door" type="button" data-room="Gay"><span class="door__icon">♚</span><strong>Gay</strong><small>Social + live</small></button>
+              <button class="door" type="button" data-room="Bi"><span class="door__icon">♝</span><strong>Bi</strong><small>Social + live</small></button>
+              <button class="door" type="button" data-room="Trans"><span class="door__icon">♟</span><strong>Trans</strong><small>Social + live</small></button>
+              <button class="door" type="button" data-room="Fetish"><span class="door__icon">✦</span><strong>Fetish</strong><small>Themed rooms</small></button>
+              <button class="door is-active" type="button" data-room="VIP"><span class="door__icon">♦</span><strong>VIP</strong><small>Members only</small></button>
+            </div>
+            <div class="grand-rug" aria-label="Cum IN Dungeon dragon crest lobby rug">
+              <svg viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true"><use href="#dragon-serpent"></use></svg>
+              <span class="grand-rug__crest">CUM IN DUNGEON</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="shell venue-grid">
+          <section aria-labelledby="inside-heading">
+            <div class="section-heading">
+              <div><p id="selected-label" class="eyebrow">VIP</p><h3 id="inside-heading" class="serif">Inside the room</h3></div>
+              <button class="btn" type="button" id="show-all">View all</button>
+            </div>
+            <div class="room-grid">
+              <button class="room-card" type="button" data-live-room="Velvet Room">
+                <div class="room-preview"><span class="live-tag">Live</span><span class="room-crest">♛</span></div>
+                <div class="room-info"><div class="room-info-row"><div><h4>Velvet Room</h4><p>Open lounge · Verified host</p></div><span class="viewers">● 184</span></div></div>
+              </button>
+              <button class="room-card" type="button" data-live-room="The Chapel">
+                <div class="room-preview"><span class="live-tag">Live</span><span class="room-crest">♜</span></div>
+                <div class="room-info"><div class="room-info-row"><div><h4>The Chapel</h4><p>Creator event · Members</p></div><span class="viewers">● 92</span></div></div>
+              </button>
+              <button class="room-card" type="button" data-live-room="Black Silk">
+                <div class="room-preview"><span class="live-tag">Live</span><span class="room-crest">♦</span></div>
+                <div class="room-info"><div class="room-info-row"><div><h4>Black Silk</h4><p>Social room · Open chat</p></div><span class="viewers">● 131</span></div></div>
+              </button>
+            </div>
+          </section>
+
+          <aside class="sidebar" aria-label="Admission and creator options">
+            <section class="panel panel--after">
+              <p class="eyebrow">Weekend event</p>
+              <h4 class="serif">After Hours</h4>
+              <p>Communal rooms, RSVP guests, scheduled creator events and easier social discovery—opened up for the weekend crowd.</p>
+              <div class="admission-options">
+                <div class="price-tile"><strong>Member</strong><small>Included access</small></div>
+                <div class="price-tile"><strong>$30</strong><small>Door admission</small></div>
+              </div>
+              <div class="dragon-banner dragon-banner--compact" aria-label="Enter After Hours">
+                <svg viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true"><use href="#dragon-serpent"></use></svg>
+                <span class="dragon-banner__copy"><strong>Enter After Hours</strong><small>Private by Design</small></span>
+              </div>
+              <button class="btn btn--red btn--wide" id="rsvp-btn" type="button">RSVP for After Hours</button>
+            </section>
+
+            <section class="panel">
+              <p class="eyebrow">Verified entrance</p>
+              <h4 class="serif">Become a Creator</h4>
+              <ul class="panel-list"><li>Government ID and 18+ verification</li><li>Selfie and liveness review</li><li>Performer agreements and approval</li></ul>
+              <button class="btn btn--wide" type="button" data-modal="creator-modal">View verification steps</button>
+            </section>
+
+            <section class="panel">
+              <p class="eyebrow">Club access</p>
+              <h4 class="serif">Membership</h4>
+              <p>Save favourite rooms, RSVP early, enter member events and keep gifts and club status connected to one private profile.</p>
+              <div class="dragon-banner dragon-banner--compact" aria-label="Premium membership card">
+                <svg viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true"><use href="#dragon-serpent"></use></svg>
+                <span class="dragon-banner__copy"><strong>Cum <em>IN</em> Dungeon</strong><small>Member Access</small></span>
+              </div>
+              <button class="btn btn--gold btn--wide" id="membership-btn" type="button">Explore membership</button>
+            </section>
+          </aside>
+        </div>
+
+        <section class="shell safety-strip">
+          <div class="safety-box">
+            <div class="safety-icon">✓</div>
+            <div><strong>Consent and safety stay visible</strong><span>Block, report and leave-room controls belong within reach in every live space. Recording and non-consensual sharing are prohibited.</span></div>
+            <button class="btn" type="button" data-modal="rules-modal">Read Venue Rules</button>
+          </div>
+        </section>
+      </section>
+
+      <section id="room-view" class="room-stage" hidden>
+        <div class="shell">
+          <div class="breadcrumb"><button type="button" id="back-hall">Grand Hall</button><span>›</span><span id="crumb-room">Velvet Room</span></div>
+          <div class="stage-grid">
+            <section>
+              <div class="stage-video" aria-label="Live room prototype preview">
+                <div class="dragon-banner dragon-banner--stage" aria-hidden="true">
+                  <svg viewBox="0 0 1000 120" preserveAspectRatio="none"><use href="#dragon-serpent"></use></svg>
+                  <span class="dragon-banner__copy"><strong>Cum <em>IN</em> Dungeon</strong><small>Discretion Above All</small></span>
+                </div>
+                <div class="stage-overlay">
+                  <div class="stage-top"><span class="live-tag">Live prototype</span><button class="btn" type="button" id="leave-room">Leave room</button></div>
+                  <div class="stage-bottom"><div class="stage-title"><h3 id="stage-room" class="serif">Velvet Room</h3><p><span id="stage-category">VIP</span> · Verified creator room · 18+</p></div><span class="viewers">● 184 watching</span></div>
+                </div>
+              </div>
+              <div class="gift-row" aria-label="Prototype gifts and tips">
+                <button class="gift" type="button" data-gift="Rose">🌹 Rose</button>
+                <button class="gift" type="button" data-gift="Key">🗝️ Dungeon Key</button>
+                <button class="gift" type="button" data-gift="Crown">👑 Crown</button>
+                <button class="gift" type="button" data-gift="Tip">💰 Send tip</button>
+              </div>
+            </section>
+
+            <aside class="room-side" aria-label="Live room chat prototype">
+              <div class="room-side-head"><strong>Room chat</strong><p class="muted" style="margin:.25rem 0 0;font-size:.62rem">Be respectful. Hosts control their room.</p></div>
+              <div class="chat" id="chat-list">
+                <div class="chat-line"><span class="avatar">M</span><p><strong>Midnight:</strong> Welcome to the room 🔥</p></div>
+                <div class="chat-line"><span class="avatar">V</span><p><strong>Velvet:</strong> Please read the pinned rules before joining in.</p></div>
+                <div class="chat-line"><span class="avatar">J</span><p><strong>Jax:</strong> This venue design is wild.</p></div>
+              </div>
+              <form class="chat-compose" id="chat-form"><input id="chat-input" aria-label="Chat message" maxlength="140" placeholder="Say something respectful…"><button class="btn" type="submit">Send</button></form>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="shell footer-inner"><span>© 2026 Cum IN Dungeon · Interactive concept · 18+ only</span><div class="footer-links"><button type="button" data-modal="rules-modal">Venue Rules</button><button type="button" data-modal="terms-modal">Terms</button><button type="button" data-modal="privacy-modal">Privacy</button><button type="button" id="report-link">Report concern</button></div></div>
+    </footer>
+  </section>
+
+  <div id="creator-modal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="creator-title">
+    <div class="modal-card">
+      <div class="modal-head"><div><p class="eyebrow">Separate verified entrance</p><h3 id="creator-title" class="serif">Creator verification</h3></div><button class="close" type="button" data-close aria-label="Close">×</button></div>
+      <p class="legal-copy">Creators have a separate onboarding path so the venue can verify age, identity and performer consent before anyone broadcasts or receives gifts.</p>
+      <div class="dragon-banner dragon-banner--compact" aria-label="Verified creator entrance">
+        <svg viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true"><use href="#dragon-serpent"></use></svg>
+        <span class="dragon-banner__copy"><strong>Creator Entrance</strong><small>Verified · Private · Approved</small></span>
+      </div>
+      <div class="verify-steps">
+        <div class="verify-step"><span class="step-number">1</span><div><strong>Account and contact</strong><span>Create a secure creator account with verified email and phone contact.</span></div></div>
+        <div class="verify-step"><span class="step-number">2</span><div><strong>Government ID + liveness</strong><span>Confirm legal age and identity through an approved verification provider.</span></div></div>
+        <div class="verify-step"><span class="step-number">3</span><div><strong>Agreements and consent</strong><span>Accept creator rules, performer releases, content boundaries and recordkeeping requirements.</span></div></div>
+        <div class="verify-step"><span class="step-number">4</span><div><strong>Manual approval</strong><span>A moderation review completes before live-room and payout tools unlock.</span></div></div>
+      </div>
+      <button class="btn btn--gold btn--wide" type="button" id="creator-start">Join the creator waitlist</button>
+    </div>
+  </div>
+
+  <div id="rules-modal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="rules-title">
+    <div class="modal-card">
+      <div class="modal-head"><div><p class="eyebrow">Club-wide standards</p><h3 id="rules-title" class="serif">Venue Rules</h3></div><button class="close" type="button" data-close aria-label="Close">×</button></div>
+      <div class="legal-copy"><h4>Adults only</h4><p>Every member, creator and depicted person must be 18 or older and able to provide valid verification.</p><h4>Consent is mandatory</h4><p>No coercion, threats, harassment, unwanted contact, exploitation or content involving anyone who has not clearly agreed to participate.</p><h4>No recording or redistribution</h4><p>Do not capture, download, repost or share another person’s room, image, message or personal information without explicit permission.</p><h4>Respect room controls</h4><p>Creators and moderators may remove participants, limit chat, end sessions and report accounts. Blocking, reporting and leaving must remain available.</p><h4>Zero tolerance</h4><p>Content involving minors, trafficking, non-consensual activity, credible violence or illegal exploitation is prohibited and escalated appropriately.</p></div>
+    </div>
+  </div>
+
+  <div id="terms-modal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="terms-title">
+    <div class="modal-card">
+      <div class="modal-head"><div><p class="eyebrow">Prototype summary</p><h3 id="terms-title" class="serif">Terms of Use</h3></div><button class="close" type="button" data-close aria-label="Close">×</button></div>
+      <div class="legal-copy"><p>This concept demonstrates the expected structure of the production terms: eligibility and account rules, acceptable use, creator obligations, payment and refund terms, moderation powers, intellectual-property rules, disclaimers, termination and dispute provisions.</p><h4>Before launch</h4><p>Production terms must identify the operating business, supported jurisdictions, payment provider, recordkeeping process, complaint channel and governing law. The final version should be reviewed by qualified counsel for the jurisdictions served.</p></div>
+    </div>
+  </div>
+
+  <div id="privacy-modal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="privacy-title">
+    <div class="modal-card">
+      <div class="modal-head"><div><p class="eyebrow">Privacy by design</p><h3 id="privacy-title" class="serif">Privacy Summary</h3></div><button class="close" type="button" data-close aria-label="Close">×</button></div>
+      <div class="legal-copy"><p>The production notice should clearly explain account data, age/identity verification, creator documents, live and chat activity, payments, moderation records, cookies, retention, third-party processors, user rights and cross-border processing.</p><h4>Sensitive data</h4><p>Identity documents and verification results should be collected through a specialized provider, minimized, encrypted, access-limited and retained only as required.</p><h4>User controls</h4><p>Members need understandable tools to access, correct and delete eligible data, manage communications, block other users and submit privacy or safety concerns.</p></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" hidden role="status" aria-live="polite"></div>
+
+  <script>
+    const gate = document.querySelector('#gate');
+    const venue = document.querySelector('#venue');
+    const hallView = document.querySelector('#hall-view');
+    const roomView = document.querySelector('#room-view');
+    const ageCheck = document.querySelector('#age-check');
+    const termsCheck = document.querySelector('#terms-check');
+    const enterBtn = document.querySelector('#enter-btn');
+    const selectedLabel = document.querySelector('#selected-label');
+    let selectedCategory = 'VIP';
+    let toastTimer;
+
+    const updateEntry = () => { enterBtn.disabled = !(ageCheck.checked && termsCheck.checked); };
+    ageCheck.addEventListener('change', updateEntry);
+    termsCheck.addEventListener('change', updateEntry);
+
+    function goToGate() {
+      venue.hidden = true;
+      gate.hidden = false;
+      roomView.hidden = true;
+      hallView.hidden = false;
+      window.scrollTo({ top: 0, behavior: 'auto' });
+      history.replaceState(null, '', '#gate');
+    }
+
+    function enterVenue() {
+      gate.hidden = true;
+      venue.hidden = false;
+      hallView.hidden = false;
+      roomView.hidden = true;
+      window.scrollTo({ top: 0, behavior: 'auto' });
+      history.replaceState(null, '', '#grand-hall');
+    }
+
+    enterBtn.addEventListener('click', enterVenue);
+    document.querySelector('#exit-btn').addEventListener('click', goToGate);
+    document.querySelector('#brand-home').addEventListener('click', () => {
+      roomView.hidden = true;
+      hallView.hidden = false;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      history.replaceState(null, '', '#grand-hall');
+    });
+
+    document.querySelectorAll('.door').forEach((door) => {
+      door.addEventListener('click', () => {
+        document.querySelectorAll('.door').forEach((item) => item.classList.remove('is-active'));
+        door.classList.add('is-active');
+        selectedCategory = door.dataset.room;
+        selectedLabel.textContent = selectedCategory;
+        showToast(`${selectedCategory} doorway selected — live rooms updated.`);
+        document.querySelector('.venue-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    document.querySelector('#show-all').addEventListener('click', () => {
+      document.querySelectorAll('.door').forEach((item) => item.classList.remove('is-active'));
+      selectedCategory = 'All Rooms';
+      selectedLabel.textContent = selectedCategory;
+      showToast('Showing rooms across the whole venue.');
+    });
+
+    function openRoom(name) {
+      hallView.hidden = true;
+      roomView.hidden = false;
+      document.querySelector('#crumb-room').textContent = name;
+      document.querySelector('#stage-room').textContent = name;
+      document.querySelector('#stage-category').textContent = selectedCategory;
+      window.scrollTo({ top: 0, behavior: 'auto' });
+      history.replaceState(null, '', `#room-${name.toLowerCase().replaceAll(' ', '-')}`);
+    }
+
+    function backToHall() {
+      roomView.hidden = true;
+      hallView.hidden = false;
+      document.querySelector('.venue-grid').scrollIntoView({ behavior: 'auto', block: 'start' });
+      history.replaceState(null, '', '#grand-hall');
+    }
+
+    document.querySelectorAll('[data-live-room]').forEach((card) => card.addEventListener('click', () => openRoom(card.dataset.liveRoom)));
+    document.querySelector('#back-hall').addEventListener('click', backToHall);
+    document.querySelector('#leave-room').addEventListener('click', backToHall);
+
+    document.querySelector('#chat-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const input = document.querySelector('#chat-input');
+      const message = input.value.trim();
+      if (!message) return;
+      const row = document.createElement('div');
+      row.className = 'chat-line';
+      row.innerHTML = '<span class="avatar">Y</span><p><strong>You:</strong> <span></span></p>';
+      row.querySelector('span:last-child').textContent = message;
+      document.querySelector('#chat-list').append(row);
+      input.value = '';
+      row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    document.querySelectorAll('[data-gift]').forEach((gift) => gift.addEventListener('click', () => showToast(`${gift.dataset.gift} selected — gifts and tips are prototype-only for now.`)));
+    document.querySelector('#rsvp-btn').addEventListener('click', (event) => {
+      event.currentTarget.textContent = 'RSVP saved ✓';
+      showToast('Your prototype After Hours RSVP has been saved.');
+    });
+    document.querySelector('#membership-btn').addEventListener('click', () => showToast('Membership checkout is the next connection point; no payment was taken.'));
+    document.querySelector('#report-link').addEventListener('click', () => showToast('Reporting flow opened in prototype mode.'));
+    document.querySelector('#creator-start').addEventListener('click', () => {
+      closeModals();
+      showToast('Creator waitlist step saved in prototype mode.');
+    });
+
+    function openModal(id) {
+      const modal = document.querySelector(`#${id}`);
+      if (!modal) return;
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      modal.querySelector('[data-close]')?.focus();
+    }
+
+    function closeModals() {
+      document.querySelectorAll('.modal').forEach((modal) => { modal.hidden = true; });
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('[data-modal]').forEach((trigger) => trigger.addEventListener('click', () => openModal(trigger.dataset.modal)));
+    document.querySelectorAll('[data-close]').forEach((trigger) => trigger.addEventListener('click', closeModals));
+    document.querySelectorAll('.modal').forEach((modal) => modal.addEventListener('click', (event) => { if (event.target === modal) closeModals(); }));
+    document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeModals(); });
+
+    function showToast(message) {
+      const toast = document.querySelector('#toast');
+      toast.textContent = message;
+      toast.hidden = false;
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => { toast.hidden = true; }, 3200);
+    }
+
+    // Always begin at the entrance. A URL hash must never bypass the 18+ and
+    // policy acknowledgement step, even in prototype mode.
+    history.replaceState(null, '', '#gate');
+  </script>
+</body>
+</html>
