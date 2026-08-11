@@ -35,6 +35,18 @@ create table if not exists memberships (
   updated_at timestamptz not null default now()
 );
 
+create table if not exists venue_categories (
+  id uuid primary key,
+  slug text not null unique,
+  name text not null,
+  short_label text,
+  icon_key text not null,
+  sort_order integer not null default 0,
+  active boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
 create table if not exists rooms (
   id uuid primary key,
   name text not null,
@@ -43,6 +55,12 @@ create table if not exists rooms (
   status text not null default 'offline' check (status in ('offline', 'open', 'live', 'maintenance')),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
+);
+
+create table if not exists room_categories (
+  room_id uuid not null references rooms(id) on delete cascade,
+  category_id uuid not null references venue_categories(id) on delete cascade,
+  primary key (room_id, category_id)
 );
 
 create table if not exists performer_profiles (
@@ -89,6 +107,7 @@ create table if not exists audit_events (
 
 create index if not exists idx_age_verifications_user on age_verifications(user_id);
 create index if not exists idx_memberships_user on memberships(user_id);
+create index if not exists idx_room_categories_category on room_categories(category_id);
 create index if not exists idx_room_sessions_room on room_sessions(room_id);
 create index if not exists idx_transactions_user on transactions(user_id);
 create index if not exists idx_audit_events_created on audit_events(created_at desc);
