@@ -83,6 +83,84 @@ create table if not exists room_sessions (
   created_at timestamptz not null default now()
 );
 
+-- Permission-based private conversations. A user must accept a chat request
+-- before messages can be delivered to the private conversation.
+create table if not exists conversations (
+  id uuid primary key,
+  room_id uuid references rooms(id) on delete set null,
+  type text not null default 'private' check (type in ('private', 'room')),
+  status text not null default 'active' check (status in ('active', 'closed', 'blocked')),
+  created_at timestamptz not null default now(),
+  expires_at timestamptz not null default (now() + interval '14 days'),
+  closed_at timestamptz
+);
+
+create table if not exists conversation_participants (
+  conversation_id uuid not null references conversations(id) on delete cascade,
+  user_id uuid not null references users(id) on delete cascade,
+  joined_at timestamptz not null default now(),
+  left_at timestamptz,
+  primary key (conversation_id, user_id)
+);
+
+create table if not exists chat_requests (
+  id uuid primary key,
+  conversation_id uuid not null references conversations(id) on delete cascade,
+  requester_user_id uuid not null references users(id) on delete cascade,
+  recipient_user_id uuid not null references users(id) on delete cascade,
+  status text not null default 'pending' check (status in ('pending', 'accepted', 'declined', 'expired', 'cancelled')),
+  created_at timestamptz not null default now(),
+  responded_at timestamptz,
+  expires_at timestamptz not null default (now() + interval '24 hours'),
+  check (requester_user_id <> recipient_user_id)
+);
+
+create table if not exists chat_messages (
+  id uuid primary key,
+  conversation_id uuid not null references conversations(id) on delete cascade,
+  sender_user_id uuid not null references users(id) on delete restrict,
+  body text,
+  created_at timestamptz not null default now(),
+  expires_at timestamptz not null default (now() + interval '14 days'),
+  deleted_at timestamptz,
+  check (body is not null and length(trim(body)) > 0)
+);
+
+-- Attachments live in private object storage, not in PostgreSQL.
+-- downloadable controls whether the recipient may use an authenticated
+-- download endpoint before the attachment expires.
+create table if not exists message_attachments (
+  id uuid primary key,
+  message_id uuid not null references chat_messages(id) on delete cascade,
+  storage_key text not null unique,
+  mime_type text not null,
+  byte_size bigint not null check (byte_size >= 0),
+  downloadable boolean not null default false,
+  created_at timestamptz not null default now(),
+  expires_at timestamptz not null default (now() + interval '14 days'),
+  deleted_at timestamptz
+);
+
+create table if not exists blocks (
+  blocker_user_id uuid not null references users(id) on delete cascade,
+  blocked_user_id uuid not null references users(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (blocker_user_id, blocked_user_id),
+  check (blocker_user_id <> blocked_user_id)
+);
+
+create table if not exists moderation_reports (
+  id uuid primary key,
+  reporter_user_id uuid not null references users(id) on delete set null,
+  reported_user_id uuid references users(id) on delete set null,
+  conversation_id uuid references conversations(id) on delete set null,
+  message_id uuid references chat_messages(id) on delete set null,
+  reason text not null,
+  status text not null default 'open' check (status in ('open', 'reviewing', 'resolved', 'dismissed')),
+  created_at timestamptz not null default now(),
+  resolved_at timestamptz
+);
+
 create table if not exists transactions (
   id uuid primary key,
   user_id uuid not null references users(id) on delete restrict,
@@ -109,5 +187,14 @@ create index if not exists idx_age_verifications_user on age_verifications(user_
 create index if not exists idx_memberships_user on memberships(user_id);
 create index if not exists idx_room_categories_category on room_categories(category_id);
 create index if not exists idx_room_sessions_room on room_sessions(room_id);
+create index if not exists idx_conversation_participants_user on conversation_participants(user_id);
+create index if not exists idx_chat_requests_recipient on chat_requests(recipient_user_id, status);
+create index if not exists idx_chat_messages_conversation on chat_messages(conversation_id, created_at desc);
+create index if not exists idx_chat_messages_expiry on chat_messages(expires_at);
+create index if not exists idx_message_attachments_expiry on message_attachments(expires_at);
 create index if not exists idx_transactions_user on transactions(user_id);
 create index if not exists idx_audit_events_created on audit_events(created_at desc);
+
+-- Production cleanup job should run at least daily. It should delete expired
+-- message records and their private-storage objects, while retaining only the
+-- minimum moderation/audit metadata required by the platform's policies.
