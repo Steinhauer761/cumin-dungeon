@@ -1,0 +1,3 @@
+SOURCE ARTWORK PLACEHOLDER
+
+The uploaded category-card artwork is being added as a binary asset in the next commit. This file marks the intended asset location for the category card artwork set.
