@@ -83,16 +83,26 @@ create table if not exists room_sessions (
   created_at timestamptz not null default now()
 );
 
--- Permission-based private conversations. A user must accept a chat request
--- before messages can be delivered to the private conversation.
+create table if not exists transactions (
+  id uuid primary key,
+  user_id uuid not null references users(id) on delete restrict,
+  type text not null check (type in ('membership', 'tip', 'refund', 'payout')),
+  provider text,
+  provider_reference text,
+  amount_minor bigint not null check (amount_minor >= 0),
+  currency char(3) not null default 'CAD',
+  status text not null check (status in ('pending', 'succeeded', 'failed', 'refunded')),
+  created_at timestamptz not null default now()
+);
+
 create table if not exists conversations (
   id uuid primary key,
-  room_id uuid references rooms(id) on delete set null,
-  type text not null default 'private' check (type in ('private', 'room')),
-  status text not null default 'active' check (status in ('active', 'closed', 'blocked')),
+  kind text not null default 'direct' check (kind in ('direct', 'room')),
+  status text not null default 'active' check (status in ('pending', 'active', 'blocked', 'closed')),
+  requested_by uuid not null references users(id) on delete cascade,
   created_at timestamptz not null default now(),
-  expires_at timestamptz not null default (now() + interval '14 days'),
-  closed_at timestamptz
+  accepted_at timestamptz,
+  expires_at timestamptz not null default (now() + interval '14 days')
 );
 
 create table if not exists conversation_participants (
@@ -103,45 +113,29 @@ create table if not exists conversation_participants (
   primary key (conversation_id, user_id)
 );
 
-create table if not exists chat_requests (
-  id uuid primary key,
-  conversation_id uuid not null references conversations(id) on delete cascade,
-  requester_user_id uuid not null references users(id) on delete cascade,
-  recipient_user_id uuid not null references users(id) on delete cascade,
-  status text not null default 'pending' check (status in ('pending', 'accepted', 'declined', 'expired', 'cancelled')),
-  created_at timestamptz not null default now(),
-  responded_at timestamptz,
-  expires_at timestamptz not null default (now() + interval '24 hours'),
-  check (requester_user_id <> recipient_user_id)
-);
-
-create table if not exists chat_messages (
+create table if not exists messages (
   id uuid primary key,
   conversation_id uuid not null references conversations(id) on delete cascade,
   sender_user_id uuid not null references users(id) on delete restrict,
   body text,
   created_at timestamptz not null default now(),
   expires_at timestamptz not null default (now() + interval '14 days'),
-  deleted_at timestamptz,
-  check (body is not null and length(trim(body)) > 0)
+  safety_status text not null default 'clear' check (safety_status in ('clear', 'review', 'restricted', 'resolved')),
+  safety_case_id uuid
 );
 
--- Attachments live in private object storage, not in PostgreSQL.
--- downloadable controls whether the recipient may use an authenticated
--- download endpoint before the attachment expires.
 create table if not exists message_attachments (
   id uuid primary key,
-  message_id uuid not null references chat_messages(id) on delete cascade,
-  storage_key text not null unique,
-  mime_type text not null,
-  byte_size bigint not null check (byte_size >= 0),
-  downloadable boolean not null default false,
+  message_id uuid not null references messages(id) on delete cascade,
+  object_key text not null,
+  media_type text not null,
+  size_bytes bigint not null check (size_bytes >= 0),
+  download_allowed boolean not null default false,
   created_at timestamptz not null default now(),
-  expires_at timestamptz not null default (now() + interval '14 days'),
-  deleted_at timestamptz
+  expires_at timestamptz not null default (now() + interval '14 days')
 );
 
-create table if not exists blocks (
+create table if not exists user_blocks (
   blocker_user_id uuid not null references users(id) on delete cascade,
   blocked_user_id uuid not null references users(id) on delete cascade,
   created_at timestamptz not null default now(),
@@ -149,27 +143,37 @@ create table if not exists blocks (
   check (blocker_user_id <> blocked_user_id)
 );
 
-create table if not exists moderation_reports (
+create table if not exists safety_cases (
   id uuid primary key,
-  reporter_user_id uuid not null references users(id) on delete set null,
-  reported_user_id uuid references users(id) on delete set null,
-  conversation_id uuid references conversations(id) on delete set null,
-  message_id uuid references chat_messages(id) on delete set null,
-  reason text not null,
-  status text not null default 'open' check (status in ('open', 'reviewing', 'resolved', 'dismissed')),
+  user_id uuid not null references users(id) on delete restrict,
+  message_id uuid references messages(id) on delete set null,
+  attachment_id uuid references message_attachments(id) on delete set null,
+  trigger_type text not null check (trigger_type in ('user_report', 'automated_signal', 'moderator_review', 'legal_request')),
+  category text not null check (category in ('suspected_minor', 'suspected_csamm', 'luring', 'nonconsensual_intimate_image', 'harassment', 'other')),
+  status text not null default 'open' check (status in ('open', 'quarantined', 'reviewing', 'resolved', 'escalated')),
+  confidence numeric(5,4),
+  reason_code text,
   created_at timestamptz not null default now(),
   resolved_at timestamptz
 );
 
-create table if not exists transactions (
+create table if not exists safety_holds (
   id uuid primary key,
-  user_id uuid not null references users(id) on delete restrict,
-  type text not null check (type in ('membership', 'tip', 'refund', 'payout')),
-  provider text,
-  provider_reference text,
-  amount_minor bigint not null check (amount_minor >= 0),
-  currency char(3) not null default 'CAD',
-  status text not null check (status in ('pending', 'succeeded', 'failed', 'refunded')),
+  safety_case_id uuid not null references safety_cases(id) on delete cascade,
+  message_id uuid references messages(id) on delete cascade,
+  attachment_id uuid references message_attachments(id) on delete cascade,
+  hold_reason text not null,
+  created_at timestamptz not null default now(),
+  released_at timestamptz
+);
+
+create table if not exists moderation_actions (
+  id uuid primary key,
+  safety_case_id uuid references safety_cases(id) on delete set null,
+  target_user_id uuid not null references users(id) on delete restrict,
+  action text not null check (action in ('warn', 'restrict', 'suspend', 'ban', 'restore')),
+  reason text not null,
+  moderator_user_id uuid references users(id) on delete set null,
   created_at timestamptz not null default now()
 );
 
@@ -187,14 +191,17 @@ create index if not exists idx_age_verifications_user on age_verifications(user_
 create index if not exists idx_memberships_user on memberships(user_id);
 create index if not exists idx_room_categories_category on room_categories(category_id);
 create index if not exists idx_room_sessions_room on room_sessions(room_id);
-create index if not exists idx_conversation_participants_user on conversation_participants(user_id);
-create index if not exists idx_chat_requests_recipient on chat_requests(recipient_user_id, status);
-create index if not exists idx_chat_messages_conversation on chat_messages(conversation_id, created_at desc);
-create index if not exists idx_chat_messages_expiry on chat_messages(expires_at);
-create index if not exists idx_message_attachments_expiry on message_attachments(expires_at);
 create index if not exists idx_transactions_user on transactions(user_id);
+create index if not exists idx_messages_expires on messages(expires_at);
+create index if not exists idx_attachments_expires on message_attachments(expires_at);
+create index if not exists idx_safety_cases_status on safety_cases(status, created_at desc);
+create index if not exists idx_safety_cases_user on safety_cases(user_id, created_at desc);
+create index if not exists idx_safety_holds_case on safety_holds(safety_case_id);
+create index if not exists idx_moderation_actions_user on moderation_actions(target_user_id, created_at desc);
 create index if not exists idx_audit_events_created on audit_events(created_at desc);
 
--- Production cleanup job should run at least daily. It should delete expired
--- message records and their private-storage objects, while retaining only the
--- minimum moderation/audit metadata required by the platform's policies.
+-- Cleanup worker contract:
+-- Delete messages/attachments whose expires_at has passed, except records covered
+-- by an active safety_holds row. Storage objects must be deleted with their rows.
+-- Safety holds are released only after the applicable review/legal retention
+-- requirement has been satisfied.
