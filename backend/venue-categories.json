@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "categories": [
+    { "slug": "women", "name": "Women", "shortLabel": "Live rooms", "iconKey": "feminine-crest", "sortOrder": 10 },
+    { "slug": "men", "name": "Men", "shortLabel": "Live rooms", "iconKey": "masculine-crest", "sortOrder": 20 },
+    { "slug": "couples", "name": "Couples", "shortLabel": "Live rooms", "iconKey": "double-ring", "sortOrder": 30 },
+    { "slug": "gay", "name": "Gay", "shortLabel": "Social + live", "iconKey": "pride-crest", "sortOrder": 40 },
+    { "slug": "bi", "name": "Bi", "shortLabel": "Social + live", "iconKey": "interlocking-rings", "sortOrder": 50 },
+    { "slug": "trans", "name": "Trans", "shortLabel": "Social + live", "iconKey": "phoenix-crest", "sortOrder": 60 },
+    { "slug": "fetish", "name": "Fetish", "shortLabel": "Themed rooms", "iconKey": "masked-crest", "sortOrder": 70 },
+    { "slug": "vip", "name": "VIP", "shortLabel": "Members only", "iconKey": "crown-crest", "sortOrder": 80 }
+  ]
+}
