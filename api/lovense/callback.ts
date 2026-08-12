@@ -1,5 +1,3 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
-
 function safeEqual(a: string, b: string): boolean {
   if (a.length !== b.length) return false;
 
@@ -10,39 +8,50 @@ function safeEqual(a: string, b: string): boolean {
   return mismatch === 0;
 }
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST');
-    return res.status(405).json({ error: 'Method Not Allowed' });
+export default async function handler(req: Request): Promise<Response> {
+  if (req.method !== "POST") {
+    return Response.json(
+      { error: "Method not allowed" },
+      { status: 405, headers: { Allow: "POST" } },
+    );
   }
 
   const configuredSecret = process.env.LOVENSE_CALLBACK_SECRET;
   if (!configuredSecret) {
-    console.error('LOVENSE_CALLBACK_SECRET is not configured');
-    return res.status(500).json({ error: 'Callback is not configured' });
+    console.error("LOVENSE_CALLBACK_SECRET is not configured");
+    return Response.json({ error: "Callback is not configured" }, { status: 500 });
   }
 
-  const querySecret = typeof req.query.secret === 'string' ? req.query.secret : '';
-  const headerSecret = typeof req.headers['x-lovense-callback-secret'] === 'string'
-    ? req.headers['x-lovense-callback-secret']
-    : '';
+  const requestUrl = new URL(req.url);
+  const querySecret = requestUrl.searchParams.get("secret") ?? "";
+  const headerSecret = req.headers.get("x-lovense-callback-secret") ?? "";
   const suppliedSecret = querySecret || headerSecret;
 
   if (!suppliedSecret || !safeEqual(suppliedSecret, configuredSecret)) {
-    return res.status(401).json({ error: 'Unauthorized' });
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const payload = req.body;
-  if (!payload || typeof payload !== 'object') {
-    return res.status(400).json({ error: 'Invalid JSON payload' });
+  let payload: unknown;
+  try {
+    payload = await req.json();
+  } catch {
+    return Response.json({ error: "Invalid JSON payload" }, { status: 400 });
   }
 
-  const uid = typeof payload.uid === 'string' ? payload.uid : null;
-  const toyCount = payload.toys && typeof payload.toys === 'object'
-    ? Object.keys(payload.toys).length
-    : 0;
+  if (!payload || typeof payload !== "object") {
+    return Response.json({ error: "Invalid JSON payload" }, { status: 400 });
+  }
 
-  console.info('Lovense callback received', { uid, toyCount });
+  const data = payload as Record<string, unknown>;
+  const uid = typeof data.uid === "string" ? data.uid : null;
+  const toys = data.toys && typeof data.toys === "object"
+    ? data.toys as Record<string, unknown>
+    : {};
 
-  return res.status(200).json({ ok: true });
+  console.info("Lovense callback received", {
+    uid,
+    toyCount: Object.keys(toys).length,
+  });
+
+  return Response.json({ ok: true });
 }
