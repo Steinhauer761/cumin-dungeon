@@ -1,3 +1,7 @@
+declare const process: {
+  env: Record<string, string | undefined>;
+};
+
 function safeEqual(a: string, b: string): boolean {
   if (a.length !== b.length) return false;
 
