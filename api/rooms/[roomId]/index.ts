@@ -8,7 +8,7 @@ export const config = { runtime: 'edge' };
 const ROOMS: Record<string, { name: string; description: string; status: string; categories: string[]; viewers: number; performer: { stageName: string } | null }> = {
   'velvet-room': { name: 'Velvet Room', description: 'Open lounge with verified host', status: 'live', categories: ['women'], viewers: 184, performer: { stageName: 'Velvet' } },
   'tangled-throne': { name: 'Tangled Throne', description: 'Couples room, get twisted together', status: 'live', categories: ['couples'], viewers: 92, performer: { stageName: 'Throne Hosts' } },
-  'black-silk': { name: 'Black Silk', description: 'Black dick and pussy, smooth and raw', status: 'live', categories: ['men', 'women'], viewers: 131, performer: null },
+  'pink-silk': { name: 'Pink Silk', description: 'Young performers 18-21. Fresh, bold, just getting started.', status: 'live', categories: ['women', 'men'], viewers: 131, performer: null },
   'devils-playground': { name: "Devil's Playground", description: 'Fetish and kink, no limits', status: 'open', categories: ['fetish'], viewers: 47, performer: { stageName: 'Mistress Kay' } },
   'back-room': { name: 'Back Room', description: 'Gay social and live', status: 'live', categories: ['gay', 'bi'], viewers: 68, performer: null },
   'the-dungeon': { name: 'The Dungeon', description: 'Private VIP experience', status: 'live', categories: ['vip'], viewers: 23, performer: { stageName: 'DarkLord' } },
