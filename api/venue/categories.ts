@@ -1,3 +1,5 @@
+export const config = { runtime: 'edge' };
+
 const categories = [
   { slug: "women", name: "Women", shortLabel: "Live rooms", iconKey: "feminine-crest", sortOrder: 10 },
   { slug: "men", name: "Men", shortLabel: "Live rooms", iconKey: "masculine-crest", sortOrder: 20 },
