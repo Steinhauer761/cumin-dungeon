@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grand Hall | Cum IN Dungeon</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --bg: #0a0604; --surface: #141010; --surface-2: #1c1514; --gold: #d59a4b; --gold-light: #f5c77e; --red: #e63946; --cream: #f5eee4; --muted: #a6998b; --line: rgba(190,137,77,0.18); --green: #4ade80; --serif: 'Cormorant Garamond', Georgia, serif; --sans: 'Inter', system-ui, sans-serif; }
+* { box-sizing: border-box; margin: 0; }
+body { background: var(--bg); color: var(--cream); font-family: var(--sans); font-size: 15px; line-height: 1.5; }
+button { font: inherit; color: inherit; cursor: pointer; }
+
+.hall-layout { display: grid; grid-template-columns: 1fr 340px; min-height: 100vh; }
+
+/* Main area */
+.hall-main { padding: 24px; overflow-y: auto; }
+.hall-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.hall-header h1 { font-family: var(--serif); font-size: 1.8rem; }
+.btn-back { padding: 7px 14px; border: 1px solid var(--line); border-radius: 8px; background: transparent; font-size: 0.7rem; font-weight: 700; text-decoration: none; color: var(--cream); }
+.btn-back:hover { border-color: var(--gold); }
+
+.token-bar { display: flex; align-items: center; gap: 16px; padding: 12px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); margin-bottom: 24px; }
+.token-bar .balance { font-size: 1.1rem; font-weight: 800; color: var(--gold-light); }
+.token-bar .label { font-size: 0.65rem; color: var(--muted); }
+
+/* Tabs */
+.tabs { display: flex; gap: 4px; margin-bottom: 20px; }
+.tab { padding: 8px 16px; border: 1px solid var(--line); border-radius: 8px; background: transparent; font-size: 0.72rem; font-weight: 700; transition: all 0.15s; }
+.tab:hover { border-color: var(--gold); }
+.tab.active { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+
+/* Games grid */
+.games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.game-card { padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); cursor: pointer; transition: transform 0.15s, border-color 0.15s; }
+.game-card:hover { transform: translateY(-2px); border-color: var(--gold); }
+.game-card h3 { font-family: var(--serif); font-size: 1rem; margin-bottom: 4px; }
+.game-card p { font-size: 0.68rem; color: var(--muted); line-height: 1.4; margin-bottom: 8px; }
+.game-card .reward { font-size: 0.6rem; color: var(--green); font-weight: 700; }
+.game-card .cost { font-size: 0.6rem; color: var(--red); font-weight: 700; margin-left: 8px; }
+
+/* Play modal */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100; place-items: center; }
+.modal-overlay.active { display: grid; }
+.modal { width: min(440px, 90%); padding: 24px; border: 1px solid var(--gold); border-radius: 16px; background: var(--surface); text-align: center; }
+.modal h2 { font-family: var(--serif); font-size: 1.4rem; margin-bottom: 8px; }
+.modal .challenge { font-size: 0.9rem; color: var(--cream); margin: 16px 0; padding: 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); line-height: 1.5; }
+.modal .actions { display: flex; gap: 10px; justify-content: center; margin-top: 16px; }
+.modal .btn { padding: 10px 20px; border-radius: 8px; font-weight: 800; font-size: 0.75rem; border: none; }
+.btn-gold { background: var(--gold); color: var(--bg); }
+.btn-red { background: rgba(230,57,70,0.2); color: var(--red); border: 1px solid var(--red); }
+.btn-outline { background: transparent; border: 1px solid var(--line); color: var(--cream); }
+.modal .result { font-size: 1rem; font-weight: 800; margin: 12px 0; }
+.result-win { color: var(--green); }
+.result-lose { color: var(--red); }
+
+/* Casino */
+.casino-card { position: relative; overflow: hidden; }
+.casino-card .bet-range { font-size: 0.58rem; color: var(--gold); font-weight: 700; }
+.casino-card .max-win { font-size: 0.58rem; color: var(--green); }
+
+/* Slots display */
+.slots-display { font-size: 2rem; letter-spacing: 8px; margin: 12px 0; }
+
+/* Chat sidebar */
+.hall-chat { display: grid; grid-template-rows: auto 1fr auto; border-left: 1px solid var(--line); background: var(--surface); }
+.hall-chat-header { padding: 14px 16px; border-bottom: 1px solid var(--line); }
+.hall-chat-header h3 { font-size: 0.82rem; font-weight: 700; }
+.hall-chat-header p { font-size: 0.6rem; color: var(--muted); margin-top: 2px; }
+.hall-messages { padding: 12px 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+.chat-msg { display: grid; grid-template-columns: 24px 1fr; gap: 8px; }
+.chat-avatar { width: 24px; height: 24px; border-radius: 50%; background: rgba(213,154,75,0.15); display: grid; place-items: center; font-size: 0.55rem; font-weight: 800; color: var(--gold); }
+.chat-msg p { font-size: 0.72rem; color: #b8ada3; line-height: 1.4; }
+.chat-msg strong { color: var(--cream); }
+.hall-chat-input { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 12px 16px; border-top: 1px solid var(--line); }
+.hall-chat-input input { padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--cream); font-size: 0.75rem; }
+.hall-chat-input button { padding: 10px 16px; border: none; border-radius: 8px; background: var(--gold); color: var(--bg); font-weight: 800; font-size: 0.72rem; }
+
+@media (max-width: 768px) { .hall-layout { grid-template-columns: 1fr; } .hall-chat { height: 300px; } }
+</style>
+</head>
+<body>
+<div class="hall-layout">
+  <div class="hall-main">
+    <div class="hall-header">
+      <h1>The Grand Hall</h1>
+      <a href="/" class="btn-back">Back to Rooms</a>
+    </div>
+
+    <div class="token-bar">
+      <div><span class="balance" id="token-balance">50</span><span class="label"> tokens</span></div>
+      <div style="font-size:0.65rem;color:var(--muted)">Earn from games · Spend at casino · Redeem for gifts</div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="games">Social Games</button>
+      <button class="tab" data-tab="casino">Casino</button>
+    </div>
+
+    <div id="games-section">
+      <div class="games-grid" id="games-grid"></div>
+    </div>
+
+    <div id="casino-section" style="display:none">
+      <div class="games-grid" id="casino-grid"></div>
+    </div>
+  </div>
+
+  <aside class="hall-chat">
+    <div class="hall-chat-header">
+      <h3>Grand Hall Chat</h3>
+      <p>Everyone's welcome. Consent required for DMs.</p>
+    </div>
+    <div class="hall-messages" id="hall-messages"></div>
+    <form class="hall-chat-input" id="hall-chat-form">
+      <input id="hall-chat-input" maxlength="200" placeholder="Say something..." autocomplete="off">
+      <button type="submit">Send</button>
+    </form>
+  </aside>
+</div>
+
+<!-- Play Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h2 id="modal-title">Game</h2>
+    <div class="challenge" id="modal-challenge">Loading...</div>
+    <div class="result" id="modal-result"></div>
+    <div class="actions" id="modal-actions"></div>
+  </div>
+</div>
+
+<script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
+<script src="/public/js/chat.js"></script>
+<script>
+const guestId = 'Guest_' + Math.random().toString(36).slice(2,7);
+let tokenBalance = 50;
+let currentGame = null;
+
+// Load social games
+async function loadGames() {
+  const res = await fetch('/api/games');
+  const data = await res.json();
+  const grid = document.getElementById('games-grid');
+  grid.innerHTML = '';
+  data.games.forEach(game => {
+    const card = document.createElement('div');
+    card.className = 'game-card';
+    card.innerHTML = `<h3>${game.name}</h3><p>${game.description}</p><span class="reward">↑ ${game.tokenReward.min}-${game.tokenReward.max} tokens</span>${game.skipCost ? `<span class="cost">Skip: -${game.skipCost}</span>` : ''}`;
+    card.addEventListener('click', () => playSocialGame(game));
+    grid.appendChild(card);
+  });
+}
+
+// Load casino games
+async function loadCasino() {
+  const res = await fetch('/api/games/casino');
+  const data = await res.json();
+  const grid = document.getElementById('casino-grid');
+  grid.innerHTML = '';
+  data.casinoGames.forEach(game => {
+    const card = document.createElement('div');
+    card.className = 'game-card casino-card';
+    card.innerHTML = `<h3>${game.name}</h3><p>${game.description}</p><span class="bet-range">Bet: ${game.minBet}-${game.maxBet}</span><span class="max-win" style="margin-left:8px">Max: ${game.maxPayout}</span>`;
+    card.addEventListener('click', () => playCasino(game));
+    grid.appendChild(card);
+  });
+}
+
+// Social game flow
+async function playSocialGame(game) {
+  currentGame = game;
+  const res = await fetch('/api/games/play', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({userId: guestId, gameId: game.id, action: 'spin'}) });
+  const data = await res.json();
+  showModal(game.name, data.challenge, [
+    { text: 'Complete (+tokens)', class: 'btn-gold', action: () => completeSocialGame(game) },
+    { text: `Skip (-${game.skipCost})`, class: 'btn-red', action: () => skipSocialGame(game) },
+    { text: 'Close', class: 'btn-outline', action: closeModal },
+  ]);
+}
+
+async function completeSocialGame(game) {
+  const res = await fetch('/api/games/play', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({userId: guestId, gameId: game.id, action: 'complete'}) });
+  const data = await res.json();
+  tokenBalance += data.tokensEarned;
+  updateBalance();
+  document.getElementById('modal-result').className = 'result result-win';
+  document.getElementById('modal-result').textContent = `+${data.tokensEarned} tokens!`;
+  document.getElementById('modal-actions').innerHTML = '<button class="btn btn-outline" onclick="closeModal()">Nice</button>';
+}
+
+async function skipSocialGame(game) {
+  tokenBalance -= game.skipCost;
+  updateBalance();
+  document.getElementById('modal-result').className = 'result result-lose';
+  document.getElementById('modal-result').textContent = `-${game.skipCost} tokens`;
+  document.getElementById('modal-actions').innerHTML = '<button class="btn btn-outline" onclick="closeModal()">OK</button>';
+}
+
+// Casino flow
+async function playCasino(game) {
+  const bet = Math.min(game.minBet * 2, game.maxBet);
+  if (tokenBalance < bet) { alert('Not enough tokens! Play social games to earn more.'); return; }
+
+  const res = await fetch('/api/games/casino', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({userId: guestId, gameId: game.id, bet}) });
+  const data = await res.json();
+
+  let display = '';
+  if (data.reels) display = `<div class="slots-display">${data.reels.join(' ')}</div>`;
+  else if (data.dice) display = `<div class="slots-display">🎲 ${data.dice[0]} + ${data.dice[1]} = ${data.sum}</div>`;
+  else if (data.section) display = `<div class="slots-display">${data.section}</div>`;
+  else if (data.hand) display = `<div style="font-size:1.2rem">You: ${data.hand} | Dealer: ${data.dealerHand}</div>`;
+  else display = '';
+
+  if (data.win || data.payout > 0) {
+    tokenBalance += data.payout - bet;
+  } else {
+    tokenBalance -= bet;
+  }
+  updateBalance();
+
+  const resultClass = (data.win || data.payout > 0) ? 'result-win' : 'result-lose';
+  const resultText = (data.win || data.payout > 0) ? `WIN! +${data.payout - bet} tokens` : `Lost ${bet} tokens`;
+
+  showModal(game.name + ` (bet: ${bet})`, display, []);
+  document.getElementById('modal-result').className = 'result ' + resultClass;
+  document.getElementById('modal-result').textContent = resultText;
+  document.getElementById('modal-actions').innerHTML = `<button class="btn btn-gold" onclick="playCasino(${JSON.stringify(game).replace(/"/g, '&quot;')})">Spin Again</button><button class="btn btn-outline" onclick="closeModal()">Done</button>`;
+}
+
+function showModal(title, content, buttons) {
+  document.getElementById('modal-title').textContent = title;
+  document.getElementById('modal-challenge').innerHTML = content;
+  document.getElementById('modal-result').textContent = '';
+  const actions = document.getElementById('modal-actions');
+  actions.innerHTML = '';
+  buttons.forEach(b => {
+    const btn = document.createElement('button');
+    btn.className = 'btn ' + b.class;
+    btn.textContent = b.text;
+    btn.addEventListener('click', b.action);
+    actions.appendChild(btn);
+  });
+  document.getElementById('modal').classList.add('active');
+}
+
+function closeModal() { document.getElementById('modal').classList.remove('active'); }
+function updateBalance() { document.getElementById('token-balance').textContent = tokenBalance; }
+
+// Tabs
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('games-section').style.display = tab.dataset.tab === 'games' ? '' : 'none';
+    document.getElementById('casino-section').style.display = tab.dataset.tab === 'casino' ? '' : 'none';
+  });
+});
+
+// Hall chat
+if (window.DungeonChat && window.Ably) {
+  DungeonChat.init('grand-hall', guestId, document.getElementById('hall-messages'), null);
+}
+document.getElementById('hall-chat-form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const input = document.getElementById('hall-chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  if (window.DungeonChat && DungeonChat.channel) { DungeonChat.send(msg); }
+  else {
+    const div = document.createElement('div');
+    div.className = 'chat-msg';
+    div.innerHTML = `<span class="chat-avatar">${guestId[0].toUpperCase()}</span><p><strong>${guestId}:</strong> ${msg}</p>`;
+    document.getElementById('hall-messages').appendChild(div);
+  }
+  input.value = '';
+});
+
+// Init
+loadGames();
+loadCasino();
+</script>
+</body>
+</html>

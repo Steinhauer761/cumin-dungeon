@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Room | Cum IN Dungeon</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --bg: #0a0604; --surface: #141010; --gold: #d59a4b; --gold-light: #f5c77e; --red: #e63946; --cream: #f5eee4; --muted: #a6998b; --line: rgba(190,137,77,0.18); --serif: 'Cormorant Garamond', Georgia, serif; --sans: 'Inter', system-ui, sans-serif; }
+* { box-sizing: border-box; margin: 0; }
+body { background: var(--bg); color: var(--cream); font-family: var(--sans); font-size: 15px; line-height: 1.5; }
+button { font: inherit; color: inherit; cursor: pointer; }
+
+.room-layout { display: grid; grid-template-columns: 1fr 320px; height: 100vh; }
+
+/* Video area */
+.video-area { position: relative; background: #000; display: grid; place-items: center; overflow: hidden; }
+.video-placeholder { color: var(--muted); font-size: 0.8rem; text-align: center; }
+.video-placeholder span { display: block; font-size: 4rem; margin-bottom: 12px; opacity: 0.3; }
+.video-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 16px; pointer-events: none; }
+.video-overlay > * { pointer-events: auto; }
+.video-top { display: flex; justify-content: space-between; align-items: center; }
+.video-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
+.room-name-bar h2 { font-family: var(--serif); font-size: 1.4rem; }
+.room-name-bar p { font-size: 0.68rem; color: var(--muted); margin-top: 2px; }
+.live-badge { display: flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 100px; background: rgba(10,6,4,0.85); font-size: 0.55rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #ff9ca3; }
+.live-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--red); box-shadow: 0 0 6px var(--red); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+.btn-back { padding: 7px 14px; border: 1px solid var(--line); border-radius: 8px; background: rgba(10,6,4,0.8); font-size: 0.7rem; font-weight: 700; }
+.btn-back:hover { border-color: var(--gold); }
+
+/* Gift bar */
+.gift-bar { display: flex; gap: 6px; flex-wrap: wrap; }
+.gift-btn { padding: 6px 12px; border: 1px solid var(--line); border-radius: 100px; background: rgba(20,16,16,0.9); font-size: 0.7rem; transition: border-color 0.15s; }
+.gift-btn:hover { border-color: var(--gold); }
+
+/* Chat sidebar */
+.chat-side { display: grid; grid-template-rows: auto 1fr auto; border-left: 1px solid var(--line); background: var(--surface); }
+.chat-header { padding: 14px 16px; border-bottom: 1px solid var(--line); }
+.chat-header h3 { font-size: 0.82rem; font-weight: 700; }
+.chat-header p { font-size: 0.6rem; color: var(--muted); margin-top: 2px; }
+.chat-messages { padding: 12px 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+.chat-msg { display: grid; grid-template-columns: 24px 1fr; gap: 8px; align-items: start; }
+.chat-avatar { width: 24px; height: 24px; border-radius: 50%; background: rgba(213,154,75,0.15); display: grid; place-items: center; font-size: 0.55rem; font-weight: 800; color: var(--gold); }
+.chat-msg p { font-size: 0.72rem; color: #b8ada3; line-height: 1.4; }
+.chat-msg strong { color: var(--cream); }
+.chat-input { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 12px 16px; border-top: 1px solid var(--line); }
+.chat-input input { padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--cream); font-size: 0.75rem; }
+.chat-input button { padding: 10px 16px; border: none; border-radius: 8px; background: var(--gold); color: var(--bg); font-weight: 800; font-size: 0.72rem; }
+
+.viewers-count { font-size: 0.6rem; color: var(--muted); }
+
+@media (max-width: 768px) {
+  .room-layout { grid-template-columns: 1fr; grid-template-rows: 50vh 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="room-layout">
+  <div class="video-area">
+    <div class="video-placeholder"><span>♛</span>Performer stream will appear here when live</div>
+    <div class="video-overlay">
+      <div class="video-top">
+        <span class="live-badge">Live</span>
+        <button class="btn-back" onclick="window.location.href='/'">Back to Hall</button>
+      </div>
+      <div class="video-bottom">
+        <div class="room-name-bar"><h2 id="room-title">Loading...</h2><p id="room-desc"></p></div>
+        <div class="gift-bar">
+          <button class="gift-btn">🌹 Rose</button>
+          <button class="gift-btn">🔑 Key</button>
+          <button class="gift-btn">👑 Crown</button>
+          <button class="gift-btn">💰 Tip</button>
+          <button class="gift-btn" style="border-color:var(--gold)">VIP → Go Private</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="chat-side">
+    <div class="chat-header">
+      <h3>Room Chat</h3>
+      <p>Be respectful. Host controls the room.</p>
+    </div>
+    <div class="chat-messages" id="chat-messages"></div>
+    <form class="chat-input" id="chat-form">
+      <input id="chat-input" maxlength="200" placeholder="Say something..." autocomplete="off">
+      <button type="submit">Send</button>
+    </form>
+  </aside>
+</div>
+
+<script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
+<script src="/public/js/chat.js"></script>
+<script>
+const params = new URLSearchParams(window.location.search);
+const roomId = params.get('id') || 'velvet-room';
+const guestId = 'Guest_' + Math.random().toString(36).slice(2,7);
+
+// Load room info
+fetch('/api/rooms/' + roomId).then(r => r.json()).then(room => {
+  if (room.error) { document.getElementById('room-title').textContent = 'Room not found'; return; }
+  document.getElementById('room-title').textContent = room.name;
+  document.getElementById('room-desc').textContent = room.description + ' \u00b7 ' + room.viewers + ' watching';
+  document.title = room.name + ' | Cum IN Dungeon';
+});
+
+// Init chat
+if (window.DungeonChat && window.Ably) {
+  DungeonChat.init(roomId, guestId, document.getElementById('chat-messages'), null);
+}
+
+document.getElementById('chat-form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  if (window.DungeonChat && DungeonChat.channel) {
+    DungeonChat.send(msg);
+  } else {
+    const div = document.createElement('div');
+    div.className = 'chat-msg';
+    div.innerHTML = `<span class="chat-avatar">${guestId[0].toUpperCase()}</span><p><strong>${guestId}:</strong> ${msg}</p>`;
+    document.getElementById('chat-messages').appendChild(div);
+  }
+  input.value = '';
+});
+</script>
+</body>
+</html>
