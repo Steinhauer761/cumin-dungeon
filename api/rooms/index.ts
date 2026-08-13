@@ -3,7 +3,6 @@ export const config = { runtime: 'edge' };
 /**
  * GET /api/rooms?category=<slug>
  * Returns rooms, optionally filtered by category.
- * Until we have a real DB, this serves mock data matching the schema.
  */
 
 interface Room {
@@ -24,34 +23,34 @@ const MOCK_ROOMS: Room[] = [
     description: 'Open lounge with verified host',
     visibility: 'members',
     status: 'live',
-    categories: ['women', 'vip'],
+    categories: ['women'],
     viewers: 184,
     performer: { stageName: 'Velvet' },
   },
   {
-    id: 'the-chapel',
-    name: 'The Chapel',
-    description: 'Creator event for members',
+    id: 'tangled-throne',
+    name: 'Tangled Throne',
+    description: 'Couples room, get twisted together',
     visibility: 'members',
     status: 'live',
-    categories: ['couples', 'vip'],
+    categories: ['couples'],
     viewers: 92,
-    performer: { stageName: 'Chapel Host' },
+    performer: { stageName: 'Throne Hosts' },
   },
   {
     id: 'black-silk',
     name: 'Black Silk',
-    description: 'Social room with open chat',
-    visibility: 'public',
+    description: 'Black dick and pussy, smooth and raw',
+    visibility: 'members',
     status: 'live',
-    categories: ['women', 'bi'],
+    categories: ['men', 'women'],
     viewers: 131,
     performer: null,
   },
   {
-    id: 'crimson-lounge',
-    name: 'Crimson Lounge',
-    description: 'Themed fetish room',
+    id: 'devils-playground',
+    name: "Devil's Playground",
+    description: 'Fetish and kink, no limits',
     visibility: 'members',
     status: 'open',
     categories: ['fetish'],
@@ -59,9 +58,9 @@ const MOCK_ROOMS: Room[] = [
     performer: { stageName: 'Mistress Kay' },
   },
   {
-    id: 'pride-hall',
-    name: 'Pride Hall',
-    description: 'Social space for the community',
+    id: 'back-room',
+    name: 'Back Room',
+    description: 'Gay social and live',
     visibility: 'public',
     status: 'live',
     categories: ['gay', 'bi'],
@@ -74,9 +73,29 @@ const MOCK_ROOMS: Room[] = [
     description: 'Private VIP experience',
     visibility: 'private',
     status: 'live',
-    categories: ['vip', 'fetish'],
+    categories: ['vip'],
     viewers: 23,
     performer: { stageName: 'DarkLord' },
+  },
+  {
+    id: 'haleys-halo',
+    name: "Haley's Halo",
+    description: 'She looks innocent but she is not',
+    visibility: 'members',
+    status: 'live',
+    categories: ['women', 'vip'],
+    viewers: 156,
+    performer: { stageName: 'Haley' },
+  },
+  {
+    id: 'trans-kinks',
+    name: 'Trans Kinks',
+    description: 'Trans performers and open play',
+    visibility: 'public',
+    status: 'live',
+    categories: ['trans'],
+    viewers: 74,
+    performer: null,
   },
 ];
 

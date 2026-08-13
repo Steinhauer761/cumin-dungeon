@@ -6,12 +6,14 @@ export const config = { runtime: 'edge' };
  */
 
 const ROOMS: Record<string, { name: string; description: string; status: string; categories: string[]; viewers: number; performer: { stageName: string } | null }> = {
-  'velvet-room': { name: 'Velvet Room', description: 'Open lounge with verified host', status: 'live', categories: ['women', 'vip'], viewers: 184, performer: { stageName: 'Velvet' } },
-  'the-chapel': { name: 'The Chapel', description: 'Creator event for members', status: 'live', categories: ['couples', 'vip'], viewers: 92, performer: { stageName: 'Chapel Host' } },
-  'black-silk': { name: 'Black Silk', description: 'Social room with open chat', status: 'live', categories: ['women', 'bi'], viewers: 131, performer: null },
-  'crimson-lounge': { name: 'Crimson Lounge', description: 'Themed fetish room', status: 'open', categories: ['fetish'], viewers: 47, performer: { stageName: 'Mistress Kay' } },
-  'pride-hall': { name: 'Pride Hall', description: 'Social space for the community', status: 'live', categories: ['gay', 'bi'], viewers: 68, performer: null },
-  'the-dungeon': { name: 'The Dungeon', description: 'Private VIP experience', status: 'live', categories: ['vip', 'fetish'], viewers: 23, performer: { stageName: 'DarkLord' } },
+  'velvet-room': { name: 'Velvet Room', description: 'Open lounge with verified host', status: 'live', categories: ['women'], viewers: 184, performer: { stageName: 'Velvet' } },
+  'tangled-throne': { name: 'Tangled Throne', description: 'Couples room, get twisted together', status: 'live', categories: ['couples'], viewers: 92, performer: { stageName: 'Throne Hosts' } },
+  'black-silk': { name: 'Black Silk', description: 'Black dick and pussy, smooth and raw', status: 'live', categories: ['men', 'women'], viewers: 131, performer: null },
+  'devils-playground': { name: "Devil's Playground", description: 'Fetish and kink, no limits', status: 'open', categories: ['fetish'], viewers: 47, performer: { stageName: 'Mistress Kay' } },
+  'back-room': { name: 'Back Room', description: 'Gay social and live', status: 'live', categories: ['gay', 'bi'], viewers: 68, performer: null },
+  'the-dungeon': { name: 'The Dungeon', description: 'Private VIP experience', status: 'live', categories: ['vip'], viewers: 23, performer: { stageName: 'DarkLord' } },
+  'haleys-halo': { name: "Haley's Halo", description: 'She looks innocent but she is not', status: 'live', categories: ['women', 'vip'], viewers: 156, performer: { stageName: 'Haley' } },
+  'trans-kinks': { name: 'Trans Kinks', description: 'Trans performers and open play', status: 'live', categories: ['trans'], viewers: 74, performer: null },
 };
 
 export default function handler(req: Request): Response {
@@ -21,7 +23,6 @@ export default function handler(req: Request): Response {
 
   const url = new URL(req.url);
   const segments = url.pathname.split('/');
-  // /api/rooms/[roomId] -> roomId is the last segment
   const roomId = segments[segments.length - 1];
 
   const room = ROOMS[roomId];
