@@ -8,30 +8,13 @@
 <title>Cum IN Dungeon — Private Adult Venue</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #0a0604;
-  --surface: #141010;
-  --surface-raised: #1c1514;
-  --gold: #d59a4b;
-  --gold-dim: #8a5e2a;
-  --gold-light: #f5c77e;
-  --red: #8d1d24;
-  --red-neon: #e63946;
-  --cream: #f5eee4;
-  --muted: #a6998b;
-  --line: rgba(190, 137, 77, 0.18);
-  --serif: 'Cormorant Garamond', Georgia, serif;
-  --sans: 'Inter', system-ui, sans-serif;
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-}
+:root { --bg: #0a0604; --surface: #141010; --surface-raised: #1c1514; --gold: #d59a4b; --gold-dim: #8a5e2a; --gold-light: #f5c77e; --red: #8d1d24; --red-neon: #e63946; --cream: #f5eee4; --muted: #a6998b; --line: rgba(190, 137, 77, 0.18); --serif: 'Cormorant Garamond', Georgia, serif; --sans: 'Inter', system-ui, sans-serif; --ease-out: cubic-bezier(0.22, 1, 0.36, 1); }
 * { box-sizing: border-box; margin: 0; }
 html { scroll-behavior: smooth; }
 body { min-height: 100vh; background: var(--bg); color: var(--cream); font-family: var(--sans); font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
 button, input { font: inherit; color: inherit; }
 button { cursor: pointer; }
 [hidden] { display: none !important; }
-
-/* Gate */
 .gate { min-height: 100dvh; display: grid; place-items: center; padding: 24px; position: relative; overflow: hidden; }
 .gate::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 20%, rgba(174,89,28,0.15), transparent 50%), radial-gradient(ellipse at 50% 90%, rgba(141,29,36,0.12), transparent 40%); pointer-events: none; }
 .gate-content { position: relative; width: min(540px, 100%); text-align: center; }
@@ -48,8 +31,6 @@ button { cursor: pointer; }
 .gate-enter:disabled { opacity: 0.25; cursor: not-allowed; }
 .gate-enter:not(:disabled):hover { transform: translateY(-2px); }
 .gate-note { margin-top: 14px; font-size: 0.58rem; color: #5a4f46; }
-
-/* Venue */
 .venue { display: none; }
 .venue.is-active { display: block; }
 .venue-header { position: sticky; top: 0; z-index: 50; background: rgba(10,6,4,0.92); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); padding: 0 24px; }
@@ -58,14 +39,10 @@ button { cursor: pointer; }
 .venue-logo strong { color: var(--gold); }
 .btn-sm { padding: 7px 13px; border: 1px solid var(--line); border-radius: 8px; background: transparent; font-size: 0.68rem; font-weight: 700; transition: border-color 0.15s; }
 .btn-sm:hover { border-color: var(--gold-dim); }
-
-/* Hero */
 .hero { padding: clamp(40px, 8vw, 80px) 24px 32px; text-align: center; }
 .hero-eyebrow { font-size: 0.56rem; font-weight: 800; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
 .hero h1 { font-family: var(--serif); font-size: clamp(2.2rem, 5.5vw, 4rem); font-weight: 700; line-height: 1; letter-spacing: -0.03em; margin-bottom: 10px; }
 .hero-sub { color: var(--muted); font-size: 0.84rem; max-width: 480px; margin: 0 auto; }
-
-/* Grand Hall banner */
 .hall-banner { max-width: 1200px; margin: 0 auto 32px; padding: 0 24px; }
 .hall-card { position: relative; border-radius: 20px; overflow: hidden; height: 240px; display: flex; align-items: flex-end; cursor: pointer; transition: transform 0.2s var(--ease-out); }
 .hall-card:hover { transform: translateY(-3px); }
@@ -74,12 +51,9 @@ button { cursor: pointer; }
 .hall-card-info { position: relative; z-index: 2; padding: 24px; width: 100%; }
 .hall-card-info h2 { font-family: var(--serif); font-size: 1.6rem; font-weight: 700; margin-bottom: 4px; }
 .hall-card-info p { font-size: 0.75rem; color: var(--muted); max-width: 500px; }
-
-/* Room entrances grid */
 .entrances { max-width: 1200px; margin: 0 auto; padding: 0 24px 64px; }
 .entrances-label { font-size: 0.56rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
 .entrances-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
-
 .entrance { position: relative; border-radius: 16px; overflow: hidden; border: 1px solid var(--line); cursor: pointer; transition: transform 0.2s var(--ease-out), border-color 0.2s; background: var(--surface); }
 .entrance:hover { transform: translateY(-4px); border-color: var(--gold-dim); }
 .entrance-img { width: 100%; height: 180px; object-fit: cover; display: block; }
@@ -89,19 +63,12 @@ button { cursor: pointer; }
 .entrance-badge { position: absolute; top: 10px; left: 10px; display: flex; align-items: center; gap: 4px; padding: 4px 9px; border-radius: 100px; background: rgba(10,6,4,0.8); font-size: 0.5rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #ff9ca3; }
 .entrance-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #e63946; box-shadow: 0 0 6px #e63946; }
 .entrance-viewers { position: absolute; top: 10px; right: 10px; font-size: 0.55rem; color: var(--muted); background: rgba(10,6,4,0.75); padding: 3px 8px; border-radius: 100px; }
-
-/* Footer */
 .venue-footer { border-top: 1px solid var(--line); padding: 24px; text-align: center; font-size: 0.58rem; color: #5a4f46; }
-
-@media (max-width: 700px) {
-  .entrances-grid { grid-template-columns: 1fr; }
-  .hall-card { height: 180px; }
-}
+@media (max-width: 700px) { .entrances-grid { grid-template-columns: 1fr; } .hall-card { height: 180px; } }
 </style>
 </head>
 <body>
 
-<!-- GATE -->
 <section class="gate" id="gate">
   <div class="gate-content">
     <div class="gate-badge">Private digital venue · 18+ only</div>
@@ -109,14 +76,13 @@ button { cursor: pointer; }
     <p class="gate-tagline">A live adult social club. Enter the castle, choose your room, meet performers, play games, go private.</p>
     <div class="gate-checks">
       <label class="gate-check"><input type="checkbox" id="ck-age"><span>I am at least 18 years old.<small>Age verification may be required.</small></span></label>
-      <label class="gate-check"><input type="checkbox" id="ck-terms"><span>I accept the Venue Rules and Privacy Policy.<small>No recording. Consent enforced. Performer-controlled rooms.</small></span></label>
+      <label class="gate-check"><input type="checkbox" id="ck-terms"><span>I accept the <a href="/terms.html" style="color:var(--gold-light)">Terms</a> and <a href="/privacy.html" style="color:var(--gold-light)">Privacy Policy</a>.<small>No recording. Consent enforced. Performer-controlled rooms.</small></span></label>
     </div>
     <button class="gate-enter" id="enter-btn" disabled>Enter the Dungeon</button>
     <p class="gate-note">Prototype. No real payments or personal data processed.</p>
   </div>
 </section>
 
-<!-- VENUE -->
 <div class="venue" id="venue">
   <header class="venue-header">
     <nav class="venue-nav">
@@ -133,7 +99,6 @@ button { cursor: pointer; }
     <p class="hero-sub">Each door leads to a different world. Click to enter and browse live performers inside.</p>
   </section>
 
-  <!-- Grand Hall banner -->
   <section class="hall-banner">
     <div class="hall-card" id="hall-card">
       <img src="https://app-attachments-public.clickup.com/07b7448f-853c-48e6-82e8-435de3962bb1.png" alt="Grand Hall">
@@ -144,16 +109,16 @@ button { cursor: pointer; }
     </div>
   </section>
 
-  <!-- Room entrances -->
   <section class="entrances">
     <p class="entrances-label">Choose a room</p>
     <div class="entrances-grid" id="entrances-grid"></div>
   </section>
 
-  <footer class="venue-footer">&copy; 2026 Cum IN Dungeon · 18+ only · Prototype</footer>
+  <footer class="venue-footer">
+    &copy; 2026 Cum IN Dungeon · 18+ only · <a href="/terms.html" style="color:var(--gold)">Terms</a> · <a href="/privacy.html" style="color:var(--gold)">Privacy</a> · <a href="/2257.html" style="color:var(--gold)">2257</a>
+  </footer>
 </div>
 
-<!-- Ably SDK -->
 <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
 <script src="/public/js/chat.js"></script>
 
@@ -173,14 +138,13 @@ const ROOM_DESCRIPTIONS = {
   'velvet-room': 'Women performers live. Intimate, warm, and all about her.',
   'tangled-throne': 'Couples only. Watch together, play together.',
   'pink-silk': 'Young performers 18-21. Fresh, bold, just getting started.',
-  'devils-playground': 'Fetish and kink. No limits, no judgment. Descend.',
+  'devils-playground': 'Fetish and kink. Consensual, intense, unleashed.',
   'back-room': 'Gay and bi. Dark, discreet, real.',
   'the-dungeon': 'Very Intimate Pleasure. Private 1-on-1 shows. Set your own pace.',
   'haleys-halo': 'She looks innocent but she is not. Ascend the staircase.',
   'trans-kinks': 'Trans performers, open play. Bold, expressive, electric.',
 };
 
-// Gate
 const gate = document.getElementById('gate');
 const venue = document.getElementById('venue');
 const enterBtn = document.getElementById('enter-btn');
@@ -193,23 +157,19 @@ ckTerms.addEventListener('change', updateGate);
 enterBtn.addEventListener('click', () => { gate.hidden = true; venue.classList.add('is-active'); loadRooms(); });
 document.getElementById('exit-btn').addEventListener('click', () => { venue.classList.remove('is-active'); gate.hidden = false; });
 
-// Load rooms from API
 async function loadRooms() {
   const grid = document.getElementById('entrances-grid');
   grid.innerHTML = '<p style="color:var(--muted);font-size:0.8rem">Loading rooms...</p>';
-
   try {
     const res = await fetch('/api/rooms');
     const data = await res.json();
     grid.innerHTML = '';
-
     data.rooms.forEach(room => {
       const card = document.createElement('div');
       card.className = 'entrance';
       const img = ROOM_IMAGES[room.id] || '';
       const desc = ROOM_DESCRIPTIONS[room.id] || room.description;
       const isLive = room.status === 'live';
-
       card.innerHTML = `
         ${img ? `<img class="entrance-img" src="${img}" alt="${room.name}">` : ''}
         ${isLive ? '<span class="entrance-badge">Live</span>' : ''}
@@ -220,7 +180,7 @@ async function loadRooms() {
         </div>
       `;
       card.addEventListener('click', () => {
-        alert('Entering ' + room.name + '... (room view coming next)');
+        window.location.href = '/room.html?id=' + room.id;
       });
       grid.appendChild(card);
     });
@@ -229,9 +189,8 @@ async function loadRooms() {
   }
 }
 
-// Grand Hall click
 document.getElementById('hall-card').addEventListener('click', () => {
-  alert('Entering the Grand Hall... (social space coming next)');
+  window.location.href = '/hall.html';
 });
 </script>
 </body>
