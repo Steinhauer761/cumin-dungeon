@@ -4,67 +4,80 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0a0604">
-<meta name="description" content="Cum IN Dungeon: a private 18+ digital venue. Live rooms, social games, VIP private shows.">
 <title>Cum IN Dungeon — Private Adult Venue</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
-:root { --bg: #0a0604; --surface: #141010; --surface-raised: #1c1514; --gold: #d59a4b; --gold-dim: #8a5e2a; --gold-light: #f5c77e; --red: #8d1d24; --red-neon: #e63946; --cream: #f5eee4; --muted: #a6998b; --line: rgba(190, 137, 77, 0.18); --serif: 'Cormorant Garamond', Georgia, serif; --sans: 'Inter', system-ui, sans-serif; --ease-out: cubic-bezier(0.22, 1, 0.36, 1); }
+:root { --bg: #0a0604; --surface: #110d0a; --gold: #d59a4b; --gold-dim: #8a5e2a; --gold-light: #f5c77e; --red: #8d1d24; --cream: #f5eee4; --muted: #a6998b; --line: rgba(190,137,77,0.18); --serif: 'Cormorant Garamond', Georgia, serif; --sans: 'Inter', system-ui, sans-serif; --ease-out: cubic-bezier(0.22, 1, 0.36, 1); }
 * { box-sizing: border-box; margin: 0; }
 html { scroll-behavior: smooth; }
 body { min-height: 100vh; background: var(--bg); color: var(--cream); font-family: var(--sans); font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
 button, input { font: inherit; color: inherit; }
 button { cursor: pointer; }
 [hidden] { display: none !important; }
+
+/* Gate */
 .gate { min-height: 100dvh; display: grid; place-items: center; padding: 24px; position: relative; overflow: hidden; }
-.gate::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 20%, rgba(174,89,28,0.15), transparent 50%), radial-gradient(ellipse at 50% 90%, rgba(141,29,36,0.12), transparent 40%); pointer-events: none; }
-.gate-content { position: relative; width: min(540px, 100%); text-align: center; }
-.gate-badge { display: inline-flex; padding: 6px 14px; border: 1px solid var(--gold-dim); border-radius: 100px; font-size: 0.58rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
-.gate-brand { font-family: var(--serif); font-size: clamp(3rem, 10vw, 5.5rem); font-weight: 700; line-height: 0.9; letter-spacing: -0.03em; margin-bottom: 14px; }
-.gate-brand strong { color: var(--gold); }
-.gate-tagline { color: var(--muted); font-size: 0.86rem; max-width: 380px; margin: 0 auto 28px; line-height: 1.6; }
-.gate-checks { text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-bottom: 20px; }
-.gate-check { display: grid; grid-template-columns: 20px 1fr; gap: 12px; padding: 10px 0; font-size: 0.78rem; font-weight: 500; }
+.gate::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 20%, rgba(174,89,28,0.12), transparent 50%), radial-gradient(ellipse at 50% 90%, rgba(141,29,36,0.1), transparent 40%); pointer-events: none; }
+.gate-content { position: relative; width: min(480px, 100%); text-align: center; }
+.gate-badge { display: inline-flex; padding: 6px 14px; border: 1px solid var(--gold-dim); border-radius: 100px; font-size: 0.55rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+.gate-brand { font-family: var(--serif); font-size: clamp(2.8rem, 9vw, 4.5rem); font-weight: 400; font-style: italic; line-height: 0.95; letter-spacing: -0.02em; margin-bottom: 14px; }
+.gate-brand strong { color: var(--gold); font-weight: 700; font-style: normal; }
+.gate-tagline { color: var(--muted); font-size: 0.82rem; max-width: 360px; margin: 0 auto 24px; line-height: 1.6; }
+.gate-checks { text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px; margin-bottom: 18px; }
+.gate-check { display: grid; grid-template-columns: 20px 1fr; gap: 10px; padding: 9px 0; font-size: 0.75rem; font-weight: 500; }
 .gate-check + .gate-check { border-top: 1px solid var(--line); }
-.gate-check input { width: 18px; height: 18px; accent-color: var(--gold); }
-.gate-check small { display: block; color: var(--muted); font-weight: 400; font-size: 0.68rem; margin-top: 2px; }
-.gate-enter { width: 100%; padding: 15px; border: none; border-radius: 11px; background: linear-gradient(180deg, var(--gold-light), var(--gold-dim)); color: var(--bg); font-weight: 800; font-size: 0.84rem; letter-spacing: 0.03em; transition: opacity 0.15s, transform 0.15s var(--ease-out); }
-.gate-enter:disabled { opacity: 0.25; cursor: not-allowed; }
+.gate-check input { width: 17px; height: 17px; accent-color: var(--gold); }
+.gate-check small { display: block; color: var(--muted); font-weight: 400; font-size: 0.65rem; margin-top: 2px; }
+.gate-check a { color: var(--gold-light); }
+.gate-enter { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(180deg, var(--gold-light), var(--gold-dim)); color: var(--bg); font-family: var(--serif); font-weight: 700; font-size: 1rem; font-style: italic; letter-spacing: 0.02em; transition: opacity 0.15s, transform 0.15s var(--ease-out); }
+.gate-enter:disabled { opacity: 0.2; cursor: not-allowed; }
 .gate-enter:not(:disabled):hover { transform: translateY(-2px); }
-.gate-note { margin-top: 14px; font-size: 0.58rem; color: #5a4f46; }
+.gate-note { margin-top: 12px; font-size: 0.55rem; color: #4a4038; }
+
+/* Venue */
 .venue { display: none; }
 .venue.is-active { display: block; }
-.venue-header { position: sticky; top: 0; z-index: 50; background: rgba(10,6,4,0.92); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); padding: 0 24px; }
-.venue-nav { max-width: 1200px; margin: 0 auto; height: 56px; display: flex; align-items: center; justify-content: space-between; }
-.venue-logo { font-family: var(--serif); font-size: 1.1rem; font-weight: 700; border: none; background: none; padding: 0; }
-.venue-logo strong { color: var(--gold); }
-.btn-sm { padding: 7px 13px; border: 1px solid var(--line); border-radius: 8px; background: transparent; font-size: 0.68rem; font-weight: 700; transition: border-color 0.15s; }
-.btn-sm:hover { border-color: var(--gold-dim); }
-.hero { padding: clamp(40px, 8vw, 80px) 24px 32px; text-align: center; }
-.hero-eyebrow { font-size: 0.56rem; font-weight: 800; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
-.hero h1 { font-family: var(--serif); font-size: clamp(2.2rem, 5.5vw, 4rem); font-weight: 700; line-height: 1; letter-spacing: -0.03em; margin-bottom: 10px; }
-.hero-sub { color: var(--muted); font-size: 0.84rem; max-width: 480px; margin: 0 auto; }
-.hall-banner { max-width: 1200px; margin: 0 auto 32px; padding: 0 24px; }
-.hall-card { position: relative; border-radius: 20px; overflow: hidden; height: 240px; display: flex; align-items: flex-end; cursor: pointer; transition: transform 0.2s var(--ease-out); }
-.hall-card:hover { transform: translateY(-3px); }
+.venue-header { position: sticky; top: 0; z-index: 50; background: rgba(10,6,4,0.92); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); padding: 0 20px; }
+.venue-nav { max-width: 1200px; margin: 0 auto; height: 52px; display: flex; align-items: center; justify-content: space-between; }
+.venue-logo { font-family: var(--serif); font-size: 1rem; font-weight: 400; font-style: italic; border: none; background: none; padding: 0; }
+.venue-logo strong { color: var(--gold); font-weight: 700; font-style: normal; }
+.btn-sm { padding: 6px 12px; border: 1px solid var(--line); border-radius: 7px; background: transparent; font-size: 0.65rem; font-weight: 700; }
+
+/* Hero with castle lobby background */
+.hero { position: relative; padding: clamp(40px, 8vw, 72px) 20px 32px; text-align: center; overflow: hidden; }
+.hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 60%, rgba(141,29,36,0.08), transparent 40%), radial-gradient(ellipse at 50% 20%, rgba(213,154,75,0.06), transparent 40%); pointer-events: none; }
+.hero-eyebrow { font-family: var(--sans); font-size: 0.52rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+.hero h1 { font-family: var(--serif); font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 400; font-style: italic; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 8px; }
+.hero-sub { color: var(--muted); font-size: 0.78rem; max-width: 420px; margin: 0 auto; }
+
+/* Hall banner */
+.hall-banner { max-width: 1100px; margin: 0 auto 28px; padding: 0 20px; }
+.hall-card { position: relative; border-radius: 16px; overflow: hidden; height: 200px; display: flex; align-items: flex-end; cursor: pointer; transition: transform 0.2s var(--ease-out); border: 1px solid var(--line); }
+.hall-card:hover { transform: translateY(-3px); border-color: var(--gold-dim); }
 .hall-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.hall-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,6,4,0.85), transparent 60%); }
-.hall-card-info { position: relative; z-index: 2; padding: 24px; width: 100%; }
-.hall-card-info h2 { font-family: var(--serif); font-size: 1.6rem; font-weight: 700; margin-bottom: 4px; }
-.hall-card-info p { font-size: 0.75rem; color: var(--muted); max-width: 500px; }
-.entrances { max-width: 1200px; margin: 0 auto; padding: 0 24px 64px; }
-.entrances-label { font-size: 0.56rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
-.entrances-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
-.entrance { position: relative; border-radius: 16px; overflow: hidden; border: 1px solid var(--line); cursor: pointer; transition: transform 0.2s var(--ease-out), border-color 0.2s; background: var(--surface); }
-.entrance:hover { transform: translateY(-4px); border-color: var(--gold-dim); }
-.entrance-img { width: 100%; height: 180px; object-fit: cover; display: block; }
-.entrance-info { padding: 14px 16px; }
-.entrance-info h3 { font-family: var(--serif); font-size: 1.1rem; font-weight: 600; margin-bottom: 3px; }
-.entrance-info p { font-size: 0.68rem; color: var(--muted); line-height: 1.4; }
-.entrance-badge { position: absolute; top: 10px; left: 10px; display: flex; align-items: center; gap: 4px; padding: 4px 9px; border-radius: 100px; background: rgba(10,6,4,0.8); font-size: 0.5rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #ff9ca3; }
-.entrance-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #e63946; box-shadow: 0 0 6px #e63946; }
-.entrance-viewers { position: absolute; top: 10px; right: 10px; font-size: 0.55rem; color: var(--muted); background: rgba(10,6,4,0.75); padding: 3px 8px; border-radius: 100px; }
-.venue-footer { border-top: 1px solid var(--line); padding: 24px; text-align: center; font-size: 0.58rem; color: #5a4f46; }
-@media (max-width: 700px) { .entrances-grid { grid-template-columns: 1fr; } .hall-card { height: 180px; } }
+.hall-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,6,4,0.85), transparent 55%); }
+.hall-card-info { position: relative; z-index: 2; padding: 20px; width: 100%; }
+.hall-card-info h2 { font-family: var(--serif); font-size: 1.3rem; font-weight: 600; font-style: italic; }
+.hall-card-info p { font-size: 0.68rem; color: var(--muted); max-width: 400px; margin-top: 3px; }
+
+/* Room grid */
+.entrances { max-width: 1100px; margin: 0 auto; padding: 0 20px 60px; }
+.entrances-label { font-size: 0.52rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+.entrances-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+.entrance { position: relative; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); cursor: pointer; transition: transform 0.2s var(--ease-out), border-color 0.2s; background: var(--surface); }
+.entrance:hover { transform: translateY(-3px); border-color: var(--gold-dim); }
+.entrance-img { width: 100%; height: 160px; object-fit: cover; display: block; }
+.entrance-info { padding: 12px 14px; }
+.entrance-info h3 { font-family: var(--serif); font-size: 1rem; font-weight: 600; font-style: italic; }
+.entrance-info p { font-size: 0.62rem; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+.entrance-badge { position: absolute; top: 9px; left: 9px; display: flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 100px; background: rgba(10,6,4,0.8); font-size: 0.48rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #ff9ca3; }
+.entrance-badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #e63946; box-shadow: 0 0 5px #e63946; }
+.entrance-viewers { position: absolute; top: 9px; right: 9px; font-size: 0.52rem; color: var(--muted); background: rgba(10,6,4,0.7); padding: 3px 7px; border-radius: 100px; }
+
+.venue-footer { border-top: 1px solid var(--line); padding: 20px; text-align: center; font-size: 0.55rem; color: #4a4038; }
+.venue-footer a { color: var(--gold); text-decoration: none; }
+
+@media (max-width: 600px) { .entrances-grid { grid-template-columns: 1fr 1fr; gap: 8px; } .entrance-img { height: 120px; } .hall-card { height: 160px; } }
 </style>
 </head>
 <body>
@@ -76,36 +89,26 @@ button { cursor: pointer; }
     <p class="gate-tagline">A live adult social club. Enter the castle, choose your room, meet performers, play games, go private.</p>
     <div class="gate-checks">
       <label class="gate-check"><input type="checkbox" id="ck-age"><span>I am at least 18 years old.<small>Age verification may be required.</small></span></label>
-      <label class="gate-check"><input type="checkbox" id="ck-terms"><span>I accept the <a href="/terms.html" style="color:var(--gold-light)">Terms</a> and <a href="/privacy.html" style="color:var(--gold-light)">Privacy Policy</a>.<small>No recording. Consent enforced. Performer-controlled rooms.</small></span></label>
+      <label class="gate-check"><input type="checkbox" id="ck-terms"><span>I accept the <a href="/terms.html">Terms</a> and <a href="/privacy.html">Privacy Policy</a>.<small>No recording. Consent enforced.</small></span></label>
     </div>
     <button class="gate-enter" id="enter-btn" disabled>Enter the Dungeon</button>
-    <p class="gate-note">Prototype. No real payments or personal data processed.</p>
+    <p class="gate-note">Prototype. No real payments or data processed.</p>
   </div>
 </section>
 
 <div class="venue" id="venue">
-  <header class="venue-header">
-    <nav class="venue-nav">
-      <button class="venue-logo" id="logo-btn">Cum <strong>IN</strong> Dungeon</button>
-      <div style="display:flex;gap:8px;align-items:center">
-        <button class="btn-sm" id="exit-btn">Exit</button>
-      </div>
-    </nav>
-  </header>
+  <header class="venue-header"><nav class="venue-nav"><button class="venue-logo" id="logo-btn">Cum <strong>IN</strong> Dungeon</button><button class="btn-sm" id="exit-btn">Exit</button></nav></header>
 
   <section class="hero">
     <p class="hero-eyebrow">The Grand Hall</p>
     <h1>Choose your entrance</h1>
-    <p class="hero-sub">Each door leads to a different world. Click to enter and browse live performers inside.</p>
+    <p class="hero-sub">Each door leads somewhere different. Click to enter.</p>
   </section>
 
   <section class="hall-banner">
     <div class="hall-card" id="hall-card">
       <img src="https://app-attachments-public.clickup.com/07b7448f-853c-48e6-82e8-435de3962bb1.png" alt="Grand Hall">
-      <div class="hall-card-info">
-        <h2>The Grand Hall</h2>
-        <p>The social floor. Mingle, flirt, play games, earn tokens. Chat with anyone who accepts. The party never stops.</p>
-      </div>
+      <div class="hall-card-info"><h2>The Grand Hall</h2><p>Mingle, flirt, play games, earn tokens. The party never stops.</p></div>
     </div>
   </section>
 
@@ -114,15 +117,18 @@ button { cursor: pointer; }
     <div class="entrances-grid" id="entrances-grid"></div>
   </section>
 
-  <footer class="venue-footer">
-    &copy; 2026 Cum IN Dungeon · 18+ only · <a href="/terms.html" style="color:var(--gold)">Terms</a> · <a href="/privacy.html" style="color:var(--gold)">Privacy</a> · <a href="/2257.html" style="color:var(--gold)">2257</a>
-  </footer>
+  <footer class="venue-footer">&copy; 2026 Cum IN Dungeon · 18+ · <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> · <a href="/2257.html">2257</a></footer>
 </div>
 
-<script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
-<script src="/public/js/chat.js"></script>
-
+<script src="/public/js/admin-bar.js"></script>
 <script>
+// Skip gate if already verified
+if (localStorage.getItem('age_verified') === 'true') {
+  document.getElementById('gate').hidden = true;
+  document.getElementById('venue').classList.add('is-active');
+  loadRooms();
+}
+
 const ROOM_IMAGES = {
   'velvet-room': 'https://app-attachments-public.clickup.com/88dc235b-b9f9-45e9-b104-1040db693e44.png',
   'tangled-throne': 'https://app-attachments-public.clickup.com/8cd96905-8077-4696-90ac-1eb639996ada.png',
@@ -135,14 +141,14 @@ const ROOM_IMAGES = {
 };
 
 const ROOM_DESCRIPTIONS = {
-  'velvet-room': 'Women performers live. Intimate, warm, and all about her.',
+  'velvet-room': 'Women performers live. Intimate, warm.',
   'tangled-throne': 'Couples only. Watch together, play together.',
-  'pink-silk': 'Young performers 18-21. Fresh, bold, just getting started.',
+  'pink-silk': 'Young performers 18-21. Fresh, bold.',
   'devils-playground': 'Fetish and kink. Consensual, intense, unleashed.',
   'back-room': 'Gay and bi. Dark, discreet, real.',
-  'the-dungeon': 'Very Intimate Pleasure. Private 1-on-1 shows. Set your own pace.',
-  'haleys-halo': 'She looks innocent but she is not. Ascend the staircase.',
-  'trans-kinks': 'Trans performers, open play. Bold, expressive, electric.',
+  'the-dungeon': 'Very Intimate Pleasure. Private 1-on-1.',
+  'haleys-halo': 'She looks innocent but she is not.',
+  'trans-kinks': 'Trans performers. Bold, expressive, electric.',
 };
 
 const gate = document.getElementById('gate');
@@ -152,14 +158,20 @@ const ckAge = document.getElementById('ck-age');
 const ckTerms = document.getElementById('ck-terms');
 
 function updateGate() { enterBtn.disabled = !(ckAge.checked && ckTerms.checked); }
-ckAge.addEventListener('change', updateGate);
-ckTerms.addEventListener('change', updateGate);
-enterBtn.addEventListener('click', () => { gate.hidden = true; venue.classList.add('is-active'); loadRooms(); });
-document.getElementById('exit-btn').addEventListener('click', () => { venue.classList.remove('is-active'); gate.hidden = false; });
+if (ckAge) ckAge.addEventListener('change', updateGate);
+if (ckTerms) ckTerms.addEventListener('change', updateGate);
+if (enterBtn) enterBtn.addEventListener('click', () => {
+  localStorage.setItem('age_verified', 'true');
+  gate.hidden = true;
+  venue.classList.add('is-active');
+  loadRooms();
+});
+document.getElementById('exit-btn')?.addEventListener('click', () => { venue.classList.remove('is-active'); gate.hidden = false; });
 
 async function loadRooms() {
   const grid = document.getElementById('entrances-grid');
-  grid.innerHTML = '<p style="color:var(--muted);font-size:0.8rem">Loading rooms...</p>';
+  if (!grid) return;
+  grid.innerHTML = '<p style="color:var(--muted);font-size:0.75rem">Loading...</p>';
   try {
     const res = await fetch('/api/rooms');
     const data = await res.json();
@@ -169,29 +181,19 @@ async function loadRooms() {
       card.className = 'entrance';
       const img = ROOM_IMAGES[room.id] || '';
       const desc = ROOM_DESCRIPTIONS[room.id] || room.description;
-      const isLive = room.status === 'live';
       card.innerHTML = `
         ${img ? `<img class="entrance-img" src="${img}" alt="${room.name}">` : ''}
-        ${isLive ? '<span class="entrance-badge">Live</span>' : ''}
-        <span class="entrance-viewers">&bull; ${room.viewers}</span>
-        <div class="entrance-info">
-          <h3>${room.name}</h3>
-          <p>${desc}</p>
-        </div>
+        ${room.status === 'live' ? '<span class="entrance-badge">Live</span>' : ''}
+        <span class="entrance-viewers">${room.viewers}</span>
+        <div class="entrance-info"><h3>${room.name}</h3><p>${desc}</p></div>
       `;
-      card.addEventListener('click', () => {
-        window.location.href = '/room.html?id=' + room.id;
-      });
+      card.addEventListener('click', () => { window.location.href = '/room.html?id=' + room.id; });
       grid.appendChild(card);
     });
-  } catch (e) {
-    grid.innerHTML = '<p style="color:var(--muted);text-align:center;padding:32px">Failed to load rooms. Try refreshing.</p>';
-  }
+  } catch (e) { grid.innerHTML = '<p style="color:var(--muted)">Failed to load rooms.</p>'; }
 }
 
-document.getElementById('hall-card').addEventListener('click', () => {
-  window.location.href = '/hall.html';
-});
+document.getElementById('hall-card')?.addEventListener('click', () => { window.location.href = '/hall.html'; });
 </script>
 </body>
 </html>
