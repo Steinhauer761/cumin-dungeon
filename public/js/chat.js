@@ -23,6 +23,9 @@ const DungeonChat = {
     this.chatList = chatList;
     this.viewerCount = viewerCount;
 
+    // Ghost mode: don't join presence if admin is ghosting
+    this.isGhost = localStorage.getItem('ghost_mode') === 'true' && localStorage.getItem('admin_key');
+
     // Auth via our token endpoint
     this.ably = new Ably.Realtime({
       authCallback: async (tokenParams, callback) => {
@@ -55,10 +58,12 @@ const DungeonChat = {
       this.renderMessage(msg.data);
     });
 
-    // Presence (who's watching)
-    this.channel.presence.subscribe('enter', () => this.updatePresence());
-    this.channel.presence.subscribe('leave', () => this.updatePresence());
-    await this.channel.presence.enter({ name: clientId });
+    // Presence (who's watching) - skip if ghost mode
+    if (!this.isGhost) {
+      this.channel.presence.subscribe('enter', () => this.updatePresence());
+      this.channel.presence.subscribe('leave', () => this.updatePresence());
+      await this.channel.presence.enter({ name: clientId });
+    }
     this.updatePresence();
   },
 
@@ -68,23 +73,26 @@ const DungeonChat = {
       clientId: this.clientId,
       text: text.trim(),
       ts: Date.now(),
+      isAdmin: !!localStorage.getItem('admin_key'),
     });
   },
 
   renderMessage(data) {
     if (!this.chatList) return;
     const row = document.createElement('div');
-    row.className = 'chat-line';
+    row.className = 'chat-msg';
     const initial = (data.clientId || '?')[0].toUpperCase();
-    row.innerHTML = `<span class="avatar">${initial}</span><p><strong>${this.escapeHtml(data.clientId)}:</strong> ${this.escapeHtml(data.text)}</p>`;
+    row.innerHTML = `<span class="chat-avatar">${initial}</span><p><strong>${this.escapeHtml(data.clientId)}:</strong> ${this.escapeHtml(data.text)}</p>`;
     this.chatList.appendChild(row);
     row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   },
 
   async updatePresence() {
     if (!this.channel || !this.viewerCount) return;
-    const members = await this.channel.presence.get();
-    this.viewerCount.textContent = `\u25cf ${members.length} watching`;
+    try {
+      const members = await this.channel.presence.get();
+      this.viewerCount.textContent = `\u25cf ${members.length} watching`;
+    } catch (e) {}
   },
 
   escapeHtml(str) {
@@ -94,7 +102,7 @@ const DungeonChat = {
   },
 
   disconnect() {
-    if (this.channel) this.channel.presence.leave();
+    if (this.channel && !this.isGhost) this.channel.presence.leave();
     if (this.ably) this.ably.close();
   },
 };
