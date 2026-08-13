@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Performer Dashboard | Cum IN Dungeon</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --bg: #0a0604; --surface: #141010; --gold: #d59a4b; --gold-light: #f5c77e; --red: #e63946; --green: #4ade80; --cream: #f5eee4; --muted: #a6998b; --line: rgba(190,137,77,0.18); --sans: 'Inter', system-ui, sans-serif; }
+* { box-sizing: border-box; margin: 0; }
+body { background: var(--bg); color: var(--cream); font-family: var(--sans); font-size: 14px; line-height: 1.5; }
+button { font: inherit; color: inherit; cursor: pointer; }
+
+.dash-layout { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+
+/* Sidebar */
+.dash-sidebar { padding: 20px; border-right: 1px solid var(--line); background: var(--surface); display: flex; flex-direction: column; gap: 8px; }
+.dash-sidebar h2 { font-size: 1rem; font-weight: 800; margin-bottom: 16px; color: var(--gold-light); }
+.nav-item { padding: 10px 14px; border-radius: 8px; background: transparent; border: none; text-align: left; font-size: 0.78rem; font-weight: 600; color: var(--muted); transition: all 0.15s; }
+.nav-item:hover { background: rgba(213,154,75,0.08); color: var(--cream); }
+.nav-item.active { background: rgba(213,154,75,0.12); color: var(--gold-light); }
+.go-live-btn { margin-top: auto; padding: 14px; border: none; border-radius: 10px; font-weight: 800; font-size: 0.82rem; transition: all 0.15s; }
+.go-live-btn.offline { background: var(--green); color: #0a0604; }
+.go-live-btn.live { background: var(--red); color: white; }
+
+/* Main */
+.dash-main { padding: 24px; overflow-y: auto; }
+.dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.dash-header h1 { font-size: 1.3rem; font-weight: 800; }
+
+.stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat { padding: 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.stat .val { font-size: 1.5rem; font-weight: 800; color: var(--gold-light); }
+.stat .lbl { font-size: 0.6rem; color: var(--muted); margin-top: 2px; }
+
+.section-title { font-size: 0.8rem; font-weight: 800; color: var(--gold); margin-bottom: 12px; }
+
+/* VIP settings */
+.vip-settings { padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); margin-bottom: 24px; }
+.vip-settings h3 { font-size: 0.85rem; margin-bottom: 12px; }
+.vip-row { display: flex; gap: 12px; align-items: center; margin-bottom: 10px; }
+.vip-row label { font-size: 0.72rem; color: var(--muted); min-width: 100px; }
+.vip-row input { padding: 8px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--cream); width: 100px; font-size: 0.8rem; }
+.vip-row select { padding: 8px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--cream); font-size: 0.8rem; }
+.toggle { width: 40px; height: 22px; border-radius: 11px; border: none; background: #3a3030; position: relative; cursor: pointer; transition: background 0.2s; }
+.toggle.on { background: var(--green); }
+.toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: white; transition: transform 0.2s; }
+.toggle.on::after { transform: translateX(18px); }
+
+/* Chat viewers */
+.viewers-list { padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); margin-bottom: 24px; max-height: 200px; overflow-y: auto; }
+.viewer-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.viewer-row:last-child { border: none; }
+.viewer-name { font-size: 0.75rem; }
+.viewer-actions { display: flex; gap: 4px; }
+.viewer-actions button { padding: 3px 8px; border: 1px solid var(--line); border-radius: 4px; background: transparent; font-size: 0.6rem; font-weight: 700; }
+.viewer-actions .kick { color: var(--red); border-color: var(--red); }
+.viewer-actions .mute { color: var(--gold); border-color: var(--gold); }
+
+/* Private requests */
+.request-card { padding: 12px; border: 1px solid var(--gold); border-radius: 10px; background: rgba(213,154,75,0.05); margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+.request-info { font-size: 0.75rem; }
+.request-info strong { color: var(--cream); }
+.request-info span { color: var(--muted); }
+.request-actions { display: flex; gap: 6px; }
+.request-actions button { padding: 6px 12px; border-radius: 6px; font-size: 0.68rem; font-weight: 700; border: none; }
+.req-accept { background: var(--green); color: #0a0604; }
+.req-decline { background: rgba(230,57,70,0.2); color: var(--red); }
+
+/* Earnings */
+.earnings-table { width: 100%; border-collapse: collapse; }
+.earnings-table th { text-align: left; padding: 8px; font-size: 0.6rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid var(--line); }
+.earnings-table td { padding: 8px; font-size: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.03); }
+
+@media (max-width: 768px) { .dash-layout { grid-template-columns: 1fr; } .dash-sidebar { flex-direction: row; overflow-x: auto; border-right: none; border-bottom: 1px solid var(--line); } }
+</style>
+</head>
+<body>
+<div class="dash-layout">
+  <nav class="dash-sidebar">
+    <h2>♛ My Room</h2>
+    <button class="nav-item active" data-section="overview">Overview</button>
+    <button class="nav-item" data-section="vip">VIP Settings</button>
+    <button class="nav-item" data-section="viewers">Viewers & Chat</button>
+    <button class="nav-item" data-section="requests">Private Requests</button>
+    <button class="nav-item" data-section="earnings">Earnings</button>
+    <button class="nav-item" data-section="profile">My Profile</button>
+    <button class="go-live-btn offline" id="go-live-btn">Go Live</button>
+  </nav>
+
+  <main class="dash-main">
+    <!-- Overview -->
+    <section id="sec-overview">
+      <div class="dash-header"><h1>Dashboard</h1><span style="font-size:0.7rem;color:var(--muted)">Status: Offline</span></div>
+      <div class="stat-row">
+        <div class="stat"><div class="val">0</div><div class="lbl">Viewers Now</div></div>
+        <div class="stat"><div class="val">$0</div><div class="lbl">Earned Today</div></div>
+        <div class="stat"><div class="val">0</div><div class="lbl">Tips Today</div></div>
+        <div class="stat"><div class="val">0</div><div class="lbl">VIP Sessions</div></div>
+        <div class="stat"><div class="val">$247.50</div><div class="lbl">Balance (pending payout)</div></div>
+      </div>
+    </section>
+
+    <!-- VIP Settings -->
+    <section id="sec-vip" style="display:none">
+      <p class="section-title">VIP Private Show Settings</p>
+      <div class="vip-settings">
+        <div class="vip-row"><label>VIP Status:</label><button class="toggle on" id="vip-toggle"></button><span style="font-size:0.7rem;margin-left:8px;color:var(--green)">Active</span></div>
+        <div class="vip-row"><label>Rate/min:</label><input type="number" value="5" min="1" max="100"> <span style="font-size:0.7rem;color:var(--muted)">CAD</span></div>
+        <div class="vip-row"><label>Min session:</label><select><option>5 min</option><option>10 min</option><option selected>15 min</option><option>30 min</option></select></div>
+        <div class="vip-row"><label>Max session:</label><select><option>30 min</option><option selected>60 min</option><option>120 min</option></select></div>
+        <div class="vip-row"><label>Available:</label><button class="toggle on" id="avail-toggle"></button><span style="font-size:0.7rem;margin-left:8px;color:var(--green)">Taking bookings</span></div>
+      </div>
+    </section>
+
+    <!-- Viewers -->
+    <section id="sec-viewers" style="display:none">
+      <p class="section-title">Current Viewers (mock)</p>
+      <div class="viewers-list">
+        <div class="viewer-row"><span class="viewer-name">Guest_a7k2m</span><div class="viewer-actions"><button class="mute">Mute</button><button class="kick">Kick</button></div></div>
+        <div class="viewer-row"><span class="viewer-name">DarkKnight99</span><div class="viewer-actions"><button class="mute">Mute</button><button class="kick">Kick</button></div></div>
+        <div class="viewer-row"><span class="viewer-name">SilkLover</span><div class="viewer-actions"><button class="mute">Mute</button><button class="kick">Kick</button></div></div>
+        <div class="viewer-row"><span class="viewer-name">Guest_m9p3x</span><div class="viewer-actions"><button class="mute">Mute</button><button class="kick">Kick</button></div></div>
+        <div class="viewer-row"><span class="viewer-name">CrownKing</span><div class="viewer-actions"><button class="mute">Mute</button><button class="kick">Kick</button></div></div>
+      </div>
+    </section>
+
+    <!-- Private Requests -->
+    <section id="sec-requests" style="display:none">
+      <p class="section-title">Incoming Private Show Requests</p>
+      <div class="request-card">
+        <div class="request-info"><strong>CrownKing</strong> wants a private show<br><span>15 min @ $5/min = $75 (you keep $56.25)</span></div>
+        <div class="request-actions"><button class="req-accept">Accept</button><button class="req-decline">Decline</button></div>
+      </div>
+      <div class="request-card">
+        <div class="request-info"><strong>SilkLover</strong> wants a private show<br><span>30 min @ $5/min = $150 (you keep $112.50)</span></div>
+        <div class="request-actions"><button class="req-accept">Accept</button><button class="req-decline">Decline</button></div>
+      </div>
+    </section>
+
+    <!-- Earnings -->
+    <section id="sec-earnings" style="display:none">
+      <p class="section-title">Earnings History</p>
+      <table class="earnings-table">
+        <thead><tr><th>Date</th><th>Type</th><th>From</th><th>Amount</th><th>Your Cut</th></tr></thead>
+        <tbody>
+          <tr><td>Aug 13</td><td>Tip</td><td>CrownKing</td><td>$20.00</td><td>$16.00</td></tr>
+          <tr><td>Aug 13</td><td>VIP Session</td><td>SilkLover</td><td>$75.00</td><td>$56.25</td></tr>
+          <tr><td>Aug 12</td><td>Tip</td><td>Guest_m9p3x</td><td>$10.00</td><td>$8.00</td></tr>
+          <tr><td>Aug 12</td><td>VIP Session</td><td>DarkKnight99</td><td>$150.00</td><td>$112.50</td></tr>
+          <tr><td>Aug 11</td><td>Gift (Crown)</td><td>CrownKing</td><td>$50.00</td><td>$40.00</td></tr>
+          <tr><td>Aug 11</td><td>Tip</td><td>Guest_a7k2m</td><td>$5.00</td><td>$4.00</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:16px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--surface)">
+        <div style="display:flex;justify-content:space-between"><span style="color:var(--muted);font-size:0.72rem">Total this week:</span><span style="font-weight:800;color:var(--gold-light)">$247.50</span></div>
+        <div style="display:flex;justify-content:space-between;margin-top:4px"><span style="color:var(--muted);font-size:0.72rem">Next payout (Friday):</span><span style="font-weight:800;color:var(--green)">$247.50</span></div>
+      </div>
+    </section>
+
+    <!-- Profile -->
+    <section id="sec-profile" style="display:none">
+      <p class="section-title">My Profile</p>
+      <div class="vip-settings">
+        <div class="vip-row"><label>Stage Name:</label><input type="text" value="Velvet" style="width:200px"></div>
+        <div class="vip-row"><label>Category:</label><select><option>Women</option><option>Couples</option><option>Trans</option><option>Fetish</option><option>Gay/Bi</option></select></div>
+        <div class="vip-row"><label>Bio:</label><input type="text" value="Sensual and slow. Loves eye contact." style="width:300px"></div>
+        <div style="margin-top:12px"><button style="padding:10px 20px;border:none;border-radius:8px;background:var(--gold);color:var(--bg);font-weight:800;font-size:0.75rem">Save Profile</button></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+// Navigation
+document.querySelectorAll('.nav-item').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('[id^="sec-"]').forEach(s => s.style.display = 'none');
+    document.getElementById('sec-' + btn.dataset.section).style.display = '';
+  });
+});
+
+// Go Live toggle
+const goLiveBtn = document.getElementById('go-live-btn');
+goLiveBtn.addEventListener('click', () => {
+  const isLive = goLiveBtn.classList.contains('live');
+  if (isLive) {
+    goLiveBtn.classList.remove('live');
+    goLiveBtn.classList.add('offline');
+    goLiveBtn.textContent = 'Go Live';
+  } else {
+    goLiveBtn.classList.remove('offline');
+    goLiveBtn.classList.add('live');
+    goLiveBtn.textContent = 'End Stream';
+  }
+});
+
+// Toggles
+document.querySelectorAll('.toggle').forEach(t => {
+  t.addEventListener('click', () => t.classList.toggle('on'));
+});
+</script>
+</body>
+</html>
