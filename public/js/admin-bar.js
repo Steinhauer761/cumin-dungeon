@@ -1,16 +1,20 @@
 /**
  * Admin Bar - appears on every page when admin is logged in.
- * Ghost mode: Jay is invisible to all users by default.
+ * Ghost mode: Jay is invisible to all users by default, chats as "Elias".
  * All navigation links in one place.
  */
 (function() {
   const ADMIN_KEY = localStorage.getItem('admin_key');
-  if (!ADMIN_KEY) return; // Not admin, don't show anything
+  if (!ADMIN_KEY) return;
 
   // Ghost mode default: ON
   if (localStorage.getItem('ghost_mode') === null) {
     localStorage.setItem('ghost_mode', 'true');
   }
+
+  // Ghost alias
+  const GHOST_ALIAS = 'Elias';
+  localStorage.setItem('ghost_alias', GHOST_ALIAS);
 
   const isGhost = localStorage.getItem('ghost_mode') === 'true';
 
@@ -68,30 +72,33 @@
         color: ${isGhost ? '#4ade80' : '#e63946'};
         margin-left: 4px;
       }
+      #admin-bar .alias-label {
+        font-size: 0.58rem;
+        color: #d59a4b;
+        margin-left: 4px;
+      }
     </style>
     <span class="admin-label">ADMIN</span>
     <a href="/admin.html">Dashboard</a>
     <a href="/">Venue</a>
     <a href="/hall.html">Grand Hall</a>
-    <a href="/room.html?id=velvet-room">Room View</a>
-    <a href="/performer.html">Performer Dash</a>
-    <a href="/private-show.html?performer=Velvet&rate=5&admin=true">Spy Private</a>
-    <a href="/terms.html">Terms</a>
+    <a href="/room.html?id=velvet-room">Room</a>
+    <a href="/performer.html">Performer</a>
+    <a href="/private-show.html?performer=Velvet&rate=5&admin=true">Spy</a>
     <button class="ghost-btn" id="ghost-toggle">
-      ${isGhost ? '👻 Ghost: ON' : '👁 Visible'}
+      ${isGhost ? '\ud83d\udc7b Ghost: ON' : '\ud83d\udc41 Visible'}
     </button>
-    <span class="ghost-status">${isGhost ? 'You are invisible' : 'Users can see you'}</span>
+    <span class="ghost-status">${isGhost ? 'Invisible' : 'Visible to users'}</span>
+    ${isGhost ? '<span class="alias-label">Chatting as: Elias</span>' : ''}
   `;
 
   document.body.appendChild(bar);
 
-  // Ghost toggle
   document.getElementById('ghost-toggle').addEventListener('click', () => {
     const current = localStorage.getItem('ghost_mode') === 'true';
     localStorage.setItem('ghost_mode', String(!current));
     window.location.reload();
   });
 
-  // Add body padding so content isn't hidden behind the bar
   document.body.style.paddingBottom = '48px';
 })();

@@ -1,6 +1,5 @@
 /**
  * CumIN Dungeon - Ably Realtime Chat
- * Drop this script into any room page.
  * Requires: <script src="https://cdn.ably.com/lib/ably.min-1.js"></script> loaded first.
  */
 
@@ -10,23 +9,19 @@ const DungeonChat = {
   clientId: null,
   roomId: null,
 
-  /**
-   * Initialize chat for a room.
-   * @param {string} roomId - The room slug (e.g. 'velvet-room')
-   * @param {string} clientId - The user's display name or ID
-   * @param {HTMLElement} chatList - Container to append messages
-   * @param {HTMLElement} viewerCount - Element to show presence count
-   */
   async init(roomId, clientId, chatList, viewerCount) {
     this.roomId = roomId;
-    this.clientId = clientId;
     this.chatList = chatList;
     this.viewerCount = viewerCount;
 
-    // Ghost mode: don't join presence if admin is ghosting
-    this.isGhost = localStorage.getItem('ghost_mode') === 'true' && localStorage.getItem('admin_key');
+    // Ghost mode: admin chats as alias, doesn't appear in presence
+    const isAdmin = !!localStorage.getItem('admin_key');
+    this.isGhost = localStorage.getItem('ghost_mode') === 'true' && isAdmin;
+    const ghostAlias = localStorage.getItem('ghost_alias') || 'Elias';
 
-    // Auth via our token endpoint
+    // Use ghost alias if in ghost mode, otherwise use provided clientId
+    this.clientId = this.isGhost ? ghostAlias : clientId;
+
     this.ably = new Ably.Realtime({
       authCallback: async (tokenParams, callback) => {
         try {
@@ -48,21 +43,20 @@ const DungeonChat = {
     });
 
     this.ably.connection.on('connected', () => {
-      console.log('[DungeonChat] Connected to Ably');
+      console.log('[DungeonChat] Connected to Ably' + (this.isGhost ? ' (ghost mode as ' + this.clientId + ')' : ''));
     });
 
-    // Subscribe to room channel
     this.channel = this.ably.channels.get(`room:${roomId}`);
 
     this.channel.subscribe('message', (msg) => {
       this.renderMessage(msg.data);
     });
 
-    // Presence (who's watching) - skip if ghost mode
+    // Presence: ghost mode = don't join presence (invisible)
     if (!this.isGhost) {
       this.channel.presence.subscribe('enter', () => this.updatePresence());
       this.channel.presence.subscribe('leave', () => this.updatePresence());
-      await this.channel.presence.enter({ name: clientId });
+      await this.channel.presence.enter({ name: this.clientId });
     }
     this.updatePresence();
   },
@@ -70,10 +64,9 @@ const DungeonChat = {
   async send(text) {
     if (!text.trim() || !this.channel) return;
     this.channel.publish('message', {
-      clientId: this.clientId,
+      clientId: this.clientId, // Shows as "Elias" in ghost mode
       text: text.trim(),
       ts: Date.now(),
-      isAdmin: !!localStorage.getItem('admin_key'),
     });
   },
 
