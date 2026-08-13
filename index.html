@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090503">
+  <meta name="description" content="Cum IN Dungeon — a private 18+ digital venue concept.">
+  <title>Cum IN Dungeon — Private Adult Venue</title>
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <style>
+    :root {
+      --ink: #080503;
+      --surface: #120c08;
+      --surface-2: #1a110c;
+      --line: rgba(190, 137, 77, .24);
+      --gold: #d59a4b;
+      --gold-light: #f5c77e;
+      --red: #8d1d24;
+      --cream: #f5eee4;
+      --muted: #a6998b;
+      --green: #58a77a;
+      --shadow: 0 24px 80px rgba(0, 0, 0, .55);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; min-height: 100vh; color: var(--cream); background: radial-gradient(circle at 50% -10%, rgba(141, 29, 36, .17), transparent 30rem), linear-gradient(180deg, #0b0704 0%, #050403 100%); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+    button, input { font: inherit; } button, a { -webkit-tap-highlight-color: transparent; } button { color: inherit; } a { color: inherit; } [hidden] { display: none !important; } :focus-visible { outline: 2px solid var(--gold-light); outline-offset: 3px; }
+    .serif { font-family: Georgia, "Times New Roman", serif; }
+    .eyebrow { margin: 0 0 .7rem; color: var(--gold); font-size: .68rem; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; }
+    .muted { color: var(--muted); }
+    .shell { width: min(1180px, calc(100% - 2rem)); margin-inline: auto; }
+    .screen { min-height: 100vh; }
+    .btn { min-height: 46px; display: inline-flex; align-items: center; justify-content: center; gap: .55rem; padding: .85rem 1.05rem; border: 1px solid var(--line); border-radius: .8rem; background: rgba(255,255,255,.035); color: var(--cream); font-size: .78rem; font-weight: 800; letter-spacing: .04em; text-decoration: none; cursor: pointer; transition: transform .18s ease, border-color .18s ease, background .18s ease, filter .18s ease; }
+    .btn:hover { transform: translateY(-1px); border-color: rgba(213,154,75,.6); }
+    .btn--gold { border-color: rgba(245,199,126,.55); background: linear-gradient(180deg, var(--gold-light), #a86422); color: #140b04; box-shadow: 0 12px 34px rgba(180, 104, 34, .18); }
+    .btn--gold:hover { filter: brightness(1.08); }
+    .btn--red { border-color: rgba(175,48,57,.55); background: rgba(125,22,29,.3); }
+    .btn--wide { width: 100%; }
+    .btn:disabled { opacity: .3; cursor: not-allowed; transform: none; filter: none; }
+    .brand { display: inline-flex; align-items: center; gap: .6rem; border: 0; background: transparent; font-family: Georgia, "Times New Roman", serif; font-size: 1.07rem; font-weight: 800; cursor: pointer; }
+    .brand__mark { width: 2rem; height: 2rem; display: grid; place-items: center; border: 1px solid rgba(213,154,75,.45); border-radius: 50% 50% .45rem .45rem; color: var(--gold-light); background: rgba(213,154,75,.07); }
+    .brand strong { color: var(--gold); }
+    .gate { position: relative; min-height: 100vh; display: grid; place-items: center; overflow: hidden; padding: 2rem 1rem; isolation: isolate; }
+    .gate::before { content: ""; position: absolute; inset: 0; z-index: -2; background: radial-gradient(circle at 50% 22%, rgba(174,89,28,.19), transparent 28rem), radial-gradient(circle at 50% 95%, rgba(120,18,28,.25), transparent 26rem), linear-gradient(180deg, rgba(5,3,2,.3), rgba(5,3,2,.95)); }
+    .gate-card { width: min(760px, 100%); position: relative; padding: clamp(2rem, 7vw, 5rem) clamp(1rem, 5vw, 3.5rem) 2rem; border: 1px solid rgba(213,154,75,.36); border-radius: 11rem 11rem 2rem 2rem; background: radial-gradient(circle at 50% 0, rgba(148,82,31,.24), transparent 33%), linear-gradient(180deg, rgba(29,20,15,.95), rgba(7,5,4,.98)); box-shadow: var(--shadow), inset 0 0 0 4px rgba(0,0,0,.45); text-align: center; }
+    .gate-card h1 { margin: .15rem 0 .8rem; font-size: clamp(2.45rem, 8vw, 5.2rem); line-height: .92; letter-spacing: -.045em; }
+    .gate-card h1 strong { color: var(--gold); }
+    .gate-copy { max-width: 520px; margin: 0 auto; color: var(--muted); line-height: 1.65; font-size: .94rem; }
+    .adult-badge { width: fit-content; margin: 0 auto 1rem; padding: .45rem .72rem; border: 1px solid rgba(213,154,75,.35); border-radius: 999px; background: rgba(0,0,0,.35); color: var(--gold-light); font-size: .62rem; font-weight: 900; letter-spacing: .18em; text-transform: uppercase; }
+    .confirm-box { max-width: 560px; margin: 1.6rem auto 1rem; padding: .55rem; border: 1px solid rgba(255,255,255,.07); border-radius: 1rem; background: rgba(0,0,0,.28); text-align: left; }
+    .confirm { display: grid; grid-template-columns: auto 1fr; gap: .8rem; align-items: start; padding: .85rem; border-radius: .7rem; cursor: pointer; }
+    .confirm:hover { background: rgba(255,255,255,.025); }
+    .confirm input { width: 1rem; height: 1rem; margin-top: .12rem; accent-color: var(--gold); }
+    .confirm span { font-size: .8rem; font-weight: 750; line-height: 1.4; }
+    .confirm small { display: block; margin-top: .22rem; color: var(--muted); font-size: .67rem; font-weight: 500; }
+    .gate-actions { max-width: 560px; margin: 1rem auto 0; display: grid; grid-template-columns: 1.35fr 1fr; gap: .7rem; }
+    .gate-note { max-width: 520px; margin: 1rem auto 0; color: #756a61; font-size: .62rem; line-height: 1.5; }
+    .venue-header { position: sticky; top: 0; z-index: 20; border-bottom: 1px solid var(--line); background: rgba(7,5,4,.87); backdrop-filter: blur(18px); }
+    .venue-nav { min-height: 66px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .nav-actions { display: flex; gap: .55rem; align-items: center; }
+    .status-pill { display: inline-flex; align-items: center; gap: .4rem; padding: .38rem .65rem; border: 1px solid rgba(175,48,57,.4); border-radius: 999px; background: rgba(125,22,29,.18); color: #ef9aa0; font-size: .6rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+    .status-pill::before { content: ""; width: .42rem; height: .42rem; border-radius: 50%; background: #e5444e; box-shadow: 0 0 11px #e5444e; }
+    .hero { position: relative; overflow: hidden; padding: clamp(4rem, 9vw, 7.5rem) 0 3.5rem; border-bottom: 1px solid var(--line); text-align: center; }
+    .hero h2 { max-width: 850px; margin: 0 auto; font-size: clamp(2.35rem, 6vw, 4.8rem); line-height: 1.02; letter-spacing: -.035em; }
+    .hero-copy { max-width: 650px; margin: 1rem auto 0; color: var(--muted); line-height: 1.65; }
+    .doors { margin: 2.4rem auto 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: .75rem; }
+    .door { position: relative; min-height: 150px; padding: 2rem .7rem 1.15rem; overflow: hidden; border: 1px solid rgba(255,255,255,.08); border-radius: 4rem 4rem 1rem 1rem; background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.35)); cursor: pointer; transition: transform .2s ease, border-color .2s ease, background .2s ease; }
+    .door:hover { transform: translateY(-4px); border-color: rgba(213,154,75,.55); }
+    .door.is-active { border-color: rgba(245,199,126,.72); background: linear-gradient(180deg, rgba(148,82,31,.25), rgba(60,31,15,.25)); box-shadow: 0 0 36px rgba(180,104,34,.13); }
+    .door__icon { display: block; color: var(--gold); font-size: 1.8rem; }
+    .door strong { display: block; margin-top: .6rem; font-family: Georgia, "Times New Roman", serif; font-size: 1.06rem; }
+    .door small { display: block; margin-top: .35rem; color: #766c64; font-size: .52rem; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; }
+    .venue-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(270px, .68fr); gap: 1.25rem; padding: 2.2rem 0 3rem; }
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+    .section-heading h3 { margin: 0; font-size: clamp(1.7rem, 4vw, 2.5rem); }
+    .room-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .8rem; }
+    .room-card { padding: 0; overflow: hidden; border: 1px solid rgba(255,255,255,.08); border-radius: 1rem; background: #100b08; text-align: left; cursor: pointer; transition: transform .2s ease, border-color .2s ease; }
+    .room-card:hover { transform: translateY(-3px); border-color: rgba(213,154,75,.5); }
+    .room-preview { position: relative; min-height: 170px; display: grid; place-items: center; overflow: hidden; }
+    .room-preview::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 50% 35%, rgba(239,180,93,.19), transparent 27%), linear-gradient(135deg, #40151a, #100807 72%); }
+    .room-crest { position: relative; color: rgba(213,154,75,.58); font-size: 3.4rem; }
+    .live-tag { position: absolute; top: .75rem; left: .75rem; display: flex; align-items: center; gap: .35rem; padding: .35rem .55rem; border-radius: 999px; background: rgba(0,0,0,.72); color: #ff9ca3; font-size: .55rem; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+    .live-tag::before { content: ""; width: .4rem; height: .4rem; border-radius: 50%; background: #e9434e; box-shadow: 0 0 9px #e9434e; }
+    .room-info { padding: .9rem; }
+    .room-info h4 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: 1.02rem; }
+    .room-info p { margin: .35rem 0 0; color: var(--muted); font-size: .68rem; }
+    .viewers { color: #80756d; font-size: .64rem; white-space: nowrap; }
+    .sidebar { display: grid; align-content: start; gap: .85rem; }
+    .panel { padding: 1.15rem; border: 1px solid rgba(255,255,255,.08); border-radius: 1rem; background: linear-gradient(145deg, rgba(255,255,255,.03), rgba(0,0,0,.2)); }
+    .panel h4 { margin: 0; font-size: 1.25rem; }
+    .panel p { margin: .65rem 0 1rem; color: var(--muted); font-size: .76rem; line-height: 1.55; }
+    .room-stage { min-height: calc(100vh - 67px); padding: 1.25rem 0 2.5rem; }
+    .breadcrumb { display: flex; align-items: center; gap: .6rem; margin-bottom: 1rem; color: var(--muted); font-size: .69rem; }
+    .breadcrumb button { border: 0; padding: 0; background: transparent; color: var(--gold-light); cursor: pointer; }
+    .stage-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 1rem; }
+    .stage-video { min-height: min(65vh, 610px); position: relative; display: grid; place-items: center; overflow: hidden; border: 1px solid rgba(255,255,255,.09); border-radius: 1.2rem; background: radial-gradient(circle at 50% 35%, rgba(191,116,47,.19), transparent 22%), linear-gradient(135deg, #291014, #080504 70%); }
+    .stage-video::before { content: "\u265B"; color: rgba(213,154,75,.34); font-size: clamp(6rem, 18vw, 13rem); }
+    .stage-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 1rem; background: linear-gradient(to bottom, rgba(0,0,0,.4), transparent 35%, rgba(0,0,0,.75)); }
+    .stage-top, .stage-bottom { display: flex; justify-content: space-between; align-items: center; gap: .8rem; }
+    .stage-title h3 { margin: 0; font-size: 1.35rem; }
+    .stage-title p { margin: .25rem 0 0; color: #c2b6ab; font-size: .7rem; }
+    .room-side { display: grid; grid-template-rows: auto minmax(240px, 1fr) auto; min-height: min(65vh, 610px); border: 1px solid rgba(255,255,255,.09); border-radius: 1.2rem; background: #0e0907; overflow: hidden; }
+    .room-side-head { padding: .9rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .room-side-head strong { font-size: .8rem; }
+    .chat { padding: .9rem; display: grid; align-content: start; gap: .65rem; overflow: auto; }
+    .chat-line { display: grid; grid-template-columns: 1.7rem 1fr; gap: .55rem; align-items: start; }
+    .avatar { width: 1.7rem; height: 1.7rem; display: grid; place-items: center; border-radius: 50%; background: rgba(213,154,75,.14); color: var(--gold-light); font-size: .6rem; font-weight: 900; }
+    .chat-line p { margin: 0; color: #b7aca2; font-size: .68rem; line-height: 1.4; }
+    .chat-line strong { color: var(--cream); }
+    .chat-compose { display: grid; grid-template-columns: 1fr auto; gap: .5rem; padding: .75rem; border-top: 1px solid rgba(255,255,255,.07); }
+    .chat-compose input { min-width: 0; padding: .7rem .8rem; border: 1px solid rgba(255,255,255,.09); border-radius: .65rem; background: #080504; color: var(--cream); }
+    .gift-row { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: 1rem; }
+    .gift { border: 1px solid var(--line); border-radius: 999px; padding: .55rem .75rem; background: rgba(213,154,75,.05); font-size: .68rem; cursor: pointer; }
+    .gift:hover { background: rgba(213,154,75,.12); }
+    .footer { border-top: 1px solid var(--line); padding: 1.5rem 0 2rem; color: #7f746b; font-size: .65rem; }
+    .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; }
+    .toast { position: fixed; left: 50%; bottom: 1.25rem; z-index: 150; translate: -50% 0; width: min(430px, calc(100% - 2rem)); padding: .8rem 1rem; border: 1px solid rgba(88,167,122,.35); border-radius: .8rem; background: #101b14; color: #b6e0c4; box-shadow: var(--shadow); font-size: .75rem; text-align: center; }
+    @media (max-width: 900px) { .doors { grid-template-columns: repeat(2, 1fr); } .venue-grid, .stage-grid { grid-template-columns: 1fr; } .room-side { min-height: 430px; } }
+    @media (max-width: 680px) { .gate-card { border-radius: 7rem 7rem 1.4rem 1.4rem; padding-top: 4.4rem; } .gate-actions { grid-template-columns: 1fr; } .doors { gap: .55rem; } .door { min-height: 130px; padding-top: 1.5rem; } .room-grid { grid-template-columns: 1fr; } .stage-video { min-height: 56vh; } }
+  </style>
+</head>
+<body>
+  <section id="gate" class="gate screen" aria-labelledby="gate-title">
+    <div class="gate-card">
+      <div class="adult-badge">Private digital venue · 18+ only</div>
+      <p class="eyebrow">Welcome to</p>
+      <h1 id="gate-title" class="serif">Cum <strong>IN</strong> Dungeon</h1>
+      <p class="gate-copy">A live adult social club built like a real night out: enter the castle, choose your room, meet members and verified creators, and move through the venue your way.</p>
+      <div class="confirm-box">
+        <label class="confirm"><input id="age-check" type="checkbox"><span>I confirm that I am at least 18 years old.<small>Entry is restricted to adults.</small></span></label>
+        <label class="confirm"><input id="terms-check" type="checkbox"><span>I accept the Venue Rules, Terms and Privacy Policy.<small>Consent, verified performers, reporting tools and a strict no-recording policy apply.</small></span></label>
+      </div>
+      <div class="gate-actions">
+        <button id="enter-btn" class="btn btn--gold" type="button" disabled>Enter the Dungeon →</button>
+        <button class="btn" type="button" onclick="alert('Creator verification coming soon')">♢ Creator Entrance</button>
+      </div>
+      <p class="gate-note">Interactive concept only. No real payments or personal data are processed.</p>
+    </div>
+  </section>
+
+  <section id="venue" class="screen" hidden>
+    <header class="venue-header"><nav class="shell venue-nav"><button class="brand" type="button" id="brand-home"><span class="brand__mark">♜</span><span>Cum <strong>IN</strong> Dungeon</span></button><div class="nav-actions"><span class="status-pill">Rooms live</span><button class="btn" type="button" id="exit-btn">Exit</button></div></nav></header>
+    <main>
+      <section id="hall-view">
+        <div class="hero"><div class="shell">
+          <p class="eyebrow">The Grand Hall</p>
+          <h2 class="serif">Where do you want to go tonight?</h2>
+          <p class="hero-copy">Choose a doorway to filter the club.</p>
+          <div class="doors" role="list">
+            <button class="door" type="button" data-room="Women"><span class="door__icon">♛</span><strong>Women</strong><small>Live rooms</small></button>
+            <button class="door" type="button" data-room="Men"><span class="door__icon">♜</span><strong>Men</strong><small>Live rooms</small></button>
+            <button class="door" type="button" data-room="Couples"><span class="door__icon">♞</span><strong>Couples</strong><small>Live rooms</small></button>
+            <button class="door" type="button" data-room="Gay"><span class="door__icon">♚</span><strong>Gay</strong><small>Social + live</small></button>
+            <button class="door" type="button" data-room="Bi"><span class="door__icon">♝</span><strong>Bi</strong><small>Social + live</small></button>
+            <button class="door" type="button" data-room="Trans"><span class="door__icon">♟</span><strong>Trans</strong><small>Social + live</small></button>
+            <button class="door" type="button" data-room="Fetish"><span class="door__icon">✦</span><strong>Fetish</strong><small>Themed rooms</small></button>
+            <button class="door is-active" type="button" data-room="VIP"><span class="door__icon">♦</span><strong>VIP</strong><small>Members only</small></button>
+          </div>
+        </div></div>
+        <div class="shell venue-grid">
+          <section>
+            <div class="section-heading"><div><p id="selected-label" class="eyebrow">VIP</p><h3 class="serif">Inside the room</h3></div><button class="btn" type="button" id="show-all">View all</button></div>
+            <div class="room-grid">
+              <button class="room-card" type="button" data-live-room="velvet-room"><div class="room-preview"><span class="live-tag">Live</span><span class="room-crest">♛</span></div><div class="room-info"><h4>Velvet Room</h4><p>Open lounge · Verified host</p><span class="viewers">● 184</span></div></button>
+              <button class="room-card" type="button" data-live-room="the-chapel"><div class="room-preview"><span class="live-tag">Live</span><span class="room-crest">♜</span></div><div class="room-info"><h4>The Chapel</h4><p>Creator event · Members</p><span class="viewers">● 92</span></div></button>
+              <button class="room-card" type="button" data-live-room="black-silk"><div class="room-preview"><span class="live-tag">Live</span><span class="room-crest">♦</span></div><div class="room-info"><h4>Black Silk</h4><p>Social room · Open chat</p><span class="viewers">● 131</span></div></button>
+            </div>
+          </section>
+          <aside class="sidebar">
+            <section class="panel"><p class="eyebrow">Club access</p><h4 class="serif">Membership</h4><p>Save favourite rooms, RSVP early, enter member events.</p><button class="btn btn--gold btn--wide" type="button">Explore membership</button></section>
+          </aside>
+        </div>
+      </section>
+
+      <section id="room-view" class="room-stage" hidden>
+        <div class="shell">
+          <div class="breadcrumb"><button type="button" id="back-hall">Grand Hall</button><span>›</span><span id="crumb-room">Velvet Room</span></div>
+          <div class="stage-grid">
+            <section>
+              <div class="stage-video">
+                <div class="stage-overlay">
+                  <div class="stage-top"><span class="live-tag">Live</span><button class="btn" type="button" id="leave-room">Leave room</button></div>
+                  <div class="stage-bottom"><div class="stage-title"><h3 id="stage-room" class="serif">Velvet Room</h3><p><span id="stage-category">VIP</span> · Verified creator room · 18+</p></div><span class="viewers" id="viewer-count">● 184 watching</span></div>
+                </div>
+              </div>
+              <div class="gift-row">
+                <button class="gift" type="button">🌹 Rose</button>
+                <button class="gift" type="button">🗝️ Dungeon Key</button>
+                <button class="gift" type="button">👑 Crown</button>
+                <button class="gift" type="button">💰 Send tip</button>
+              </div>
+            </section>
+            <aside class="room-side">
+              <div class="room-side-head"><strong>Room chat</strong><p class="muted" style="margin:.25rem 0 0;font-size:.62rem">Be respectful. Hosts control their room.</p></div>
+              <div class="chat" id="chat-list"></div>
+              <form class="chat-compose" id="chat-form"><input id="chat-input" maxlength="140" placeholder="Say something respectful…"><button class="btn" type="submit">Send</button></form>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer"><div class="shell footer-inner"><span>© 2026 Cum IN Dungeon · Interactive concept · 18+ only</span></div></footer>
+  </section>
+
+  <div id="toast" class="toast" hidden role="status"></div>
+
+  <!-- Ably Realtime SDK -->
+  <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
+  <script src="/public/js/chat.js"></script>
+
+  <script>
+    const gate = document.querySelector('#gate');
+    const venue = document.querySelector('#venue');
+    const hallView = document.querySelector('#hall-view');
+    const roomView = document.querySelector('#room-view');
+    const ageCheck = document.querySelector('#age-check');
+    const termsCheck = document.querySelector('#terms-check');
+    const enterBtn = document.querySelector('#enter-btn');
+    const selectedLabel = document.querySelector('#selected-label');
+    let selectedCategory = 'VIP';
+    let currentRoomId = null;
+    let toastTimer;
+
+    // Generate a random guest username
+    const guestId = 'Guest_' + Math.random().toString(36).slice(2, 7);
+
+    const updateEntry = () => { enterBtn.disabled = !(ageCheck.checked && termsCheck.checked); };
+    ageCheck.addEventListener('change', updateEntry);
+    termsCheck.addEventListener('change', updateEntry);
+
+    function enterVenue() { gate.hidden = true; venue.hidden = false; history.replaceState(null, '', '#grand-hall'); }
+    function goToGate() { venue.hidden = true; gate.hidden = false; roomView.hidden = true; hallView.hidden = false; history.replaceState(null, '', '#gate'); }
+
+    enterBtn.addEventListener('click', enterVenue);
+    document.querySelector('#exit-btn').addEventListener('click', goToGate);
+    document.querySelector('#brand-home').addEventListener('click', () => { roomView.hidden = true; hallView.hidden = false; if (window.DungeonChat) DungeonChat.disconnect(); history.replaceState(null, '', '#grand-hall'); });
+
+    document.querySelectorAll('.door').forEach((door) => {
+      door.addEventListener('click', () => {
+        document.querySelectorAll('.door').forEach((d) => d.classList.remove('is-active'));
+        door.classList.add('is-active');
+        selectedCategory = door.dataset.room;
+        selectedLabel.textContent = selectedCategory;
+        showToast(selectedCategory + ' doorway selected.');
+      });
+    });
+
+    document.querySelector('#show-all').addEventListener('click', () => {
+      document.querySelectorAll('.door').forEach((d) => d.classList.remove('is-active'));
+      selectedLabel.textContent = 'All Rooms';
+    });
+
+    function openRoom(roomId, displayName) {
+      hallView.hidden = true;
+      roomView.hidden = false;
+      currentRoomId = roomId;
+      document.querySelector('#crumb-room').textContent = displayName;
+      document.querySelector('#stage-room').textContent = displayName;
+      document.querySelector('#stage-category').textContent = selectedCategory;
+      document.querySelector('#chat-list').innerHTML = '';
+      history.replaceState(null, '', '#room-' + roomId);
+
+      // Initialize Ably chat for this room
+      if (window.DungeonChat && window.Ably) {
+        DungeonChat.init(roomId, guestId,
+          document.querySelector('#chat-list'),
+          document.querySelector('#viewer-count')
+        );
+      }
+    }
+
+    function backToHall() {
+      roomView.hidden = true;
+      hallView.hidden = false;
+      if (window.DungeonChat) DungeonChat.disconnect();
+      history.replaceState(null, '', '#grand-hall');
+    }
+
+    document.querySelectorAll('[data-live-room]').forEach((card) => {
+      card.addEventListener('click', () => {
+        const roomId = card.dataset.liveRoom;
+        const name = card.querySelector('h4').textContent;
+        openRoom(roomId, name);
+      });
+    });
+    document.querySelector('#back-hall').addEventListener('click', backToHall);
+    document.querySelector('#leave-room').addEventListener('click', backToHall);
+
+    // Chat form: use Ably if available, otherwise local
+    document.querySelector('#chat-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = document.querySelector('#chat-input');
+      const msg = input.value.trim();
+      if (!msg) return;
+      if (window.DungeonChat && DungeonChat.channel) {
+        DungeonChat.send(msg);
+      } else {
+        // Fallback: local only
+        const row = document.createElement('div');
+        row.className = 'chat-line';
+        row.innerHTML = '<span class="avatar">Y</span><p><strong>You:</strong> ' + msg + '</p>';
+        document.querySelector('#chat-list').append(row);
+      }
+      input.value = '';
+    });
+
+    function showToast(message) {
+      const toast = document.querySelector('#toast');
+      toast.textContent = message;
+      toast.hidden = false;
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => { toast.hidden = true; }, 3200);
+    }
+
+    history.replaceState(null, '', '#gate');
+  </script>
+</body>
+</html>
