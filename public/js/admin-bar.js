@@ -4,6 +4,15 @@
  * All navigation links in one place.
  */
 (function() {
+  // Load shared visual/media behavior on every page, including public pages.
+  // Keep this before the admin early-return so the theme is not admin-only.
+  if (!document.querySelector('script[data-cd-media]')) {
+    const mediaScript = document.createElement('script');
+    mediaScript.src = '/js/media-fallbacks.js';
+    mediaScript.dataset.cdMedia = 'true';
+    document.head.appendChild(mediaScript);
+  }
+
   const ADMIN_KEY = localStorage.getItem('admin_key');
   if (!ADMIN_KEY) return;
 
