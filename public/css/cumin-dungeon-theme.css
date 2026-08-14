@@ -1,0 +1,169 @@
+:root {
+  --cd-bg: #090507;
+  --cd-surface: #151015;
+  --cd-charcoal: #1a1a1a;
+  --cd-red: #9e1f35;
+  --cd-red-bright: #e6395b;
+  --cd-pink: #ff007f;
+  --cd-purple: #9b5cff;
+  --cd-gold: #d59a4b;
+  --cd-gold-light: #f5c77e;
+  --cd-cream: #f5eee4;
+  --cd-muted: #a6998b;
+}
+
+/* Premium CumIN Dungeon game surfaces */
+.slot-machine,
+.game-card,
+.casino-card,
+.game-panel,
+.game-shell,
+.table-card {
+  background: linear-gradient(145deg, rgba(26,26,26,.98), rgba(12,8,11,.98)) !important;
+  border-color: rgba(213,154,75,.42) !important;
+  box-shadow: 0 0 42px rgba(0,0,0,.55), inset 0 0 28px rgba(255,0,127,.025) !important;
+}
+
+/* Dark playing surfaces instead of white casino cards */
+.card,
+.playing-card,
+.card-face,
+.dice,
+.die,
+.dice-face,
+.game-card-face,
+.result-card {
+  background: #1a1a1a !important;
+  color: var(--cd-cream) !important;
+  border: 1px solid rgba(255,0,127,.55) !important;
+  box-shadow: 0 0 14px rgba(255,0,127,.16), inset 0 0 16px rgba(155,92,255,.06) !important;
+}
+
+/* Balance and wager displays should feel like game machinery */
+.balance,
+.bet,
+.bet-amount,
+#balance,
+#bet-display,
+[data-balance],
+[data-bet] {
+  color: var(--cd-gold-light) !important;
+  text-shadow: 0 0 7px rgba(255,0,127,.65), 0 0 18px rgba(155,92,255,.38) !important;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Neon treatment for existing symbol artwork/emoji without forcing neon everywhere */
+.symbol,
+.pay-symbols,
+.game-symbol,
+.slot-symbol {
+  filter: drop-shadow(0 0 7px rgba(255,0,127,.62)) drop-shadow(0 0 13px rgba(155,92,255,.25));
+}
+
+/* Stronger action buttons, still inside the black/red/gold brand */
+.spin-btn,
+.play-btn,
+.deal-btn,
+.hit-btn,
+.stand-btn,
+.roll-btn,
+.bet-btn-primary {
+  box-shadow: 0 0 18px rgba(255,0,127,.18), 0 5px 24px rgba(0,0,0,.4) !important;
+}
+
+/* Frosted interaction/modal cards */
+.modal-card,
+.modal-content,
+.dialog-card,
+.overlay-card,
+.challenge-card,
+.truth-card,
+.dare-card,
+[role="dialog"] > div {
+  background: rgba(0,0,0,.80) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(125%);
+  backdrop-filter: blur(16px) saturate(125%);
+  border: 1px solid rgba(213,154,75,.42) !important;
+  box-shadow: 0 22px 70px rgba(0,0,0,.7), 0 0 30px rgba(255,0,127,.08) !important;
+}
+
+.modal-card button,
+.modal-content button,
+.dialog-card button,
+.challenge-card button,
+.truth-card button,
+.dare-card button {
+  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+
+.modal-card button:hover,
+.modal-content button:hover,
+.dialog-card button:hover,
+.challenge-card button:hover,
+.truth-card button:hover,
+.dare-card button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.12);
+}
+
+/* Urgency without obnoxious flashing */
+.complete-btn,
+.skip-btn,
+[data-action="complete"],
+[data-action="skip"] {
+  animation: cd-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes cd-pulse {
+  0%, 100% { box-shadow: 0 0 0 rgba(255,0,127,0); }
+  50% { box-shadow: 0 0 18px rgba(255,0,127,.25); }
+}
+
+/* Broken-media fallback is supplied by media-fallbacks.js */
+.cd-media-fallback {
+  min-height: 160px;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(255,0,127,.13), transparent 34%),
+    radial-gradient(circle at 35% 65%, rgba(155,92,255,.10), transparent 42%),
+    #090507;
+  border: 1px solid rgba(213,154,75,.28);
+}
+
+.cd-media-fallback::before {
+  content: '';
+  width: 54px;
+  height: 54px;
+  border: 1px solid rgba(255,0,127,.55);
+  border-radius: 50%;
+  box-shadow: 0 0 22px rgba(255,0,127,.24), inset 0 0 22px rgba(155,92,255,.14);
+  animation: cd-media-pulse 2.2s ease-in-out infinite;
+}
+
+.cd-media-fallback::after {
+  content: 'CUMIN DUNGEON';
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: rgba(245,199,126,.68);
+  font: 600 10px/1 Inter, system-ui, sans-serif;
+  letter-spacing: .18em;
+}
+
+@keyframes cd-media-pulse {
+  0%,100% { transform: scale(.88); opacity: .55; }
+  50% { transform: scale(1.12); opacity: 1; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .complete-btn, .skip-btn, [data-action="complete"], [data-action="skip"], .cd-media-fallback::before {
+    animation: none !important;
+  }
+}
