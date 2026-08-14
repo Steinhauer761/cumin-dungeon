@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Welcome to CumIN Dungeon</title>
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050302;color:#f5eee4;font-family:Inter,system-ui,sans-serif}
+#stage{position:fixed;inset:0;background:#050302;display:grid;place-items:center}
+video{width:100%;height:100%;object-fit:cover;display:block}
+#fallback{display:none;position:absolute;inset:0;place-items:center;text-align:center;background:radial-gradient(circle at center,#24120d 0,#050302 65%);padding:24px}
+#fallback h1{font-family:Georgia,serif;font-size:clamp(2rem,5vw,4rem);margin:0 0 10px;color:#e6b76a}
+#fallback p{color:#b7a99c;max-width:560px}
+.controls{position:fixed;right:20px;bottom:20px;display:flex;gap:8px;z-index:5}
+button{border:1px solid rgba(213,154,75,.55);background:rgba(10,6,4,.78);color:#f5eee4;border-radius:8px;padding:10px 14px;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)}
+button:hover{border-color:#f5c77e}
+#progress{position:fixed;left:0;top:0;height:3px;width:0;background:#d59a4b;z-index:6;transition:width .2s linear}
+</style>
+</head>
+<body>
+<div id="stage">
+  <video id="cinematic" playsinline preload="auto"></video>
+  <div id="fallback"><div><h1>Welcome to the Dungeon</h1><p>The cinematic entrance is ready. Continue into the Grand Hall.</p></div></div>
+</div>
+<div id="progress"></div>
+<div class="controls"><button id="skip">Skip entrance</button></div>
+<script>
+const sequences=[
+  '/public/media/castle-hall-sequence.mp4',
+  '/public/media/hall-casino-sequence.mp4',
+  '/public/media/castle-to-casino-reveal.mp4'
+];
+const video=document.getElementById('cinematic');
+const fallback=document.getElementById('fallback');
+const progress=document.getElementById('progress');
+let index=0,started=false;
+function go(){window.location.href='/hall.html'}
+function showFallback(){video.style.display='none';fallback.style.display='grid';setTimeout(go,1400)}
+function playNext(){
+  if(index>=sequences.length){go();return}
+  video.src=sequences[index++];
+  video.currentTime=0;
+  video.play().then(()=>{started=true}).catch(()=>showFallback());
+}
+video.addEventListener('timeupdate',()=>{if(video.duration)progress.style.width=(video.currentTime/video.duration*100)+'%'});
+video.addEventListener('ended',playNext);
+video.addEventListener('error',()=>{ if(!started) showFallback(); else playNext(); });
+document.getElementById('skip').addEventListener('click',go);
+playNext();
+</script>
+</body>
+</html>
