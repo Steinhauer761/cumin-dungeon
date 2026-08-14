@@ -1,12 +1,9 @@
 (function () {
   'use strict';
 
-  const PUBLIC_PREFIXES = ['/public/assets/', '/public/videos/'];
-
   function normalizePublicPath(src) {
     if (!src || typeof src !== 'string') return src;
-    if (src.startsWith('/public/assets/')) return src.replace('/public/assets/', '/assets/');
-    if (src.startsWith('/public/videos/')) return src.replace('/public/videos/', '/videos/');
+    // This repo serves the /public directory directly, so /public/... is intentional.
     return src;
   }
 
@@ -51,7 +48,7 @@
     if (document.querySelector('link[data-cd-theme]')) return;
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = '/css/cumin-dungeon-theme.css';
+    link.href = '/public/css/cumin-dungeon-theme.css';
     link.dataset.cdTheme = 'true';
     document.head.appendChild(link);
   }
