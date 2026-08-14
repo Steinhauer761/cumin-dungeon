@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Grand Hall | Cum IN Dungeon</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<title>Grand Hall | CumIN Dungeon</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
 :root { --bg: #0a0604; --surface: #141010; --surface-2: #1c1514; --gold: #d59a4b; --gold-light: #f5c77e; --red: #e63946; --cream: #f5eee4; --muted: #a6998b; --line: rgba(190,137,77,0.18); --green: #4ade80; --serif: 'Cormorant Garamond', Georgia, serif; --sans: 'Inter', system-ui, sans-serif; }
 * { box-sizing: border-box; margin: 0; }
@@ -16,7 +16,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* Main area */
 .hall-main { padding: 24px; overflow-y: auto; }
 .hall-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-.hall-header h1 { font-family: var(--serif); font-size: 1.8rem; }
+.hall-header h1 { font-family: var(--serif); font-size: 1.8rem; font-style: italic; }
 .btn-back { padding: 7px 14px; border: 1px solid var(--line); border-radius: 8px; background: transparent; font-size: 0.7rem; font-weight: 700; text-decoration: none; color: var(--cream); }
 .btn-back:hover { border-color: var(--gold); }
 
@@ -32,12 +32,15 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 /* Games grid */
 .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
-.game-card { padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); cursor: pointer; transition: transform 0.15s, border-color 0.15s; }
+.game-card { padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); cursor: pointer; transition: transform 0.15s, border-color 0.15s; text-decoration: none; color: inherit; display: block; }
 .game-card:hover { transform: translateY(-2px); border-color: var(--gold); }
-.game-card h3 { font-family: var(--serif); font-size: 1rem; margin-bottom: 4px; }
+.game-card h3 { font-family: var(--serif); font-size: 1rem; margin-bottom: 4px; font-style: italic; }
 .game-card p { font-size: 0.68rem; color: var(--muted); line-height: 1.4; margin-bottom: 8px; }
 .game-card .reward { font-size: 0.6rem; color: var(--green); font-weight: 700; }
 .game-card .cost { font-size: 0.6rem; color: var(--red); font-weight: 700; margin-left: 8px; }
+.game-card .bet-range { font-size: 0.58rem; color: var(--gold); font-weight: 700; }
+.game-card .max-win { font-size: 0.58rem; color: var(--green); margin-left: 8px; }
+.game-card-img { width: 100%; height: 100px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
 
 /* Play modal */
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100; place-items: center; }
@@ -53,14 +56,6 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .modal .result { font-size: 1rem; font-weight: 800; margin: 12px 0; }
 .result-win { color: var(--green); }
 .result-lose { color: var(--red); }
-
-/* Casino */
-.casino-card { position: relative; overflow: hidden; }
-.casino-card .bet-range { font-size: 0.58rem; color: var(--gold); font-weight: 700; }
-.casino-card .max-win { font-size: 0.58rem; color: var(--green); }
-
-/* Slots display */
-.slots-display { font-size: 2rem; letter-spacing: 8px; margin: 12px 0; }
 
 /* Chat sidebar */
 .hall-chat { display: grid; grid-template-rows: auto 1fr auto; border-left: 1px solid var(--line); background: var(--surface); }
@@ -136,6 +131,16 @@ const guestId = 'Guest_' + Math.random().toString(36).slice(2,7);
 let tokenBalance = 50;
 let currentGame = null;
 
+// Casino game pages mapping
+const CASINO_PAGES = {
+  'dungeon-slots': '/games/slots.html',
+  'sin-roulette': '/games/roulette.html',
+  'strip-blackjack': '/games/blackjack.html',
+  'devils-dice': '/games/dice.html',
+  'high-or-low': '/games/highlow.html',
+  'kink-wheel': '/games/kinkwheel.html',
+};
+
 // Load social games
 async function loadGames() {
   const res = await fetch('/api/games');
@@ -153,16 +158,25 @@ async function loadGames() {
 
 // Load casino games
 async function loadCasino() {
-  const res = await fetch('/api/games/casino');
-  const data = await res.json();
   const grid = document.getElementById('casino-grid');
   grid.innerHTML = '';
-  data.casinoGames.forEach(game => {
-    const card = document.createElement('div');
-    card.className = 'game-card casino-card';
-    card.innerHTML = `<h3>${game.name}</h3><p>${game.description}</p><span class="bet-range">Bet: ${game.minBet}-${game.maxBet}</span><span class="max-win" style="margin-left:8px">Max: ${game.maxPayout}</span>`;
-    card.addEventListener('click', () => playCasino(game));
-    grid.appendChild(card);
+
+  // Static casino game cards that link to dedicated pages
+  const games = [
+    { id: 'dungeon-slots', name: 'Dungeon Slots', desc: 'Spin the reels. Match symbols. Win big.', bet: '5-50', max: '50x' },
+    { id: 'sin-roulette', name: 'Sin Roulette', desc: 'Pick your number or color. The wheel decides.', bet: '5-50', max: '36x' },
+    { id: 'strip-blackjack', name: 'Strip Blackjack', desc: 'Beat the dealer to 21. Double down if you dare.', bet: '10-100', max: '2.5x' },
+    { id: 'devils-dice', name: "Devil's Dice", desc: 'Predict the roll. Over, under, or exact.', bet: '5-50', max: '30x' },
+    { id: 'high-or-low', name: 'High or Low', desc: 'Guess the next card. Build your streak.', bet: '10-50', max: 'Streak' },
+    { id: 'kink-wheel', name: 'Kink Wheel', desc: 'Spin the wheel. Land on a multiplier.', bet: '5-50', max: '10x' },
+  ];
+
+  games.forEach(game => {
+    const link = document.createElement('a');
+    link.className = 'game-card';
+    link.href = CASINO_PAGES[game.id] || '#';
+    link.innerHTML = `<h3>${game.name}</h3><p>${game.desc}</p><span class="bet-range">Bet: ${game.bet}</span><span class="max-win">Max: ${game.max}</span>`;
+    grid.appendChild(link);
   });
 }
 
@@ -194,37 +208,6 @@ async function skipSocialGame(game) {
   document.getElementById('modal-result').className = 'result result-lose';
   document.getElementById('modal-result').textContent = `-${game.skipCost} tokens`;
   document.getElementById('modal-actions').innerHTML = '<button class="btn btn-outline" onclick="closeModal()">OK</button>';
-}
-
-// Casino flow
-async function playCasino(game) {
-  const bet = Math.min(game.minBet * 2, game.maxBet);
-  if (tokenBalance < bet) { alert('Not enough tokens! Play social games to earn more.'); return; }
-
-  const res = await fetch('/api/games/casino', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({userId: guestId, gameId: game.id, bet}) });
-  const data = await res.json();
-
-  let display = '';
-  if (data.reels) display = `<div class="slots-display">${data.reels.join(' ')}</div>`;
-  else if (data.dice) display = `<div class="slots-display">🎲 ${data.dice[0]} + ${data.dice[1]} = ${data.sum}</div>`;
-  else if (data.section) display = `<div class="slots-display">${data.section}</div>`;
-  else if (data.hand) display = `<div style="font-size:1.2rem">You: ${data.hand} | Dealer: ${data.dealerHand}</div>`;
-  else display = '';
-
-  if (data.win || data.payout > 0) {
-    tokenBalance += data.payout - bet;
-  } else {
-    tokenBalance -= bet;
-  }
-  updateBalance();
-
-  const resultClass = (data.win || data.payout > 0) ? 'result-win' : 'result-lose';
-  const resultText = (data.win || data.payout > 0) ? `WIN! +${data.payout - bet} tokens` : `Lost ${bet} tokens`;
-
-  showModal(game.name + ` (bet: ${bet})`, display, []);
-  document.getElementById('modal-result').className = 'result ' + resultClass;
-  document.getElementById('modal-result').textContent = resultText;
-  document.getElementById('modal-actions').innerHTML = `<button class="btn btn-gold" onclick="playCasino(${JSON.stringify(game).replace(/"/g, '&quot;')})">Spin Again</button><button class="btn btn-outline" onclick="closeModal()">Done</button>`;
 }
 
 function showModal(title, content, buttons) {
@@ -279,5 +262,6 @@ document.getElementById('hall-chat-form').addEventListener('submit', (e) => {
 loadGames();
 loadCasino();
 </script>
+<script src="/public/js/admin-bar.js"></script>
 </body>
 </html>
