@@ -1,9 +1,25 @@
 (function () {
   'use strict';
 
+  const ROOM_SPRITE = '/public/assets/art/cumin-room-sprite.webp';
+  const ROOM_SPRITE_POSITIONS = {
+    'grand hall': '0% 0%',
+    'cumin dungeon': '33.333% 0%',
+    'vip chamber': '66.666% 0%',
+    'velvet room': '100% 0%',
+    'tangled throne': '0% 50%',
+    'pink silk': '33.333% 50%',
+    "devil's playground": '66.666% 50%',
+    'devils playground': '66.666% 50%',
+    'back room': '100% 50%',
+    'the dungeon': '0% 100%',
+    "haley's halo": '33.333% 100%',
+    'haleys halo': '33.333% 100%',
+    'trans kinks': '66.666% 100%'
+  };
+
   function normalizePublicPath(src) {
     if (!src || typeof src !== 'string') return src;
-    // This repo serves the /public directory directly, so /public/... is intentional.
     return src;
   }
 
@@ -19,9 +35,33 @@
     el.replaceWith(wrapper);
   }
 
+  function roomSpriteForImage(el) {
+    if (!el || el.tagName !== 'IMG') return false;
+    const card = el.closest('.entrance');
+    if (!card) return false;
+
+    const key = (el.alt || '').trim().toLowerCase();
+    const position = ROOM_SPRITE_POSITIONS[key];
+    if (!position) return false;
+
+    const replacement = document.createElement('div');
+    replacement.className = 'entrance-img cd-room-sprite';
+    replacement.setAttribute('role', 'img');
+    replacement.setAttribute('aria-label', el.alt || 'CumIN Dungeon room artwork');
+    replacement.style.backgroundImage = `url("${ROOM_SPRITE}")`;
+    replacement.style.backgroundPosition = position;
+    replacement.style.backgroundSize = '400% 300%';
+    replacement.style.backgroundRepeat = 'no-repeat';
+
+    el.replaceWith(replacement);
+    return true;
+  }
+
   function wire(el) {
     if (!el || el.dataset.cdMediaWired === 'true') return;
     el.dataset.cdMediaWired = 'true';
+
+    if (roomSpriteForImage(el)) return;
 
     const src = el.getAttribute('src');
     const normalized = normalizePublicPath(src);
@@ -66,5 +106,5 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
   else init();
 
-  window.CumINMedia = { normalizePublicPath, fallbackFor, scan };
+  window.CumINMedia = { normalizePublicPath, fallbackFor, scan, roomSpriteForImage };
 })();
