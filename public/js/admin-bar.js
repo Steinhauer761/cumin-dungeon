@@ -15,6 +15,45 @@
     document.head.appendChild(script);
   });
 
+  // Keep ClickUp artwork out of the browser's critical rendering path.
+  // The server-side /api/assets/:asset route proxies the existing public artwork
+  // through the CumIN Dungeon origin, so CSP/CORS/referrer quirks do not blank cards.
+  const ASSET_BY_CLICKUP = {
+    '07b7448f-853c-48e6-82e8-435de3962bb1': 'grand-hall',
+    '88dc235b-b9f9-45e9-b104-1040db693e44': 'velvet-room',
+    '8cd96905-8077-4696-90ac-1eb639996ada': 'tangled-throne',
+    'd38a9f14-ea11-428a-a1dc-d78e4ab0c4b1': 'pink-silk',
+    'ddd616e1-7a9d-448d-ba9c-7e3e0b886c3b': 'devils-playground',
+    '9df03371-3953-469b-91db-7a2393cbb1d1': 'back-room',
+    'c073943a-ddcc-4150-a58c-46b4dc0c514b': 'the-dungeon',
+    '084dd23b-f9b6-4d18-aed9-0d8c16f74e51': 'haleys-halo',
+    '8a1e6dee-2e01-4a2d-91b7-f25a13941de6': 'trans-kinks'
+  };
+
+  function normalizeArtwork(img) {
+    if (!img || !img.src) return;
+    const match = img.src.match(/clickup\.com\/([a-f0-9-]+)\.png/i);
+    if (!match) return;
+    const key = ASSET_BY_CLICKUP[match[1]];
+    if (!key || img.dataset.cdProxied === 'true') return;
+    img.dataset.cdProxied = 'true';
+    img.src = `/api/assets/${key}`;
+    img.addEventListener('error', () => {
+      img.classList.add('media-fallback');
+    }, { once: true });
+  }
+
+  function normalizeAllArtwork() {
+    document.querySelectorAll('img[src*="app-attachments-public.clickup.com"]').forEach(normalizeArtwork);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', normalizeAllArtwork, { once: true });
+  } else {
+    normalizeAllArtwork();
+  }
+  new MutationObserver(normalizeAllArtwork).observe(document.documentElement, { childList: true, subtree: true });
+
   const ADMIN_KEY = localStorage.getItem('admin_key');
   if (!ADMIN_KEY) return;
 
