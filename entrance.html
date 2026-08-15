@@ -5,68 +5,43 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Welcome to CumIN Dungeon</title>
 <style>
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050302;color:#f5eee4;font-family:Inter,system-ui,sans-serif}
-#stage{position:fixed;inset:0;background:#050302;display:grid;place-items:center;overflow:hidden}
-#cinematic{width:100%;height:100%;object-fit:cover;display:none}
-#art{position:absolute;inset:0;background:#050302 center/cover no-repeat;transition:opacity .9s ease,transform 5s ease;transform:scale(1.015)}
-#art::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.25) 55%,rgba(0,0,0,.65))}
-#fallback{display:none;position:absolute;inset:auto 0 12%;text-align:center;z-index:3;text-shadow:0 3px 18px #000}
-#fallback h1{font-family:Georgia,serif;font-size:clamp(2rem,5vw,4rem);margin:0 0 10px;color:#f0c87b;letter-spacing:.08em}
-#fallback p{color:#d4c2ad;margin:0}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#030202;color:#f5eee4;font-family:Inter,system-ui,sans-serif}
+#stage{position:fixed;inset:0;overflow:hidden;background:#030202}
+#art{position:absolute;inset:-2%;background:#030202 center/cover no-repeat;opacity:0;transform:scale(1.03);transition:opacity 1.1s ease,transform 7s ease;filter:saturate(.98) contrast(1.04)}
+#art::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 48%,transparent 20%,rgba(0,0,0,.2) 62%,rgba(0,0,0,.7) 100%)}
+#art::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08),transparent 42%,rgba(0,0,0,.72))}
+#veil{position:absolute;inset:0;background:#050302;opacity:1;transition:opacity 1s ease;z-index:2;pointer-events:none}
+#copy{position:absolute;left:50%;bottom:10%;transform:translateX(-50%);z-index:3;text-align:center;width:min(90%,900px);text-shadow:0 4px 24px #000}
+#copy h1{font-family:Georgia,serif;font-size:clamp(2rem,5vw,4.4rem);margin:0 0 12px;color:#f0c87b;letter-spacing:.09em;text-transform:uppercase}
+#copy p{color:#dcc7ad;margin:0;font-size:clamp(.8rem,1.5vw,1rem);letter-spacing:.24em;text-transform:uppercase}
 .controls{position:fixed;right:20px;bottom:20px;display:flex;gap:8px;z-index:5}
-button{border:1px solid rgba(213,154,75,.55);background:rgba(10,6,4,.78);color:#f5eee4;border-radius:8px;padding:10px 14px;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)}
+button{border:1px solid rgba(213,154,75,.55);background:rgba(10,6,4,.82);color:#f5eee4;border-radius:8px;padding:10px 14px;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)}
 button:hover{border-color:#f5c77e}
-#progress{position:fixed;left:0;top:0;height:3px;width:0;background:#d59a4b;z-index:6;transition:width .2s linear}
+#progress{position:fixed;left:0;top:0;height:3px;width:0;background:#d59a4b;z-index:6;transition:width .15s linear}
 </style>
 </head>
 <body>
-<div id="stage">
-  <div id="art" aria-hidden="true"></div>
-  <video id="cinematic" playsinline preload="auto"></video>
-  <div id="fallback"><h1 id="fallbackTitle">Welcome to the Dungeon</h1><p id="fallbackText">Entering the Grand Hall…</p></div>
-</div>
+<div id="stage"><div id="art"></div><div id="veil"></div><div id="copy"><h1 id="title">Welcome to the Dungeon</h1><p id="subtitle">The gates are opening</p></div></div>
 <div id="progress"></div>
-<div class="controls"><button id="skip">Skip entrance</button></div>
+<div class="controls"><button id="skip">Enter now</button></div>
 <script>
 const sequences=[
-  {video:'/public/media/castle-hall-sequence.mp4',art:'/public/media/castle-entrance.svg',title:'Welcome to the Dungeon',text:'The gates are opening…'},
-  {video:'/public/media/hall-casino-sequence.mp4',art:'/public/media/grand-hall.svg',title:'The Grand Hall',text:'Follow the lights deeper inside…'},
-  {video:'/public/media/castle-to-casino-reveal.mp4',art:'/public/media/casino-reveal.svg',title:'The Dungeon Casino',text:'VIP • Private Rooms • After Dark'}
+ {art:'/public/media/castle-entrance.svg',title:'Welcome to the Dungeon',text:'The gates are opening'},
+ {art:'/public/media/grand-hall.svg',title:'The Grand Hall',text:'Follow the lights deeper inside'},
+ {art:'/public/media/casino-reveal.svg',title:'The Dungeon Casino',text:'VIP • Private Rooms • After Dark'}
 ];
-const video=document.getElementById('cinematic');
-const art=document.getElementById('art');
-const fallback=document.getElementById('fallback');
-const fallbackTitle=document.getElementById('fallbackTitle');
-const fallbackText=document.getElementById('fallbackText');
-const progress=document.getElementById('progress');
-let index=0,videoStarted=false;
+const art=document.getElementById('art'),veil=document.getElementById('veil'),title=document.getElementById('title'),subtitle=document.getElementById('subtitle'),progress=document.getElementById('progress');
+let index=0,start=0,duration=4200,timer;
 function go(){window.location.href='/hall.html'}
-function showArt(item){
-  art.style.opacity='0';
-  setTimeout(()=>{art.style.backgroundImage=`url('${item.art}')`;art.style.opacity='1';art.style.transform='scale(1.035)';},120);
-  fallbackTitle.textContent=item.title;
-  fallbackText.textContent=item.text;
-  fallback.style.display='block';
-  video.style.display='none';
+function show(item){
+ clearTimeout(timer); art.style.opacity='0'; art.style.transform='scale(1.03)';
+ setTimeout(()=>{art.style.backgroundImage=`url('${item.art}')`;title.textContent=item.title;subtitle.textContent=item.text;art.style.opacity='1';art.style.transform='scale(1.085)';veil.style.opacity='0';start=performance.now();tick()},220);
+ timer=setTimeout(next,duration);
 }
-function playNext(){
-  if(index>=sequences.length){go();return}
-  const item=sequences[index++];
-  showArt(item);
-  videoStarted=false;
-  video.src=item.video;
-  video.currentTime=0;
-  video.style.display='block';
-  video.play().then(()=>{videoStarted=true;fallback.style.display='none';art.style.opacity='0';}).catch(()=>{
-    video.style.display='none';
-    setTimeout(playNext,3200);
-  });
-}
-video.addEventListener('timeupdate',()=>{if(video.duration)progress.style.width=(video.currentTime/video.duration*100)+'%'});
-video.addEventListener('ended',playNext);
-video.addEventListener('error',()=>{video.style.display='none';setTimeout(playNext,3200)});
+function tick(){const p=Math.min(100,((performance.now()-start)/duration)*100);progress.style.width=p+'%';if(p<100)requestAnimationFrame(tick)}
+function next(){if(index>=sequences.length){go();return}show(sequences[index++])}
 document.getElementById('skip').addEventListener('click',go);
-playNext();
+setTimeout(next,500);
 </script>
 </body>
 </html>
