@@ -3,9 +3,6 @@ import { requireUser } from '../lib/auth';
 
 export const config = { runtime: 'edge' };
 
-/** POST /api/tokens/earn
- * Awards entertainment tokens through the server-side ledger.
- */
 export default async function handler(req: Request): Promise<Response> {
   if (req.method !== 'POST') return Response.json({ error: 'Method not allowed' }, { status: 405 });
 
@@ -17,11 +14,12 @@ export default async function handler(req: Request): Promise<Response> {
 
   const source = body.source?.trim();
   const gameId = body.gameId?.trim();
-  const amount = body.amount;
-  if (!source || source.length > 40 || (gameId && gameId.length > 60) || !Number.isInteger(amount) || amount < 1 || amount > 25) {
+  const rawAmount = body.amount;
+  if (!source || source.length > 40 || (gameId && gameId.length > 60) || !Number.isInteger(rawAmount) || rawAmount < 1 || rawAmount > 25) {
     return Response.json({ error: 'source and integer amount 1-25 required' }, { status: 400 });
   }
 
+  const amount = rawAmount as number;
   const result = await supabase.rpc('grant_tokens', {
     p_user_id: auth.userId,
     p_amount: amount,
