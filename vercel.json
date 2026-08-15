@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "buildCommand": "echo 'No build step - serve repository root'",
+  "outputDirectory": ".",
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" }
+  ]
+}
