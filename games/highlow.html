@@ -1,1 +1,172 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>High / Low | CumIN Dungeon</title><link rel="stylesheet" href="/public/css/premium-games.css?v=20260815b"></head><body><div id="game-app" data-game="highlow"></div><script src="/public/js/premium-games.js?v=20260815b"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>High / Low | CumIN Dungeon Casino</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#050304;--surface:#0f0a0c;--surface-2:#1a1214;--gold:#d59a4b;--gold-light:#f5c77e;--gold-dim:#8b6230;--cream:#f5eee4;--muted:#7a6e64;--red:#c0392b;--green:#4ade80;--line:rgba(190,137,77,0.18);--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}body{background:var(--bg);color:var(--cream);font-family:var(--sans);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;user-select:none}
+.app{width:min(480px,100%);margin:0 auto;padding:8px 12px;min-height:100vh;display:flex;flex-direction:column}
+.header{display:flex;justify-content:space-between;align-items:center;padding:6px 0 8px}
+.header a{color:var(--muted);text-decoration:none;font-size:.7rem;font-weight:600;padding:7px 10px;border:1px solid var(--line);border-radius:6px}
+.header a:hover{border-color:var(--gold);color:var(--cream)}
+.brand{font-family:var(--serif);font-style:italic;font-size:.65rem;color:var(--gold-dim)}
+.title-area{text-align:center;padding:2px 0 10px}
+.title-area h1{font-family:var(--serif);font-style:italic;font-weight:700;font-size:clamp(1.5rem,5vw,2rem);color:var(--gold-light);line-height:1}
+.title-area .sub{font-size:.55rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.card-stage{display:flex;justify-content:center;align-items:center;gap:16px;padding:24px 0;min-height:180px}
+.playing-card{width:90px;height:128px;border-radius:12px;display:grid;place-items:center;position:relative;transition:transform .4s cubic-bezier(.16,1,.3,1);transform-style:preserve-3d}
+.playing-card.flip{animation:cardFlip .5s cubic-bezier(.16,1,.3,1)}
+@keyframes cardFlip{0%{transform:rotateY(0) scale(1)}50%{transform:rotateY(90deg) scale(.9)}100%{transform:rotateY(0) scale(1)}}
+.pc-face{background:linear-gradient(145deg,#fff,#e8e2da);border:2px solid #ddd;border-radius:12px;width:100%;height:100%;display:grid;place-items:center;font-size:2rem;font-weight:900;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.pc-face.red{color:var(--red)}
+.pc-face.black{color:#1a1214}
+.pc-back{background:linear-gradient(145deg,#8b1a24,#5a1018);border:2px solid #a0323c;border-radius:12px;width:100%;height:100%;display:grid;place-items:center;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.pc-back::after{content:'\2666';font-size:2rem;color:rgba(255,255,255,.12)}
+.streak-bar{text-align:center;margin-bottom:10px}
+.streak-bar .streak-label{font-size:.5rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.streak-bar .streak-val{font-size:1.2rem;font-weight:900;color:var(--gold-light)}
+.streak-bar .streak-mult{font-size:.65rem;color:var(--green);font-weight:700;margin-top:2px}
+.choices{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px}
+.choice{padding:14px 8px;border:1.5px solid var(--line);border-radius:10px;background:rgba(0,0,0,.3);text-align:center;cursor:pointer;transition:all .12s}
+.choice:hover{border-color:var(--gold)}
+.choice.active{border-color:var(--gold);background:rgba(213,154,75,.12)}
+.choice .ch-name{display:block;font-size:.72rem;font-weight:800}
+.choice .ch-mult{display:block;font-size:.55rem;color:var(--gold);margin-top:2px;font-weight:700}
+.info-bar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:8px}
+.info-box{background:rgba(0,0,0,.5);border:1px solid var(--line);border-radius:8px;padding:7px;text-align:center}
+.info-box .lbl{display:block;font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.info-box .val{display:block;font-size:.95rem;font-weight:800;color:var(--gold-light);font-variant-numeric:tabular-nums}
+.win-msg{text-align:center;min-height:28px;display:grid;place-items:center;margin-top:4px}
+.win-msg span{font-family:var(--serif);font-weight:700;font-size:0;opacity:0;transition:all .35s cubic-bezier(.16,1,.3,1)}
+.win-msg span.active{opacity:1;font-size:1.1rem}
+.win-msg span.win{color:var(--green)}
+.win-msg span.big{color:var(--gold-light);font-size:1.4rem;text-shadow:0 0 20px rgba(213,154,75,.5)}
+.win-msg span.lose{color:var(--muted);font-size:.72rem;font-family:var(--sans);font-weight:600}
+.controls{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;padding:10px 0}
+.bet-section{text-align:center}
+.bet-lbl{font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:3px}
+.bet-ctrl{display:flex;align-items:center;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:3px}
+.bet-ctrl button{width:32px;height:32px;border:1px solid var(--line);border-radius:7px;background:var(--surface-2);color:var(--cream);font-size:1rem;font-weight:700;cursor:pointer;display:grid;place-items:center}
+.bet-ctrl button:active{transform:scale(.9)}
+.bet-val{min-width:28px;text-align:center;font-size:.8rem;font-weight:800;color:var(--gold-light)}
+.draw-btn{width:64px;height:64px;border-radius:50%;border:2.5px solid var(--gold);background:linear-gradient(160deg,#f5c77e,#a06b28);color:#1a0d07;font-size:.5rem;font-weight:900;letter-spacing:.06em;cursor:pointer;display:grid;place-items:center;box-shadow:0 6px 28px rgba(213,154,75,.35);transition:transform .12s}
+.draw-btn:active{transform:scale(.92)}
+.draw-btn:disabled{opacity:.35;cursor:not-allowed}
+.fx-layer{position:fixed;inset:0;pointer-events:none;z-index:1000;overflow:hidden}
+.coin{position:absolute;width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#f5c77e,#8b5a1e);animation:coinFall var(--dur) linear forwards;opacity:0}
+@keyframes coinFall{0%{transform:translateY(-20px) scale(.5);opacity:0}10%{opacity:1;transform:translateY(0) scale(1)}100%{transform:translateY(calc(100vh + 20px)) scale(.7);opacity:.6}}
+.notice{text-align:center;font-size:.48rem;color:rgba(122,110,100,.5);padding:8px 0}
+@media(max-width:380px){.playing-card{width:76px;height:108px}.draw-btn{width:56px;height:56px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header"><a href="/hall.html">&larr; Hall</a><span class="brand">CumIN Dungeon</span></div>
+  <div class="title-area"><h1>High / Low</h1><p class="sub">Guess the Next Card &middot; Build Your Streak</p></div>
+  <div class="card-stage" id="stage"><div class="playing-card" id="prevCard"><div class="pc-back"></div></div><div class="playing-card" id="nextCard"><div class="pc-back"></div></div></div>
+  <div class="streak-bar"><div class="streak-label">Streak</div><div class="streak-val" id="streakVal">0</div><div class="streak-mult" id="streakMult">1.85x base</div></div>
+  <div class="choices" id="choices"></div>
+  <div class="info-bar">
+    <div class="info-box"><span class="lbl">Balance</span><span class="val" id="bal">500</span></div>
+    <div class="info-box"><span class="lbl">Bet</span><span class="val" id="tBet">5</span></div>
+    <div class="info-box"><span class="lbl">Win</span><span class="val" id="lWin">0</span></div>
+  </div>
+  <div class="win-msg"><span id="wTxt"></span></div>
+  <div class="controls">
+    <div class="bet-section"><div class="bet-lbl">Bet</div><div class="bet-ctrl"><button id="bD">&minus;</button><span class="bet-val" id="bV">5</span><button id="bU">+</button></div></div>
+    <button class="draw-btn" id="drawBtn">DRAW</button>
+    <div></div>
+  </div>
+  <p class="notice">Entertainment tokens only. No cash value.</p>
+</div>
+<div class="fx-layer" id="fxL"></div>
+<script>
+(()=>{
+'use strict';
+const SFX=(()=>{let c;const g=()=>{if(!c)c=new(window.AudioContext||window.webkitAudioContext)();if(c.state==='suspended')c.resume();return c};const p=(f,t,d,v=.08)=>{try{const x=g(),o=x.createOscillator(),gn=x.createGain();o.type=t;o.frequency.setValueAtTime(f,x.currentTime);gn.gain.setValueAtTime(v,x.currentTime);gn.gain.exponentialRampToValueAtTime(.001,x.currentTime+d);o.connect(gn).connect(x.destination);o.start();o.stop(x.currentTime+d)}catch(e){}};return{card(){p(600,'sine',.06,.06)},win(){[0,60,120,180].forEach((d,i)=>setTimeout(()=>p(500+i*80,'sine',.15,.08),d))},big(){[0,80,160,240,320].forEach((d,i)=>setTimeout(()=>p(400+i*100,'triangle',.22,.1),d))},lose(){p(150,'sawtooth',.12,.06)}}})();
+
+const RANKS=['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+const VALS={A:1,'2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9,'10':10,J:11,Q:12,K:13};
+const SUITS=['\u2660','\u2665','\u2666','\u2663'];
+function randCard(){const r=RANKS[Math.floor(Math.random()*13)],s=SUITS[Math.floor(Math.random()*4)];return{r,s,v:VALS[r]}}
+function isRedSuit(s){return s==='\u2665'||s==='\u2666'}
+
+const BETS=[1,2,5,10,25,50];
+const PICKS=[{key:'high',name:'Higher',mult:1.85},{key:'low',name:'Lower',mult:1.85},{key:'same',name:'Same',mult:8}];
+let betIdx=2,balance=500,playing=false,pick='high',streak=0;
+let currentCard=randCard();
+
+function buildChoices(){
+  const ct=document.getElementById('choices');
+  PICKS.forEach(p=>{
+    const el=document.createElement('div');el.className='choice'+(p.key===pick?' active':'');
+    el.innerHTML=`<span class="ch-name">${p.name}</span><span class="ch-mult">${p.mult}x</span>`;
+    el.onclick=()=>{if(playing)return;pick=p.key;document.querySelectorAll('.choice').forEach(c=>c.classList.remove('active'));el.classList.add('active')};
+    ct.appendChild(el);
+  });
+}
+
+function showCard(el,card){
+  el.innerHTML=`<div class="pc-face ${isRedSuit(card.s)?'red':'black'}">${card.r}${card.s}</div>`;
+  el.classList.add('flip');
+  setTimeout(()=>el.classList.remove('flip'),500);
+}
+
+function draw(){
+  const bet=BETS[betIdx];
+  if(playing||balance<bet)return;
+  playing=true;balance-=bet;hideWin();updateUI();
+  document.getElementById('drawBtn').disabled=true;
+  SFX.card();
+
+  // Show current card on left
+  showCard(document.getElementById('prevCard'),currentCard);
+
+  // Draw new card
+  const newCard=randCard();
+  setTimeout(()=>{
+    showCard(document.getElementById('nextCard'),newCard);
+    SFX.card();
+
+    // Evaluate
+    const won=(pick==='high'&&newCard.v>currentCard.v)||(pick==='low'&&newCard.v<currentCard.v)||(pick==='same'&&newCard.v===currentCard.v);
+    const baseMult=PICKS.find(p=>p.key===pick).mult;
+    if(won){
+      streak++;
+      const mult=Math.min(6,baseMult+streak*.2);
+      const payout=Math.floor(bet*mult);
+      balance+=payout;
+      document.getElementById('lWin').textContent=payout-bet;
+      if(streak>=4){showMsg('STREAK x'+streak+' +'+payout,'big');SFX.big();spawnCoins(20)}
+      else{showMsg('WIN +'+payout,'win');SFX.win();spawnCoins(8)}
+    } else {
+      streak=0;
+      document.getElementById('lWin').textContent='0';
+      showMsg('Wrong! Streak reset','lose');SFX.lose();
+    }
+    document.getElementById('streakVal').textContent=streak;
+    document.getElementById('streakMult').textContent=(Math.min(6,1.85+streak*.2)).toFixed(2)+'x next';
+    currentCard=newCard;
+    updateUI();playing=false;document.getElementById('drawBtn').disabled=false;
+  },400);
+}
+
+function updateUI(){document.getElementById('bal').textContent=balance;document.getElementById('tBet').textContent=BETS[betIdx];document.getElementById('bV').textContent=BETS[betIdx]}
+function hideWin(){const e=document.getElementById('wTxt');e.className='';e.textContent=''}
+function showMsg(t,type){const e=document.getElementById('wTxt');e.className='';setTimeout(()=>{e.textContent=t;e.className='active '+type},50)}
+function spawnCoins(n){const l=document.getElementById('fxL');for(let i=0;i<n;i++){const c=document.createElement('div');c.className='coin';c.style.left=(10+Math.random()*80)+'%';c.style.setProperty('--dur',(1.5+Math.random()*1.5)+'s');c.style.animationDelay=(Math.random()*.5)+'s';const sz=6+Math.random()*6;c.style.width=sz+'px';c.style.height=sz+'px';l.appendChild(c);setTimeout(()=>c.remove(),3500)}}
+
+document.getElementById('drawBtn').addEventListener('click',draw);
+document.getElementById('bD').addEventListener('click',()=>{if(!playing&&betIdx>0){betIdx--;updateUI()}});
+document.getElementById('bU').addEventListener('click',()=>{if(!playing&&betIdx<BETS.length-1){betIdx++;updateUI()}});
+document.addEventListener('keydown',e=>{if(e.code==='Space'&&!playing){e.preventDefault();draw()}});
+document.addEventListener('touchstart',()=>{try{SFX.card()}catch(e){}},{once:true});
+showCard(document.getElementById('prevCard'),currentCard);
+buildChoices();updateUI();
+})();
+</script>
+</body>
+</html>
