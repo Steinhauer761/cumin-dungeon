@@ -1,34 +1,28 @@
+import { isAdmin } from '../../lib/auth';
+
 export const config = { runtime: 'edge' };
 
-/**
- * POST /api/rooms/:roomId/sessions
- * Creates or schedules a room session for an authorized performer/moderator.
- * Stub: accepts and returns a mock session.
- */
 export default async function handler(req: Request): Promise<Response> {
-  if (req.method !== 'POST') {
-    return Response.json({ error: 'Method not allowed' }, { status: 405 });
-  }
+  if (req.method !== 'POST') return Response.json({ error: 'Method not allowed' }, { status: 405 });
+  if (!isAdmin(req)) return Response.json({ error: 'Unauthorized' }, { status: 401 });
 
   let body: { startsAt?: string } = {};
-  try {
-    body = await req.json();
-  } catch {
-    // empty body is fine, means start now
+  try { body = await req.json(); } catch { return Response.json({ error: 'Invalid JSON' }, { status: 400 }); }
+
+  const segments = new URL(req.url).pathname.split('/').filter(Boolean);
+  const roomIndex = segments.indexOf('rooms');
+  const roomId = roomIndex >= 0 ? segments[roomIndex + 1] : null;
+  if (!roomId) return Response.json({ error: 'roomId required' }, { status: 400 });
+
+  let startsAt = new Date();
+  if (body.startsAt) {
+    startsAt = new Date(body.startsAt);
+    if (Number.isNaN(startsAt.getTime())) return Response.json({ error: 'Invalid startsAt' }, { status: 400 });
   }
 
-  const url = new URL(req.url);
-  const segments = url.pathname.split('/');
-  // /api/rooms/[roomId]/sessions
-  const roomId = segments[segments.length - 2];
-
-  const session = {
-    id: crypto.randomUUID(),
+  return Response.json({
+    error: 'Room session creation requires a persisted room/session table and is not enabled by the current schema.',
     roomId,
-    status: body.startsAt ? 'scheduled' : 'live',
-    startsAt: body.startsAt || new Date().toISOString(),
-    createdAt: new Date().toISOString(),
-  };
-
-  return Response.json(session, { status: 201 });
+    requestedStartsAt: startsAt.toISOString(),
+  }, { status: 503 });
 }
