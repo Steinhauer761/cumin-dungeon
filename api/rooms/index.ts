@@ -14,7 +14,20 @@ interface Room {
   categories: string[];
   viewers: number;
   performer: { stageName: string } | null;
+  thumbnail?: string;
+  previewVideo?: string;
 }
+
+const ROOM_MEDIA: Record<string, { thumbnail: string; previewVideo?: string }> = {
+  'velvet-room': { thumbnail: '/public/assets/art/rooms/velvet-room.jpg', previewVideo: '/public/videos/rooms/velvet-room.mp4' },
+  'tangled-throne': { thumbnail: '/public/assets/art/rooms/tangled-throne.jpg', previewVideo: '/public/videos/rooms/tangled-throne.mp4' },
+  'pink-silk': { thumbnail: '/public/assets/art/rooms/pink-silk.jpg', previewVideo: '/public/videos/rooms/pink-silk.mp4' },
+  'devils-playground': { thumbnail: '/public/assets/art/rooms/devils-playground.jpg', previewVideo: '/public/videos/rooms/devils-playground.mp4' },
+  'back-room': { thumbnail: '/public/assets/art/rooms/back-room.jpg', previewVideo: '/public/videos/rooms/back-room.mp4' },
+  'the-dungeon': { thumbnail: '/public/assets/art/rooms/the-dungeon.jpg', previewVideo: '/public/videos/rooms/the-dungeon.mp4' },
+  'haleys-halo': { thumbnail: '/public/assets/art/rooms/haleys-halo.jpg', previewVideo: '/public/videos/rooms/haleys-halo.mp4' },
+  'trans-kinks': { thumbnail: '/public/assets/art/rooms/trans-kinks.jpg', previewVideo: '/public/videos/rooms/trans-kinks.mp4' },
+};
 
 const MOCK_ROOMS: Room[] = [
   {
@@ -112,7 +125,6 @@ export default function handler(req: Request): Response {
     rooms = rooms.filter((r) => r.categories.includes(category.toLowerCase()));
   }
 
-  // Don't expose private rooms unless authenticated (stub: always hide private for now)
   rooms = rooms.filter((r) => r.visibility !== 'private');
 
   return Response.json({
@@ -124,6 +136,8 @@ export default function handler(req: Request): Response {
       categories: r.categories,
       viewers: r.viewers,
       performer: r.performer,
+      thumbnail: ROOM_MEDIA[r.id]?.thumbnail || '',
+      previewVideo: ROOM_MEDIA[r.id]?.previewVideo || '',
     })),
   });
 }
