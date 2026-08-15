@@ -1,4 +1,5 @@
 import { supabase } from '../lib/supabase';
+import { requireUser } from '../lib/auth';
 
 export const config = { runtime: 'edge' };
 
@@ -15,13 +16,16 @@ export default async function handler(req: Request): Promise<Response> {
   if (req.method === 'GET') return Response.json({ gifts: GIFTS });
   if (req.method !== 'POST') return Response.json({ error:'Method not allowed' }, { status:405 });
 
-  let body: { userId?:string; type?:string; giftId?:string; amount?:number; recipientId?:string };
+  const auth = await requireUser(req);
+  if (auth instanceof Response) return auth;
+
+  let body: { type?:string; giftId?:string; amount?:number; recipientId?:string };
   try { body = await req.json(); } catch { return Response.json({error:'Invalid JSON'}, {status:400}); }
 
-  const { userId, type, giftId, recipientId } = body;
+  const { type, giftId, recipientId } = body;
   const amount = body.amount;
-  if (!userId || !recipientId || (type !== 'tip' && type !== 'gift')) return Response.json({error:'userId, recipientId and valid type required'}, {status:400});
-  if (userId === recipientId) return Response.json({error:'Cannot send tokens to yourself'}, {status:400});
+  if (!recipientId || (type !== 'tip' && type !== 'gift')) return Response.json({error:'recipientId and valid type required'}, {status:400});
+  if (auth.userId === recipientId) return Response.json({error:'Cannot send tokens to yourself'}, {status:400});
 
   let cost = amount || 0;
   let gift: typeof GIFTS[number] | undefined;
@@ -35,10 +39,10 @@ export default async function handler(req: Request): Promise<Response> {
   if (!Number.isInteger(cost) || cost < 1 || cost > 10000) return Response.json({error:'Invalid token amount'}, {status:400});
 
   const result = await supabase.rpc('transfer_tokens', {
-    p_sender_id:userId,
+    p_sender_id:auth.userId,
     p_recipient_id:recipientId,
     p_amount:cost,
-    p_reason:type === 'gift' ? `gift:${gift!.id}` : 'tip',
+    p_source:type === 'gift' ? `gift:${gift!.id}` : 'tip',
   });
 
   if (result.error) {
