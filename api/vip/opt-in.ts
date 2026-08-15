@@ -1,61 +1,32 @@
+import { requireUser } from '../lib/auth';
+
 export const config = { runtime: 'edge' };
 
-/**
- * POST /api/vip/opt-in
- * Body: { "performerId": "...", "ratePerMinute": 5, "currency": "CAD", "bio": "..." }
- *
- * Performer opts themselves into VIP private shows.
- * They set their own rate and can update it anytime.
- * No approval needed. If you're a verified performer, you can list yourself.
- *
- * POST /api/vip/opt-out
- * Body: { "performerId": "..." }
- * Removes themselves from VIP listing.
- */
 export default async function handler(req: Request): Promise<Response> {
-  if (req.method !== 'POST') {
-    return Response.json({ error: 'Method not allowed' }, { status: 405 });
-  }
+  if (req.method !== 'POST') return Response.json({ error: 'Method not allowed' }, { status: 405 });
+
+  const auth = await requireUser(req);
+  if (auth instanceof Response) return auth;
 
   const url = new URL(req.url);
   const isOptOut = url.pathname.endsWith('opt-out');
 
   let body: { performerId?: string; ratePerMinute?: number; currency?: string; bio?: string } = {};
-  try {
-    body = await req.json();
-  } catch {
-    return Response.json({ error: 'Invalid JSON' }, { status: 400 });
-  }
+  try { body = await req.json(); } catch { return Response.json({ error: 'Invalid JSON' }, { status: 400 }); }
 
-  if (!body.performerId) {
-    return Response.json({ error: 'performerId required' }, { status: 400 });
-  }
+  if (!body.performerId || body.performerId !== auth.userId) return Response.json({ error: 'You can only change your own VIP listing' }, { status: 403 });
 
-  if (isOptOut) {
-    return Response.json({
-      performerId: body.performerId,
-      vipStatus: 'opted-out',
-      message: 'Removed from VIP listings.',
-    });
-  }
+  if (isOptOut) return Response.json({ performerId: auth.userId, vipStatus: 'opted-out' });
 
-  // Opt in
-  if (!body.ratePerMinute || body.ratePerMinute < 1) {
-    return Response.json({ error: 'ratePerMinute required (min $1/min)' }, { status: 400 });
-  }
+  if (!Number.isFinite(body.ratePerMinute) || (body.ratePerMinute as number) < 1 || (body.ratePerMinute as number) > 1000) return Response.json({ error: 'ratePerMinute must be 1-1000' }, { status: 400 });
+  const bio = body.bio?.trim() || null;
+  if (bio && bio.length > 2000) return Response.json({ error: 'bio must be 2000 characters or fewer' }, { status: 400 });
 
   return Response.json({
-    performerId: body.performerId,
-    vipStatus: 'active',
-    rate: {
-      perMinute: body.ratePerMinute,
-      currency: body.currency || 'CAD',
-    },
-    bio: body.bio || null,
-    message: 'You are now listed in VIP. Guests can book you anytime you are set to available.',
-    splits: {
-      performerKeeps: '75%',
-      platformTakes: '25%',
-    },
-  }, { status: 201 });
+    performerId: auth.userId,
+    vipStatus: 'pending_database_sync',
+    rate: { perMinute: body.ratePerMinute, currency: body.currency || 'CAD' },
+    bio,
+    message: 'VIP listing details validated. Database persistence is required before activation.',
+  }, { status: 202 });
 }
