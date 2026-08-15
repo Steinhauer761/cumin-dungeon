@@ -1,132 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cumin Dungeon - Casino</title>
-<style>
-  /* Modern Global Styling */
-  body {
-    background-color: #121212;
-    color: #f1f1f1;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-
-  /* Artwork Still Frame Section */
-  .page-artwork {
-    width: 100%;
-    height: 350px;
-    background-image: url('casino-frame.jpg'); /* UPDATE WITH YOUR EXACT IMAGE FILE NAME */
-    background-size: cover;
-    background-position: center;
-    border-bottom: 3px solid #d4af37;
-  }
-
-  /* Sleek Casino Container */
-  .casino-container {
-    max-width: 800px;
-    margin: -50px auto 50px auto; /* Pulls it up slightly over the artwork */
-    background: #1e1e24;
-    border-radius: 15px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.9);
-    overflow: hidden;
-    position: relative;
-    border: 1px solid #333;
-  }
-
-  .casino-header {
-    background: linear-gradient(135deg, #d4af37, #aa7c11);
-    color: #111;
-    text-align: center;
-    padding: 20px;
-    font-size: 2em;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-  }
-
-  .casino-content {
-    padding: 40px;
-    text-align: center;
-  }
-
-  /* Modern Neon/Glow Buttons */
-  .btn-casino {
-    background: #e63946;
-    color: white;
-    border: none;
-    padding: 15px 35px;
-    font-size: 1.2em;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
-    text-transform: uppercase;
-    font-weight: bold;
-    box-shadow: 0 4px 15px rgba(230, 57, 70, 0.4);
-    margin: 10px;
-  }
-
-  .btn-casino:hover {
-    background: #f25c68;
-    transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(230, 57, 70, 0.6);
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="refresh" content="0; url=/entrance.html">
+  <title>Cumin Dungeon</title>
+  <script>window.location.replace('/entrance.html');</script>
 </head>
-<body>
-
-  <!-- Your Still Frame Art -->
-  <div class="page-artwork"></div>
-
-  <!-- The Casino -->
-  <div class="casino-container">
-    <div class="casino-header">
-      The High Roller Room
-    </div>
-    <div class="casino-content">
-      <p>Welcome to the tables. Place your bets.</p>
-      
-      <!-- Buttons that trigger the video transition -->
-      <button class="btn-casino" onclick="playTransitionAndGo('slots.html', 'slots-transition.mp4')">Play Slots</button>
-      <button class="btn-casino" onclick="playTransitionAndGo('blackjack.html', 'cards-transition.mp4')">Blackjack</button>
-    </div>
-  </div>
-
-  <!-- The Video Overlay (Hidden by Default) -->
-  <div id="video-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: black; z-index: 9999;">
-    <video id="transition-video" style="width: 100%; height: 100%; object-fit: cover;" playsinline>
-      <source id="video-source" src="" type="video/mp4">
-    </video>
-  </div>
-
-  <!-- The JavaScript that makes the transitions work -->
-  <script>
-    function playTransitionAndGo(nextPageUrl, videoPath) {
-      const overlay = document.getElementById('video-overlay');
-      const video = document.getElementById('transition-video');
-      const source = document.getElementById('video-source');
-
-      // 1. Set the correct video for the transition
-      source.src = videoPath;
-      video.load();
-
-      // 2. Show the black screen and start playing
-      overlay.style.display = 'block';
-      video.play();
-
-      // 3. When the video is done playing, go to the next page
-      video.onended = function() {
-        window.location.href = nextPageUrl;
-      };
-      
-      // Fallback: If the video fails to load or is missing, skip the video and go to the next page so it doesn't get stuck
-      video.onerror = function() {
-        window.location.href = nextPageUrl;
-      };
-    }
-  </script>
-
+<body style="background:#130102; color: #f5ece4; font-family:system-ui; text-align:center; padding:40px">
+  <a href="/entrance.html" style="color:#d4a373">Enter Cumin Dungeon</a>
 </body>
 </html>
+
