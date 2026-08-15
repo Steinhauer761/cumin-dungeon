@@ -1,26 +1,18 @@
+import { requireUser } from '../lib/auth';
+
 export const config = { runtime: 'edge' };
 
-/**
- * GET /api/creator/status?email=performer@email.com
- * Performer checks their application status.
- */
-export default function handler(req: Request): Response {
-  if (req.method !== 'GET') {
-    return Response.json({ error: 'Method not allowed' }, { status: 405 });
-  }
+export default async function handler(req: Request): Promise<Response> {
+  if (req.method !== 'GET') return Response.json({ error: 'Method not allowed' }, { status: 405 });
 
-  const url = new URL(req.url);
-  const email = url.searchParams.get('email');
+  const auth = await requireUser(req);
+  if (auth instanceof Response) return auth;
 
-  if (!email) {
-    return Response.json({ error: 'email parameter required' }, { status: 400 });
-  }
-
-  // Stub: return pending status
+  // The previous endpoint returned a fabricated application status for any
+  // email address. Do not expose or invent creator verification state until
+  // applications are persisted in the database.
   return Response.json({
-    email,
-    status: 'pending',
-    message: 'Your application is being reviewed. You will be notified when approved.',
-    submittedAt: new Date(Date.now() - 86400000).toISOString(),
-  });
+    error: 'Creator application status is unavailable until application persistence is connected.',
+    userId: auth.userId,
+  }, { status: 503 });
 }
