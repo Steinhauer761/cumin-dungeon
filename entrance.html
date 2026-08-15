@@ -6,11 +6,13 @@
 <title>Welcome to CumIN Dungeon</title>
 <style>
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050302;color:#f5eee4;font-family:Inter,system-ui,sans-serif}
-#stage{position:fixed;inset:0;background:#050302;display:grid;place-items:center}
-video{width:100%;height:100%;object-fit:cover;display:block}
-#fallback{display:none;position:absolute;inset:0;place-items:center;text-align:center;background:radial-gradient(circle at center,#24120d 0,#050302 65%);padding:24px}
-#fallback h1{font-family:Georgia,serif;font-size:clamp(2rem,5vw,4rem);margin:0 0 10px;color:#e6b76a}
-#fallback p{color:#b7a99c;max-width:560px}
+#stage{position:fixed;inset:0;background:#050302;display:grid;place-items:center;overflow:hidden}
+#cinematic{width:100%;height:100%;object-fit:cover;display:none}
+#art{position:absolute;inset:0;background:#050302 center/cover no-repeat;transition:opacity .9s ease,transform 5s ease;transform:scale(1.015)}
+#art::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.25) 55%,rgba(0,0,0,.65))}
+#fallback{display:none;position:absolute;inset:auto 0 12%;text-align:center;z-index:3;text-shadow:0 3px 18px #000}
+#fallback h1{font-family:Georgia,serif;font-size:clamp(2rem,5vw,4rem);margin:0 0 10px;color:#f0c87b;letter-spacing:.08em}
+#fallback p{color:#d4c2ad;margin:0}
 .controls{position:fixed;right:20px;bottom:20px;display:flex;gap:8px;z-index:5}
 button{border:1px solid rgba(213,154,75,.55);background:rgba(10,6,4,.78);color:#f5eee4;border-radius:8px;padding:10px 14px;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)}
 button:hover{border-color:#f5c77e}
@@ -19,32 +21,50 @@ button:hover{border-color:#f5c77e}
 </head>
 <body>
 <div id="stage">
+  <div id="art" aria-hidden="true"></div>
   <video id="cinematic" playsinline preload="auto"></video>
-  <div id="fallback"><div><h1>Welcome to the Dungeon</h1><p>The cinematic entrance is ready. Continue into the Grand Hall.</p></div></div>
+  <div id="fallback"><h1 id="fallbackTitle">Welcome to the Dungeon</h1><p id="fallbackText">Entering the Grand Hall…</p></div>
 </div>
 <div id="progress"></div>
 <div class="controls"><button id="skip">Skip entrance</button></div>
 <script>
 const sequences=[
-  '/public/media/castle-hall-sequence.mp4',
-  '/public/media/hall-casino-sequence.mp4',
-  '/public/media/castle-to-casino-reveal.mp4'
+  {video:'/public/media/castle-hall-sequence.mp4',art:'/public/media/castle-entrance.svg',title:'Welcome to the Dungeon',text:'The gates are opening…'},
+  {video:'/public/media/hall-casino-sequence.mp4',art:'/public/media/grand-hall.svg',title:'The Grand Hall',text:'Follow the lights deeper inside…'},
+  {video:'/public/media/castle-to-casino-reveal.mp4',art:'/public/media/casino-reveal.svg',title:'The Dungeon Casino',text:'VIP • Private Rooms • After Dark'}
 ];
 const video=document.getElementById('cinematic');
+const art=document.getElementById('art');
 const fallback=document.getElementById('fallback');
+const fallbackTitle=document.getElementById('fallbackTitle');
+const fallbackText=document.getElementById('fallbackText');
 const progress=document.getElementById('progress');
-let index=0,started=false;
+let index=0,videoStarted=false;
 function go(){window.location.href='/hall.html'}
-function showFallback(){video.style.display='none';fallback.style.display='grid';setTimeout(go,1400)}
+function showArt(item){
+  art.style.opacity='0';
+  setTimeout(()=>{art.style.backgroundImage=`url('${item.art}')`;art.style.opacity='1';art.style.transform='scale(1.035)';},120);
+  fallbackTitle.textContent=item.title;
+  fallbackText.textContent=item.text;
+  fallback.style.display='block';
+  video.style.display='none';
+}
 function playNext(){
   if(index>=sequences.length){go();return}
-  video.src=sequences[index++];
+  const item=sequences[index++];
+  showArt(item);
+  videoStarted=false;
+  video.src=item.video;
   video.currentTime=0;
-  video.play().then(()=>{started=true}).catch(()=>showFallback());
+  video.style.display='block';
+  video.play().then(()=>{videoStarted=true;fallback.style.display='none';art.style.opacity='0';}).catch(()=>{
+    video.style.display='none';
+    setTimeout(playNext,3200);
+  });
 }
 video.addEventListener('timeupdate',()=>{if(video.duration)progress.style.width=(video.currentTime/video.duration*100)+'%'});
 video.addEventListener('ended',playNext);
-video.addEventListener('error',()=>{ if(!started) showFallback(); else playNext(); });
+video.addEventListener('error',()=>{video.style.display='none';setTimeout(playNext,3200)});
 document.getElementById('skip').addEventListener('click',go);
 playNext();
 </script>
