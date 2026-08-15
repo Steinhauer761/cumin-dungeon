@@ -3,9 +3,21 @@
   'use strict';
   if (!location.pathname.endsWith('/room.html')) return;
 
+  const ROOM_ART = {
+    'velvet-room': '/public/assets/rooms/velvet-room.svg',
+    'tangled-throne': '/public/assets/rooms/room-03.svg',
+    'pink-silk': '/public/assets/rooms/room-04.svg',
+    'devils-playground': '/public/assets/rooms/room-05.svg',
+    'back-room': '/public/assets/rooms/room-06.svg',
+    'the-dungeon': '/public/assets/rooms/room-07.svg',
+    'haleys-halo': '/public/assets/rooms/room-08.svg',
+    'trans-kinks': '/public/assets/rooms/room-09.svg'
+  };
+
   function init() {
     const params = new URLSearchParams(location.search);
     const roomId = params.get('id') || 'velvet-room';
+    const posterUrl = ROOM_ART[roomId] || '/public/assets/rooms/room-03.svg';
     const area = document.querySelector('.video-area');
     if (!area) return;
 
@@ -27,7 +39,7 @@
 
     placeholder.innerHTML = `
       <div class="cd-stream-shell">
-        <video id="cumin-live-video" playsinline autoplay muted poster="/api/assets/${encodeURIComponent(roomId)}"></video>
+        <video id="cumin-live-video" playsinline autoplay muted poster="${posterUrl}"></video>
         <div class="cd-stream-overlay">
           <div class="cd-stream-mark">CUM<span>IN</span> DUNGEON</div>
           <div class="cd-stream-state"><i></i><span>Waiting for live performer connection</span></div>

@@ -9,15 +9,32 @@
     'haleys halo':'haleys-halo', 'trans kinks':'trans-kinks'
   };
 
+  const ROOM_ART = {
+    'grand-hall': '/public/assets/rooms/grand-hall.svg',
+    'velvet-room': '/public/assets/rooms/velvet-room.svg',
+    'tangled-throne': '/public/assets/rooms/room-03.svg',
+    'pink-silk': '/public/assets/rooms/room-04.svg',
+    'devils-playground': '/public/assets/rooms/room-05.svg',
+    'back-room': '/public/assets/rooms/room-06.svg',
+    'the-dungeon': '/public/assets/rooms/room-07.svg',
+    'haleys-halo': '/public/assets/rooms/room-08.svg',
+    'trans-kinks': '/public/assets/rooms/room-09.svg'
+  };
+
   function normalizePublicPath(src) {
     if (!src || typeof src !== 'string') return src;
     try {
       const url = new URL(src, location.href);
+      // Fix ClickUp CDN URLs to local SVGs
       if (url.hostname.includes('clickup.com')) {
-        const file = decodeURIComponent(url.pathname.split('/').pop() || '').toLowerCase();
         const match = Object.entries(ROOM_KEYS).find(([label]) => src.toLowerCase().includes(label.replace(/[^a-z0-9]+/g, '')));
-        if (match) return '/api/assets/' + match[1];
-        if (file.endsWith('.png') && src.toLowerCase().includes('07b7448f')) return '/api/assets/grand-hall';
+        if (match) return ROOM_ART[match[1]] || '/public/assets/rooms/room-03.svg';
+        return '/public/assets/rooms/grand-hall.svg';
+      }
+      // Fix broken /api/assets/ paths
+      if (url.pathname.startsWith('/api/assets/')) {
+        const id = url.pathname.replace('/api/assets/', '');
+        return ROOM_ART[id] || '/public/assets/rooms/room-03.svg';
       }
     } catch (_) {}
     return src;
@@ -26,11 +43,10 @@
   function fallbackFor(el) {
     if (!el || el.dataset.cdFallback === 'true') return;
     el.dataset.cdFallback = 'true';
-    const wrapper = document.createElement('div');
-    wrapper.className = 'cd-media-fallback';
-    wrapper.setAttribute('aria-label', 'CumIN Dungeon artwork unavailable');
-    wrapper.style.aspectRatio = el.videoWidth && el.videoHeight ? `${el.videoWidth}/${el.videoHeight}` : '16 / 9';
-    el.replaceWith(wrapper);
+    // Don't remove the element, just add a class for CSS fallback styling
+    el.classList.add('cd-media-fallback');
+    el.style.background = 'radial-gradient(circle at 50% 40%, rgba(213,154,75,0.08), rgba(5,3,4,0.95))';
+    el.style.objectFit = 'cover';
   }
 
   function wire(el) {
@@ -39,7 +55,7 @@
     const src = el.getAttribute('src');
     const alt = (el.getAttribute('alt') || '').trim().toLowerCase();
     const roomKey = ROOM_KEYS[alt];
-    const normalized = roomKey ? '/api/assets/' + roomKey : normalizePublicPath(src);
+    const normalized = roomKey ? (ROOM_ART[roomKey] || '/public/assets/rooms/room-03.svg') : normalizePublicPath(src);
     if (normalized && normalized !== src) el.setAttribute('src', normalized);
 
     if (el.tagName === 'IMG') {
