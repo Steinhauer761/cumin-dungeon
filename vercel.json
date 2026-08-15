@@ -1,9 +1,3 @@
 {
-  "public": true,
-  "routes": [
-    { "src": "/css/(.*)", "dest": "/public/css/$1" },
-    { "src": "/js/(.*)", "dest": "/public/js/$1" },
-    { "src": "/games/(.*)", "dest": "/games/$1" },
-    { "src": "/(.*)", "dest": "/public/$1" }
-  ]
+  "public": true
 }
