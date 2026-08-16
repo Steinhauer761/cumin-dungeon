@@ -11,10 +11,17 @@
 body { background:var(--bg); color:var(--cream); font-family:var(--sans); font-size:15px; line-height:1.5; }
 button { font:inherit; color:inherit; cursor:pointer; }
 a { color:inherit; }
-.hall-layout { display:grid; grid-template-columns:1fr 340px; min-height:100vh; }
+
+/* Hero background */
+.hall-hero { position:relative; height:280px; overflow:hidden; }
+.hall-hero img { width:100%; height:100%; object-fit:cover; animation:hallZoom 25s ease-in-out infinite alternate; }
+@keyframes hallZoom { from{transform:scale(1) translateY(0)} to{transform:scale(1.06) translateY(-2%)} }
+.hall-hero-overlay { position:absolute; inset:0; background:linear-gradient(to bottom, rgba(10,6,4,.2), rgba(10,6,4,.95)); display:flex; align-items:flex-end; padding:24px 32px; }
+.hall-hero-overlay h1 { font-family:var(--serif); font-size:2.2rem; font-style:italic; }
+
+.hall-layout { display:grid; grid-template-columns:1fr 340px; min-height:calc(100vh - 280px); }
 .hall-main { padding:24px; overflow-y:auto; }
 .hall-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; gap:16px; }
-.hall-header h1 { font-family:var(--serif); font-size:1.8rem; font-style:italic; }
 .btn-back { padding:10px 14px; border:1px solid var(--line); border-radius:8px; background:transparent; font-size:.72rem; font-weight:700; text-decoration:none; }
 .btn-back:hover { border-color:var(--gold); }
 .token-bar { display:flex; align-items:center; gap:16px; padding:12px 16px; border:1px solid var(--line); border-radius:12px; background:var(--surface); margin-bottom:24px; }
@@ -23,13 +30,12 @@ a { color:inherit; }
 .section-title { font-family:var(--serif); font-size:1.35rem; margin-bottom:12px; }
 .section-note { color:var(--muted); font-size:.72rem; margin-bottom:18px; }
 .games-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; }
-.game-card { padding:18px; min-height:130px; border:1px solid var(--line); border-radius:14px; background:var(--surface); transition:transform .15s,border-color .15s; text-decoration:none; display:block; }
+.game-card { padding:18px; min-height:130px; border:1px solid var(--line); border-radius:14px; background:var(--surface); transition:transform .15s,border-color .15s; text-decoration:none; display:block; position:relative; overflow:hidden; }
 .game-card:hover { transform:translateY(-2px); border-color:var(--gold); }
-.game-card h3 { font-family:var(--serif); font-size:1.15rem; margin-bottom:5px; font-style:italic; }
-.game-card p { font-size:.7rem; color:var(--muted); line-height:1.45; margin-bottom:12px; }
-.game-card .bet-range { font-size:.6rem; color:var(--gold); font-weight:700; }
-.game-card .max-win { font-size:.6rem; color:#4ade80; margin-left:8px; }
-.empty { padding:30px; border:1px dashed var(--line); border-radius:14px; color:var(--muted); text-align:center; }
+.game-card h3 { font-family:var(--serif); font-size:1.15rem; margin-bottom:5px; font-style:italic; position:relative; }
+.game-card p { font-size:.7rem; color:var(--muted); line-height:1.45; margin-bottom:12px; position:relative; }
+.game-card .bet-range { font-size:.6rem; color:var(--gold); font-weight:700; position:relative; }
+.game-card .max-win { font-size:.6rem; color:#4ade80; margin-left:8px; position:relative; }
 .hall-chat { display:grid; grid-template-rows:auto 1fr auto; border-left:1px solid var(--line); background:var(--surface); }
 .hall-chat-header { padding:14px 16px; border-bottom:1px solid var(--line); }
 .hall-chat-header h3 { font-size:.82rem; font-weight:700; }
@@ -42,14 +48,20 @@ a { color:inherit; }
 .hall-chat-input { display:grid; grid-template-columns:1fr auto; gap:8px; padding:12px 16px; border-top:1px solid var(--line); }
 .hall-chat-input input { padding:10px 12px; border:1px solid var(--line); border-radius:8px; background:var(--bg); color:var(--cream); font-size:.75rem; }
 .hall-chat-input button { padding:10px 16px; border:none; border-radius:8px; background:var(--gold); color:var(--bg); font-weight:800; font-size:.72rem; }
-@media (max-width:768px) { .hall-layout{grid-template-columns:1fr;} .hall-chat{height:300px;} .hall-header h1{font-size:1.5rem;} }
+@media (max-width:768px) { .hall-layout{grid-template-columns:1fr;} .hall-chat{height:300px;} .hall-hero{height:200px;} }
 </style>
 </head>
 <body>
+
+<!-- Hall hero image -->
+<div class="hall-hero">
+  <img src="/public/assets/art/6766.png" alt="The Grand Hall">
+  <div class="hall-hero-overlay"><h1>The Grand Hall</h1></div>
+</div>
+
 <div class="hall-layout">
   <main class="hall-main">
     <div class="hall-header">
-      <h1>The Grand Hall</h1>
       <a href="/" class="btn-back">Back to Rooms</a>
     </div>
 
@@ -80,6 +92,17 @@ a { color:inherit; }
 <script src="/public/js/chat.js"></script>
 <script>
 const guestId = 'Guest_' + Math.random().toString(36).slice(2,7);
+
+/* Casino game art map */
+const CASINO_ART = {
+  'dungeon-slots': '/public/assets/art/6733.png',
+  'sin-roulette': '/public/assets/art/6734.png',
+  'strip-blackjack': '/public/assets/art/6735.png',
+  'devils-dice': '/public/assets/art/6736.png',
+  'high-or-low': '/public/assets/art/6737.png',
+  'kink-wheel': '/public/assets/art/6738.png'
+};
+
 const CASINO_GAMES = [
   { id:'dungeon-slots', name:'Dungeon Slots', desc:'Spin the reels. Match symbols. Win big.', bet:'5-50', max:'50x', href:'/games/slots.html' },
   { id:'sin-roulette', name:'Sin Roulette', desc:'Pick your number or color. The wheel decides.', bet:'5-50', max:'36x', href:'/games/roulette.html' },
@@ -96,6 +119,10 @@ function loadCasino() {
     const link = document.createElement('a');
     link.className = 'game-card';
     link.href = game.href;
+    const bgImg = CASINO_ART[game.id] || '';
+    link.style.backgroundImage = bgImg ? `linear-gradient(to bottom, rgba(20,16,16,.6), rgba(20,16,16,.92)), url(${bgImg})` : '';
+    link.style.backgroundSize = 'cover';
+    link.style.backgroundPosition = 'center';
     link.innerHTML = `<h3>${game.name}</h3><p>${game.desc}</p><span class="bet-range">Bet: ${game.bet}</span><span class="max-win">Max: ${game.max}</span>`;
     grid.appendChild(link);
   });

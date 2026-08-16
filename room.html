@@ -11,15 +11,15 @@
 body { background: var(--bg); color: var(--cream); font-family: var(--sans); font-size: 14px; line-height: 1.5; overflow-x: hidden; }
 button { font: inherit; color: inherit; cursor: pointer; border: none; background: none; }
 
-/* Full screen video area */
 .room-page { height: 100vh; height: 100dvh; display: flex; flex-direction: column; position: relative; }
 
 .video-area { flex: 1; position: relative; background: #000; display: grid; place-items: center; overflow: hidden; }
-.video-area::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 40%, rgba(213,154,75,0.06), transparent 50%); pointer-events: none; }
-.video-placeholder { text-align: center; color: var(--muted); font-size: 0.8rem; }
+.video-area .room-bg { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.35; animation:roomBgPan 30s ease-in-out infinite alternate; z-index:0; }
+@keyframes roomBgPan { from{transform:scale(1) translate(0,0)} to{transform:scale(1.08) translate(-1%,-1%)} }
+.video-area::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 40%, rgba(213,154,75,0.06), transparent 50%); pointer-events: none; z-index:1; }
+.video-placeholder { text-align: center; color: var(--muted); font-size: 0.8rem; position:relative; z-index:2; }
 .video-placeholder .icon { font-size: 3rem; opacity: 0.2; display: block; margin-bottom: 8px; }
 
-/* Top bar overlay */
 .top-bar { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent); z-index: 10; }
 .live-badge { display: flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 100px; background: rgba(230,57,70,0.9); font-size: 0.55rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
 .live-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: white; animation: pulse 2s infinite; }
@@ -28,14 +28,12 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
 .viewers-pill { padding: 5px 10px; border-radius: 100px; background: rgba(0,0,0,0.6); font-size: 0.6rem; color: var(--muted); }
 .btn-nav { padding: 7px 14px; border-radius: 8px; background: rgba(0,0,0,0.6); border: 1px solid var(--line); font-size: 0.65rem; font-weight: 700; }
 
-/* Bottom bar: room info + VIP button */
 .bottom-bar { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); z-index: 10; display: flex; justify-content: space-between; align-items: flex-end; }
 .room-info h2 { font-family: var(--serif); font-size: 1.3rem; font-weight: 600; font-style: italic; }
 .room-info p { font-size: 0.65rem; color: var(--muted); margin-top: 2px; }
 .vip-btn { padding: 10px 20px; border-radius: 10px; background: linear-gradient(135deg, #8b1a24, #c0392b); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.03em; color: white; box-shadow: 0 4px 20px rgba(192,57,43,0.3); }
 .vip-btn:hover { transform: translateY(-1px); }
 
-/* Gift tray (pull-up from bottom) */
 .gift-tray { position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; background: var(--surface); border-top: 1px solid var(--line); border-radius: 16px 16px 0 0; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.22,1,0.36,1); padding: 16px; max-height: 60vh; overflow-y: auto; }
 .gift-tray.open { transform: translateY(0); }
 .gift-tray-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
@@ -47,17 +45,12 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
 .gift-item .emoji { font-size: 1.4rem; display: block; margin-bottom: 4px; }
 .gift-item .name { font-size: 0.58rem; font-weight: 600; display: block; }
 .gift-item .cost { font-size: 0.52rem; color: var(--gold); display: block; margin-top: 2px; }
-
-/* Custom tip */
 .tip-row { display: flex; gap: 8px; align-items: center; padding-top: 12px; border-top: 1px solid var(--line); }
 .tip-row input { flex: 1; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--cream); font-size: 0.8rem; }
 .tip-row button { padding: 10px 16px; border-radius: 8px; background: var(--gold); color: var(--bg); font-weight: 800; font-size: 0.72rem; }
-
-/* Gift trigger button */
 .gift-trigger { position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); z-index: 40; padding: 10px 24px; border-radius: 100px; background: var(--surface); border: 1px solid var(--gold); font-size: 0.72rem; font-weight: 700; color: var(--gold-light); box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
 .gift-trigger:hover { background: rgba(213,154,75,0.1); }
 
-/* Chat pull-up */
 .chat-drawer { position: fixed; bottom: 0; left: 0; right: 0; z-index: 45; background: var(--surface); border-top: 1px solid var(--line); border-radius: 16px 16px 0 0; transform: translateY(calc(100% - 48px)); transition: transform 0.3s cubic-bezier(0.22,1,0.36,1); max-height: 50vh; display: flex; flex-direction: column; }
 .chat-drawer.open { transform: translateY(0); }
 .chat-handle { height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
@@ -72,7 +65,6 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
 .chat-input-row input { flex: 1; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--cream); font-size: 0.72rem; }
 .chat-input-row button { padding: 9px 14px; border-radius: 8px; background: var(--gold); color: var(--bg); font-weight: 800; font-size: 0.68rem; }
 
-/* Desktop override: side-by-side */
 @media (min-width: 900px) {
   .room-page { flex-direction: row; }
   .video-area { flex: 1; }
@@ -87,6 +79,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
 
 <div class="room-page">
   <div class="video-area">
+    <img class="room-bg" id="room-bg" src="" alt="">
     <div class="video-placeholder"><span class="icon">✧</span>Performer stream appears here when live</div>
     <div class="top-bar">
       <span class="live-badge">Live</span>
@@ -104,7 +97,6 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
     </div>
   </div>
 
-  <!-- Chat drawer (pull up on mobile, sidebar on desktop) -->
   <div class="chat-drawer" id="chat-drawer">
     <div class="chat-handle" id="chat-handle"><div class="chat-handle-bar"></div><span>Chat</span></div>
     <div class="chat-messages" id="chat-messages"></div>
@@ -115,10 +107,8 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
   </div>
 </div>
 
-<!-- Gift trigger -->
 <button class="gift-trigger" id="gift-trigger">🎁 Gifts & Tips</button>
 
-<!-- Gift tray -->
 <div class="gift-tray" id="gift-tray">
   <div class="gift-tray-header">
     <h3>Send a Gift</h3>
@@ -141,6 +131,23 @@ const guestId = localStorage.getItem('admin_key') && localStorage.getItem('ghost
   ? (localStorage.getItem('ghost_alias') || 'Elias')
   : 'Guest_' + Math.random().toString(36).slice(2,7);
 
+/* Room background art map */
+const ROOM_ART = {
+  'velvet-room': '/public/assets/art/6690.png',
+  'tangled-throne': '/public/assets/art/6694.png',
+  'pink-silk': '/public/assets/art/6691.png',
+  'devils-playground': '/public/assets/art/6695.png',
+  'back-room': '/public/assets/art/6696.png',
+  'the-dungeon': '/public/assets/art/6693.png',
+  'haleys-halo': '/public/assets/art/6699.png',
+  'trans-kinks': '/public/assets/art/6698.png'
+};
+
+/* Set room background art */
+const bgEl = document.getElementById('room-bg');
+if (ROOM_ART[roomId]) bgEl.src = ROOM_ART[roomId];
+else bgEl.src = '/public/assets/art/6700.png';
+
 // Load room info
 fetch('/api/rooms/' + roomId).then(r => r.json()).then(room => {
   if (room.error) { document.getElementById('room-title').textContent = 'Room not found'; return; }
@@ -157,34 +164,23 @@ fetch('/api/tokens/redeem').then(r => r.json()).then(data => {
     const item = document.createElement('div');
     item.className = 'gift-item';
     item.innerHTML = `<span class="emoji">${gift.emoji}</span><span class="name">${gift.name}</span><span class="cost">${gift.cost} tokens</span>`;
-    item.addEventListener('click', () => {
-      alert(`Sent ${gift.emoji} ${gift.name} (${gift.cost} tokens)`);
-    });
+    item.addEventListener('click', () => { alert(`Sent ${gift.emoji} ${gift.name} (${gift.cost} tokens)`); });
     grid.appendChild(item);
   });
 });
 
 // Gift tray toggle
-document.getElementById('gift-trigger').addEventListener('click', () => {
-  document.getElementById('gift-tray').classList.add('open');
-});
-document.getElementById('close-tray').addEventListener('click', () => {
-  document.getElementById('gift-tray').classList.remove('open');
-});
+document.getElementById('gift-trigger').addEventListener('click', () => { document.getElementById('gift-tray').classList.add('open'); });
+document.getElementById('close-tray').addEventListener('click', () => { document.getElementById('gift-tray').classList.remove('open'); });
 
 // Custom tip
 document.getElementById('send-tip').addEventListener('click', () => {
   const amount = document.getElementById('tip-amount').value;
-  if (amount && parseInt(amount) > 0) {
-    alert(`Tipped ${amount} tokens!`);
-    document.getElementById('tip-amount').value = '';
-  }
+  if (amount && parseInt(amount) > 0) { alert(`Tipped ${amount} tokens!`); document.getElementById('tip-amount').value = ''; }
 });
 
 // Chat drawer toggle (mobile)
-document.getElementById('chat-handle').addEventListener('click', () => {
-  document.getElementById('chat-drawer').classList.toggle('open');
-});
+document.getElementById('chat-handle').addEventListener('click', () => { document.getElementById('chat-drawer').classList.toggle('open'); });
 
 // VIP button
 document.getElementById('vip-btn').addEventListener('click', () => {
