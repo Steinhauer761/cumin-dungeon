@@ -22,7 +22,7 @@ a { color:inherit; }
 .hall-layout { display:grid; grid-template-columns:1fr 340px; min-height:calc(100vh - 280px); }
 .hall-main { padding:24px; overflow-y:auto; }
 .hall-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; gap:16px; }
-.btn-back { padding:10px 14px; border:1px solid var(--line); border-radius:8px; background:transparent; font-size:.72rem; font-weight:700; text-decoration:none; }
+.btn-back { padding:10px 14px; border:1px solid var(--line); border-radius:8px; background:transparent; font-size:.72rem; font-weight:700; text-decoration:none; cursor:pointer; }
 .btn-back:hover { border-color:var(--gold); }
 .token-bar { display:flex; align-items:center; gap:16px; padding:12px 16px; border:1px solid var(--line); border-radius:12px; background:var(--surface); margin-bottom:24px; }
 .token-bar .balance { font-size:1.1rem; font-weight:800; color:var(--gold-light); }
@@ -30,7 +30,7 @@ a { color:inherit; }
 .section-title { font-family:var(--serif); font-size:1.35rem; margin-bottom:12px; }
 .section-note { color:var(--muted); font-size:.72rem; margin-bottom:18px; }
 .games-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; }
-.game-card { padding:18px; min-height:130px; border:1px solid var(--line); border-radius:14px; background:var(--surface); transition:transform .15s,border-color .15s; text-decoration:none; display:block; position:relative; overflow:hidden; }
+.game-card { padding:18px; min-height:130px; border:1px solid var(--line); border-radius:14px; background:var(--surface); transition:transform .15s,border-color .15s; text-decoration:none; display:block; position:relative; overflow:hidden; cursor:pointer; }
 .game-card:hover { transform:translateY(-2px); border-color:var(--gold); }
 .game-card h3 { font-family:var(--serif); font-size:1.15rem; margin-bottom:5px; font-style:italic; position:relative; }
 .game-card p { font-size:.7rem; color:var(--muted); line-height:1.45; margin-bottom:12px; position:relative; }
@@ -62,7 +62,7 @@ a { color:inherit; }
 <div class="hall-layout">
   <main class="hall-main">
     <div class="hall-header">
-      <a href="/" class="btn-back">Back to Rooms</a>
+      <button class="btn-back" id="back-btn">Back to Rooms</button>
     </div>
 
     <div class="token-bar">
@@ -88,10 +88,14 @@ a { color:inherit; }
   </aside>
 </div>
 
+<script src="/public/js/transition.js"></script>
 <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
 <script src="/public/js/chat.js"></script>
 <script>
 const guestId = 'Guest_' + Math.random().toString(36).slice(2,7);
+
+/* Back button with transition */
+document.getElementById('back-btn').onclick = () => DungeonTransition.go('/castle-lobby.html');
 
 /* Casino game art map */
 const CASINO_ART = {
@@ -116,9 +120,9 @@ function loadCasino() {
   const grid = document.getElementById('casino-grid');
   grid.innerHTML = '';
   CASINO_GAMES.forEach(game => {
-    const link = document.createElement('a');
+    const link = document.createElement('div');
     link.className = 'game-card';
-    link.href = game.href;
+    link.onclick = () => DungeonTransition.go(game.href);
     const bgImg = CASINO_ART[game.id] || '';
     link.style.backgroundImage = bgImg ? `linear-gradient(to bottom, rgba(20,16,16,.6), rgba(20,16,16,.92)), url(${bgImg})` : '';
     link.style.backgroundSize = 'cover';

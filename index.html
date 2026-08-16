@@ -53,7 +53,7 @@
 /* Room grid */
 .label{color:var(--gold);font-size:.62rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;margin:0 0 12px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:14px;padding-bottom:50px}
-.room{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface);transition:transform .18s,border-color .18s;display:block}
+.room{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface);transition:transform .18s,border-color .18s;display:block;cursor:pointer}
 .room:hover{transform:translateY(-3px);border-color:var(--gold)}
 .room img{width:100%;height:170px;object-fit:cover;display:block;background:#100b08;transition:transform 4s ease}
 .room:hover img{transform:scale(1.05)}
@@ -87,13 +87,14 @@
 <header class="nav"><div class="shell navin"><div class="brand">Cum <strong>IN</strong> Dungeon</div><button class="exit" id="exit">Exit</button></div></header>
 <main class="shell">
   <section class="hero"><div class="eyebrow">The Grand Hall</div><h2>Choose your entrance</h2><p>The rooms are back. Pick a door and step inside.</p></section>
-  <a class="hall" href="/hall.html"><img src="/public/assets/art/6700.png" alt="The Grand Hall"><div class="hallcopy"><h3>The Grand Hall</h3><p>Social games, chat, tokens and the casino.</p></div></a>
+  <div class="hall" id="hall-link"><img src="/public/assets/art/6700.png" alt="The Grand Hall"><div class="hallcopy"><h3>The Grand Hall</h3><p>Social games, chat, tokens and the casino.</p></div></div>
   <p class="label">Choose a room</p>
   <div class="grid" id="rooms"><div class="loading">Loading rooms...</div></div>
   <div class="foot">&copy; 2026 Cum IN Dungeon · 18+ only · Prototype</div>
 </main>
 </div>
 
+<script src="/public/js/transition.js"></script>
 <script>
 const age=document.getElementById('age'),rules=document.getElementById('rules'),enter=document.getElementById('enter'),gate=document.getElementById('gate'),venue=document.getElementById('venue');
 function sync(){enter.disabled=!(age.checked&&rules.checked)}
@@ -101,7 +102,10 @@ age.onchange=sync;rules.onchange=sync;
 enter.onclick=()=>{gate.style.display='none';venue.classList.add('active');loadRooms()};
 document.getElementById('exit').onclick=()=>{venue.classList.remove('active');gate.style.display='grid'};
 
-/* Room art map: room slug -> image path */
+/* Hall link with transition */
+document.getElementById('hall-link').onclick=()=>DungeonTransition.go('/hall.html');
+
+/* Room art map */
 const art={
   'velvet-room':'/public/assets/art/6690.png',
   'tangled-throne':'/public/assets/art/6694.png',
@@ -123,9 +127,9 @@ async function loadRooms(){
     if(!d.rooms?.length)throw new Error();
     grid.innerHTML='';
     d.rooms.forEach(room=>{
-      const a=document.createElement('a');
+      const a=document.createElement('div');
       a.className='room';
-      a.href='/room.html?id='+encodeURIComponent(room.id);
+      a.onclick=()=>DungeonTransition.go('/room.html?id='+encodeURIComponent(room.id));
       a.innerHTML=`<img src="${art[room.id]||'/public/assets/art/6700.png'}" alt="${room.name}"><div class="roombody"><div class="roomtop"><h3>${room.name}</h3><span class="live">${room.status}</span></div><p>${room.description}</p><span class="viewers">● ${room.viewers} watching</span></div>`;
       grid.appendChild(a);
     });

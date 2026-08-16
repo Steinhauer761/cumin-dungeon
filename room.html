@@ -85,7 +85,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
       <span class="live-badge">Live</span>
       <div class="top-right">
         <span class="viewers-pill" id="viewer-count">● 184</span>
-        <button class="btn-nav" onclick="window.location.href='/'">Back</button>
+        <button class="btn-nav" id="back-btn">Back</button>
       </div>
     </div>
     <div class="bottom-bar">
@@ -121,6 +121,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
   </div>
 </div>
 
+<script src="/public/js/transition.js"></script>
 <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
 <script src="/public/js/chat.js"></script>
 <script src="/public/js/admin-bar.js"></script>
@@ -147,6 +148,9 @@ const ROOM_ART = {
 const bgEl = document.getElementById('room-bg');
 if (ROOM_ART[roomId]) bgEl.src = ROOM_ART[roomId];
 else bgEl.src = '/public/assets/art/6700.png';
+
+/* Back button with transition */
+document.getElementById('back-btn').onclick = () => DungeonTransition.go('/castle-lobby.html');
 
 // Load room info
 fetch('/api/rooms/' + roomId).then(r => r.json()).then(room => {
@@ -182,9 +186,9 @@ document.getElementById('send-tip').addEventListener('click', () => {
 // Chat drawer toggle (mobile)
 document.getElementById('chat-handle').addEventListener('click', () => { document.getElementById('chat-drawer').classList.toggle('open'); });
 
-// VIP button
+// VIP button with transition
 document.getElementById('vip-btn').addEventListener('click', () => {
-  window.location.href = '/private-show.html?performer=' + encodeURIComponent(document.getElementById('room-title').textContent) + '&rate=5';
+  DungeonTransition.go('/private-show.html?performer=' + encodeURIComponent(document.getElementById('room-title').textContent) + '&rate=5');
 });
 
 // Init chat

@@ -113,28 +113,29 @@ body{background:var(--black);color:var(--cream);font-family:var(--sans);overflow
 <p class="footer">Castle lobby UI pass. The dragon front door is split between the two moving door leaves so the crest separates when the entrance opens.</p>
 </main>
 
+<script src="/public/js/transition.js"></script>
 <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
 <script src="/public/js/chat.js"></script>
 <script>
-/* Category cards now use room art as backgrounds */
+/* Category cards with room art */
 const cats=[
-  {name:'Velvet Room', sub:'Women', img:'/public/assets/art/6690.png'},
-  {name:'Tangled Throne', sub:'Couples', img:'/public/assets/art/6694.png'},
-  {name:'Pink Silk', sub:'18-21', img:'/public/assets/art/6691.png'},
-  {name:'Devil\'s Playground', sub:'Fetish / Kink', img:'/public/assets/art/6695.png'},
-  {name:'Back Room', sub:'Gay / Bi', img:'/public/assets/art/6696.png'},
-  {name:'The Dungeon', sub:'VIP', img:'/public/assets/art/6693.png'},
-  {name:'Haley\'s Halo', sub:'Women / VIP', img:'/public/assets/art/6699.png'},
-  {name:'Trans Kinks', sub:'Trans', img:'/public/assets/art/6698.png'}
+  {name:'Velvet Room', sub:'Women', img:'/public/assets/art/6690.png', slug:'velvet-room'},
+  {name:'Tangled Throne', sub:'Couples', img:'/public/assets/art/6694.png', slug:'tangled-throne'},
+  {name:'Pink Silk', sub:'18-21', img:'/public/assets/art/6691.png', slug:'pink-silk'},
+  {name:'Devil\'s Playground', sub:'Fetish / Kink', img:'/public/assets/art/6695.png', slug:'devils-playground'},
+  {name:'Back Room', sub:'Gay / Bi', img:'/public/assets/art/6696.png', slug:'back-room'},
+  {name:'The Dungeon', sub:'VIP', img:'/public/assets/art/6693.png', slug:'the-dungeon'},
+  {name:'Haley\'s Halo', sub:'Women / VIP', img:'/public/assets/art/6699.png', slug:'haleys-halo'},
+  {name:'Trans Kinks', sub:'Trans', img:'/public/assets/art/6698.png', slug:'trans-kinks'}
 ];
 const grid=document.getElementById('grid');
 cats.forEach(cat=>{
   const b=document.createElement('button');
   b.className='card';
   b.innerHTML=`<img src="${cat.img}" alt="${cat.name}"><div class="card-overlay"></div><div class="card-content"><strong>${cat.name}</strong><small>${cat.sub}</small></div>`;
-  b.onclick=()=>window.location.href='/room.html?id='+encodeURIComponent(cat.name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,''));
+  b.onclick=()=>DungeonTransition.go('/room.html?id='+cat.slug);
   grid.appendChild(b);
 });
-const doors=document.getElementById('doors'),open=document.getElementById('open');
-open.onclick=()=>{doors.classList.toggle('open');const isOpen=doors.classList.contains('open');open.textContent=isOpen?'Close the Castle Doors':'Open the Castle Doors';};
+const doors=document.getElementById('doors'),openBtn=document.getElementById('open');
+openBtn.onclick=()=>{doors.classList.toggle('open');const isOpen=doors.classList.contains('open');openBtn.textContent=isOpen?'Close the Castle Doors':'Open the Castle Doors';};
 </script></body></html>
