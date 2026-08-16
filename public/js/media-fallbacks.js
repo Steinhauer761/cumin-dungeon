@@ -10,31 +10,43 @@
   };
 
   const ROOM_ART = {
-    'grand-hall': '/public/assets/rooms/grand-hall.svg',
-    'velvet-room': '/public/assets/rooms/velvet-room.svg',
-    'tangled-throne': '/public/assets/rooms/room-03.svg',
-    'pink-silk': '/public/assets/rooms/room-04.svg',
-    'devils-playground': '/public/assets/rooms/room-05.svg',
-    'back-room': '/public/assets/rooms/room-06.svg',
-    'the-dungeon': '/public/assets/rooms/room-07.svg',
-    'haleys-halo': '/public/assets/rooms/room-08.svg',
-    'trans-kinks': '/public/assets/rooms/room-09.svg'
+    'grand-hall': '/public/assets/art/6700.png',
+    'velvet-room': '/public/assets/art/6690.png',
+    'tangled-throne': '/public/assets/art/6694.png',
+    'pink-silk': '/public/assets/art/6691.png',
+    'devils-playground': '/public/assets/art/6695.png',
+    'back-room': '/public/assets/art/6696.png',
+    'the-dungeon': '/public/assets/art/6693.png',
+    'haleys-halo': '/public/assets/art/6699.png',
+    'trans-kinks': '/public/assets/art/6698.png'
   };
 
   function normalizePublicPath(src) {
     if (!src || typeof src !== 'string') return src;
     try {
       const url = new URL(src, location.href);
-      // Fix ClickUp CDN URLs to local SVGs
+      // Fix ClickUp CDN URLs to local PNGs
       if (url.hostname.includes('clickup.com')) {
         const match = Object.entries(ROOM_KEYS).find(([label]) => src.toLowerCase().includes(label.replace(/[^a-z0-9]+/g, '')));
-        if (match) return ROOM_ART[match[1]] || '/public/assets/rooms/room-03.svg';
-        return '/public/assets/rooms/grand-hall.svg';
+        if (match) return ROOM_ART[match[1]] || '/public/assets/art/6700.png';
+        return '/public/assets/art/6700.png';
       }
       // Fix broken /api/assets/ paths
       if (url.pathname.startsWith('/api/assets/')) {
         const id = url.pathname.replace('/api/assets/', '');
-        return ROOM_ART[id] || '/public/assets/rooms/room-03.svg';
+        return ROOM_ART[id] || '/public/assets/art/6700.png';
+      }
+      // Fix old /public/assets/rooms/ SVG paths
+      if (url.pathname.startsWith('/public/assets/rooms/')) {
+        const file = url.pathname.replace('/public/assets/rooms/', '').replace('.svg', '');
+        const idMap = {
+          'grand-hall': 'grand-hall', 'velvet-room': 'velvet-room',
+          'room-03': 'tangled-throne', 'room-04': 'pink-silk',
+          'room-05': 'devils-playground', 'room-06': 'back-room',
+          'room-07': 'the-dungeon', 'room-08': 'haleys-halo', 'room-09': 'trans-kinks'
+        };
+        const mapped = idMap[file];
+        if (mapped && ROOM_ART[mapped]) return ROOM_ART[mapped];
       }
     } catch (_) {}
     return src;
@@ -43,7 +55,6 @@
   function fallbackFor(el) {
     if (!el || el.dataset.cdFallback === 'true') return;
     el.dataset.cdFallback = 'true';
-    // Don't remove the element, just add a class for CSS fallback styling
     el.classList.add('cd-media-fallback');
     el.style.background = 'radial-gradient(circle at 50% 40%, rgba(213,154,75,0.08), rgba(5,3,4,0.95))';
     el.style.objectFit = 'cover';
@@ -55,7 +66,7 @@
     const src = el.getAttribute('src');
     const alt = (el.getAttribute('alt') || '').trim().toLowerCase();
     const roomKey = ROOM_KEYS[alt];
-    const normalized = roomKey ? (ROOM_ART[roomKey] || '/public/assets/rooms/room-03.svg') : normalizePublicPath(src);
+    const normalized = roomKey ? (ROOM_ART[roomKey] || '/public/assets/art/6700.png') : normalizePublicPath(src);
     if (normalized && normalized !== src) el.setAttribute('src', normalized);
 
     if (el.tagName === 'IMG') {

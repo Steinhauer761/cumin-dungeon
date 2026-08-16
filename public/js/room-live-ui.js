@@ -4,20 +4,20 @@
   if (!location.pathname.endsWith('/room.html')) return;
 
   const ROOM_ART = {
-    'velvet-room': '/public/assets/rooms/velvet-room.svg',
-    'tangled-throne': '/public/assets/rooms/room-03.svg',
-    'pink-silk': '/public/assets/rooms/room-04.svg',
-    'devils-playground': '/public/assets/rooms/room-05.svg',
-    'back-room': '/public/assets/rooms/room-06.svg',
-    'the-dungeon': '/public/assets/rooms/room-07.svg',
-    'haleys-halo': '/public/assets/rooms/room-08.svg',
-    'trans-kinks': '/public/assets/rooms/room-09.svg'
+    'velvet-room': '/public/assets/art/6690.png',
+    'tangled-throne': '/public/assets/art/6694.png',
+    'pink-silk': '/public/assets/art/6691.png',
+    'devils-playground': '/public/assets/art/6695.png',
+    'back-room': '/public/assets/art/6696.png',
+    'the-dungeon': '/public/assets/art/6693.png',
+    'haleys-halo': '/public/assets/art/6699.png',
+    'trans-kinks': '/public/assets/art/6698.png'
   };
 
   function init() {
     const params = new URLSearchParams(location.search);
     const roomId = params.get('id') || 'velvet-room';
-    const posterUrl = ROOM_ART[roomId] || '/public/assets/rooms/room-03.svg';
+    const posterUrl = ROOM_ART[roomId] || '/public/assets/art/6690.png';
     const area = document.querySelector('.video-area');
     if (!area) return;
 
