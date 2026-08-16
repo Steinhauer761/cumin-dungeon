@@ -1,124 +1,19 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0a0604">
-<title>Cum IN Dungeon | The Rooms</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0a0604"><title>Cum IN Dungeon | The Rooms</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0a0604;--surface:#141010;--gold:#d59a4b;--gold2:#f5c77e;--cream:#f5eee4;--muted:#a6998b;--line:rgba(190,137,77,.22);--red:#e63946;--serif:'Cormorant Garamond',Georgia,serif;--sans:Inter,system-ui,sans-serif}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--cream);font-family:var(--sans);min-height:100vh}button,a{font:inherit}a{color:inherit;text-decoration:none}
-.shell{width:min(1180px,calc(100% - 28px));margin:auto}
-.gate{min-height:100vh;display:grid;place-items:center;padding:24px;position:relative;overflow:hidden}
-.gate-bg{position:absolute;inset:0;z-index:0}
-.gate-bg img{width:100%;height:100%;object-fit:cover;opacity:.25;animation:slowZoom 20s ease-in-out infinite alternate}
-@keyframes slowZoom{from{transform:scale(1)}to{transform:scale(1.06)}}
-.gate-bg::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,transparent 20%,var(--bg) 70%)}
-.gate-card{position:relative;z-index:1;width:min(560px,100%);padding:38px 24px;border:1px solid var(--line);border-radius:26px;background:linear-gradient(180deg,rgba(29,20,15,.96),rgba(7,5,4,.98));box-shadow:0 24px 80px rgba(0,0,0,.55);text-align:center;backdrop-filter:blur(12px)}
-.eyebrow{color:var(--gold);font-size:.62rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase}
-.gate h1{font:700 clamp(3rem,12vw,5.5rem)/.9 var(--serif);margin:14px 0}
-.gate h1 strong{color:var(--gold)}
-.gate p{color:var(--muted);line-height:1.6;font-size:.82rem}
-.checks{text-align:left;margin:24px 0;padding:14px;border:1px solid var(--line);border-radius:14px;background:rgba(0,0,0,.25)}
-.check{display:flex;gap:10px;padding:10px 0;font-size:.78rem}
-.check+ .check{border-top:1px solid var(--line)}
-.check input{accent-color:var(--gold)}
-.enter{width:100%;padding:14px;border:0;border-radius:10px;background:linear-gradient(180deg,var(--gold2),#a86422);color:#140b04;font-weight:800;cursor:pointer}
-.enter:disabled{opacity:.3;cursor:not-allowed}
-.venue{display:none}.venue.active{display:block}
-.nav{position:sticky;top:0;z-index:10;background:rgba(7,5,4,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
-.navin{height:60px;display:flex;align-items:center;justify-content:space-between}
-.brand{font:700 1.15rem var(--serif)}.brand strong{color:var(--gold)}
-.exit{padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--cream);font-size:.68rem;cursor:pointer}
-.hero{text-align:center;padding:54px 0 28px}
-.hero h2{font:700 clamp(2.4rem,7vw,4.5rem)/1 var(--serif);margin:8px 0}
-.hero p{color:var(--muted);font-size:.82rem}
-.hall{margin:0 0 34px;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--surface);cursor:pointer;display:block;transition:transform .2s,border-color .2s}
-.hall:hover{transform:translateY(-3px);border-color:var(--gold)}
-.hall img{width:100%;height:240px;object-fit:cover;display:block;transition:transform 6s ease}
-.hall:hover img{transform:scale(1.04)}
-.hallcopy{padding:18px}
-.hallcopy h3{font:700 1.5rem var(--serif);margin:0 0 4px}
-.hallcopy p{margin:0;color:var(--muted);font-size:.7rem}
-.label{color:var(--gold);font-size:.62rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;margin:0 0 12px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:14px;padding-bottom:50px}
-.room{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface);transition:transform .18s,border-color .18s;display:block}
-.room:hover{transform:translateY(-3px);border-color:var(--gold)}
-.room img{width:100%;height:170px;object-fit:cover;display:block;background:#100b08;transition:transform 4s ease}
-.room:hover img{transform:scale(1.05)}
-.roombody{padding:14px}
-.roomtop{display:flex;justify-content:space-between;gap:8px;align-items:center}
-.room h3{font:600 1.15rem var(--serif);margin:0}
-.live{font-size:.5rem;color:#ff9ca3;text-transform:uppercase;font-weight:800;letter-spacing:.1em}
-.room p{color:var(--muted);font-size:.68rem;line-height:1.45;margin:6px 0}
-.viewers{font-size:.58rem;color:#82766d}
-.loading{text-align:center;color:var(--muted);padding:30px}
-.foot{border-top:1px solid var(--line);padding:22px 0 40px;color:#665b52;font-size:.58rem;text-align:center}
-@media(max-width:600px){.hall img{height:170px}.grid{grid-template-columns:1fr}}
-</style>
-</head>
-<body>
-<section class="gate" id="gate">
-  <div class="gate-bg"><img src="/public/assets/art/PosterMyWall_GeneratedImage_222b2ae7.png" alt=""></div>
-  <div class="gate-card">
-    <div class="eyebrow">Private digital venue · 18+ only</div>
-    <h1>Cum <strong>IN</strong> Dungeon</h1>
-    <p>Enter the castle, choose a room, visit the Grand Hall, meet performers and explore the social side of the venue.</p>
-    <div class="checks">
-      <label class="check"><input id="age" type="checkbox"> <span>I am at least 18 years old.</span></label>
-      <label class="check"><input id="rules" type="checkbox"> <span>I accept the Venue Rules and Privacy Policy.</span></label>
-    </div>
-    <button class="enter" id="enter" disabled>Enter the Dungeon</button>
-  </div>
-</section>
-<div class="venue" id="venue">
-<header class="nav"><div class="shell navin"><div class="brand">Cum <strong>IN</strong> Dungeon</div><button class="exit" id="exit">Exit</button></div></header>
-<main class="shell">
-  <section class="hero"><div class="eyebrow">The Grand Hall</div><h2>Choose your entrance</h2><p>The rooms are back. Pick a door and step inside.</p></section>
-  <a class="hall" href="/hall.html" data-from="lobby" data-to="hall"><img src="/public/assets/art/PosterMyWall_GeneratedImage_799c3f21.png" alt="The Grand Hall"><div class="hallcopy"><h3>The Grand Hall</h3><p>Social games, chat, tokens and the casino.</p></div></a>
-  <p class="label">Choose a room</p>
-  <div class="grid" id="rooms"><div class="loading">Loading rooms...</div></div>
-  <div class="foot">&copy; 2026 Cum IN Dungeon · 18+ only · Prototype</div>
-</main>
-</div>
-<script src="/public/js/transitions.js"></script>
-<script>
-const age=document.getElementById('age'),rules=document.getElementById('rules'),enter=document.getElementById('enter'),gate=document.getElementById('gate'),venue=document.getElementById('venue');
-function sync(){enter.disabled=!(age.checked&&rules.checked)}
-age.onchange=sync;rules.onchange=sync;
-enter.onclick=()=>{gate.style.display='none';venue.classList.add('active');loadRooms()};
-document.getElementById('exit').onclick=()=>{venue.classList.remove('active');gate.style.display='grid'};
-const art={
-  'velvet-room':'/public/assets/art/b3239591-8c30-4dae-b261-7c42ab8022f1.png',
-  'tangled-throne':'/public/assets/art/cd1f1eae-f7ce-4c72-85b1-457d8bf4f3c1.png',
-  'pink-silk':'/public/assets/art/d8541cfb-406f-46c1-8ec3-39af3b570035.png',
-  'devils-playground':'/public/assets/art/e6c0d2d7-f4e2-40bb-b34c-13b84d7b7fe1.png',
-  'back-room':'/public/assets/art/f7ce0ef5-b1c5-4ea5-8488-d5bb36035de3.png',
-  'the-dungeon':'/public/assets/art/file_00000000b6c081fdaa791db34c771c9e.png',
-  'haleys-halo':'/public/assets/art/generated-image-8ca9f7c9-47b9-4a01-a1ce-e7f69104e45c.png',
-  'trans-kinks':'/public/assets/art/generated-image-ea3dbc19-54ae-4ef1-b68a-78cb3f9b8250.png'
-};
-async function loadRooms(){
-  const grid=document.getElementById('rooms');
-  grid.innerHTML='<div class="loading">Loading rooms...</div>';
-  try{
-    const r=await fetch('/api/rooms');
-    if(!r.ok)throw new Error();
-    const d=await r.json();
-    if(!d.rooms?.length)throw new Error();
-    grid.innerHTML='';
-    d.rooms.forEach(room=>{
-      const a=document.createElement('a');
-      a.className='room';
-      a.href='/room.html?id='+encodeURIComponent(room.id);
-      a.dataset.from='lobby';a.dataset.to='room';
-      a.innerHTML=`<img src="${art[room.id]||'/public/assets/art/PosterMyWall_GeneratedImage_799c3f21.png'}" alt="${room.name}"><div class="roombody"><div class="roomtop"><h3>${room.name}</h3><span class="live">${room.status}</span></div><p>${room.description}</p><span class="viewers">● ${room.viewers} watching</span></div>`;
-      grid.appendChild(a);
-    });
-  }catch(e){
-    grid.innerHTML='<div class="loading">Rooms could not be loaded. Refresh and try again.</div>';
-  }
-}
-</script>
-</body></html>
+:root{--bg:#0a0604;--surface:#141010;--gold:#d59a4b;--gold2:#f5c77e;--cream:#f5eee4;--muted:#a6998b;--line:rgba(190,137,77,.22);--red:#e63946;--serif:'Cormorant Garamond',Georgia,serif;--sans:Inter,system-ui,sans-serif}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--cream);font-family:var(--sans);min-height:100vh}button,a{font:inherit}a{color:inherit;text-decoration:none}.shell{width:min(1180px,calc(100% - 28px));margin:auto}.gate{min-height:100vh;display:grid;place-items:center;padding:24px;position:relative;overflow:hidden}.gate-bg{position:absolute;inset:0}.gate-bg img{width:100%;height:100%;object-fit:cover;opacity:.25}.gate-bg::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,transparent 20%,var(--bg) 70%)}.gate-card{position:relative;z-index:1;width:min(560px,100%);padding:38px 24px;border:1px solid var(--line);border-radius:26px;background:linear-gradient(180deg,rgba(29,20,15,.96),rgba(7,5,4,.98));box-shadow:0 24px 80px rgba(0,0,0,.55);text-align:center}.eyebrow{color:var(--gold);font-size:.62rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase}.gate h1{font:700 clamp(3rem,12vw,5.5rem)/.9 var(--serif);margin:14px 0}.gate h1 strong{color:var(--gold)}.gate p{color:var(--muted);line-height:1.6;font-size:.82rem}.checks{text-align:left;margin:24px 0;padding:14px;border:1px solid var(--line);border-radius:14px;background:rgba(0,0,0,.25)}.check{display:flex;gap:10px;padding:10px 0;font-size:.78rem}.check+.check{border-top:1px solid var(--line)}.check input{accent-color:var(--gold)}.enter{width:100%;padding:14px;border:0;border-radius:10px;background:linear-gradient(180deg,var(--gold2),#a86422);color:#140b04;font-weight:800;cursor:pointer}.enter:disabled{opacity:.3;cursor:not-allowed}.venue{display:none}.venue.active{display:block}.nav{position:sticky;top:0;z-index:10;background:rgba(7,5,4,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}.navin{height:60px;display:flex;align-items:center;justify-content:space-between}.brand{font:700 1.15rem var(--serif)}.brand strong{color:var(--gold)}.exit{padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--cream);font-size:.68rem;cursor:pointer}.hero{text-align:center;padding:54px 0 28px}.hero h2{font:700 clamp(2.4rem,7vw,4.5rem)/1 var(--serif);margin:8px 0}.hero p{color:var(--muted);font-size:.82rem}.hall{margin:0 0 34px;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--surface);display:block;transition:transform .2s,border-color .2s}.hall:hover{transform:translateY(-3px);border-color:var(--gold)}.hall img{width:100%;height:240px;object-fit:cover;display:block}.hallcopy{padding:18px}.hallcopy h3{font:700 1.5rem var(--serif);margin:0 0 4px}.hallcopy p{margin:0;color:var(--muted);font-size:.7rem}.label{color:var(--gold);font-size:.62rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:14px;padding-bottom:50px}.room{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface);transition:transform .18s,border-color .18s;display:block}.room:hover{transform:translateY(-3px);border-color:var(--gold)}.room img{width:100%;height:170px;object-fit:cover;display:block;background:#100b08;transition:transform 4s ease}.room:hover img{transform:scale(1.05)}.roombody{padding:14px}.roomtop{display:flex;justify-content:space-between;gap:8px;align-items:center}.room h3{font:600 1.15rem var(--serif);margin:0}.live{font-size:.5rem;color:#ff9ca3;text-transform:uppercase;font-weight:800;letter-spacing:.1em}.room p{color:var(--muted);font-size:.68rem;line-height:1.45;margin:6px 0}.viewers{font-size:.58rem;color:#82766d}.loading{text-align:center;color:var(--muted);padding:30px}.foot{border-top:1px solid var(--line);padding:22px 0 40px;color:#665b52;font-size:.58rem;text-align:center}@media(max-width:600px){.hall img{height:170px}.grid{grid-template-columns:1fr}}
+</style></head><body>
+<section class="gate" id="gate"><div class="gate-bg"><img src="/public/assets/art/PosterMyWall_GeneratedImage_222b2ae7.png" alt=""></div><div class="gate-card"><div class="eyebrow">Private digital venue · 18+ only</div><h1>Cum <strong>IN</strong> Dungeon</h1><p>Enter the castle, choose a room, visit the Grand Hall, meet performers and explore the social side of the venue.</p><div class="checks"><label class="check"><input id="age" type="checkbox"><span>I am at least 18 years old.</span></label><label class="check"><input id="rules" type="checkbox"><span>I accept the Venue Rules and Privacy Policy.</span></label></div><button class="enter" id="enter" disabled>Enter the Dungeon</button></div></section>
+<div class="venue" id="venue"><header class="nav"><div class="shell navin"><div class="brand">Cum <strong>IN</strong> Dungeon</div><button class="exit" id="exit">Exit</button></div></header><main class="shell"><section class="hero"><div class="eyebrow">The Grand Hall</div><h2>Choose your entrance</h2><p>The rooms are back. Pick a door and step inside.</p></section>
+<a class="hall" href="/hall.html" data-from="lobby" data-to="hall"><img src="/public/assets/art/6700.png" alt="The Grand Hall"><div class="hallcopy"><h3>The Grand Hall</h3><p>Social games, chat, tokens and the casino.</p></div></a>
+<p class="label">Choose a room</p><div class="grid" id="rooms"><div class="loading">Loading rooms...</div></div><div class="foot">&copy; 2026 Cum IN Dungeon · 18+ only · Prototype</div></main></div>
+<script src="/public/js/transitions.js"></script><script>
+const age=document.getElementById('age'),rules=document.getElementById('rules'),enter=document.getElementById('enter'),gate=document.getElementById('gate'),venue=document.getElementById('venue');function sync(){enter.disabled=!(age.checked&&rules.checked)}age.onchange=sync;rules.onchange=sync;enter.onclick=()=>{gate.style.display='none';venue.classList.add('active');loadRooms()};document.getElementById('exit').onclick=()=>{venue.classList.remove('active');gate.style.display='grid'};
+// Room doors use the dedicated room artwork, never casino-game artwork.
+const art={'velvet-room':'/public/assets/art/6690.png','tangled-throne':'/public/assets/art/6694.png','pink-silk':'/public/assets/art/6691.png','devils-playground':'/public/assets/art/6695.png','back-room':'/public/assets/art/6696.png','the-dungeon':'/public/assets/art/6693.png','haleys-halo':'/public/assets/art/6699.png','trans-kinks':'/public/assets/art/6698.png'};
+async function loadRooms(){const grid=document.getElementById('rooms');grid.innerHTML='<div class="loading">Loading rooms...</div>';try{const r=await fetch('/api/rooms');if(!r.ok)throw 0;const d=await r.json();grid.innerHTML='';d.rooms.forEach(room=>{const a=document.createElement('a');a.className='room';a.href='/room.html?id='+encodeURIComponent(room.id);a.dataset.from='lobby';a.dataset.to='room';a.innerHTML=`<img src="${art[room.id]||'/public/assets/art/6696.png'}" alt="${room.name}"><div class="roombody"><div class="roomtop"><h3>${room.name}</h3><span class="live">${room.status}</span></div><p>${room.description}</p><span class="viewers">● ${room.viewers} watching</span></div>`;grid.appendChild(a)})}catch(e){grid.innerHTML='<div class="loading">Rooms could not be loaded. Refresh and try again.</div>'}}
+</script></body></html>
