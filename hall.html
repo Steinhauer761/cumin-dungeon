@@ -9,8 +9,7 @@
 :root { --bg:#0a0604; --surface:#141010; --gold:#d59a4b; --gold-light:#f5c77e; --cream:#f5eee4; --muted:#a6998b; --line:rgba(190,137,77,.18); --serif:'Cormorant Garamond',Georgia,serif; --sans:'Inter',system-ui,sans-serif; }
 * { box-sizing:border-box; margin:0; }
 body { background:var(--bg); color:var(--cream); font-family:var(--sans); font-size:15px; line-height:1.5; }
-button { font:inherit; color:inherit; cursor:pointer; }
-a { color:inherit; }
+button { font:inherit; color:inherit; cursor:pointer; } a { color:inherit; }
 .hall-hero { position:relative; height:280px; overflow:hidden; }
 .hall-hero img { width:100%; height:100%; object-fit:cover; animation:hallZoom 25s ease-in-out infinite alternate; }
 @keyframes hallZoom { from{transform:scale(1) translateY(0)} to{transform:scale(1.06) translateY(-2%)} }
@@ -28,29 +27,21 @@ a { color:inherit; }
 .btn-back { padding:10px 14px; border:1px solid var(--line); border-radius:8px; background:transparent; font-size:.72rem; font-weight:700; text-decoration:none; }
 .btn-back:hover { border-color:var(--gold); }
 .token-bar { display:flex; align-items:center; gap:16px; padding:12px 16px; border:1px solid var(--line); border-radius:12px; background:var(--surface); margin-bottom:24px; }
-.token-bar .balance { font-size:1.1rem; font-weight:800; color:var(--gold-light); }
-.token-bar .label { font-size:.65rem; color:var(--muted); }
-.section-title { font-family:var(--serif); font-size:1.35rem; margin-bottom:12px; }
-.section-note { color:var(--muted); font-size:.72rem; margin-bottom:18px; }
+.token-bar .balance { font-size:1.1rem; font-weight:800; color:var(--gold-light); } .token-bar .label { font-size:.65rem; color:var(--muted); }
+.section-title { font-family:var(--serif); font-size:1.35rem; margin-bottom:12px; } .section-note { color:var(--muted); font-size:.72rem; margin-bottom:18px; }
 .games-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; }
 .game-card { min-height:160px; border:1px solid var(--line); border-radius:14px; background:var(--surface); transition:transform .15s,border-color .15s; text-decoration:none; display:block; position:relative; overflow:hidden; }
 .game-card:hover { transform:translateY(-2px); border-color:var(--gold); }
 .game-card img.game-bg { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.2; transition:opacity .3s,transform 3s ease; }
 .game-card:hover img.game-bg { opacity:.35; transform:scale(1.05); }
 .game-card .game-content { position:relative; padding:18px; display:flex; flex-direction:column; height:100%; min-height:160px; }
-.game-card h3 { font-family:var(--serif); font-size:1.15rem; margin-bottom:5px; font-style:italic; }
-.game-card p { font-size:.7rem; color:var(--muted); line-height:1.45; margin-bottom:auto; }
-.game-card .bet-range { font-size:.6rem; color:var(--gold); font-weight:700; }
-.game-card .max-win { font-size:.6rem; color:#4ade80; margin-left:8px; }
+.game-card h3 { font-family:var(--serif); font-size:1.15rem; margin-bottom:5px; font-style:italic; } .game-card p { font-size:.7rem; color:var(--muted); line-height:1.45; margin-bottom:auto; }
+.game-card .bet-range { font-size:.6rem; color:var(--gold); font-weight:700; } .game-card .max-win { font-size:.6rem; color:#4ade80; margin-left:8px; }
 .hall-chat { display:grid; grid-template-rows:auto 1fr auto; border-left:1px solid var(--line); background:var(--surface); }
-.hall-chat-header { padding:14px 16px; border-bottom:1px solid var(--line); }
-.hall-chat-header h3 { font-size:.82rem; font-weight:700; }
-.hall-chat-header p { font-size:.6rem; color:var(--muted); margin-top:2px; }
-.hall-messages { padding:12px 16px; overflow-y:auto; display:flex; flex-direction:column; gap:8px; }
-.chat-msg { display:grid; grid-template-columns:24px 1fr; gap:8px; }
+.hall-chat-header { padding:14px 16px; border-bottom:1px solid var(--line); } .hall-chat-header h3 { font-size:.82rem; font-weight:700; } .hall-chat-header p { font-size:.6rem; color:var(--muted); margin-top:2px; }
+.hall-messages { padding:12px 16px; overflow-y:auto; display:flex; flex-direction:column; gap:8px; } .chat-msg { display:grid; grid-template-columns:24px 1fr; gap:8px; }
 .chat-avatar { width:24px; height:24px; border-radius:50%; background:rgba(213,154,75,.15); display:grid; place-items:center; font-size:.55rem; font-weight:800; color:var(--gold); }
-.chat-msg p { font-size:.72rem; color:#b8ada3; line-height:1.4; }
-.chat-msg strong { color:var(--cream); }
+.chat-msg p { font-size:.72rem; color:#b8ada3; line-height:1.4; } .chat-msg strong { color:var(--cream); }
 .hall-chat-input { display:grid; grid-template-columns:1fr auto; gap:8px; padding:12px 16px; border-top:1px solid var(--line); }
 .hall-chat-input input { padding:10px 12px; border:1px solid var(--line); border-radius:8px; background:var(--bg); color:var(--cream); font-size:.75rem; }
 .hall-chat-input button { padding:10px 16px; border:none; border-radius:8px; background:var(--gold); color:var(--bg); font-weight:800; font-size:.72rem; }
@@ -58,90 +49,31 @@ a { color:inherit; }
 </style>
 </head>
 <body>
-<div class="hall-hero">
-  <img src="/public/assets/art/PosterMyWall_GeneratedImage_9f01a225.png" alt="The Grand Hall">
-  <div class="hall-hero-overlay"><h1>The Grand Hall</h1></div>
-</div>
-<div class="wall-gallery">
-  <div class="wall-gallery-inner">
-    <div class="wall-frame"><img src="/public/assets/art/1_16adc8b3-9070-4b50-8233-5fbd18ca1106.png" alt=""></div>
-    <div class="wall-frame"><img src="/public/assets/art/1_75f41f68-c64f-4ee8-aa22-8803a09bd553.png" alt=""></div>
-    <div class="wall-frame"><img src="/public/assets/art/1_b5972f3b-52bb-4d4e-8eb2-059583b51bbc.png" alt=""></div>
-    <div class="wall-frame"><img src="/public/assets/art/1_d62da434-f6cf-479e-9751-17fad35203ee.png" alt=""></div>
-    <div class="wall-frame"><img src="/public/assets/art/PosterMyWall_GeneratedImage_222b2ae7.png" alt=""></div>
-    <div class="wall-frame"><img src="/public/assets/art/generated-image-ea3dbc19-54ae-4ef1-b68a-78cb3f9b8250~2.jpg" alt=""></div>
-  </div>
-</div>
-<div class="hall-layout">
-  <main class="hall-main">
-    <div class="hall-header">
-      <a href="/" class="btn-back" data-from="hall" data-to="lobby">&larr; Back to Lobby</a>
-    </div>
-    <div class="token-bar">
-      <div><span class="balance" id="token-balance">500</span><span class="label"> tokens</span></div>
-      <div style="font-size:.65rem;color:var(--muted)">Entertainment tokens · Casino play only</div>
-    </div>
-    <h2 class="section-title">Casino</h2>
-    <p class="section-note">Choose a game. Each table has its own atmosphere.</p>
-    <div class="games-grid" id="casino-grid"></div>
-  </main>
-  <aside class="hall-chat">
-    <div class="hall-chat-header">
-      <h3>Grand Hall Chat</h3>
-      <p>Everyone's welcome. Consent required for DMs.</p>
-    </div>
-    <div class="hall-messages" id="hall-messages"></div>
-    <form class="hall-chat-input" id="hall-chat-form">
-      <input id="hall-chat-input" maxlength="200" placeholder="Say something..." autocomplete="off">
-      <button type="submit">Send</button>
-    </form>
-  </aside>
-</div>
-<script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
-<script src="/public/js/chat.js"></script>
-<script src="/public/js/transitions.js"></script>
+<div class="hall-hero"><img src="/public/assets/art/6766.png" alt="The Grand Hall"><div class="hall-hero-overlay"><h1>The Grand Hall</h1></div></div>
+<div class="wall-gallery"><div class="wall-gallery-inner">
+  <div class="wall-frame"><img src="/public/assets/art/6702.png" alt=""></div>
+  <div class="wall-frame"><img src="/public/assets/art/6705.png" alt=""></div>
+  <div class="wall-frame"><img src="/public/assets/art/6707.png" alt=""></div>
+  <div class="wall-frame"><img src="/public/assets/art/6741.png" alt=""></div>
+  <div class="wall-frame"><img src="/public/assets/art/6742.png" alt=""></div>
+  <div class="wall-frame"><img src="/public/assets/art/6743.png" alt=""></div>
+</div></div>
+<div class="hall-layout"><main class="hall-main"><div class="hall-header"><a href="/" class="btn-back" data-from="hall" data-to="lobby">&larr; Back to Lobby</a></div>
+<div class="token-bar"><div><span class="balance" id="token-balance">500</span><span class="label"> tokens</span></div><div style="font-size:.65rem;color:var(--muted)">Entertainment tokens · Casino play only</div></div>
+<h2 class="section-title">Casino</h2><p class="section-note">Choose a game. Each table has its own atmosphere.</p><div class="games-grid" id="casino-grid"></div></main>
+<aside class="hall-chat"><div class="hall-chat-header"><h3>Grand Hall Chat</h3><p>Everyone's welcome. Consent required for DMs.</p></div><div class="hall-messages" id="hall-messages"></div><form class="hall-chat-input" id="hall-chat-form"><input id="hall-chat-input" maxlength="200" placeholder="Say something..." autocomplete="off"><button type="submit">Send</button></form></aside></div>
+<script src="https://cdn.ably.com/lib/ably.min-1.js"></script><script src="/public/js/chat.js"></script><script src="/public/js/transitions.js"></script>
 <script>
-const guestId = 'Guest_' + Math.random().toString(36).slice(2,7);
-const CASINO_GAMES = [
-  { id:'dungeon-slots', name:'Dungeon Slots', desc:'Spin the reels. Match symbols. Win big.', bet:'5-50', max:'50x', href:'/games/slots.html', art:'/public/assets/art/b3239591-8c30-4dae-b261-7c42ab8022f1.png' },
-  { id:'sin-roulette', name:'Sin Roulette', desc:'Pick your number or color. The wheel decides.', bet:'5-50', max:'36x', href:'/games/roulette.html', art:'/public/assets/art/cd1f1eae-f7ce-4c72-85b1-457d8bf4f3c1.png' },
-  { id:'strip-blackjack', name:'Strip Blackjack', desc:'Beat the dealer to 21. Double down if you dare.', bet:'10-100', max:'2.5x', href:'/games/blackjack.html', art:'/public/assets/art/d8541cfb-406f-46c1-8ec3-39af3b570035.png' },
-  { id:'devils-dice', name:"Devil's Dice", desc:'Predict the roll. Over, under, or exact.', bet:'5-50', max:'30x', href:'/games/dice.html', art:'/public/assets/art/e6c0d2d7-f4e2-40bb-b34c-13b84d7b7fe1.png' },
-  { id:'high-or-low', name:'High or Low', desc:'Guess the next card. Build your streak.', bet:'10-50', max:'Streak', href:'/games/highlow.html', art:'/public/assets/art/f7ce0ef5-b1c5-4ea5-8488-d5bb36035de3.png' },
-  { id:'kink-wheel', name:'Kink Wheel', desc:'Spin the wheel. Land on a multiplier.', bet:'5-50', max:'10x', href:'/games/kinkwheel.html', art:'/public/assets/art/file_00000000b6c081fdaa791db34c771c9e.png' }
+const guestId='Guest_'+Math.random().toString(36).slice(2,7);
+const CASINO_GAMES=[
+ {id:'dungeon-slots',name:'Dungeon Slots',desc:'Spin the reels. Match symbols. Win big.',bet:'5-50',max:'50x',href:'/games/slots.html',art:'/public/assets/art/6733.png'},
+ {id:'sin-roulette',name:'Sin Roulette',desc:'Pick your number or color. The wheel decides.',bet:'5-50',max:'36x',href:'/games/roulette.html',art:'/public/assets/art/6734.png'},
+ {id:'strip-blackjack',name:'Strip Blackjack',desc:'Beat the dealer to 21. Double down if you dare.',bet:'10-100',max:'2.5x',href:'/games/blackjack.html',art:'/public/assets/art/6735.png'},
+ {id:'devils-dice',name:"Devil's Dice",desc:'Predict the roll. Over, under, or exact.',bet:'5-50',max:'32x',href:'/games/dice.html',art:'/public/assets/art/6736.png'},
+ {id:'high-or-low',name:'High or Low',desc:'Guess the next card. Build your streak.',bet:'10-50',max:'10x',href:'/games/highlow.html',art:'/public/assets/art/6737.png'},
+ {id:'kink-wheel',name:'Kink Wheel',desc:'Spin the wheel. Land on a multiplier.',bet:'5-50',max:'2x',href:'/games/kinkwheel.html',art:'/public/assets/art/6738.png'}
 ];
-function loadCasino() {
-  const grid = document.getElementById('casino-grid');
-  grid.innerHTML = '';
-  CASINO_GAMES.forEach(game => {
-    const link = document.createElement('a');
-    link.className = 'game-card';
-    link.href = game.href;
-    link.dataset.from = 'hall';
-    link.dataset.to = 'casino';
-    link.innerHTML = `<img class="game-bg" src="${game.art}" alt=""><div class="game-content"><h3>${game.name}</h3><p>${game.desc}</p><span class="bet-range">Bet: ${game.bet}</span><span class="max-win">Max: ${game.max}</span></div>`;
-    grid.appendChild(link);
-  });
-}
-if (window.DungeonChat && window.Ably) {
-  DungeonChat.init('grand-hall', guestId, document.getElementById('hall-messages'), null);
-}
-document.getElementById('hall-chat-form').addEventListener('submit', (e) => {
-  e.preventDefault();
-  const input = document.getElementById('hall-chat-input');
-  const msg = input.value.trim();
-  if (!msg) return;
-  if (window.DungeonChat && DungeonChat.channel) DungeonChat.send(msg);
-  else {
-    const div = document.createElement('div');
-    div.className = 'chat-msg';
-    div.innerHTML = `<span class="chat-avatar">${guestId[0].toUpperCase()}</span><p><strong>${guestId}:</strong> ${msg}</p>`;
-    document.getElementById('hall-messages').appendChild(div);
-  }
-  input.value = '';
-});
-loadCasino();
-</script>
-<script src="/public/js/admin-bar.js"></script>
-</body>
-</html>
+function loadCasino(){const grid=document.getElementById('casino-grid');grid.innerHTML='';CASINO_GAMES.forEach(game=>{const link=document.createElement('a');link.className='game-card';link.href=game.href;link.dataset.from='hall';link.dataset.to='casino';link.innerHTML=`<img class="game-bg" src="${game.art}" alt="${game.name}"><div class="game-content"><h3>${game.name}</h3><p>${game.desc}</p><span class="bet-range">Bet: ${game.bet}</span><span class="max-win">Max: ${game.max}</span></div>`;grid.appendChild(link)})}
+if(window.DungeonChat&&window.Ably)DungeonChat.init('grand-hall',guestId,document.getElementById('hall-messages'),null);
+document.getElementById('hall-chat-form').addEventListener('submit',e=>{e.preventDefault();const input=document.getElementById('hall-chat-input'),msg=input.value.trim();if(!msg)return;if(window.DungeonChat&&DungeonChat.channel)DungeonChat.send(msg);else{const div=document.createElement('div');div.className='chat-msg';div.innerHTML=`<span class="chat-avatar">${guestId[0].toUpperCase()}</span><p><strong>${guestId}:</strong> ${msg}</p>`;document.getElementById('hall-messages').appendChild(div)}input.value='' });loadCasino();
+</script><script src="/public/js/admin-bar.js"></script></body></html>
