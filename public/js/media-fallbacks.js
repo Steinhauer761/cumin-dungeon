@@ -10,15 +10,15 @@
   };
 
   const ROOM_ART = {
-    'grand-hall': '/public/assets/art/generated-image-daa4cd17-25fb-4a5c-80c9-6dc7a21a1780.png',
-    'velvet-room': '/public/assets/art/generated-image-0acba5f7-62ef-43f1-aef4-e3e17c6c82cf.png',
-    'tangled-throne': '/public/assets/art/generated-image-0d4ddd1e-d44c-4c7a-acad-c14ddec351f4.png',
-    'pink-silk': '/public/assets/art/generated-image-e484a4e4-192c-4960-8d79-e8ccae2783fa.png',
-    'devils-playground': '/public/assets/art/generated-image-62e002e9-1fa7-4490-a725-c4edc032f71a.png',
-    'back-room': '/public/assets/art/generated-image-f7f30b3a-b34f-40fd-bcf2-b40e196925f0.png',
-    'the-dungeon': '/public/assets/art/generated-image-b563c6cb-14b7-4bdb-988a-4c4e20f49718.png',
-    'haleys-halo': '/public/assets/art/generated-image-0a9dc8ec-c558-4aad-8456-a26f0f66790f.png',
-    'trans-kinks': '/public/assets/art/generated-image-4fca1285-728d-4f58-8202-7d6e1d8a5baf.png'
+    'grand-hall': '/public/assets/art/6700.png',
+    'velvet-room': '/public/assets/art/6690.png',
+    'tangled-throne': '/public/assets/art/6694.png',
+    'pink-silk': '/public/assets/art/6691.png',
+    'devils-playground': '/public/assets/art/6695.png',
+    'back-room': '/public/assets/art/6696.png',
+    'the-dungeon': '/public/assets/art/6693.png',
+    'haleys-halo': '/public/assets/art/6699.png',
+    'trans-kinks': '/public/assets/art/6698.png'
   };
 
   function normalizePublicPath(src) {
@@ -28,13 +28,13 @@
       // Fix ClickUp CDN URLs to local PNGs
       if (url.hostname.includes('clickup.com')) {
         const match = Object.entries(ROOM_KEYS).find(([label]) => src.toLowerCase().includes(label.replace(/[^a-z0-9]+/g, '')));
-        if (match) return ROOM_ART[match[1]] || '/public/assets/art/generated-image-daa4cd17-25fb-4a5c-80c9-6dc7a21a1780.png';
-        return '/public/assets/art/generated-image-daa4cd17-25fb-4a5c-80c9-6dc7a21a1780.png';
+        if (match) return ROOM_ART[match[1]] || '/public/assets/art/6700.png';
+        return '/public/assets/art/6700.png';
       }
       // Fix broken /api/assets/ paths
       if (url.pathname.startsWith('/api/assets/')) {
         const id = url.pathname.replace('/api/assets/', '');
-        return ROOM_ART[id] || '/public/assets/art/generated-image-daa4cd17-25fb-4a5c-80c9-6dc7a21a1780.png';
+        return ROOM_ART[id] || '/public/assets/art/6700.png';
       }
       // Fix old /public/assets/rooms/ SVG paths
       if (url.pathname.startsWith('/public/assets/rooms/')) {
@@ -66,7 +66,7 @@
     const src = el.getAttribute('src');
     const alt = (el.getAttribute('alt') || '').trim().toLowerCase();
     const roomKey = ROOM_KEYS[alt];
-    const normalized = roomKey ? (ROOM_ART[roomKey] || '/public/assets/art/generated-image-daa4cd17-25fb-4a5c-80c9-6dc7a21a1780.png') : normalizePublicPath(src);
+    const normalized = roomKey ? (ROOM_ART[roomKey] || '/public/assets/art/6700.png') : normalizePublicPath(src);
     if (normalized && normalized !== src) el.setAttribute('src', normalized);
 
     if (el.tagName === 'IMG') {
