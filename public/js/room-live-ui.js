@@ -4,20 +4,20 @@
   if (!location.pathname.endsWith('/room.html')) return;
 
   const ROOM_ART = {
-    'velvet-room': '/public/assets/rooms/velvet-room.svg',
-    'tangled-throne': '/public/assets/rooms/room-03.svg',
-    'pink-silk': '/public/assets/rooms/room-04.svg',
-    'devils-playground': '/public/assets/rooms/room-05.svg',
-    'back-room': '/public/assets/rooms/room-06.svg',
-    'the-dungeon': '/public/assets/rooms/room-07.svg',
-    'haleys-halo': '/public/assets/rooms/room-08.svg',
-    'trans-kinks': '/public/assets/rooms/room-09.svg'
+    'velvet-room': '/public/assets/art/generated-image-0acba5f7-62ef-43f1-aef4-e3e17c6c82cf.png',
+    'tangled-throne': '/public/assets/art/generated-image-0d4ddd1e-d44c-4c7a-acad-c14ddec351f4.png',
+    'pink-silk': '/public/assets/art/generated-image-e484a4e4-192c-4960-8d79-e8ccae2783fa.png',
+    'devils-playground': '/public/assets/art/generated-image-62e002e9-1fa7-4490-a725-c4edc032f71a.png',
+    'back-room': '/public/assets/art/generated-image-f7f30b3a-b34f-40fd-bcf2-b40e196925f0.png',
+    'the-dungeon': '/public/assets/art/generated-image-b563c6cb-14b7-4bdb-988a-4c4e20f49718.png',
+    'haleys-halo': '/public/assets/art/generated-image-0a9dc8ec-c558-4aad-8456-a26f0f66790f.png',
+    'trans-kinks': '/public/assets/art/generated-image-4fca1285-728d-4f58-8202-7d6e1d8a5baf.png'
   };
 
   function init() {
     const params = new URLSearchParams(location.search);
     const roomId = params.get('id') || 'velvet-room';
-    const posterUrl = ROOM_ART[roomId] || '/public/assets/rooms/room-03.svg';
+    const posterUrl = ROOM_ART[roomId] || '/public/assets/art/generated-image-0acba5f7-62ef-43f1-aef4-e3e17c6c82cf.png';
     const area = document.querySelector('.video-area');
     if (!area) return;
 
