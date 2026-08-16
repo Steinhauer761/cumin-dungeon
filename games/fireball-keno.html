@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>Fireball Keno | CumIN Dungeon Casino</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#050304;--surface:#0c0908;--surface-2:#141010;--gold:#d59a4b;--gold-light:#f5c77e;--gold-dim:#8b6230;--cream:#f5eee4;--muted:#7a6e64;--red:#c0392b;--green:#4ade80;--fireball:#ff6b35;--fireball-glow:#ff9500;--line:rgba(190,137,77,.12);--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--cream);font-family:var(--sans);min-height:100vh;min-height:100dvh;overflow-x:hidden;-webkit-font-smoothing:antialiased;user-select:none;-webkit-tap-highlight-color:transparent}
+
+.app{width:min(520px,100%);margin:0 auto;padding:8px 10px;min-height:100vh;display:flex;flex-direction:column}
+
+/* Header */
+.header{display:flex;justify-content:space-between;align-items:center;padding:6px 0 10px}
+.header a{color:var(--muted);text-decoration:none;font-size:.7rem;font-weight:600;padding:7px 10px;border:1px solid var(--line);border-radius:6px}
+.header a:hover{border-color:var(--gold);color:var(--cream)}
+.brand{font-family:var(--serif);font-style:italic;font-size:.65rem;color:var(--gold-dim)}
+
+/* Title */
+.title-area{text-align:center;padding:2px 0 10px}
+.title-area h1{font-family:var(--serif);font-style:italic;font-weight:700;font-size:clamp(1.4rem,5vw,1.9rem);color:var(--fireball-glow);line-height:1;text-shadow:0 0 30px rgba(255,107,53,.3)}
+.title-area .sub{font-size:.55rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-top:3px}
+
+/* Info bar */
+.info-bar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px}
+.info-box{background:rgba(0,0,0,.5);border:1px solid var(--line);border-radius:10px;padding:7px;text-align:center}
+.info-box .lbl{display:block;font-size:.45rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.info-box .val{display:block;font-size:.9rem;font-weight:800;color:var(--gold-light);font-variant-numeric:tabular-nums}
+
+/* Number grid */
+.keno-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin-bottom:10px;padding:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px}
+.keno-num{aspect-ratio:1;border-radius:8px;display:grid;place-items:center;font-size:clamp(.6rem,2.5vw,.78rem);font-weight:800;cursor:pointer;border:1.5px solid var(--line);background:rgba(0,0,0,.3);transition:all .12s;position:relative;overflow:hidden}
+.keno-num:hover{border-color:var(--gold-dim);background:rgba(213,154,75,.06)}
+.keno-num.selected{border-color:var(--gold);background:rgba(213,154,75,.15);color:var(--gold-light);box-shadow:0 0 8px rgba(213,154,75,.2)}
+.keno-num.drawn{border-color:var(--green);background:rgba(74,222,128,.08);color:var(--green)}
+.keno-num.hit{border-color:var(--green);background:rgba(74,222,128,.2);color:#fff;box-shadow:0 0 12px rgba(74,222,128,.3);animation:hitPop .3s cubic-bezier(.16,1,.3,1)}
+.keno-num.fireball-hit{border-color:var(--fireball);background:rgba(255,107,53,.25);color:#fff;box-shadow:0 0 16px rgba(255,107,53,.4);animation:fireHit .4s cubic-bezier(.16,1,.3,1)}
+.keno-num.drawing{animation:drawPulse .3s}
+@keyframes hitPop{0%{transform:scale(.8)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+@keyframes fireHit{0%{transform:scale(.7) rotate(-5deg)}50%{transform:scale(1.2) rotate(3deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes drawPulse{0%{transform:scale(1)}50%{transform:scale(.9);opacity:.5}100%{transform:scale(1);opacity:1}}
+
+/* Fireball indicator */
+.fireball-zone{text-align:center;padding:10px;margin-bottom:10px;border-radius:12px;border:1px solid var(--line);background:var(--surface);min-height:50px;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.fireball-zone .fb-label{font-size:.55rem;font-weight:700;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.fireball-zone .fb-balls{display:flex;gap:6px}
+.fb-ball{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--fireball),#cc4400);display:grid;place-items:center;font-size:.6rem;font-weight:900;color:#fff;box-shadow:0 0 12px rgba(255,107,53,.4);animation:fireGlow 1.5s ease-in-out infinite alternate;opacity:0;transform:scale(0);transition:all .3s cubic-bezier(.16,1,.3,1)}
+.fb-ball.active{opacity:1;transform:scale(1)}
+@keyframes fireGlow{from{box-shadow:0 0 8px rgba(255,107,53,.3)}to{box-shadow:0 0 20px rgba(255,107,53,.6)}}
+
+/* Picks display */
+.picks-display{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;margin-bottom:8px;border-radius:8px;background:rgba(0,0,0,.3);border:1px solid var(--line)}
+.picks-display .pd-label{font-size:.55rem;color:var(--muted);font-weight:700}
+.picks-display .pd-nums{display:flex;gap:4px;flex-wrap:wrap}
+.picks-display .pd-num{width:22px;height:22px;border-radius:5px;display:grid;place-items:center;font-size:.55rem;font-weight:800;background:rgba(213,154,75,.1);border:1px solid var(--gold-dim);color:var(--gold-light)}
+
+/* Win display */
+.win-display{text-align:center;min-height:40px;display:grid;place-items:center;margin:6px 0}
+.win-display span{font-family:var(--serif);font-weight:700;font-size:0;opacity:0;transition:all .4s cubic-bezier(.16,1,.3,1)}
+.win-display span.active{opacity:1;font-size:1.2rem}
+.win-display span.win{color:var(--green)}
+.win-display span.big{color:var(--fireball-glow);font-size:1.6rem;text-shadow:0 0 30px rgba(255,149,0,.5)}
+.win-display span.mega{color:var(--gold-light);font-size:2rem;text-shadow:0 0 40px rgba(213,154,75,.7)}
+.win-display span.lose{color:var(--muted);font-size:.75rem;font-family:var(--sans);font-weight:600}
+
+/* Controls */
+.controls{display:grid;grid-template-columns:auto 1fr auto 1fr auto;gap:8px;align-items:center;padding:8px 0}
+.ctrl-btn{padding:10px 14px;border:1px solid var(--line);border-radius:8px;background:rgba(0,0,0,.4);font-size:.6rem;font-weight:800;color:var(--cream);text-align:center;transition:all .12s}
+.ctrl-btn:hover{border-color:var(--gold-dim)}
+.ctrl-btn:active{transform:scale(.94)}
+.ctrl-btn.clear{color:var(--red)}
+.ctrl-btn.quickpick{color:var(--gold-light)}
+
+.play-btn{grid-column:3;width:62px;height:62px;border-radius:50%;border:2.5px solid var(--fireball);background:linear-gradient(160deg,var(--fireball-glow),var(--fireball),#992200);color:#fff;font-size:.55rem;font-weight:900;letter-spacing:.06em;display:grid;place-items:center;box-shadow:0 6px 28px rgba(255,107,53,.35);transition:transform .12s}
+.play-btn:active{transform:scale(.92)}
+.play-btn:disabled{opacity:.3;cursor:not-allowed}
+.play-btn.running{animation:fireButtonPulse .4s ease-in-out infinite alternate}
+@keyframes fireButtonPulse{from{box-shadow:0 4px 20px rgba(255,107,53,.25)}to{box-shadow:0 8px 40px rgba(255,107,53,.55)}}
+
+/* Bet controls */
+.bet-area{display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 0}
+.bet-area .bet-lbl{font-size:.5rem;color:var(--muted);font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.bet-ctrl{display:flex;align-items:center;gap:4px;background:rgba(0,0,0,.4);border:1px solid var(--line);border-radius:8px;padding:3px}
+.bet-ctrl button{width:30px;height:30px;border:1px solid var(--line);border-radius:6px;background:var(--surface-2);color:var(--cream);font-size:.9rem;font-weight:700;display:grid;place-items:center}
+.bet-ctrl button:active{transform:scale(.9);background:var(--gold-dim)}
+.bet-ctrl .bet-val{min-width:44px;text-align:center;font-size:.72rem;font-weight:800;color:var(--gold-light)}
+
+/* Paytable */
+.paytable-btn{display:block;width:100%;margin-top:6px;padding:8px;border:1px solid var(--line);border-radius:8px;background:none;color:var(--muted);font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.paytable-btn:hover{border-color:var(--gold-dim);color:var(--cream)}
+.paytable-panel{display:none;margin-top:8px;padding:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;max-height:240px;overflow-y:auto}
+.paytable-panel.open{display:block}
+.paytable-panel h3{font-family:var(--serif);font-style:italic;font-size:.9rem;color:var(--fireball-glow);margin-bottom:8px}
+.pt-row{display:grid;grid-template-columns:60px 1fr 1fr;gap:4px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:.58rem}
+.pt-row:last-child{border:none}
+.pt-row .pt-match{font-weight:700;color:var(--cream)}
+.pt-row .pt-pay{color:var(--gold-light);font-weight:700;text-align:right}
+.pt-row .pt-fire{color:var(--fireball);font-weight:700;text-align:right}
+.pt-header{font-weight:800;color:var(--muted);font-size:.5rem;letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid var(--line)!important;padding-bottom:6px!important;margin-bottom:4px}
+
+.notice{text-align:center;font-size:.45rem;color:rgba(122,110,100,.4);padding:6px 0}
+
+/* FX */
+.fx-layer{position:fixed;inset:0;pointer-events:none;z-index:1000;overflow:hidden}
+.coin{position:absolute;width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#f5c77e,#8b5a1e);animation:coinFall var(--dur) linear forwards;opacity:0}
+@keyframes coinFall{0%{transform:translateY(-20px) scale(.5);opacity:0}10%{opacity:1;transform:translateY(0) scale(1)}100%{transform:translateY(calc(100vh + 20px)) scale(.7);opacity:.6}}
+
+@media(max-width:380px){
+  .keno-grid{gap:3px;padding:8px}
+  .keno-num{font-size:.55rem;border-radius:6px}
+  .play-btn{width:54px;height:54px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <a href="/casino.html">&larr; Casino</a>
+    <span class="brand">CumIN Dungeon</span>
+  </div>
+
+  <div class="title-area">
+    <h1>🔥 Fireball Keno</h1>
+    <p class="sub">Pick up to 10 • 20 Balls Drawn • Fireball Multiplier</p>
+  </div>
+
+  <div class="info-bar">
+    <div class="info-box"><span class="lbl">Balance</span><span class="val" id="bal">1M</span></div>
+    <div class="info-box"><span class="lbl">Bet</span><span class="val" id="betDisplay">1K</span></div>
+    <div class="info-box"><span class="lbl">Win</span><span class="val" id="winDisplay">0</span></div>
+  </div>
+
+  <div class="picks-display">
+    <span class="pd-label">Your Picks (<span id="pickCount">0</span>/10)</span>
+    <div class="pd-nums" id="pickNums"></div>
+  </div>
+
+  <div class="keno-grid" id="kenoGrid"></div>
+
+  <div class="fireball-zone">
+    <span class="fb-label">Fireballs</span>
+    <div class="fb-balls" id="fbBalls">
+      <div class="fb-ball" id="fb1"></div>
+      <div class="fb-ball" id="fb2"></div>
+      <div class="fb-ball" id="fb3"></div>
+    </div>
+  </div>
+
+  <div class="win-display"><span id="wTxt"></span></div>
+
+  <div class="controls">
+    <button class="ctrl-btn clear" id="clearBtn">Clear</button>
+    <div></div>
+    <button class="play-btn" id="playBtn">DRAW</button>
+    <div></div>
+    <button class="ctrl-btn quickpick" id="qpBtn">Quick<br>Pick</button>
+  </div>
+
+  <div class="bet-area">
+    <span class="bet-lbl">Bet</span>
+    <div class="bet-ctrl">
+      <button id="bD">&minus;</button>
+      <span class="bet-val" id="bV">1K</span>
+      <button id="bU">+</button>
+    </div>
+  </div>
+
+  <button class="paytable-btn" id="ptBtn">Paytable & Rules</button>
+  <div class="paytable-panel" id="ptPanel"></div>
+
+  <p class="notice">Entertainment tokens only. No cash value. Fireball drawn on ball 20.</p>
+</div>
+<div class="fx-layer" id="fxL"></div>
+
+<script>
+(function(){
+'use strict';
+
+// Config
+var TOTAL_NUMBERS = 80;
+var DRAW_COUNT = 20;
+var MAX_PICKS = 10;
+var BETS = [100,500,1000,5000,10000,50000,100000];
+var START_BALANCE = 1000000;
+
+// Paytable: [picks][hits] = multiplier (0 = no win)
+// Fireball multiplier applied to last ball if it's a hit
+var PAYTABLE = {
+  1: {1:3},
+  2: {2:9},
+  3: {2:2, 3:26},
+  4: {2:1, 3:5, 4:72},
+  5: {3:3, 4:12, 5:410},
+  6: {3:2, 4:6, 5:50, 6:1500},
+  7: {3:1, 4:4, 5:17, 6:200, 7:4500},
+  8: {4:3, 5:10, 6:75, 7:1000, 8:10000},
+  9: {4:2, 5:6, 6:30, 7:300, 8:4000, 9:25000},
+  10:{4:1, 5:4, 6:15, 7:100, 8:1500, 9:8000, 10:50000}
+};
+
+var FIREBALL_MULT = 3; // Fireball multiplies win by 3x
+
+// State
+var balance = START_BALANCE;
+var betIdx = 2;
+var picks = [];
+var drawnNumbers = [];
+var playing = false;
+var fireballNumber = 0;
+var fireballCount = 0;
+
+var fmtBet = function(n){ return n>=1e6?(n/1e6)+'M':n>=1e3?(n/1e3)+'K':n; };
+
+// Audio
+var SFX = (function(){
+  var c;
+  var g = function(){ if(!c) c=new(window.AudioContext||window.webkitAudioContext)(); if(c.state==='suspended')c.resume(); return c; };
+  var p = function(f,t,d,v){
+    v=v||.06;
+    try{ var x=g(),o=x.createOscillator(),gn=x.createGain(); o.type=t; o.frequency.setValueAtTime(f,x.currentTime); gn.gain.setValueAtTime(v,x.currentTime); gn.gain.exponentialRampToValueAtTime(.001,x.currentTime+d); o.connect(gn).connect(x.destination); o.start(); o.stop(x.currentTime+d); }catch(e){}
+  };
+  return {
+    pick: function(){ p(900,'sine',.04,.04); },
+    draw: function(){ p(400,'sine',.06,.05); },
+    hit: function(){ p(700,'sine',.1,.08); },
+    fireball: function(){ [0,50,100,150].forEach(function(d,i){ setTimeout(function(){ p(300+i*150,'sawtooth',.15,.1); },d); }); },
+    win: function(){ [0,60,120,180].forEach(function(d,i){ setTimeout(function(){ p(500+i*80,'sine',.15,.08); },d); }); },
+    big: function(){ [0,80,160,240,320,400].forEach(function(d,i){ setTimeout(function(){ p(350+i*100,'triangle',.2,.1); },d); }); }
+  };
+})();
+
+// Build grid
+function buildGrid(){
+  var grid = document.getElementById('kenoGrid');
+  grid.innerHTML = '';
+  for(var i=1; i<=TOTAL_NUMBERS; i++){
+    var el = document.createElement('div');
+    el.className = 'keno-num';
+    el.textContent = i;
+    el.dataset.num = i;
+    el.addEventListener('click', (function(num,el){ return function(){ togglePick(num,el); }; })(i,el));
+    grid.appendChild(el);
+  }
+}
+
+function togglePick(num, el){
+  if(playing) return;
+  var idx = picks.indexOf(num);
+  if(idx !== -1){
+    picks.splice(idx,1);
+    el.classList.remove('selected');
+  } else {
+    if(picks.length >= MAX_PICKS) return;
+    picks.push(num);
+    el.classList.add('selected');
+    SFX.pick();
+  }
+  updatePicksDisplay();
+}
+
+function updatePicksDisplay(){
+  document.getElementById('pickCount').textContent = picks.length;
+  var container = document.getElementById('pickNums');
+  container.innerHTML = '';
+  picks.sort(function(a,b){return a-b;}).forEach(function(n){
+    var span = document.createElement('span');
+    span.className = 'pd-num';
+    span.textContent = n;
+    container.appendChild(span);
+  });
+}
+
+function quickPick(){
+  if(playing) return;
+  clearPicks();
+  var available = [];
+  for(var i=1;i<=TOTAL_NUMBERS;i++) available.push(i);
+  for(var j=0;j<MAX_PICKS;j++){
+    var idx = Math.floor(Math.random()*available.length);
+    picks.push(available[idx]);
+    available.splice(idx,1);
+  }
+  picks.forEach(function(n){
+    var el = document.querySelector('[data-num="'+n+'"]');
+    if(el) el.classList.add('selected');
+  });
+  updatePicksDisplay();
+}
+
+function clearPicks(){
+  if(playing) return;
+  picks = [];
+  document.querySelectorAll('.keno-num').forEach(function(el){
+    el.className = 'keno-num';
+  });
+  updatePicksDisplay();
+  hideWin();
+  // Reset fireballs
+  document.querySelectorAll('.fb-ball').forEach(function(b){ b.classList.remove('active'); b.textContent=''; });
+}
+
+// Draw
+function startDraw(){
+  if(playing || picks.length === 0) return;
+  var bet = BETS[betIdx];
+  if(balance < bet) return;
+
+  playing = true;
+  balance -= bet;
+  updateUI();
+  hideWin();
+  document.getElementById('playBtn').disabled = true;
+  document.getElementById('playBtn').classList.add('running');
+
+  // Reset drawn state
+  document.querySelectorAll('.keno-num.drawn,.keno-num.hit,.keno-num.fireball-hit').forEach(function(el){
+    el.classList.remove('drawn','hit','fireball-hit','drawing');
+  });
+  document.querySelectorAll('.fb-ball').forEach(function(b){ b.classList.remove('active'); b.textContent=''; });
+
+  // Generate draw
+  var available = [];
+  for(var i=1;i<=TOTAL_NUMBERS;i++) available.push(i);
+  drawnNumbers = [];
+  for(var j=0;j<DRAW_COUNT;j++){
+    var idx = Math.floor(Math.random()*available.length);
+    drawnNumbers.push(available[idx]);
+    available.splice(idx,1);
+  }
+
+  // Fireball: last drawn ball gets fireball treatment
+  fireballNumber = drawnNumbers[DRAW_COUNT-1];
+  fireballCount = 0;
+
+  // Animate draw
+  animateDraw(0);
+}
+
+function animateDraw(i){
+  if(i >= DRAW_COUNT){
+    finishDraw();
+    return;
+  }
+
+  var num = drawnNumbers[i];
+  var el = document.querySelector('[data-num="'+num+'"]');
+  var isLast = (i === DRAW_COUNT-1);
+  var isHit = picks.indexOf(num) !== -1;
+
+  // Delay between draws (faster for middle, slower for last few)
+  var delay = i < 15 ? 120 : i < 18 ? 200 : 350;
+  if(isLast) delay = 600; // Dramatic pause for fireball
+
+  setTimeout(function(){
+    el.classList.add('drawing');
+    setTimeout(function(){
+      el.classList.remove('drawing');
+      if(isLast){
+        // Fireball ball
+        SFX.fireball();
+        if(isHit){
+          el.classList.add('fireball-hit');
+          fireballCount++;
+          showFireball(fireballCount, num);
+        } else {
+          el.classList.add('drawn');
+          // Still show fireball animation even if miss
+          showFireball(0, num);
+        }
+      } else if(isHit){
+        el.classList.add('hit');
+        SFX.hit();
+      } else {
+        el.classList.add('drawn');
+        SFX.draw();
+      }
+      animateDraw(i+1);
+    }, 80);
+  }, delay);
+}
+
+function showFireball(count, num){
+  var fb1 = document.getElementById('fb1');
+  fb1.textContent = num;
+  fb1.classList.add('active');
+}
+
+function finishDraw(){
+  // Calculate hits
+  var hits = 0;
+  var fireballHits = 0;
+  picks.forEach(function(n){
+    if(drawnNumbers.indexOf(n) !== -1){
+      hits++;
+      if(n === fireballNumber) fireballHits++;
+    }
+  });
+
+  // Calculate payout
+  var bet = BETS[betIdx];
+  var table = PAYTABLE[picks.length];
+  var baseMult = (table && table[hits]) || 0;
+  var totalMult = baseMult;
+
+  // Fireball bonus: if the fireball ball was one of your hits, multiply
+  if(fireballHits > 0 && baseMult > 0){
+    totalMult = baseMult * FIREBALL_MULT;
+  }
+
+  var payout = bet * totalMult;
+  balance += payout;
+
+  // God mode refill
+  if(balance < 100) balance = START_BALANCE;
+
+  updateUI();
+  document.getElementById('winDisplay').textContent = payout > 0 ? fmtBet(payout) : '0';
+
+  // Show result
+  if(payout === 0){
+    showMsg('No hits this round', 'lose');
+  } else if(fireballHits > 0){
+    showMsg('🔥 FIREBALL! ' + hits + ' hits ×' + totalMult + ' = +' + fmtBet(payout), 'mega');
+    SFX.big();
+    spawnCoins(40);
+  } else if(totalMult >= 50){
+    showMsg('BIG WIN! ' + hits + ' hits ×' + totalMult + ' = +' + fmtBet(payout), 'big');
+    SFX.big();
+    spawnCoins(25);
+  } else {
+    showMsg('WIN! ' + hits + ' hits ×' + totalMult + ' = +' + fmtBet(payout), 'win');
+    SFX.win();
+    spawnCoins(10);
+  }
+
+  playing = false;
+  document.getElementById('playBtn').disabled = false;
+  document.getElementById('playBtn').classList.remove('running');
+}
+
+function updateUI(){
+  document.getElementById('bal').textContent = fmtBet(balance);
+  document.getElementById('betDisplay').textContent = fmtBet(BETS[betIdx]);
+  document.getElementById('bV').textContent = fmtBet(BETS[betIdx]);
+}
+
+function hideWin(){
+  var e = document.getElementById('wTxt');
+  e.className = ''; e.textContent = '';
+}
+
+function showMsg(text, type){
+  var e = document.getElementById('wTxt');
+  e.className = '';
+  setTimeout(function(){ e.textContent = text; e.className = 'active ' + type; }, 50);
+}
+
+function spawnCoins(n){
+  var l = document.getElementById('fxL');
+  for(var i=0;i<n;i++){
+    var c = document.createElement('div');
+    c.className = 'coin';
+    c.style.left = (10+Math.random()*80)+'%';
+    c.style.setProperty('--dur',(1.5+Math.random()*1.5)+'s');
+    c.style.animationDelay = (Math.random()*.5)+'s';
+    var sz = 6+Math.random()*6;
+    c.style.width = sz+'px'; c.style.height = sz+'px';
+    l.appendChild(c);
+    setTimeout((function(el){return function(){el.remove();};})(c),3500);
+  }
+}
+
+function buildPaytable(){
+  var panel = document.getElementById('ptPanel');
+  var html = '<h3>🔥 Fireball Keno Paytable</h3>';
+  html += '<div class="pt-row pt-header"><span>Hits</span><span>Payout (×bet)</span><span>🔥 Fireball (×3)</span></div>';
+  for(var p=1;p<=10;p++){
+    html += '<div style="margin-top:8px;font-size:.55rem;font-weight:800;color:var(--cream)">Pick '+p+'</div>';
+    var table = PAYTABLE[p];
+    if(!table) continue;
+    for(var h in table){
+      if(table.hasOwnProperty(h)){
+        html += '<div class="pt-row"><span class="pt-match">'+h+' hits</span><span class="pt-pay">×'+table[h]+'</span><span class="pt-fire">×'+(table[h]*FIREBALL_MULT)+'</span></div>';
+      }
+    }
+  }
+  html += '<div style="margin-top:12px;font-size:.5rem;color:var(--muted);line-height:1.4"><strong>Rules:</strong> Pick 1-10 numbers. 20 balls drawn from 80. Ball #20 is the Fireball. If the Fireball matches one of your picks, your entire win is multiplied by 3x. Max win: 50,000x bet.</div>';
+  panel.innerHTML = html;
+}
+
+// Events
+document.getElementById('playBtn').addEventListener('click', startDraw);
+document.getElementById('clearBtn').addEventListener('click', clearPicks);
+document.getElementById('qpBtn').addEventListener('click', quickPick);
+document.getElementById('bD').addEventListener('click', function(){ if(!playing && betIdx>0){ betIdx--; updateUI(); } });
+document.getElementById('bU').addEventListener('click', function(){ if(!playing && betIdx<BETS.length-1){ betIdx++; updateUI(); } });
+document.getElementById('ptBtn').addEventListener('click', function(){ document.getElementById('ptPanel').classList.toggle('open'); });
+document.addEventListener('keydown', function(e){ if(e.code==='Space' && !playing){ e.preventDefault(); startDraw(); } });
+
+// Init
+buildGrid();
+buildPaytable();
+updateUI();
+})();
+</script>
+</body>
+</html>
