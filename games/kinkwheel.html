@@ -1,1 +1,357 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>After Dark Wheel | CumIN Dungeon Casino</title><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"><style>:root{--bg:#050304;--surface:#0f0a0c;--surface-2:#1a1214;--gold:#d59a4b;--gold-light:#f5c77e;--gold-dim:#8b6230;--cream:#f5eee4;--muted:#7a6e64;--red:#9f2330;--green:#4ade80;--line:rgba(190,137,77,0.18);--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif}*{box-sizing:border-box;margin:0}body{background:var(--bg);color:var(--cream);font-family:var(--sans);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;user-select:none}.app{position:relative;z-index:1;width:min(480px,100%);margin:0 auto;padding:8px 12px;min-height:100vh;display:flex;flex-direction:column}.header{display:flex;justify-content:space-between;align-items:center;padding:6px 0 8px}.header a{color:var(--muted);text-decoration:none;font-size:.7rem;font-weight:600;padding:7px 10px;border:1px solid var(--line);border-radius:6px;backdrop-filter:blur(4px)}.header a:hover{border-color:var(--gold);color:var(--cream)}.brand{font-family:var(--serif);font-style:italic;font-size:.65rem;color:var(--gold-dim)}.title-area{text-align:center;padding:2px 0 8px}.title-area h1{font-family:var(--serif);font-style:italic;font-weight:700;font-size:clamp(1.5rem,5vw,2rem);color:var(--gold-light);line-height:1;text-shadow:0 4px 20px rgba(0,0,0,.5)}.title-area .sub{font-size:.55rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-weight:700}.wheel-wrap{position:relative;width:min(320px,80vw);aspect-ratio:1;margin:10px auto}.wheel-wrap canvas{width:100%;height:100%}.wheel-pointer{position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-top:20px solid var(--gold-light);filter:drop-shadow(0 2px 4px rgba(0,0,0,.5));z-index:5}.wheel-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px;border-radius:50%;background:var(--bg);border:2px solid var(--gold);display:grid;place-items:center;font-family:var(--serif);font-style:italic;font-size:.55rem;color:var(--gold-light);font-weight:700;text-align:center;line-height:1.1;z-index:4}.result-display{text-align:center;min-height:40px;display:grid;place-items:center;margin:8px 0}.result-display span{font-family:var(--serif);font-weight:700;font-size:0;opacity:0;transition:all .4s cubic-bezier(.16,1,.3,1)}.result-display span.active{opacity:1;font-size:1.3rem}.result-display span.win{color:var(--green)}.result-display span.big{color:var(--gold-light);font-size:1.6rem;text-shadow:0 0 30px rgba(213,154,75,.5)}.result-display span.lose{color:var(--muted);font-size:.8rem;font-family:var(--sans);font-weight:600}.info-bar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}.info-box{background:rgba(0,0,0,.6);border:1px solid var(--line);border-radius:10px;padding:7px;text-align:center;backdrop-filter:blur(4px)}.info-box .lbl{display:block;font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}.info-box .val{display:block;font-size:.95rem;font-weight:800;color:var(--gold-light);font-variant-numeric:tabular-nums}.controls{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;padding:12px 0}.bet-section{text-align:center}.bet-lbl{font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:3px}.bet-ctrl{display:flex;align-items:center;gap:4px;background:rgba(15,10,12,.8);border:1px solid var(--line);border-radius:10px;padding:3px}.bet-ctrl button{width:32px;height:32px;border:1px solid var(--line);border-radius:7px;background:var(--surface-2);color:var(--cream);font-size:1rem;font-weight:700;cursor:pointer;display:grid;place-items:center}.bet-ctrl button:active{transform:scale(.9);background:var(--gold-dim)}.bet-val{min-width:36px;text-align:center;font-size:.75rem;font-weight:800;color:var(--gold-light)}.spin-btn{width:68px;height:68px;border-radius:50%;border:2.5px solid var(--gold);background:linear-gradient(160deg,#f5c77e,#a06b28);color:#1a0d07;font-size:.55rem;font-weight:900;letter-spacing:.08em;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 32px rgba(213,154,75,.4);transition:transform .12s}.spin-btn:active{transform:scale(.92)}.spin-btn:disabled{opacity:.35;cursor:not-allowed}.spin-btn.running{animation:pulse .35s ease-in-out infinite alternate}@keyframes pulse{from{box-shadow:0 6px 28px rgba(213,154,75,.25)}to{box-shadow:0 6px 40px rgba(213,154,75,.55)}}.fx-layer{position:fixed;inset:0;pointer-events:none;z-index:1000;overflow:hidden}.coin{position:absolute;width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#f5c77e,#8b5a1e);animation:coinFall var(--dur) linear forwards;opacity:0}@keyframes coinFall{0%{transform:translateY(-20px) scale(.5);opacity:0}10%{opacity:1;transform:translateY(0) scale(1)}100%{transform:translateY(calc(100vh + 20px)) scale(.7);opacity:.6}}.notice{text-align:center;font-size:.48rem;color:rgba(122,110,100,.4);padding:8px 0}@media(max-width:380px){.wheel-wrap{width:min(280px,78vw)}.spin-btn{width:58px;height:58px}}</style></head><body><script src="/public/js/god-mode.js"></script><div class="app"><div class="header"><a href="/hall.html">&larr; Hall</a><span class="brand">CumIN Dungeon</span></div><div class="title-area"><h1>After Dark Wheel</h1><p class="sub">Spin &middot; Land a Multiplier &middot; No Limit</p></div><div class="wheel-wrap"><canvas id="cv"></canvas><div class="wheel-pointer"></div><div class="wheel-center">AFTER<br>DARK</div></div><div class="result-display"><span id="wTxt"></span></div><div class="info-bar"><div class="info-box"><span class="lbl">Balance</span><span class="val" id="bal">1M</span></div><div class="info-box"><span class="lbl">Bet</span><span class="val" id="tBet">1K</span></div><div class="info-box"><span class="lbl">Win</span><span class="val" id="lWin">0</span></div></div><div class="controls"><div class="bet-section"><div class="bet-lbl">Bet</div><div class="bet-ctrl"><button id="bD">&minus;</button><span class="bet-val" id="bV">1K</span><button id="bU">+</button></div></div><button class="spin-btn" id="sBtn">SPIN</button><div></div></div><p class="notice">Entertainment tokens only. No cash value.</p></div><div class="fx-layer" id="fxL"></div><script>(()=>{'use strict';const CC=window.CUMIN_CASINO||{BETS:[100,500,1000,5000,10000,50000,100000],START_BALANCE:1000000,fmtBet:n=>n>=1e6?(n/1e6)+'M':n>=1e3?(n/1e3)+'K':n,godRefill:b=>b<100?1000000:b};const BETS=CC.BETS,fmtBet=CC.fmtBet;let betIdx=2,balance=CC.START_BALANCE,spinning=false;const SFX=(()=>{let c;const g=()=>{if(!c)c=new(window.AudioContext||window.webkitAudioContext)();if(c.state==='suspended')c.resume();return c};const p=(f,t,d,v=.06)=>{try{const x=g(),o=x.createOscillator(),gn=x.createGain();o.type=t;o.frequency.setValueAtTime(f,x.currentTime);gn.gain.setValueAtTime(v,x.currentTime);gn.gain.exponentialRampToValueAtTime(.001,x.currentTime+d);o.connect(gn).connect(x.destination);o.start();o.stop(x.currentTime+d)}catch(e){}};return{tick(){p(1400,'sine',.02,.04)},win(){[0,60,120,180].forEach((d,i)=>setTimeout(()=>p(500+i*80,'sine',.15,.08),d))},big(){[0,80,160,240,320,400].forEach((d,i)=>setTimeout(()=>p(380+i*110,'triangle',.22,.1),d))},lose(){p(140,'sawtooth',.12,.05)}}})();const SEGS=[{label:'2x',mult:2,color:'#1a1214'},{label:'3x',mult:3,color:'#8b1a24'},{label:'5x',mult:5,color:'#1a1214'},{label:'LOSE',mult:0,color:'#8b1a24'},{label:'2x',mult:2,color:'#1a1214'},{label:'8x',mult:8,color:'#8b1a24'},{label:'3x',mult:3,color:'#1a1214'},{label:'LOSE',mult:0,color:'#8b1a24'},{label:'12x',mult:12,color:'#1a1214'},{label:'2x',mult:2,color:'#8b1a24'},{label:'20x',mult:20,color:'#1a1214'},{label:'LOSE',mult:0,color:'#8b1a24'},{label:'5x',mult:5,color:'#1a1214'},{label:'50x',mult:50,color:'#d59a4b'},{label:'3x',mult:3,color:'#1a1214'},{label:'LOSE',mult:0,color:'#8b1a24'}];const TOTAL=SEGS.length;let angle=0;const cv=document.getElementById('cv');const ctx=cv.getContext('2d');let W,H,cx,cy,radius,dpr;function resize(){const wrap=cv.parentElement;dpr=Math.min(window.devicePixelRatio||1,2);W=wrap.clientWidth;H=wrap.clientHeight;cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';ctx.setTransform(dpr,0,0,dpr,0,0);cx=W/2;cy=H/2;radius=Math.min(W,H)/2-4}function drawWheel(){ctx.clearRect(0,0,W,H);const slice=Math.PI*2/TOTAL;ctx.save();ctx.translate(cx,cy);ctx.rotate(angle);for(let i=0;i<TOTAL;i++){const a=i*slice-Math.PI/2;ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,radius,a,a+slice);ctx.closePath();ctx.fillStyle=SEGS[i].color;ctx.fill();ctx.strokeStyle='rgba(213,154,75,.2)';ctx.lineWidth=1;ctx.stroke();ctx.save();const ta=a+slice/2;ctx.rotate(ta);ctx.translate(radius*.68,0);ctx.rotate(Math.PI/2);ctx.fillStyle=SEGS[i].mult===0?'#ff8a8a':SEGS[i].mult>=20?'#f5c77e':'#f5eee4';ctx.font=`bold ${radius*.09}px Inter,sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(SEGS[i].label,0,0);ctx.restore()}ctx.beginPath();ctx.arc(0,0,radius,0,Math.PI*2);ctx.strokeStyle='#8b6230';ctx.lineWidth=4;ctx.stroke();for(let i=0;i<TOTAL;i++){const a=i*slice;ctx.beginPath();ctx.arc(Math.cos(a)*radius,Math.sin(a)*radius,3,0,Math.PI*2);ctx.fillStyle='#f5c77e';ctx.fill()}ctx.restore()}let spinStart,spinDur,targetAngle,animId;function easeOutQuart(t){return 1-Math.pow(1-t,4)}function startSpin(){const bet=BETS[betIdx];if(spinning||balance<bet)return;spinning=true;balance-=bet;hideWin();updateUI();document.getElementById('sBtn').disabled=true;document.getElementById('sBtn').classList.add('running');const segIdx=Math.floor(Math.random()*TOTAL);const slice=Math.PI*2/TOTAL;const fullSpins=6+Math.random()*4;targetAngle=angle+fullSpins*Math.PI*2+(Math.PI*2-segIdx*slice-slice/2);spinDur=4500+Math.random()*1500;spinStart=performance.now();cv._seg=segIdx;if(animId)cancelAnimationFrame(animId);animId=requestAnimationFrame(tick)}let lastTickAngle=0;function tick(now){const t=Math.min(1,(now-spinStart)/spinDur);const eased=easeOutQuart(t);const currentAngle=angle+(targetAngle-angle)*eased;const slice=Math.PI*2/TOTAL;const prevSeg=Math.floor(((lastTickAngle%(Math.PI*2))+Math.PI*2)%(Math.PI*2)/slice);const curSeg=Math.floor(((currentAngle%(Math.PI*2))+Math.PI*2)%(Math.PI*2)/slice);if(prevSeg!==curSeg&&t<.95)SFX.tick();lastTickAngle=currentAngle;const savedAngle=angle;angle=currentAngle;drawWheel();angle=savedAngle;if(t>=1){angle=targetAngle%(Math.PI*2);drawWheel();animId=null;finishSpin();return}animId=requestAnimationFrame(tick)}function finishSpin(){const seg=SEGS[cv._seg];const bet=BETS[betIdx];if(seg.mult>0){const payout=bet*seg.mult;balance+=payout;document.getElementById('lWin').textContent=fmtBet(payout-bet);if(seg.mult>=12){showMsg(seg.label+' MASSIVE WIN +'+fmtBet(payout),'big');SFX.big();spawnCoins(40)}else{showMsg(seg.label+' WIN +'+fmtBet(payout),'win');SFX.win();spawnCoins(12)}}else{document.getElementById('lWin').textContent='0';showMsg('LOSE! House takes the bet','lose');SFX.lose()}balance=CC.godRefill(balance);updateUI();spinning=false;document.getElementById('sBtn').disabled=false;document.getElementById('sBtn').classList.remove('running')}function updateUI(){document.getElementById('bal').textContent=fmtBet(balance);document.getElementById('tBet').textContent=fmtBet(BETS[betIdx]);document.getElementById('bV').textContent=fmtBet(BETS[betIdx])}function hideWin(){const e=document.getElementById('wTxt');e.className='';e.textContent=''}function showMsg(t,type){const e=document.getElementById('wTxt');e.className='';setTimeout(()=>{e.textContent=t;e.className='active '+type},50)}function spawnCoins(n){const l=document.getElementById('fxL');for(let i=0;i<n;i++){const c=document.createElement('div');c.className='coin';c.style.left=(10+Math.random()*80)+'%';c.style.setProperty('--dur',(1.5+Math.random()*1.5)+'s');c.style.animationDelay=(Math.random()*.5)+'s';const sz=6+Math.random()*6;c.style.width=sz+'px';c.style.height=sz+'px';l.appendChild(c);setTimeout(()=>c.remove(),3500)}}document.getElementById('sBtn').addEventListener('click',startSpin);document.getElementById('bD').addEventListener('click',()=>{if(!spinning&&betIdx>0){betIdx--;updateUI()}});document.getElementById('bU').addEventListener('click',()=>{if(!spinning&&betIdx<BETS.length-1){betIdx++;updateUI()}});document.addEventListener('keydown',e=>{if(e.code==='Space'&&!spinning){e.preventDefault();startSpin()}});document.addEventListener('touchstart',()=>{try{SFX.tick()}catch(e){}},{once:true});resize();drawWheel();updateUI();window.addEventListener('resize',()=>{resize();drawWheel()})})();</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>After Dark Wheel | CumIN Dungeon Casino</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#050304;--surface:#0c0908;--surface-2:#141010;--gold:#d59a4b;--gold-light:#f5c77e;--gold-dim:#8b6230;--cream:#f5eee4;--muted:#7a6e64;--red:#9f2330;--green:#4ade80;--purple:#7c3aed;--line:rgba(190,137,77,.12);--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--cream);font-family:var(--sans);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;user-select:none}
+.app{position:relative;z-index:1;width:min(480px,100%);margin:0 auto;padding:8px 12px;min-height:100vh;display:flex;flex-direction:column}
+.header{display:flex;justify-content:space-between;align-items:center;padding:6px 0 8px}
+.header a{color:var(--muted);text-decoration:none;font-size:.7rem;font-weight:600;padding:7px 10px;border:1px solid var(--line);border-radius:6px}
+.header a:hover{border-color:var(--gold);color:var(--cream)}
+.brand{font-family:var(--serif);font-style:italic;font-size:.65rem;color:var(--gold-dim)}
+.title-area{text-align:center;padding:2px 0 8px}
+.title-area h1{font-family:var(--serif);font-style:italic;font-weight:700;font-size:clamp(1.5rem,5vw,2rem);color:var(--purple);line-height:1;text-shadow:0 0 30px rgba(124,58,237,.3)}
+.title-area .sub{font-size:.55rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-top:3px}
+
+/* Wheel */
+.wheel-wrap{position:relative;width:min(320px,80vw);aspect-ratio:1;margin:10px auto}
+.wheel-wrap canvas{width:100%;height:100%}
+.wheel-pointer{position:absolute;top:-10px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-top:24px solid var(--gold-light);filter:drop-shadow(0 3px 6px rgba(0,0,0,.6));z-index:5}
+.wheel-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:radial-gradient(circle,var(--surface) 60%,var(--bg));border:2px solid var(--gold-dim);display:grid;place-items:center;z-index:4}
+.wheel-center-text{font-family:var(--serif);font-style:italic;font-size:.5rem;color:var(--gold-light);font-weight:700;text-align:center;line-height:1.1}
+
+/* Result */
+.result-display{text-align:center;min-height:50px;display:grid;place-items:center;margin:8px 0}
+.result-display span{font-family:var(--serif);font-weight:700;font-size:0;opacity:0;transition:all .4s cubic-bezier(.16,1,.3,1)}
+.result-display span.active{opacity:1;font-size:1.2rem}
+.result-display span.win{color:var(--green)}
+.result-display span.big{color:var(--gold-light);font-size:1.5rem;text-shadow:0 0 30px rgba(213,154,75,.5)}
+.result-display span.mega{color:var(--purple);font-size:1.8rem;text-shadow:0 0 40px rgba(124,58,237,.5)}
+.result-display span.lose{color:var(--muted);font-size:.75rem;font-family:var(--sans);font-weight:600}
+
+/* Info bar */
+.info-bar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.info-box{background:rgba(0,0,0,.5);border:1px solid var(--line);border-radius:10px;padding:7px;text-align:center}
+.info-box .lbl{display:block;font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.info-box .val{display:block;font-size:.95rem;font-weight:800;color:var(--gold-light);font-variant-numeric:tabular-nums}
+
+/* Controls */
+.controls{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;padding:12px 0}
+.bet-section{text-align:center}
+.bet-lbl{font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:3px}
+.bet-ctrl{display:flex;align-items:center;gap:4px;background:rgba(0,0,0,.4);border:1px solid var(--line);border-radius:10px;padding:3px}
+.bet-ctrl button{width:32px;height:32px;border:1px solid var(--line);border-radius:7px;background:var(--surface-2);color:var(--cream);font-size:1rem;font-weight:700;cursor:pointer;display:grid;place-items:center}
+.bet-ctrl button:active{transform:scale(.9);background:var(--gold-dim)}
+.bet-val{min-width:36px;text-align:center;font-size:.75rem;font-weight:800;color:var(--gold-light)}
+.spin-btn{width:68px;height:68px;border-radius:50%;border:2.5px solid var(--purple);background:linear-gradient(160deg,#a855f7,#7c3aed,#4c1d95);color:#fff;font-size:.55rem;font-weight:900;letter-spacing:.08em;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 32px rgba(124,58,237,.35);transition:transform .12s}
+.spin-btn:active{transform:scale(.92)}
+.spin-btn:disabled{opacity:.35;cursor:not-allowed}
+.spin-btn.running{animation:spinPulse .35s ease-in-out infinite alternate}
+@keyframes spinPulse{from{box-shadow:0 6px 28px rgba(124,58,237,.25)}to{box-shadow:0 8px 40px rgba(124,58,237,.55)}}
+
+/* Segment legend */
+.legend{margin-top:8px;padding:10px;background:var(--surface);border:1px solid var(--line);border-radius:10px;display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:.52rem;font-weight:600;color:var(--cream)}
+.legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.legend-mult{color:var(--gold);font-weight:800;margin-left:auto}
+
+.notice{text-align:center;font-size:.48rem;color:rgba(122,110,100,.4);padding:8px 0}
+.fx-layer{position:fixed;inset:0;pointer-events:none;z-index:1000;overflow:hidden}
+.coin{position:absolute;width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#f5c77e,#8b5a1e);animation:coinFall var(--dur) linear forwards;opacity:0}
+@keyframes coinFall{0%{transform:translateY(-20px) scale(.5);opacity:0}10%{opacity:1;transform:translateY(0) scale(1)}100%{transform:translateY(calc(100vh + 20px)) scale(.7);opacity:.6}}
+
+@media(max-width:380px){.wheel-wrap{width:min(280px,78vw)}.spin-btn{width:58px;height:58px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header"><a href="/casino.html">&larr; Casino</a><span class="brand">CumIN Dungeon</span></div>
+  <div class="title-area">
+    <h1>⛓ After Dark Wheel</h1>
+    <p class="sub">Spin the Dungeon • Land Your Fate • No Limit</p>
+  </div>
+
+  <div class="wheel-wrap">
+    <canvas id="cv"></canvas>
+    <div class="wheel-pointer"></div>
+    <div class="wheel-center"><span class="wheel-center-text">AFTER<br>DARK</span></div>
+  </div>
+
+  <div class="result-display"><span id="wTxt"></span></div>
+
+  <div class="info-bar">
+    <div class="info-box"><span class="lbl">Balance</span><span class="val" id="bal">1M</span></div>
+    <div class="info-box"><span class="lbl">Bet</span><span class="val" id="tBet">1K</span></div>
+    <div class="info-box"><span class="lbl">Win</span><span class="val" id="lWin">0</span></div>
+  </div>
+
+  <div class="controls">
+    <div class="bet-section">
+      <div class="bet-lbl">Bet</div>
+      <div class="bet-ctrl">
+        <button id="bD">&minus;</button>
+        <span class="bet-val" id="bV">1K</span>
+        <button id="bU">+</button>
+      </div>
+    </div>
+    <button class="spin-btn" id="sBtn">SPIN</button>
+    <div></div>
+  </div>
+
+  <div class="legend" id="legend"></div>
+  <p class="notice">Entertainment tokens only. No cash value.</p>
+</div>
+<div class="fx-layer" id="fxL"></div>
+
+<script>
+(function(){
+'use strict';
+
+// Dungeon-themed segments
+var SEGS = [
+  {label:'Velvet Kiss',    mult:2,  color:'#2d1520', textColor:'#f5c77e'},
+  {label:'Chains & Silk',  mult:3,  color:'#8b1a24', textColor:'#f5eee4'},
+  {label:'Crimson Lash',   mult:5,  color:'#2d1520', textColor:'#f5c77e'},
+  {label:'DENIED',         mult:0,  color:'#1a1214', textColor:'#ff6b6b'},
+  {label:'Blindfold',      mult:2,  color:'#2d1520', textColor:'#f5c77e'},
+  {label:'Dragon\'s Tongue',mult:8, color:'#8b1a24', textColor:'#f5eee4'},
+  {label:'Whispered Sin',  mult:3,  color:'#2d1520', textColor:'#f5c77e'},
+  {label:'DENIED',         mult:0,  color:'#1a1214', textColor:'#ff6b6b'},
+  {label:'Throne Room',    mult:12, color:'#3b1a6e', textColor:'#d4a5ff'},
+  {label:'Candle Drip',    mult:2,  color:'#2d1520', textColor:'#f5c77e'},
+  {label:'Dungeon Master', mult:20, color:'#3b1a6e', textColor:'#d4a5ff'},
+  {label:'DENIED',         mult:0,  color:'#1a1214', textColor:'#ff6b6b'},
+  {label:'Dark Embrace',   mult:5,  color:'#2d1520', textColor:'#f5c77e'},
+  {label:'Royal Climax',   mult:50, color:'#4c1d95', textColor:'#fbbf24'},
+  {label:'Rope & Rose',    mult:3,  color:'#8b1a24', textColor:'#f5eee4'},
+  {label:'DENIED',         mult:0,  color:'#1a1214', textColor:'#ff6b6b'}
+];
+
+var TOTAL = SEGS.length;
+var BETS = [100,500,1000,5000,10000,50000,100000];
+var START_BALANCE = 1000000;
+var balance = START_BALANCE;
+var betIdx = 2;
+var spinning = false;
+var angle = 0;
+var fmtBet = function(n){ return n>=1e6?(n/1e6)+'M':n>=1e3?(n/1e3)+'K':n; };
+
+// Audio
+var SFX = (function(){
+  var c;
+  var g = function(){ if(!c) c=new(window.AudioContext||window.webkitAudioContext)(); if(c.state==='suspended')c.resume(); return c; };
+  var p = function(f,t,d,v){ v=v||.06; try{ var x=g(),o=x.createOscillator(),gn=x.createGain(); o.type=t; o.frequency.setValueAtTime(f,x.currentTime); gn.gain.setValueAtTime(v,x.currentTime); gn.gain.exponentialRampToValueAtTime(.001,x.currentTime+d); o.connect(gn).connect(x.destination); o.start(); o.stop(x.currentTime+d); }catch(e){} };
+  return {
+    tick: function(){ p(1400,'sine',.02,.04); },
+    win: function(){ [0,60,120,180].forEach(function(d,i){ setTimeout(function(){ p(500+i*80,'sine',.15,.08); },d); }); },
+    big: function(){ [0,80,160,240,320,400].forEach(function(d,i){ setTimeout(function(){ p(380+i*110,'triangle',.22,.1); },d); }); },
+    mega: function(){ [0,100,200,300,400,500,600].forEach(function(d,i){ setTimeout(function(){ p(300+i*120,'sawtooth',.25,.1); },d); }); },
+    lose: function(){ p(140,'sawtooth',.12,.05); }
+  };
+})();
+
+// Canvas
+var cv = document.getElementById('cv');
+var ctx = cv.getContext('2d');
+var W, H, cx, cy, radius, dpr;
+
+function resize(){
+  var wrap = cv.parentElement;
+  dpr = Math.min(window.devicePixelRatio||1, 2);
+  W = wrap.clientWidth; H = wrap.clientHeight;
+  cv.width = W*dpr; cv.height = H*dpr;
+  cv.style.width = W+'px'; cv.style.height = H+'px';
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  cx = W/2; cy = H/2;
+  radius = Math.min(W,H)/2 - 6;
+}
+
+function drawWheel(){
+  ctx.clearRect(0,0,W,H);
+  var slice = Math.PI*2/TOTAL;
+  ctx.save();
+  ctx.translate(cx,cy);
+  ctx.rotate(angle);
+  
+  for(var i=0;i<TOTAL;i++){
+    var a = i*slice - Math.PI/2;
+    ctx.beginPath();
+    ctx.moveTo(0,0);
+    ctx.arc(0,0,radius,a,a+slice);
+    ctx.closePath();
+    ctx.fillStyle = SEGS[i].color;
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(213,154,75,.15)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    
+    // Text
+    ctx.save();
+    var ta = a + slice/2;
+    ctx.rotate(ta);
+    ctx.translate(radius * .62, 0);
+    ctx.rotate(Math.PI/2);
+    ctx.fillStyle = SEGS[i].textColor;
+    ctx.font = 'bold ' + (radius*.065) + 'px Inter,sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    // Show name for big wins, mult for small
+    var label = SEGS[i].mult >= 8 ? SEGS[i].label : (SEGS[i].mult === 0 ? 'DENIED' : SEGS[i].mult + 'x');
+    ctx.fillText(label, 0, 0);
+    ctx.restore();
+  }
+  
+  // Outer ring
+  ctx.beginPath();
+  ctx.arc(0,0,radius,0,Math.PI*2);
+  ctx.strokeStyle = 'rgba(124,58,237,.4)';
+  ctx.lineWidth = 4;
+  ctx.stroke();
+  
+  // Segment dots
+  for(var i=0;i<TOTAL;i++){
+    var a = i*slice;
+    ctx.beginPath();
+    ctx.arc(Math.cos(a)*radius, Math.sin(a)*radius, 3, 0, Math.PI*2);
+    ctx.fillStyle = '#f5c77e';
+    ctx.fill();
+  }
+  
+  ctx.restore();
+}
+
+// Spin
+var spinStart, spinDur, targetAngle, animId;
+var lastTickAngle = 0;
+
+function easeOutQuart(t){ return 1 - Math.pow(1-t, 4); }
+
+function startSpin(){
+  var bet = BETS[betIdx];
+  if(spinning || balance < bet) return;
+  spinning = true;
+  balance -= bet;
+  hideWin();
+  updateUI();
+  document.getElementById('sBtn').disabled = true;
+  document.getElementById('sBtn').classList.add('running');
+  
+  var segIdx = Math.floor(Math.random()*TOTAL);
+  var slice = Math.PI*2/TOTAL;
+  var fullSpins = 6 + Math.random()*4;
+  targetAngle = angle + fullSpins*Math.PI*2 + (Math.PI*2 - segIdx*slice - slice/2);
+  spinDur = 4500 + Math.random()*1500;
+  spinStart = performance.now();
+  cv._seg = segIdx;
+  lastTickAngle = angle;
+  if(animId) cancelAnimationFrame(animId);
+  animId = requestAnimationFrame(tick);
+}
+
+function tick(now){
+  var t = Math.min(1, (now-spinStart)/spinDur);
+  var eased = easeOutQuart(t);
+  var currentAngle = angle + (targetAngle-angle)*eased;
+  var slice = Math.PI*2/TOTAL;
+  
+  // Tick sound
+  var prevSeg = Math.floor(((lastTickAngle%(Math.PI*2))+Math.PI*2)%(Math.PI*2)/slice);
+  var curSeg = Math.floor(((currentAngle%(Math.PI*2))+Math.PI*2)%(Math.PI*2)/slice);
+  if(prevSeg !== curSeg && t < .95) SFX.tick();
+  lastTickAngle = currentAngle;
+  
+  var savedAngle = angle;
+  angle = currentAngle;
+  drawWheel();
+  angle = savedAngle;
+  
+  if(t >= 1){
+    angle = targetAngle%(Math.PI*2);
+    drawWheel();
+    animId = null;
+    finishSpin();
+    return;
+  }
+  animId = requestAnimationFrame(tick);
+}
+
+function finishSpin(){
+  var seg = SEGS[cv._seg];
+  var bet = BETS[betIdx];
+  
+  if(seg.mult > 0){
+    var payout = bet * seg.mult;
+    balance += payout;
+    document.getElementById('lWin').textContent = fmtBet(payout);
+    
+    if(seg.mult >= 50){
+      showMsg('\u2728 ' + seg.label + '! ' + seg.mult + 'x = +' + fmtBet(payout), 'mega');
+      SFX.mega();
+      spawnCoins(50);
+    } else if(seg.mult >= 8){
+      showMsg(seg.label + '! ' + seg.mult + 'x = +' + fmtBet(payout), 'big');
+      SFX.big();
+      spawnCoins(30);
+    } else {
+      showMsg(seg.label + ' ' + seg.mult + 'x = +' + fmtBet(payout), 'win');
+      SFX.win();
+      spawnCoins(12);
+    }
+  } else {
+    document.getElementById('lWin').textContent = '0';
+    showMsg('DENIED! The dungeon keeps your bet.', 'lose');
+    SFX.lose();
+  }
+  
+  if(balance < 100) balance = START_BALANCE;
+  updateUI();
+  spinning = false;
+  document.getElementById('sBtn').disabled = false;
+  document.getElementById('sBtn').classList.remove('running');
+}
+
+function buildLegend(){
+  var ct = document.getElementById('legend');
+  var seen = {};
+  SEGS.forEach(function(seg){
+    if(seen[seg.label]) return;
+    seen[seg.label] = true;
+    var item = document.createElement('div');
+    item.className = 'legend-item';
+    item.innerHTML = '<span class="legend-dot" style="background:'+seg.color+';border:1px solid '+seg.textColor+'"></span>' + seg.label + '<span class="legend-mult">' + (seg.mult===0?'LOSE':seg.mult+'x') + '</span>';
+    ct.appendChild(item);
+  });
+}
+
+function updateUI(){
+  document.getElementById('bal').textContent = fmtBet(balance);
+  document.getElementById('tBet').textContent = fmtBet(BETS[betIdx]);
+  document.getElementById('bV').textContent = fmtBet(BETS[betIdx]);
+}
+
+function hideWin(){ var e=document.getElementById('wTxt'); e.className=''; e.textContent=''; }
+function showMsg(t,type){ var e=document.getElementById('wTxt'); e.className=''; setTimeout(function(){ e.textContent=t; e.className='active '+type; },50); }
+function spawnCoins(n){ var l=document.getElementById('fxL'); for(var i=0;i<n;i++){ var c=document.createElement('div'); c.className='coin'; c.style.left=(10+Math.random()*80)+'%'; c.style.setProperty('--dur',(1.5+Math.random()*1.5)+'s'); c.style.animationDelay=(Math.random()*.5)+'s'; var sz=6+Math.random()*6; c.style.width=sz+'px'; c.style.height=sz+'px'; l.appendChild(c); setTimeout((function(el){return function(){el.remove();};})(c),3500); } }
+
+// Events
+document.getElementById('sBtn').addEventListener('click', startSpin);
+document.getElementById('bD').addEventListener('click', function(){ if(!spinning && betIdx>0){ betIdx--; updateUI(); } });
+document.getElementById('bU').addEventListener('click', function(){ if(!spinning && betIdx<BETS.length-1){ betIdx++; updateUI(); } });
+document.addEventListener('keydown', function(e){ if(e.code==='Space' && !spinning){ e.preventDefault(); startSpin(); } });
+document.addEventListener('touchstart', function(){ try{SFX.tick();}catch(e){} }, {once:true});
+
+// Init
+resize();
+drawWheel();
+buildLegend();
+updateUI();
+window.addEventListener('resize', function(){ resize(); drawWheel(); });
+})();
+</script>
+</body>
+</html>
