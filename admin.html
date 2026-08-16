@@ -1,232 +1,261 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin | Cum IN Dungeon</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin | CumIN Dungeon</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root { --bg: #0a0604; --surface: #141010; --gold: #d59a4b; --gold-light: #f5c77e; --red: #e63946; --green: #4ade80; --cream: #f5eee4; --muted: #a6998b; --line: rgba(190,137,77,0.18); --sans: 'Inter', system-ui, sans-serif; }
-* { box-sizing: border-box; margin: 0; }
-body { background: var(--bg); color: var(--cream); font-family: var(--sans); font-size: 14px; line-height: 1.5; padding: 24px; }
-button { font: inherit; color: inherit; cursor: pointer; }
+:root{--bg:#050304;--surface:#0c0908;--surface-2:#141010;--gold:#d59a4b;--gold-light:#f5c77e;--gold-dim:#8b6230;--cream:#f5eee4;--muted:#7a6e64;--red:#c0392b;--green:#4ade80;--purple:#7c3aed;--blue:#3b82f6;--line:rgba(190,137,77,.1);--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--cream);font-family:var(--sans);min-height:100vh;font-size:14px}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
 
-.admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-.admin-header h1 { font-size: 1.4rem; font-weight: 800; }
-.admin-header h1 span { color: var(--gold); }
-.admin-badge { padding: 4px 10px; border-radius: 100px; background: var(--red); font-size: 0.6rem; font-weight: 800; letter-spacing: 0.1em; }
+/* Layout */
+.admin-layout{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+@media(max-width:768px){.admin-layout{grid-template-columns:1fr}.sidebar{display:none}.sidebar.mobile-open{display:flex;position:fixed;inset:0;z-index:100}}
 
-.login-box { max-width: 360px; margin: 100px auto; text-align: center; }
-.login-box h2 { font-size: 1.2rem; margin-bottom: 16px; }
-.login-box input { width: 100%; padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--cream); margin-bottom: 12px; font-size: 0.85rem; }
-.login-box button { width: 100%; padding: 12px; border: none; border-radius: 8px; background: var(--gold); color: var(--bg); font-weight: 800; }
+/* Sidebar */
+.sidebar{background:var(--surface);border-right:1px solid var(--line);padding:20px 0;display:flex;flex-direction:column}
+.sidebar-brand{padding:0 20px 20px;font:700 1.1rem var(--serif);color:var(--gold-light);font-style:italic;border-bottom:1px solid var(--line)}
+.sidebar-nav{padding:12px 0;flex:1}
+.nav-section{padding:0 12px;margin-bottom:16px}
+.nav-section-title{font-size:.5rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);padding:8px 8px 4px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:.72rem;font-weight:600;color:var(--muted);transition:all .12s;margin-bottom:2px}
+.nav-item:hover{background:rgba(255,255,255,.03);color:var(--cream)}
+.nav-item.active{background:rgba(213,154,75,.08);color:var(--gold-light);font-weight:700}
+.nav-item .nav-icon{font-size:1rem;width:20px;text-align:center}
+.nav-item .nav-badge{margin-left:auto;font-size:.5rem;font-weight:800;padding:2px 6px;border-radius:4px;background:var(--red);color:#fff}
+.sidebar-footer{padding:12px 20px;border-top:1px solid var(--line);font-size:.55rem;color:var(--muted)}
+.sidebar-footer .ghost-toggle{display:flex;align-items:center;gap:8px;padding:6px 0;cursor:pointer}
+.sidebar-footer .ghost-dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.sidebar-footer .ghost-dot.on{background:var(--green)}
 
-.admin-panel { display: none; }
-.admin-panel.active { display: block; }
+/* Main content */
+.main{padding:24px;overflow-y:auto}
+.main-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.main-header h1{font:700 1.5rem var(--serif);font-style:italic;color:var(--gold-light)}
+.mobile-menu{display:none;width:36px;height:36px;border-radius:8px;border:1px solid var(--line);place-items:center;font-size:1rem}
+@media(max-width:768px){.mobile-menu{display:grid}}
+.header-actions{display:flex;gap:8px;align-items:center}
+.header-pill{padding:5px 12px;border-radius:100px;font-size:.6rem;font-weight:700;border:1px solid var(--line);color:var(--muted)}
+.header-pill.live{border-color:rgba(74,222,128,.3);color:var(--green)}
+.header-pill.live::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);margin-right:6px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-.tabs { display: flex; gap: 4px; margin-bottom: 20px; }
-.tab { padding: 8px 16px; border: 1px solid var(--line); border-radius: 8px; background: transparent; font-size: 0.72rem; font-weight: 700; }
-.tab:hover { border-color: var(--gold); }
-.tab.active { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+/* Stats grid */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:24px}
+.stat-card{padding:16px;border-radius:12px;background:var(--surface);border:1px solid var(--line)}
+.stat-card .sc-label{font-size:.5rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.stat-card .sc-value{font-size:1.6rem;font-weight:900;color:var(--cream);font-variant-numeric:tabular-nums;line-height:1}
+.stat-card .sc-change{font-size:.55rem;font-weight:700;margin-top:4px}
+.stat-card .sc-change.up{color:var(--green)}
+.stat-card .sc-change.down{color:var(--red)}
 
-.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 24px; }
-.stat-card { padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
-.stat-card .value { font-size: 1.8rem; font-weight: 800; color: var(--gold-light); }
-.stat-card .label { font-size: 0.65rem; color: var(--muted); margin-top: 4px; }
+/* Sections */
+.section{margin-bottom:24px}
+.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.section-title{font-size:.85rem;font-weight:800;color:var(--cream)}
+.section-action{font-size:.6rem;color:var(--gold-dim);font-weight:700;cursor:pointer}
+.section-action:hover{color:var(--gold-light)}
 
-.section-title { font-size: 0.9rem; font-weight: 800; margin-bottom: 12px; color: var(--gold); }
+/* Room list */
+.room-list{display:flex;flex-direction:column;gap:6px}
+.room-row{display:grid;grid-template-columns:auto 1fr auto auto auto;gap:12px;align-items:center;padding:10px 14px;border-radius:10px;background:var(--surface);border:1px solid var(--line)}
+.room-row .rr-status{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.room-row .rr-status.live{background:var(--green)}
+.room-row .rr-name{font-size:.72rem;font-weight:700}
+.room-row .rr-viewers{font-size:.6rem;color:var(--muted);font-weight:600}
+.room-row .rr-performer{font-size:.58rem;color:var(--gold-dim);font-weight:600}
+.room-row .rr-actions button{padding:4px 8px;border-radius:4px;font-size:.5rem;font-weight:700;border:1px solid var(--line);color:var(--muted)}
+.room-row .rr-actions button:hover{border-color:var(--gold);color:var(--cream)}
 
-.table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
-.table th { text-align: left; padding: 8px 12px; font-size: 0.65rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid var(--line); }
-.table td { padding: 10px 12px; font-size: 0.78rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
-.table tr:hover { background: rgba(213,154,75,0.04); }
+/* Activity feed */
+.feed{display:flex;flex-direction:column;gap:6px}
+.feed-item{display:flex;gap:10px;padding:8px 12px;border-radius:8px;background:var(--surface);border:1px solid var(--line)}
+.feed-item .fi-icon{width:24px;height:24px;border-radius:6px;display:grid;place-items:center;font-size:.7rem;flex-shrink:0}
+.feed-item .fi-icon.tip{background:rgba(213,154,75,.1);}
+.feed-item .fi-icon.join{background:rgba(74,222,128,.1);}
+.feed-item .fi-icon.report{background:rgba(192,57,43,.1);}
+.feed-item .fi-icon.game{background:rgba(124,58,237,.1);}
+.feed-item .fi-content{flex:1}
+.feed-item .fi-text{font-size:.65rem;color:var(--cream);line-height:1.4}
+.feed-item .fi-text strong{font-weight:700}
+.feed-item .fi-time{font-size:.5rem;color:var(--muted);margin-top:2px}
 
-.status-badge { padding: 3px 8px; border-radius: 100px; font-size: 0.6rem; font-weight: 700; }
-.status-pending { background: rgba(213,154,75,0.15); color: var(--gold); }
-.status-approved { background: rgba(74,222,128,0.15); color: var(--green); }
-.status-rejected { background: rgba(230,57,70,0.15); color: var(--red); }
+/* Moderation panel */
+.mod-list{display:flex;flex-direction:column;gap:6px}
+.mod-item{display:flex;gap:10px;align-items:center;padding:10px 14px;border-radius:10px;background:var(--surface);border:1px solid rgba(192,57,43,.2)}
+.mod-item .mi-icon{width:28px;height:28px;border-radius:50%;background:rgba(192,57,43,.1);display:grid;place-items:center;font-size:.7rem;color:var(--red);flex-shrink:0}
+.mod-item .mi-content{flex:1}
+.mod-item .mi-text{font-size:.65rem;line-height:1.3}
+.mod-item .mi-meta{font-size:.5rem;color:var(--muted);margin-top:2px}
+.mod-item .mi-actions{display:flex;gap:4px}
+.mod-item .mi-actions button{padding:5px 10px;border-radius:5px;font-size:.5rem;font-weight:700;border:1px solid var(--line)}
+.mod-item .mi-actions .ban{border-color:rgba(192,57,43,.3);color:var(--red)}
+.mod-item .mi-actions .dismiss{color:var(--muted)}
 
-.action-btn { padding: 5px 10px; border-radius: 6px; font-size: 0.65rem; font-weight: 700; border: 1px solid var(--line); background: transparent; margin-right: 4px; }
-.action-btn:hover { border-color: var(--gold); }
-.btn-approve { color: var(--green); border-color: var(--green); }
-.btn-reject { color: var(--red); border-color: var(--red); }
+/* Quick settings */
+.settings-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.setting-card{padding:14px;border-radius:10px;background:var(--surface);border:1px solid var(--line)}
+.setting-card .stg-label{font-size:.6rem;font-weight:700;color:var(--cream);margin-bottom:6px}
+.setting-card .stg-desc{font-size:.5rem;color:var(--muted);margin-bottom:8px;line-height:1.3}
+.toggle{width:36px;height:20px;border-radius:10px;background:rgba(255,255,255,.1);position:relative;cursor:pointer;border:1px solid var(--line)}
+.toggle::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--muted);transition:all .2s}
+.toggle.on{background:rgba(74,222,128,.15);border-color:rgba(74,222,128,.3)}
+.toggle.on::after{left:18px;background:var(--green)}
 
-.god-mode { padding: 16px; border: 1px solid var(--gold); border-radius: 12px; background: rgba(213,154,75,0.05); margin-bottom: 24px; }
-.god-mode h3 { font-size: 0.85rem; color: var(--gold-light); margin-bottom: 8px; }
-.god-mode p { font-size: 0.72rem; color: var(--muted); margin-bottom: 12px; }
-.god-toggle { display: flex; gap: 12px; flex-wrap: wrap; }
-.god-toggle button { padding: 8px 16px; border: 1px solid var(--gold); border-radius: 8px; background: rgba(213,154,75,0.1); font-size: 0.72rem; font-weight: 700; color: var(--gold-light); }
-.god-toggle button:hover { background: var(--gold); color: var(--bg); }
-
-.activity-log { max-height: 300px; overflow-y: auto; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
-.log-entry { padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 0.72rem; color: var(--muted); }
-.log-entry .time { color: #5a4f46; font-size: 0.6rem; }
-.log-entry .action { color: var(--cream); }
+@media(max-width:768px){
+  .main{padding:16px}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .room-row{grid-template-columns:auto 1fr auto}
+  .room-row .rr-performer,.room-row .rr-actions{display:none}
+}
 </style>
 </head>
 <body>
-
-<!-- Login -->
-<div class="login-box" id="login-box">
-  <h2>Admin Access</h2>
-  <input type="password" id="admin-key" placeholder="Enter admin key">
-  <button id="login-btn">Enter</button>
-</div>
-
-<!-- Admin Panel -->
-<div class="admin-panel" id="admin-panel">
-  <div class="admin-header">
-    <h1><span>♜</span> CumIN Dungeon Admin</h1>
-    <span class="admin-badge">GOD MODE</span>
-  </div>
-
-  <!-- God Mode Controls -->
-  <div class="god-mode">
-    <h3>⚡ Owner Controls</h3>
-    <p>You have unlimited tokens, full access to all rooms, VIP, and admin functions.</p>
-    <div class="god-toggle">
-      <button onclick="enterAsGod('hall')">Enter Grand Hall</button>
-      <button onclick="enterAsGod('velvet-room')">Enter Velvet Room</button>
-      <button onclick="enterAsGod('haleys-halo')">Enter Haley's Halo</button>
-      <button onclick="enterAsGod('the-dungeon')">Enter The Dungeon</button>
-      <button onclick="setTokens()">Set Unlimited Tokens</button>
+<div class="admin-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">CumIN Admin</div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a class="nav-item active"><span class="nav-icon">⌂</span>Dashboard</a>
+        <a class="nav-item"><span class="nav-icon">◎</span>Analytics</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Venue</div>
+        <a class="nav-item"><span class="nav-icon">▣</span>Rooms<span class="nav-badge">8</span></a>
+        <a class="nav-item"><span class="nav-icon">☆</span>Performers</a>
+        <a class="nav-item"><span class="nav-icon">♡</span>Members</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Casino</div>
+        <a class="nav-item"><span class="nav-icon">♦</span>Games</a>
+        <a class="nav-item"><span class="nav-icon">◈</span>Token Economy</a>
+        <a class="nav-item"><span class="nav-icon">∴</span>Payouts</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Safety</div>
+        <a class="nav-item"><span class="nav-icon">⚠</span>Moderation<span class="nav-badge">3</span></a>
+        <a class="nav-item"><span class="nav-icon">⚑</span>Reports</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">System</div>
+        <a class="nav-item"><span class="nav-icon">⚙</span>Settings</a>
+        <a class="nav-item"><span class="nav-icon">→</span>Deploy Status</a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="ghost-toggle" id="ghostToggle">
+        <span class="ghost-dot" id="ghostDot"></span>
+        <span>Ghost Mode (Elias)</span>
+      </div>
     </div>
-  </div>
+  </aside>
 
-  <div class="tabs">
-    <button class="tab active" data-tab="overview">Overview</button>
-    <button class="tab" data-tab="performers">Performers</button>
-    <button class="tab" data-tab="activity">Activity</button>
-    <button class="tab" data-tab="rooms">Rooms</button>
-  </div>
-
-  <!-- Overview -->
-  <div id="tab-overview">
-    <div class="stat-grid">
-      <div class="stat-card"><div class="value" id="stat-rooms">0</div><div class="label">Rooms Active</div></div>
-      <div class="stat-card"><div class="value" id="stat-viewers">0</div><div class="label">Total Viewers</div></div>
-      <div class="stat-card"><div class="value" id="stat-performers">0</div><div class="label">Performers</div></div>
-      <div class="stat-card"><div class="value">∞</div><div class="label">Your Tokens</div></div>
-      <div class="stat-card"><div class="value">$0</div><div class="label">Revenue Today</div></div>
-      <div class="stat-card"><div class="value">0</div><div class="label">Members</div></div>
+  <!-- Main -->
+  <main class="main">
+    <div class="main-header">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="mobile-menu" id="menuBtn">☰</button>
+        <h1>Dashboard</h1>
+      </div>
+      <div class="header-actions">
+        <span class="header-pill live">Live</span>
+        <span class="header-pill">connex-network.vercel.app</span>
+      </div>
     </div>
-  </div>
 
-  <!-- Performers -->
-  <div id="tab-performers" style="display:none">
-    <p class="section-title">Performer Applications</p>
-    <table class="table">
-      <thead><tr><th>Stage Name</th><th>Email</th><th>Age</th><th>Status</th><th>Actions</th></tr></thead>
-      <tbody id="performers-table">
-        <tr><td>Velvet</td><td>velvet@test.com</td><td>24</td><td><span class="status-badge status-approved">Approved</span></td><td><button class="action-btn">View ID</button></td></tr>
-        <tr><td>Ember</td><td>ember@test.com</td><td>22</td><td><span class="status-badge status-pending">Pending</span></td><td><button class="action-btn btn-approve">Approve</button><button class="action-btn btn-reject">Reject</button></td></tr>
-        <tr><td>Luna</td><td>luna@test.com</td><td>26</td><td><span class="status-badge status-pending">Pending</span></td><td><button class="action-btn btn-approve">Approve</button><button class="action-btn btn-reject">Reject</button></td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Activity -->
-  <div id="tab-activity" style="display:none">
-    <p class="section-title">Recent Activity</p>
-    <div class="activity-log" id="activity-log">
-      <div class="log-entry"><span class="time">10:14 AM</span> <span class="action">Jay entered admin panel</span></div>
-      <div class="log-entry"><span class="time">10:12 AM</span> <span class="action">Guest_a7k2m joined Velvet Room</span></div>
-      <div class="log-entry"><span class="time">10:08 AM</span> <span class="action">Ably chat connected: grand-hall</span></div>
-      <div class="log-entry"><span class="time">9:55 AM</span> <span class="action">Deploy successful: 585f16c</span></div>
-      <div class="log-entry"><span class="time">9:34 AM</span> <span class="action">Performer application: Ember (pending)</span></div>
-      <div class="log-entry"><span class="time">9:20 AM</span> <span class="action">API: /api/rooms hit 12 times</span></div>
-      <div class="log-entry"><span class="time">8:45 AM</span> <span class="action">Ably API key configured</span></div>
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card"><div class="sc-label">Active Viewers</div><div class="sc-value">847</div><div class="sc-change up">↑ 12% vs yesterday</div></div>
+      <div class="stat-card"><div class="sc-label">Tokens Spent (24h)</div><div class="sc-value">2.4M</div><div class="sc-change up">↑ 8% vs avg</div></div>
+      <div class="stat-card"><div class="sc-label">Tips Sent (24h)</div><div class="sc-value">1,247</div><div class="sc-change up">↑ 23%</div></div>
+      <div class="stat-card"><div class="sc-label">Casino Revenue</div><div class="sc-value">890K</div><div class="sc-change down">↓ 3% (variance)</div></div>
+      <div class="stat-card"><div class="sc-label">Active Performers</div><div class="sc-value">12</div><div class="sc-change up">3 streaming now</div></div>
+      <div class="stat-card"><div class="sc-label">Reports (Open)</div><div class="sc-value">3</div><div class="sc-change down">1 urgent</div></div>
     </div>
-  </div>
 
-  <!-- Rooms -->
-  <div id="tab-rooms" style="display:none">
-    <p class="section-title">Live Rooms</p>
-    <table class="table">
-      <thead><tr><th>Room</th><th>Status</th><th>Viewers</th><th>Performer</th><th>Actions</th></tr></thead>
-      <tbody id="rooms-table"></tbody>
-    </table>
-  </div>
+    <!-- Rooms -->
+    <div class="section">
+      <div class="section-header"><span class="section-title">Active Rooms</span><span class="section-action">Manage All →</span></div>
+      <div class="room-list">
+        <div class="room-row"><span class="rr-status live"></span><span class="rr-name">Velvet Room</span><span class="rr-viewers">● 184 watching</span><span class="rr-performer">Luna_Dark</span><div class="rr-actions"><button>View</button></div></div>
+        <div class="room-row"><span class="rr-status live"></span><span class="rr-name">Tangled Throne</span><span class="rr-viewers">● 92 watching</span><span class="rr-performer">CoupleXO</span><div class="rr-actions"><button>View</button></div></div>
+        <div class="room-row"><span class="rr-status live"></span><span class="rr-name">Devil's Playground</span><span class="rr-viewers">● 67 watching</span><span class="rr-performer">MistressV</span><div class="rr-actions"><button>View</button></div></div>
+        <div class="room-row"><span class="rr-status"></span><span class="rr-name">Back Room</span><span class="rr-viewers">Offline</span><span class="rr-performer">—</span><div class="rr-actions"><button>Config</button></div></div>
+        <div class="room-row"><span class="rr-status"></span><span class="rr-name">Haley's Halo</span><span class="rr-viewers">Offline</span><span class="rr-performer">—</span><div class="rr-actions"><button>Config</button></div></div>
+      </div>
+    </div>
+
+    <!-- Activity feed -->
+    <div class="section">
+      <div class="section-header"><span class="section-title">Live Activity</span><span class="section-action">View All →</span></div>
+      <div class="feed">
+        <div class="feed-item"><span class="fi-icon tip">💎</span><div class="fi-content"><div class="fi-text"><strong>Guest_7kx2</strong> sent Crown (1000 tokens) to Luna_Dark</div><div class="fi-time">12 seconds ago</div></div></div>
+        <div class="feed-item"><span class="fi-icon join">🚪</span><div class="fi-content"><div class="fi-text"><strong>Guest_m9p1</strong> entered Velvet Room</div><div class="fi-time">34 seconds ago</div></div></div>
+        <div class="feed-item"><span class="fi-icon game">🎰</span><div class="fi-content"><div class="fi-text"><strong>Guest_3fn8</strong> hit MASSIVE WIN on Velvet Reels (+450K tokens)</div><div class="fi-time">1 minute ago</div></div></div>
+        <div class="feed-item"><span class="fi-icon tip">💎</span><div class="fi-content"><div class="fi-text"><strong>Guest_q2w9</strong> sent Black Rose (300 tokens) to MistressV</div><div class="fi-time">2 minutes ago</div></div></div>
+        <div class="feed-item"><span class="fi-icon report">⚠️</span><div class="fi-content"><div class="fi-text"><strong>Guest_x1y3</strong> reported for harassment in Devil's Playground</div><div class="fi-time">5 minutes ago</div></div></div>
+      </div>
+    </div>
+
+    <!-- Moderation -->
+    <div class="section">
+      <div class="section-header"><span class="section-title">Pending Moderation</span><span class="section-action">3 open</span></div>
+      <div class="mod-list">
+        <div class="mod-item"><span class="mi-icon">⚠</span><div class="mi-content"><div class="mi-text">Harassment report: Guest_x1y3 → repeated unwanted DMs in Devil's Playground</div><div class="mi-meta">Reported by Guest_a4b6 • 5 min ago</div></div><div class="mi-actions"><button class="ban">Ban</button><button class="dismiss">Dismiss</button></div></div>
+        <div class="mod-item"><span class="mi-icon">⚠</span><div class="mi-content"><div class="mi-text">Spam: Guest_zz99 → posting links repeatedly in Grand Hall chat</div><div class="mi-meta">Auto-flagged • 12 min ago</div></div><div class="mi-actions"><button class="ban">Mute</button><button class="dismiss">Dismiss</button></div></div>
+        <div class="mod-item"><span class="mi-icon">⚠</span><div class="mi-content"><div class="mi-text">Age concern: Guest_new1 → profile suggests under-18 in Pink Silk</div><div class="mi-meta">Auto-flagged • 28 min ago</div></div><div class="mi-actions"><button class="ban">Suspend</button><button class="dismiss">Verify</button></div></div>
+      </div>
+    </div>
+
+    <!-- Quick Settings -->
+    <div class="section">
+      <div class="section-header"><span class="section-title">Quick Settings</span></div>
+      <div class="settings-grid">
+        <div class="setting-card"><div class="stg-label">Maintenance Mode</div><div class="stg-desc">Block new visitors, show maintenance page</div><div class="toggle" id="toggleMaint"></div></div>
+        <div class="setting-card"><div class="stg-label">Registration Open</div><div class="stg-desc">Allow new account creation</div><div class="toggle on" id="toggleReg"></div></div>
+        <div class="setting-card"><div class="stg-label">Casino Active</div><div class="stg-desc">Enable casino games for all users</div><div class="toggle on" id="toggleCasino"></div></div>
+        <div class="setting-card"><div class="stg-label">Chat Enabled</div><div class="stg-desc">Allow realtime chat in all rooms</div><div class="toggle on" id="toggleChat"></div></div>
+        <div class="setting-card"><div class="stg-label">VIP Rooms</div><div class="stg-desc">Enable private show booking</div><div class="toggle on" id="toggleVIP"></div></div>
+        <div class="setting-card"><div class="stg-label">Auto-Moderation</div><div class="stg-desc">AI flags suspicious messages</div><div class="toggle on" id="toggleAutoMod"></div></div>
+      </div>
+    </div>
+
+  </main>
 </div>
 
 <script>
-const ADMIN_KEY = localStorage.getItem('admin_key') || '';
-
-// Auto-login if key stored
-if (ADMIN_KEY) { showPanel(); }
-
-document.getElementById('login-btn').addEventListener('click', () => {
-  const key = document.getElementById('admin-key').value;
-  if (key.length > 0) {
-    localStorage.setItem('admin_key', key);
-    showPanel();
-  }
-});
-
-document.getElementById('admin-key').addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') document.getElementById('login-btn').click();
-});
-
-function showPanel() {
-  document.getElementById('login-box').style.display = 'none';
-  document.getElementById('admin-panel').classList.add('active');
-  loadStats();
-  loadRooms();
-}
-
-async function loadStats() {
-  try {
-    const res = await fetch('/api/rooms');
-    const data = await res.json();
-    document.getElementById('stat-rooms').textContent = data.rooms.length;
-    document.getElementById('stat-viewers').textContent = data.rooms.reduce((s, r) => s + r.viewers, 0);
-    document.getElementById('stat-performers').textContent = data.rooms.filter(r => r.performer).length;
-  } catch (e) { /* stub data on failure */ }
-}
-
-async function loadRooms() {
-  try {
-    const res = await fetch('/api/rooms');
-    const data = await res.json();
-    const tbody = document.getElementById('rooms-table');
-    tbody.innerHTML = '';
-    data.rooms.forEach(room => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${room.name}</td>
-        <td><span class="status-badge ${room.status === 'live' ? 'status-approved' : 'status-pending'}">${room.status}</span></td>
-        <td>${room.viewers}</td>
-        <td>${room.performer ? room.performer.stageName : 'None'}</td>
-        <td><button class="action-btn" onclick="enterAsGod('${room.id}')">Enter</button></td>
-      `;
-      tbody.appendChild(tr);
-    });
-  } catch (e) {}
-}
-
-// Tabs
-document.querySelectorAll('.tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    document.querySelectorAll('[id^="tab-"]').forEach(el => el.style.display = 'none');
-    document.getElementById('tab-' + tab.dataset.tab).style.display = '';
+(function(){
+  // Ghost mode toggle
+  var ghostOn = localStorage.getItem('ghost_mode')==='true';
+  var dot = document.getElementById('ghostDot');
+  if(ghostOn) dot.classList.add('on');
+  document.getElementById('ghostToggle').addEventListener('click',function(){
+    ghostOn=!ghostOn;
+    localStorage.setItem('ghost_mode', ghostOn?'true':'false');
+    dot.classList.toggle('on',ghostOn);
   });
-});
 
-// God mode functions
-function enterAsGod(roomId) {
-  if (roomId === 'hall') {
-    window.open('/hall.html', '_blank');
-  } else {
-    window.open('/room.html?id=' + roomId, '_blank');
+  // Toggle switches
+  document.querySelectorAll('.toggle').forEach(function(el){
+    el.addEventListener('click',function(){ el.classList.toggle('on'); });
+  });
+
+  // Mobile menu
+  document.getElementById('menuBtn').addEventListener('click',function(){
+    document.getElementById('sidebar').classList.toggle('mobile-open');
+  });
+
+  // Admin auth check
+  if(!localStorage.getItem('admin_key')){
+    document.body.innerHTML='<div style="min-height:100vh;display:grid;place-items:center;font-family:Inter,sans-serif;color:#7a6e64;font-size:.8rem;text-align:center;padding:20px"><div><h2 style="color:#f5c77e;font-family:Cormorant Garamond,serif;font-style:italic;margin-bottom:8px">Access Denied</h2><p>Admin key required. Set admin_key in localStorage.</p></div></div>';
   }
-}
-
-function setTokens() {
-  localStorage.setItem('god_tokens', 'true');
-  alert('Unlimited tokens activated. Token balance will show as infinite in the Hall.');
-}
+})();
 </script>
 </body>
 </html>
