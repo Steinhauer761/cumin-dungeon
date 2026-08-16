@@ -56,37 +56,13 @@ a{color:inherit;text-decoration:none}button{font:inherit;color:inherit;cursor:po
 .mobile-nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 12px;font-size:.5rem;font-weight:700;color:var(--muted);transition:color .15s}
 .mobile-nav-item.active{color:var(--gold-light)}
 .mobile-nav-item .mn-icon{font-size:1.2rem}
-@media(max-width:768px){
-  .mobile-nav{display:block}
-  .casino-main{padding-bottom:120px}
-  .featured-grid{grid-template-columns:1fr}
-  .featured-card{height:180px}
-  .game-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
-}
+@media(max-width:768px){.mobile-nav{display:block}.casino-main{padding-bottom:120px}.featured-grid{grid-template-columns:1fr}.featured-card{height:180px}.game-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}}
 @media(max-width:400px){.game-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
-<nav class="casino-nav">
-  <div class="casino-nav-inner">
-    <a href="/" class="back-btn">&larr; Venue</a>
-    <span class="casino-brand">CumIN Casino</span>
-    <div class="casino-balance">
-      <span class="bal-icon">T</span>
-      <span class="bal-amount" id="navBal">1,000,000</span>
-    </div>
-  </div>
-</nav>
-<div class="cat-tabs">
-  <div class="cat-tabs-inner">
-    <button class="cat-tab active" data-cat="all">All Games</button>
-    <button class="cat-tab" data-cat="slots">Slots</button>
-    <button class="cat-tab" data-cat="table">Table Games</button>
-    <button class="cat-tab" data-cat="poker">Poker</button>
-    <button class="cat-tab" data-cat="keno">Keno</button>
-    <button class="cat-tab" data-cat="jackpot">Jackpots</button>
-  </div>
-</div>
+<nav class="casino-nav"><div class="casino-nav-inner"><a href="/" class="back-btn">&larr; Venue</a><span class="casino-brand">CumIN Casino</span><div class="casino-balance"><span class="bal-icon">T</span><span class="bal-amount" id="navBal">1,000,000</span></div></div></nav>
+<div class="cat-tabs"><div class="cat-tabs-inner"><button class="cat-tab active" data-cat="all">All Games</button><button class="cat-tab" data-cat="slots">Slots</button><button class="cat-tab" data-cat="table">Table Games</button><button class="cat-tab" data-cat="poker">Poker</button><button class="cat-tab" data-cat="keno">Keno</button><button class="cat-tab" data-cat="jackpot">Jackpots</button></div></div>
 <main class="casino-main">
   <section class="featured"><div class="featured-grid" id="featuredGrid"></div></section>
   <section class="section" id="sec-slots"><div class="section-header"><h2 class="section-title">Slots</h2></div><div class="game-grid" id="grid-slots"></div></section>
@@ -94,13 +70,7 @@ a{color:inherit;text-decoration:none}button{font:inherit;color:inherit;cursor:po
   <section class="section" id="sec-poker"><div class="section-header"><h2 class="section-title">Poker</h2></div><div class="game-grid" id="grid-poker"></div></section>
   <section class="section" id="sec-keno"><div class="section-header"><h2 class="section-title">Keno & Numbers</h2></div><div class="game-grid" id="grid-keno"></div></section>
 </main>
-<nav class="mobile-nav">
-  <div class="mobile-nav-inner">
-    <a class="mobile-nav-item active" href="/casino.html"><span class="mn-icon">♦</span>Casino</a>
-    <a class="mobile-nav-item" href="/hall.html"><span class="mn-icon">♛</span>Hall</a>
-    <a class="mobile-nav-item" href="/"><span class="mn-icon">⌂</span>Venue</a>
-  </div>
-</nav>
+<nav class="mobile-nav"><div class="mobile-nav-inner"><a class="mobile-nav-item active" href="/casino.html"><span class="mn-icon">♦</span>Casino</a><a class="mobile-nav-item" href="/hall.html"><span class="mn-icon">♛</span>Hall</a><a class="mobile-nav-item" href="/"><span class="mn-icon">⌂</span>Venue</a></div></nav>
 <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
 <script src="/public/js/chat.js"></script>
 <script src="/public/js/chat-panel.js"></script>
@@ -108,68 +78,32 @@ a{color:inherit;text-decoration:none}button{font:inherit;color:inherit;cursor:po
 (function(){
 'use strict';
 var GAMES = [
-  // Slots
   {id:'velvet-reels',name:'Velvet Reels',cat:'slots',desc:'5-Reel, 9-Line, Wilds & Scatters',href:'/games/slots.html',badge:'hot',icon:'\ud83c\udfb0'},
   {id:'dragon-fortune',name:'Dragon Fortune',cat:'slots',desc:'5-Reel, 25-Line, Expanding Wilds',href:'/games/slots.html',badge:'new',icon:'\ud83d\udc09'},
   {id:'midnight-roses',name:'Midnight Roses',cat:'slots',desc:'5-Reel, Ways Pay, Free Spins',href:'/games/slots.html',icon:'\ud83c\udf39'},
   {id:'gold-vault',name:'Gold Vault',cat:'slots',desc:'3-Reel Classic, Mystery Multiplier',href:'/games/slots.html',badge:'jackpot',icon:'\ud83d\udcb0'},
   {id:'inferno-7s',name:'Inferno 7s',cat:'slots',desc:'3-Reel, High Volatility, 500x Max',href:'/games/slots.html',icon:'\ud83d\udd25'},
   {id:'neon-nights',name:'Neon Nights',cat:'slots',desc:'6-Reel, Cascading, Bonus Buy',href:'/games/slots.html',icon:'\ud83c\udf03'},
-  // Table
   {id:'blackjack',name:'Blackjack',cat:'table',desc:'6-Deck, Split, Double, Insurance',href:'/games/blackjack.html',badge:'hot',icon:'\ud83c\udccf'},
   {id:'sin-roulette',name:'Sin Roulette',cat:'table',desc:'European Wheel, 37 Pockets',href:'/games/roulette.html',icon:'\ud83c\udfb2'},
   {id:'devils-dice',name:"Devil's Dice",cat:'table',desc:'Over/Under/Exact, 25x Snakes',href:'/games/dice.html',icon:'\ud83c\udfb2'},
-  {id:'baccarat',name:'Baccarat',cat:'table',desc:'Player, Banker, Tie',href:'#',badge:'new',icon:'\ud83c\udccf'},
-  // Poker
+  {id:'after-dark',name:'After Dark Wheel',cat:'table',desc:'Dungeon Wheel, 50x Royal Climax',href:'/games/kinkwheel.html',icon:'\u26d3'},
+  {id:'high-low',name:'High or Low',cat:'table',desc:'Guess Next Card, Streak Multiplier',href:'/games/highlow.html',icon:'\ud83c\udccf'},
   {id:'texas-holdem',name:"Texas Hold'em",cat:'poker',desc:'No Limit, 3 AI Opponents, Full Table',href:'/games/holdem.html',badge:'new',icon:'\ud83c\udccf'},
-  {id:'jacks-or-better',name:'Jacks or Better',cat:'poker',desc:'Video Poker, Single Hand',href:'#',icon:'\ud83c\udccf'},
-  {id:'deuces-wild',name:'Deuces Wild',cat:'poker',desc:'All 2s Wild, Enhanced Payouts',href:'#',icon:'\ud83c\udccf'},
-  // Keno
+  {id:'jacks-or-better',name:'Jacks or Better',cat:'poker',desc:'Video Poker, Hold & Draw, Double Up',href:'/games/video-poker.html',badge:'hot',icon:'\ud83c\udccf'},
+  {id:'deuces-wild',name:'Deuces Wild',cat:'poker',desc:'All 2s Wild, Enhanced Payouts',href:'/games/video-poker.html',icon:'\ud83c\udccf'},
   {id:'fireball-keno',name:'Fireball Keno',cat:'keno',desc:'Pick 10, Fireball 3x Multiplier',href:'/games/fireball-keno.html',badge:'hot',icon:'\ud83d\udd25'},
   {id:'classic-keno',name:'Classic Keno',cat:'keno',desc:'80-Ball, Pick 1-15',href:'#',icon:'\ud83c\udfb1'},
   {id:'powerball',name:'Dungeon Powerball',cat:'keno',desc:'5+1, Jackpot Draw',href:'#',badge:'jackpot',icon:'\u26a1'}
 ];
 var FEATURED = [
   {id:'texas-holdem',title:"Texas Hold'em",desc:"No Limit poker vs AI. Fold, call, raise, or go all in. Real hand evaluation.",badge:'New Game',glow:'#1a7a3a',href:'/games/holdem.html'},
-  {id:'fireball-keno',title:'Fireball Keno',desc:'Pick your numbers. Watch the draw. Hit a Fireball for 3x multiplied madness.',badge:'Popular',glow:'#ff6b35',href:'/games/fireball-keno.html'},
-  {id:'velvet-reels',title:'Velvet Reels',desc:'Our signature slot. 5 reels, 9 lines, wilds, scatters, and a 500x max win.',badge:'Featured',glow:'#9f2330',href:'/games/slots.html'}
+  {id:'jacks-or-better',title:'Jacks or Better',desc:'Classic video poker. Hold your best cards, draw the rest, double up your wins.',badge:'New',glow:'#7c3aed',href:'/games/video-poker.html'},
+  {id:'fireball-keno',title:'Fireball Keno',desc:'Pick your numbers. Watch the draw. Hit a Fireball for 3x multiplied madness.',badge:'Popular',glow:'#ff6b35',href:'/games/fireball-keno.html'}
 ];
-function renderFeatured(){
-  var grid=document.getElementById('featuredGrid');
-  FEATURED.forEach(function(f){
-    var card=document.createElement('a');card.className='featured-card';card.href=f.href;
-    card.innerHTML='<div class="fc-bg"></div><div class="fc-glow" style="background:'+f.glow+'"></div><div class="fc-content"><span class="fc-badge">'+f.badge+'</span><h3 class="fc-title">'+f.title+'</h3><p class="fc-desc">'+f.desc+'</p><span class="fc-play">Play Now</span></div>';
-    grid.appendChild(card);
-  });
-}
-function renderGrid(containerId,games){
-  var grid=document.getElementById(containerId);if(!grid)return;
-  games.forEach(function(g){
-    var tile=document.createElement('a');tile.className='game-tile';tile.href=g.href;
-    var badgeHtml=g.badge?'<span class="gt-badge '+g.badge+'">'+g.badge+'</span>':'';
-    tile.innerHTML='<div class="gt-art"><span class="gt-icon">'+g.icon+'</span></div><div class="gt-overlay"></div>'+badgeHtml+'<div class="gt-info"><div class="gt-name">'+g.name+'</div><div class="gt-meta">'+g.desc+'</div></div>';
-    grid.appendChild(tile);
-  });
-}
-function init(){
-  renderFeatured();
-  renderGrid('grid-slots',GAMES.filter(function(g){return g.cat==='slots'}));
-  renderGrid('grid-table',GAMES.filter(function(g){return g.cat==='table'}));
-  renderGrid('grid-poker',GAMES.filter(function(g){return g.cat==='poker'}));
-  renderGrid('grid-keno',GAMES.filter(function(g){return g.cat==='keno'}));
-  document.querySelectorAll('.cat-tab').forEach(function(tab){
-    tab.addEventListener('click',function(){
-      document.querySelectorAll('.cat-tab').forEach(function(t){t.classList.remove('active')});
-      tab.classList.add('active');
-      var cat=tab.dataset.cat;
-      document.querySelectorAll('.section').forEach(function(s){
-        if(cat==='all')s.style.display='';else s.style.display=s.id.indexOf(cat)!==-1?'':'none';
-      });
-      document.querySelector('.featured').style.display=cat==='all'?'':'none';
-    });
-  });
-  document.getElementById('navBal').textContent=(1000000).toLocaleString();
-}
+function renderFeatured(){var grid=document.getElementById('featuredGrid');FEATURED.forEach(function(f){var card=document.createElement('a');card.className='featured-card';card.href=f.href;card.innerHTML='<div class="fc-bg"></div><div class="fc-glow" style="background:'+f.glow+'"></div><div class="fc-content"><span class="fc-badge">'+f.badge+'</span><h3 class="fc-title">'+f.title+'</h3><p class="fc-desc">'+f.desc+'</p><span class="fc-play">Play Now</span></div>';grid.appendChild(card);});}
+function renderGrid(containerId,games){var grid=document.getElementById(containerId);if(!grid)return;games.forEach(function(g){var tile=document.createElement('a');tile.className='game-tile';tile.href=g.href;var badgeHtml=g.badge?'<span class="gt-badge '+g.badge+'">'+g.badge+'</span>':'';tile.innerHTML='<div class="gt-art"><span class="gt-icon">'+g.icon+'</span></div><div class="gt-overlay"></div>'+badgeHtml+'<div class="gt-info"><div class="gt-name">'+g.name+'</div><div class="gt-meta">'+g.desc+'</div></div>';grid.appendChild(tile);});}
+function init(){renderFeatured();renderGrid('grid-slots',GAMES.filter(function(g){return g.cat==='slots'}));renderGrid('grid-table',GAMES.filter(function(g){return g.cat==='table'}));renderGrid('grid-poker',GAMES.filter(function(g){return g.cat==='poker'}));renderGrid('grid-keno',GAMES.filter(function(g){return g.cat==='keno'}));document.querySelectorAll('.cat-tab').forEach(function(tab){tab.addEventListener('click',function(){document.querySelectorAll('.cat-tab').forEach(function(t){t.classList.remove('active')});tab.classList.add('active');var cat=tab.dataset.cat;document.querySelectorAll('.section').forEach(function(s){if(cat==='all')s.style.display='';else s.style.display=s.id.indexOf(cat)!==-1?'':'none';});document.querySelector('.featured').style.display=cat==='all'?'':'none';});});document.getElementById('navBal').textContent=(1000000).toLocaleString();}
 init();
 })();
 </script>
