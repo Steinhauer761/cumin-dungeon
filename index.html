@@ -87,7 +87,7 @@
 <header class="nav"><div class="shell navin"><div class="brand">Cum <strong>IN</strong> Dungeon</div><button class="exit" id="exit">Exit</button></div></header>
 <main class="shell">
   <section class="hero"><div class="eyebrow">The Grand Hall</div><h2>Choose your entrance</h2><p>The rooms are back. Pick a door and step inside.</p></section>
-  <div class="hall" id="hall-link"><img src="/public/assets/art/6700.png" alt="The Grand Hall"><div class="hallcopy"><h3>The Grand Hall</h3><p>Social games, chat, tokens and the casino.</p></div></div>
+  <div class="hall" id="hall-link"><img src="/public/assets/art/generated-image-daa4cd17-25fb-4a5c-80c9-6dc7a21a1780.png" alt="The Grand Hall"><div class="hallcopy"><h3>The Grand Hall</h3><p>Social games, chat, tokens and the casino.</p></div></div>
   <p class="label">Choose a room</p>
   <div class="grid" id="rooms"><div class="loading">Loading rooms...</div></div>
   <div class="foot">&copy; 2026 Cum IN Dungeon · 18+ only · Prototype</div>
@@ -107,14 +107,14 @@ document.getElementById('hall-link').onclick=()=>DungeonTransition.go('/hall.htm
 
 /* Room art map */
 const art={
-  'velvet-room':'/public/assets/art/6690.png',
-  'tangled-throne':'/public/assets/art/6694.png',
-  'pink-silk':'/public/assets/art/6691.png',
-  'devils-playground':'/public/assets/art/6695.png',
-  'back-room':'/public/assets/art/6696.png',
-  'the-dungeon':'/public/assets/art/6693.png',
-  'haleys-halo':'/public/assets/art/6699.png',
-  'trans-kinks':'/public/assets/art/6698.png'
+  'velvet-room':'/public/assets/art/generated-image-0acba5f7-62ef-43f1-aef4-e3e17c6c82cf.png',
+  'tangled-throne':'/public/assets/art/generated-image-0d4ddd1e-d44c-4c7a-acad-c14ddec351f4.png',
+  'pink-silk':'/public/assets/art/generated-image-e484a4e4-192c-4960-8d79-e8ccae2783fa.png',
+  'devils-playground':'/public/assets/art/generated-image-62e002e9-1fa7-4490-a725-c4edc032f71a.png',
+  'back-room':'/public/assets/art/generated-image-f7f30b3a-b34f-40fd-bcf2-b40e196925f0.png',
+  'the-dungeon':'/public/assets/art/generated-image-b563c6cb-14b7-4bdb-988a-4c4e20f49718.png',
+  'haleys-halo':'/public/assets/art/generated-image-0a9dc8ec-c558-4aad-8456-a26f0f66790f.png',
+  'trans-kinks':'/public/assets/art/generated-image-4fca1285-728d-4f58-8202-7d6e1d8a5baf.png'
 };
 
 async function loadRooms(){
@@ -130,7 +130,7 @@ async function loadRooms(){
       const a=document.createElement('div');
       a.className='room';
       a.onclick=()=>DungeonTransition.go('/room.html?id='+encodeURIComponent(room.id));
-      a.innerHTML=`<img src="${art[room.id]||'/public/assets/art/6700.png'}" alt="${room.name}"><div class="roombody"><div class="roomtop"><h3>${room.name}</h3><span class="live">${room.status}</span></div><p>${room.description}</p><span class="viewers">● ${room.viewers} watching</span></div>`;
+      a.innerHTML=`<img src="${art[room.id]||'/public/assets/art/generated-image-daa4cd17-25fb-4a5c-80c9-6dc7a21a1780.png'}" alt="${room.name}"><div class="roombody"><div class="roomtop"><h3>${room.name}</h3><span class="live">${room.status}</span></div><p>${room.description}</p><span class="viewers">● ${room.viewers} watching</span></div>`;
       grid.appendChild(a);
     });
   }catch(e){
