@@ -1,88 +1,10 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Grand Hall | CumIN Dungeon</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
-<style>
-:root { --bg:#0a0604; --surface:#141010; --gold:#d59a4b; --gold-light:#f5c77e; --cream:#f5eee4; --muted:#a6998b; --line:rgba(190,137,77,.18); --serif:'Cormorant Garamond',Georgia,serif; --sans:'Inter',system-ui,sans-serif; }
-* { box-sizing:border-box; margin:0; }
-body { background:var(--bg); color:var(--cream); font-family:var(--sans); font-size:15px; line-height:1.5; }
-button { font:inherit; color:inherit; cursor:pointer; }
-a { color:inherit; }
-.hall-hero { position:relative; height:280px; overflow:hidden; }
-.hall-hero img { width:100%; height:100%; object-fit:cover; animation:hallZoom 25s ease-in-out infinite alternate; }
-@keyframes hallZoom { from{transform:scale(1) translateY(0)} to{transform:scale(1.06) translateY(-2%)} }
-.hall-hero-overlay { position:absolute; inset:0; background:linear-gradient(to bottom, rgba(10,6,4,.2), rgba(10,6,4,.95)); display:flex; align-items:flex-end; padding:24px 32px; }
-.hall-hero-overlay h1 { font-family:var(--serif); font-size:2.2rem; font-style:italic; }
-.wall-gallery { padding:16px 24px; overflow-x:auto; -webkit-overflow-scrolling:touch; }
-.wall-gallery-inner { display:flex; gap:12px; min-width:max-content; }
-.wall-frame { width:160px; height:110px; border-radius:10px; overflow:hidden; border:2px solid rgba(190,137,77,.25); flex-shrink:0; position:relative; box-shadow:0 8px 24px rgba(0,0,0,.5); }
-.wall-frame img { width:100%; height:100%; object-fit:cover; transition:transform 3s ease; }
-.wall-frame:hover img { transform:scale(1.08); }
-.wall-frame::after { content:''; position:absolute; inset:0; border:1px solid rgba(213,154,75,.1); border-radius:8px; box-shadow:inset 0 0 20px rgba(0,0,0,.4); pointer-events:none; }
-.hall-layout { display:grid; grid-template-columns:1fr 340px; min-height:calc(100vh - 280px); }
-.hall-main { padding:24px; overflow-y:auto; }
-.hall-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; gap:16px; }
-.btn-back { padding:10px 14px; border:1px solid var(--line); border-radius:8px; background:transparent; font-size:.72rem; font-weight:700; text-decoration:none; }
-.btn-back:hover { border-color:var(--gold); }
-.token-bar { display:flex; align-items:center; gap:16px; padding:12px 16px; border:1px solid var(--line); border-radius:12px; background:var(--surface); margin-bottom:24px; }
-.token-bar .balance { font-size:1.1rem; font-weight:800; color:var(--gold-light); }
-.token-bar .label { font-size:.65rem; color:var(--muted); }
-.section-title { font-family:var(--serif); font-size:1.35rem; margin-bottom:12px; }
-.section-note { color:var(--muted); font-size:.72rem; margin-bottom:18px; }
-.games-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; }
-.game-card { min-height:160px; border:1px solid var(--line); border-radius:14px; background:var(--surface); transition:transform .15s,border-color .15s; text-decoration:none; display:block; position:relative; overflow:hidden; }
-.game-card:hover { transform:translateY(-2px); border-color:var(--gold); }
-.game-card img.game-bg { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.2; transition:opacity .3s,transform 3s ease; }
-.game-card:hover img.game-bg { opacity:.35; transform:scale(1.05); }
-.game-card .game-content { position:relative; padding:18px; display:flex; flex-direction:column; height:100%; min-height:160px; }
-.game-card h3 { font-family:var(--serif); font-size:1.15rem; margin-bottom:5px; font-style:italic; }
-.game-card p { font-size:.7rem; color:var(--muted); line-height:1.45; margin-bottom:auto; }
-.game-card .bet-range { font-size:.6rem; color:var(--gold); font-weight:700; }
-.game-card .max-win { font-size:.6rem; color:#4ade80; margin-left:8px; }
-.hall-chat { display:grid; grid-template-rows:auto 1fr auto; border-left:1px solid var(--line); background:var(--surface); }
-.hall-chat-header { padding:14px 16px; border-bottom:1px solid var(--line); }
-.hall-chat-header h3 { font-size:.82rem; font-weight:700; }
-.hall-chat-header p { font-size:.6rem; color:var(--muted); margin-top:2px; }
-.hall-messages { padding:12px 16px; overflow-y:auto; display:flex; flex-direction:column; gap:8px; }
-.chat-msg { display:grid; grid-template-columns:24px 1fr; gap:8px; }
-.chat-avatar { width:24px; height:24px; border-radius:50%; background:rgba(213,154,75,.15); display:grid; place-items:center; font-size:.55rem; font-weight:800; color:var(--gold); }
-.chat-msg p { font-size:.72rem; color:#b8ada3; line-height:1.4; }
-.chat-msg strong { color:var(--cream); }
-.hall-chat-input { display:grid; grid-template-columns:1fr auto; gap:8px; padding:12px 16px; border-top:1px solid var(--line); }
-.hall-chat-input input { padding:10px 12px; border:1px solid var(--line); border-radius:8px; background:var(--bg); color:var(--cream); font-size:.75rem; }
-.hall-chat-input button { padding:10px 16px; border:none; border-radius:8px; background:var(--gold); color:var(--bg); font-weight:800; font-size:.72rem; }
-@media (max-width:768px) { .hall-layout{grid-template-columns:1fr;} .hall-chat{height:300px;} .hall-hero{height:200px;} }
-</style>
-</head>
-<body>
-<div class="hall-hero"><img src="/public/assets/art/PosterMyWall_GeneratedImage_9f01a225.png" alt="The Grand Hall"><div class="hall-hero-overlay"><h1>The Grand Hall</h1></div></div>
-<div class="wall-gallery"><div class="wall-gallery-inner">
-<div class="wall-frame"><img src="/public/assets/art/1_16adc8b3-9070-4b50-8233-5fbd18ca1106.png" alt=""></div>
-<div class="wall-frame"><img src="/public/assets/art/1_75f41f68-c64f-4ee8-aa22-8803a09bd553.png" alt=""></div>
-<div class="wall-frame"><img src="/public/assets/art/1_b5972f3b-52bb-4d4e-8eb2-059583b51bbc.png" alt=""></div>
-<div class="wall-frame"><img src="/public/assets/art/1_d62da434-f6cf-479e-9751-17fad35203ee.png" alt=""></div>
-<div class="wall-frame"><img src="/public/assets/art/PosterMyWall_GeneratedImage_222b2ae7.png" alt=""></div>
-<div class="wall-frame"><img src="/public/assets/art/generated-image-ea3dbc19-54ae-4ef1-b68a-78cb3f9b8250~2.jpg" alt=""></div>
-</div></div>
-<div class="hall-layout"><main class="hall-main"><div class="hall-header"><a href="/" class="btn-back" data-from="hall" data-to="lobby">&larr; Back to Lobby</a></div>
-<div class="token-bar"><div><span class="balance" id="token-balance">500</span><span class="label"> tokens</span></div><div style="font-size:.65rem;color:var(--muted)">Entertainment tokens · Casino play only</div></div>
-<h2 class="section-title">Casino</h2><p class="section-note">Choose a game. Each table has its own atmosphere.</p><div class="games-grid" id="casino-grid"></div></main>
-<aside class="hall-chat"><div class="hall-chat-header"><h3>Grand Hall Chat</h3><p>Everyone's welcome. Consent required for DMs.</p></div><div class="hall-messages" id="hall-messages"></div><form class="hall-chat-input" id="hall-chat-form"><input id="hall-chat-input" maxlength="200" placeholder="Say something..." autocomplete="off"><button type="submit">Send</button></form></aside></div>
-<script src="https://cdn.ably.com/lib/ably.min-1.js"></script><script src="/public/js/chat.js"></script><script src="/public/js/transitions.js"></script>
-<script>
-const guestId='Guest_'+Math.random().toString(36).slice(2,7);
-const CASINO_GAMES=[
-{id:'dungeon-slots',name:'Dungeon Slots',desc:'Spin the reels. Match symbols. Win big.',bet:'5-50',max:'50x',href:'/games/slots.html',art:'/public/assets/art/b3239591-8c30-4dae-b261-7c42ab8022f1.png'},
-{id:'sin-roulette',name:'Sin Roulette',desc:'Pick your number or color. The wheel decides.',bet:'5-50',max:'36x',href:'/games/roulette.html',art:'/public/assets/art/cd1f1eae-f7ce-4c72-85b1-457d8bf4f3c1.png'},
-{id:'strip-blackjack',name:'Strip Blackjack',desc:'Beat the dealer to 21. Double down if you dare.',bet:'10-100',max:'2.5x',href:'/games/blackjack.html',art:'/public/assets/art/d8541cfb-406f-46c1-8ec3-39af3b570035.png'},
-{id:'devils-dice',name:"Devil's Dice",desc:'Predict the roll. Over, under, or exact.',bet:'5-50',max:'32x',href:'/games/dice.html',art:'/public/assets/art/e6c0d2d7-f4e2-40bb-b34c-13b84d7b7fe1.png'},
-{id:'high-or-low',name:'High or Low',desc:'Guess the next card. Build your streak.',bet:'10-50',max:'10x',href:'/games/highlow.html',art:'/public/assets/art/f7ce0ef5-b1c5-4ea5-8488-d5bb36035de3.png'},
-{id:'kink-wheel',name:'Kink Wheel',desc:'Spin the wheel. Land on a multiplier.',bet:'5-50',max:'2x',href:'/games/kinkwheel.html',art:'/public/assets/art/file_00000000b6c081fdaa791db34c771c9e.png'}
-];
-function loadCasino(){const grid=document.getElementById('casino-grid');grid.innerHTML='';CASINO_GAMES.forEach(game=>{const link=document.createElement('a');link.className='game-card';link.href=game.href;link.dataset.from='hall';link.dataset.to='casino';link.innerHTML=`<img class="game-bg" src="${game.art}" alt="${game.name}"><div class="game-content"><h3>${game.name}</h3><p>${game.desc}</p><span class="bet-range">Bet: ${game.bet}</span><span class="max-win">Max: ${game.max}</span></div>`;grid.appendChild(link)})}
-if(window.DungeonChat&&window.Ably)DungeonChat.init('grand-hall',guestId,document.getElementById('hall-messages'),null);
-document.getElementById('hall-chat-form').addEventListener('submit',e=>{e.preventDefault();const input=document.getElementById('hall-chat-input'),msg=input.value.trim();if(!msg)return;if(window.DungeonChat&&DungeonChat.channel)DungeonChat.send(msg);else{const div=document.createElement('div');div.className='chat-msg';div.innerHTML=`<span class="chat-avatar">${guestId[0].toUpperCase()}</span><p><strong>${guestId}:</strong> ${msg}</p>`;document.getElementById('hall-messages').appendChild(div)}input.value='' });loadCasino();
-</script><script src="/public/js/admin-bar.js"></script></body></html>
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Grand Hall | CumIN Dungeon</title><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet"><style>:root{--bg:#0a0604;--surface:#141010;--gold:#d59a4b;--light:#f5c77e;--cream:#f5eee4;--muted:#a6998b;--line:rgba(190,137,77,.18);--serif:'Cormorant Garamond',Georgia,serif;--sans:Inter,system-ui,sans-serif}*{box-sizing:border-box;margin:0}body{background:var(--bg);color:var(--cream);font:15px/1.5 var(--sans)}a{color:inherit}.hero{height:280px;position:relative;overflow:hidden}.hero img{width:100%;height:100%;object-fit:cover}.hero:after{content:'';position:absolute;inset:0;background:linear-gradient(transparent,rgba(10,6,4,.96))}.hero h1{position:absolute;z-index:1;bottom:25px;left:32px;font:italic 700 2.3rem var(--serif)}.wrap{padding:24px;max-width:1200px;margin:auto}.back{display:inline-block;padding:9px 13px;border:1px solid var(--line);border-radius:8px;text-decoration:none;font-size:12px;margin-bottom:20px}.tokens{padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:var(--surface);margin-bottom:24px}.tokens b{color:var(--light);font-size:18px}.note{color:var(--muted);font-size:12px}.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:13px}.card{position:relative;min-height:175px;overflow:hidden;border:1px solid var(--line);border-radius:15px;background:var(--surface);text-decoration:none}.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.25;transition:.3s}.card:hover img{opacity:.45;transform:scale(1.05)}.copy{position:relative;min-height:175px;padding:18px;display:flex;flex-direction:column}.copy h2{font:italic 700 1.3rem var(--serif)}.copy p{color:var(--muted);font-size:11px;margin-top:5px}.meta{margin-top:auto;color:var(--light);font-size:10px;font-weight:800}.tag{display:inline-block;margin-top:7px;color:#70ef8b;font-size:10px;font-weight:800}.chat{margin-top:24px;padding:15px;border:1px solid var(--line);background:var(--surface);border-radius:12px}.chat h3{font-size:13px}.chat p{color:var(--muted);font-size:10px}@media(max-width:700px){.hero{height:200px}.hero h1{left:18px}.wrap{padding:18px}.games{grid-template-columns:1fr 1fr}}@media(max-width:430px){.games{grid-template-columns:1fr}}</style></head><body><section class="hero"><img src="/public/assets/art/6766.png" alt="The Grand Hall"><h1>The Grand Hall</h1></section><main class="wrap"><a class="back" href="/">← Back to Lobby</a><div class="tokens"><b id="balance">500</b> tokens <span class="note"> · Entertainment tokens · Casino play only</span></div><h2 style="font:italic 700 1.6rem var(--serif);margin-bottom:15px">Casino</h2><div class="games" id="games"></div><div class="chat"><h3>Grand Hall Chat</h3><p>Everyone's welcome. Consent required for DMs.</p></div></main><script>const games=[
+['Dungeon Slots','Upgraded five-reel machine with Fireball bonuses.','5-100','/public/games/slots.html','/public/assets/art/b3239591-8c30-4dae-b261-7c42ab8022f1.png','NEW'],
+['Fireball Keno','Pick numbers, catch fireballs and unlock 20 free spins.','5-100','/public/games/fireball-keno.html','/public/assets/art/e6c0d2d7-f4e2-40bb-b34c-13b84d7b7fe1.png','BONUS'],
+['Sin Roulette','Pick your number or color. The wheel decides.','5-50','/games/roulette.html','/public/assets/art/cd1f1eae-f7ce-4c72-85b1-457d8bf4f3c1.png','36x'],
+['Strip Blackjack','Beat the dealer to 21. Double down if you dare.','10-100','/games/blackjack.html','/public/assets/art/d8541cfb-406f-46c1-8ec3-39af3b570035.png','3:2'],
+["Devil's Dice",'Predict the roll. Over, under, or exact.','5-50','/games/dice.html','/public/assets/art/e6c0d2d7-f4e2-40bb-b34c-13b84d7b7fe1.png','32x'],
+['High or Low','Guess the next card and build your streak.','10-50','/games/highlow.html','/public/assets/art/f7ce0ef5-b1c5-4ea5-8488-d5bb36035de3.png','10x'],
+['Kink Wheel','Spin the wheel and land on a multiplier.','5-50','/games/kinkwheel.html','/public/assets/art/file_00000000b6c081fdaa791db34c771c9e.png','2x'],
+['Velvet Reels','Classic five-reel room for a second slot experience.','5-100','/public/games/slots.html','/public/assets/art/b3239591-8c30-4dae-b261-7c42ab8022f1.png','FIRE']
+];const el=document.getElementById('games');games.forEach(g=>el.innerHTML+=`<a class="card" href="${g[3]}"><img src="${g[4]}" alt=""><div class="copy"><h2>${g[0]}</h2><p>${g[1]}</p><span class="meta">BET: ${g[2]}</span><span class="tag">${g[5]}</span></div></a>`);</script></body></html>
