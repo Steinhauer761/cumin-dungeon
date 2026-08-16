@@ -75,18 +75,18 @@ body{background:var(--black);color:var(--cream);font-family:var(--sans);overflow
 .rug svg{position:absolute;inset:35px;width:calc(100% - 70px);height:130px}
 .rug-text{position:absolute;inset:0;display:grid;place-items:center;font:700 25px var(--serif);letter-spacing:.18em;color:#f1cf8a;text-shadow:0 3px 10px #000}
 
-/* Categories */
+/* Categories with art images */
 .categories{max-width:1180px;margin:10px auto}
 .section-title{text-align:center;margin:60px 0 22px;font:700 38px var(--serif)}
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.card{min-height:190px;position:relative;overflow:hidden;border:1px solid #6d4725;border-radius:14px;background:linear-gradient(145deg,#21120a,#0b0604);box-shadow:0 16px 40px #0008;cursor:pointer;color:inherit;transition:.2s}
-.card:hover{transform:translateY(-5px);border-color:#c18b48}
-.card .art{position:absolute;inset:0;opacity:.28;background:radial-gradient(circle at 50% 35%,#8e1c27,transparent 42%),linear-gradient(145deg,#4a2712,#090504)}
-.card .icon{position:relative;margin:28px auto 14px;width:72px;height:72px;border-radius:50%;display:grid;place-items:center;border:1px solid #bd873f;background:#100706cc;box-shadow:0 0 25px #000}
-.card svg{width:48px;height:48px}
-.card strong,.card small{position:relative;display:block;text-align:center}
-.card strong{font:700 22px var(--serif)}
-.card small{margin-top:6px;color:var(--muted);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.card{min-height:220px;position:relative;overflow:hidden;border:1px solid #6d4725;border-radius:14px;box-shadow:0 16px 40px #0008;cursor:pointer;color:inherit;transition:.25s}
+.card:hover{transform:translateY(-5px);border-color:#c18b48;box-shadow:0 20px 50px rgba(213,154,75,.15)}
+.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 4s ease}
+.card:hover img{transform:scale(1.08)}
+.card .card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,4,3,.88) 0%,rgba(7,4,3,.3) 50%,rgba(7,4,3,.15) 100%)}
+.card .card-content{position:absolute;bottom:0;left:0;right:0;padding:16px;text-align:center}
+.card strong{display:block;font:700 22px var(--serif);text-shadow:0 2px 8px #000}
+.card small{display:block;margin-top:4px;color:var(--gold);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
 .footer{max-width:900px;margin:65px auto 0;text-align:center;color:#8e7c6b;font-size:12px;line-height:1.7}
 @media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.doors{height:330px}}
 @media(max-width:520px){.grid{grid-template-columns:1fr}.doors{height:260px}}
@@ -116,10 +116,25 @@ body{background:var(--black);color:var(--cream);font-family:var(--sans);overflow
 <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
 <script src="/public/js/chat.js"></script>
 <script>
-const icons={dragon:'<path class="dragon" d="M8 30 C22 7 38 9 49 22 C58 33 69 31 76 19 M14 38 C28 28 38 32 47 41 C55 50 66 47 73 36 M53 22 l18 -11 13 6 -13 8 11 8 -21 -1z"/><path class="dragon2" d="M15 18 C29 4 45 5 55 14"/>',crown:'<path class="dragon" d="M8 43 L15 14 32 30 44 8 56 30 73 14 80 43Z"/><path class="dragon2" d="M12 50 H76"/>',rings:'<circle class="dragon" cx="35" cy="32" r="20"/><circle class="dragon2" cx="53" cy="32" r="20"/>',phoenix:'<path class="dragon" d="M45 8 C30 18 19 30 26 44 C30 53 41 55 45 69 C49 55 60 53 64 44 C71 30 60 18 45 8Z"/><path class="dragon2" d="M20 57 Q45 42 70 57"/>',mask:'<path class="dragon" d="M18 18 Q45 5 72 18 L68 52 Q45 69 22 52Z"/><circle class="dragon2" cx="34" cy="34" r="5"/><circle class="dragon2" cx="56" cy="34" r="5"/>',shield:'<path class="dragon" d="M45 7 L73 17 V38 Q67 58 45 70 Q23 58 17 38 V17Z"/><path class="dragon2" d="M45 18 V57 M30 37 H60"/>',star:'<path class="dragon" d="M45 7 L53 29 76 30 58 44 64 67 45 54 26 67 32 44 14 30 37 29Z"/>'};
-const cats=[['Women','dragon'],['Men','shield'],['Couples','rings'],['Gay','crown'],['Bi','rings'],['Trans','phoenix'],['Fetish','mask'],['VIP','star']];
+/* Category cards now use room art as backgrounds */
+const cats=[
+  {name:'Velvet Room', sub:'Women', img:'/public/assets/art/6690.png'},
+  {name:'Tangled Throne', sub:'Couples', img:'/public/assets/art/6694.png'},
+  {name:'Pink Silk', sub:'18-21', img:'/public/assets/art/6691.png'},
+  {name:'Devil\'s Playground', sub:'Fetish / Kink', img:'/public/assets/art/6695.png'},
+  {name:'Back Room', sub:'Gay / Bi', img:'/public/assets/art/6696.png'},
+  {name:'The Dungeon', sub:'VIP', img:'/public/assets/art/6693.png'},
+  {name:'Haley\'s Halo', sub:'Women / VIP', img:'/public/assets/art/6699.png'},
+  {name:'Trans Kinks', sub:'Trans', img:'/public/assets/art/6698.png'}
+];
 const grid=document.getElementById('grid');
-cats.forEach(([name,icon])=>{const b=document.createElement('button');b.className='card';b.innerHTML='<div class="art"></div><div class="icon"><svg viewBox="0 0 90 75">'+icons[icon]+'</svg></div><strong>'+name+'</strong><small>Enter room</small>';b.onclick=()=>alert(name+' room is wired to the backend category system next.');grid.appendChild(b)});
+cats.forEach(cat=>{
+  const b=document.createElement('button');
+  b.className='card';
+  b.innerHTML=`<img src="${cat.img}" alt="${cat.name}"><div class="card-overlay"></div><div class="card-content"><strong>${cat.name}</strong><small>${cat.sub}</small></div>`;
+  b.onclick=()=>window.location.href='/room.html?id='+encodeURIComponent(cat.name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,''));
+  grid.appendChild(b);
+});
 const doors=document.getElementById('doors'),open=document.getElementById('open');
 open.onclick=()=>{doors.classList.toggle('open');const isOpen=doors.classList.contains('open');open.textContent=isOpen?'Close the Castle Doors':'Open the Castle Doors';};
 </script></body></html>
