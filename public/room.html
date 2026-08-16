@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Room | Cum IN Dungeon</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --bg: #0a0604; --surface: #110d0a; --gold: #d59a4b; --gold-light: #f5c77e; --red: #e63946; --cream: #f5eee4; --muted: #a6998b; --line: rgba(190,137,77,0.18); --serif: 'Cormorant Garamond', Georgia, serif; --sans: 'Inter', system-ui, sans-serif; }
+* { box-sizing: border-box; margin: 0; }
+body { background: var(--bg); color: var(--cream); font-family: var(--sans); font-size: 14px; line-height: 1.5; overflow-x: hidden; }
+button { font: inherit; color: inherit; cursor: pointer; border: none; background: none; }
+.room-page { height: 100vh; height: 100dvh; display: flex; flex-direction: column; position: relative; }
+.video-area { flex: 1; position: relative; background: #000; display: grid; place-items: center; overflow: hidden; }
+.video-area .room-bg { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.35; animation:roomBgPan 30s ease-in-out infinite alternate; z-index:0; }
+@keyframes roomBgPan { from{transform:scale(1)} to{transform:scale(1.08) translate(-1%,-1%)} }
+.video-placeholder { text-align: center; color: var(--muted); font-size: 0.8rem; position:relative; z-index:2; }
+.video-placeholder .icon { font-size: 3rem; opacity: 0.2; display: block; margin-bottom: 8px; }
+.top-bar { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent); z-index: 10; }
+.live-badge { display: flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 100px; background: rgba(230,57,70,0.9); font-size: 0.55rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+.live-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: white; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+.top-right { display: flex; gap: 8px; align-items: center; }
+.viewers-pill { padding: 5px 10px; border-radius: 100px; background: rgba(0,0,0,0.6); font-size: 0.6rem; color: var(--muted); }
+.btn-nav { padding: 7px 14px; border-radius: 8px; background: rgba(0,0,0,0.6); border: 1px solid var(--line); font-size: 0.65rem; font-weight: 700; }
+.bottom-bar { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); z-index: 10; display: flex; justify-content: space-between; align-items: flex-end; }
+.room-info h2 { font-family: var(--serif); font-size: 1.3rem; font-weight: 600; font-style: italic; }
+.room-info p { font-size: 0.65rem; color: var(--muted); margin-top: 2px; }
+.vip-btn { padding: 10px 20px; border-radius: 10px; background: linear-gradient(135deg, #8b1a24, #c0392b); font-size: 0.72rem; font-weight: 800; color: white; box-shadow: 0 4px 20px rgba(192,57,43,0.3); }
+.gift-trigger { position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); z-index: 40; padding: 10px 24px; border-radius: 100px; background: var(--surface); border: 1px solid var(--gold); font-size: 0.72rem; font-weight: 700; color: var(--gold-light); }
+.gift-tray { position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; background: var(--surface); border-top: 1px solid var(--line); border-radius: 16px 16px 0 0; transform: translateY(100%); transition: transform 0.3s; padding: 16px; max-height: 60vh; overflow-y: auto; }
+.gift-tray.open { transform: translateY(0); }
+.gift-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
+.gift-item { padding: 10px 6px; border: 1px solid var(--line); border-radius: 10px; text-align: center; cursor: pointer; }
+.gift-item:hover { border-color: var(--gold); }
+.gift-item .emoji { font-size: 1.4rem; display: block; margin-bottom: 4px; }
+.gift-item .name { font-size: 0.58rem; font-weight: 600; display: block; }
+.gift-item .cost { font-size: 0.52rem; color: var(--gold); display: block; margin-top: 2px; }
+.chat-drawer { position: fixed; bottom: 0; left: 0; right: 0; z-index: 45; background: var(--surface); border-top: 1px solid var(--line); border-radius: 16px 16px 0 0; transform: translateY(calc(100% - 48px)); transition: transform 0.3s; max-height: 50vh; display: flex; flex-direction: column; }
+.chat-drawer.open { transform: translateY(0); }
+.chat-handle { height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.chat-handle-bar { width: 40px; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.2); }
+.chat-messages { flex: 1; overflow-y: auto; padding: 0 16px 8px; display: flex; flex-direction: column; gap: 6px; }
+.chat-msg { display: flex; gap: 8px; }
+.chat-msg .avatar { width: 22px; height: 22px; border-radius: 50%; background: rgba(213,154,75,0.12); display: grid; place-items: center; font-size: 0.5rem; font-weight: 800; color: var(--gold); }
+.chat-msg p { font-size: 0.7rem; color: #b8ada3; }
+.chat-msg strong { color: var(--cream); }
+.chat-input-row { display: flex; gap: 8px; padding: 8px 16px 12px; border-top: 1px solid var(--line); }
+.chat-input-row input { flex: 1; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--cream); font-size: 0.72rem; }
+.chat-input-row button { padding: 9px 14px; border-radius: 8px; background: var(--gold); color: var(--bg); font-weight: 800; font-size: 0.68rem; }
+@media (min-width: 900px) {
+  .room-page { flex-direction: row; }
+  .chat-drawer { position: static; transform: none; max-height: none; width: 320px; border-radius: 0; border-top: none; border-left: 1px solid var(--line); }
+  .chat-handle { display: none; }
+  .gift-trigger { bottom: 16px; }
+  .gift-tray { max-width: 400px; left: auto; right: 16px; }
+}
+</style>
+</head>
+<body>
+<div class="room-page">
+  <div class="video-area">
+    <img class="room-bg" id="room-bg" src="" alt="">
+    <div class="video-placeholder"><span class="icon">✧</span>Performer stream appears here when live</div>
+    <div class="top-bar">
+      <span class="live-badge">Live</span>
+      <div class="top-right">
+        <span class="viewers-pill" id="viewer-count">● 184</span>
+        <button class="btn-nav" onclick="window.location.href='/'">Back</button>
+      </div>
+    </div>
+    <div class="bottom-bar">
+      <div class="room-info"><h2 id="room-title">Loading...</h2><p id="room-desc"></p></div>
+      <button class="vip-btn" id="vip-btn">✧ Go Private</button>
+    </div>
+  </div>
+  <div class="chat-drawer" id="chat-drawer">
+    <div class="chat-handle" id="chat-handle"><div class="chat-handle-bar"></div></div>
+    <div class="chat-messages" id="chat-messages"></div>
+    <form class="chat-input-row" id="chat-form">
+      <input id="chat-input" maxlength="200" placeholder="Say something..." autocomplete="off">
+      <button type="submit">Send</button>
+    </form>
+  </div>
+</div>
+<button class="gift-trigger" id="gift-trigger">🎁 Gifts & Tips</button>
+<div class="gift-tray" id="gift-tray">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h3 style="font-family:var(--serif);font-style:italic">Send a Gift</h3><button id="close-tray" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.08);display:grid;place-items:center;font-size:.8rem">✕</button></div>
+  <div class="gift-grid" id="gift-grid"></div>
+</div>
+<script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
+<script src="/js/chat.js"></script>
+<script src="/js/transitions.js"></script>
+<script src="/js/admin-bar.js"></script>
+<script>
+const params = new URLSearchParams(window.location.search);
+const roomId = params.get('id') || 'velvet-room';
+const guestId = localStorage.getItem('admin_key') && localStorage.getItem('ghost_mode') === 'true' ? (localStorage.getItem('ghost_alias') || 'Elias') : 'Guest_' + Math.random().toString(36).slice(2,7);
+const ROOM_ART = {
+  'velvet-room': '/assets/art/b3239591-8c30-4dae-b261-7c42ab8022f1.png',
+  'tangled-throne': '/assets/art/cd1f1eae-f7ce-4c72-85b1-457d8bf4f3c1.png',
+  'pink-silk': '/assets/art/d8541cfb-406f-46c1-8ec3-39af3b570035.png',
+  'devils-playground': '/assets/art/e6c0d2d7-f4e2-40bb-b34c-13b84d7b7fe1.png',
+  'back-room': '/assets/art/f7ce0ef5-b1c5-4ea5-8488-d5bb36035de3.png',
+  'the-dungeon': '/assets/art/file_00000000b6c081fdaa791db34c771c9e.png',
+  'haleys-halo': '/assets/art/generated-image-8ca9f7c9-47b9-4a01-a1ce-e7f69104e45c.png',
+  'trans-kinks': '/assets/art/generated-image-ea3dbc19-54ae-4ef1-b68a-78cb3f9b8250.png'
+};
+document.getElementById('room-bg').src = ROOM_ART[roomId] || '/assets/art/PosterMyWall_GeneratedImage_799c3f21.png';
+fetch('/api/rooms/' + roomId).then(r => r.json()).then(room => {
+  if (room.error) { document.getElementById('room-title').textContent = 'Room not found'; return; }
+  document.getElementById('room-title').textContent = room.name;
+  document.getElementById('room-desc').textContent = room.description;
+  document.getElementById('viewer-count').textContent = '\u25cf ' + room.viewers + ' watching';
+  document.title = room.name + ' | Cum IN Dungeon';
+});
+fetch('/api/tokens/redeem').then(r => r.json()).then(data => {
+  const grid = document.getElementById('gift-grid');
+  data.gifts.forEach(gift => {
+    const item = document.createElement('div'); item.className = 'gift-item';
+    item.innerHTML = `<span class="emoji">${gift.emoji}</span><span class="name">${gift.name}</span><span class="cost">${gift.cost} tokens</span>`;
+    item.onclick = () => alert(`Sent ${gift.emoji} ${gift.name} (${gift.cost} tokens)`);
+    grid.appendChild(item);
+  });
+});
+document.getElementById('gift-trigger').onclick = () => document.getElementById('gift-tray').classList.add('open');
+document.getElementById('close-tray').onclick = () => document.getElementById('gift-tray').classList.remove('open');
+document.getElementById('chat-handle').onclick = () => document.getElementById('chat-drawer').classList.toggle('open');
+document.getElementById('vip-btn').onclick = () => { window.location.href = '/private-show.html?performer=' + encodeURIComponent(document.getElementById('room-title').textContent) + '&rate=5'; };
+if (window.DungeonChat && window.Ably) { DungeonChat.init(roomId, guestId, document.getElementById('chat-messages'), document.getElementById('viewer-count')); }
+document.getElementById('chat-form').onsubmit = (e) => { e.preventDefault(); const input = document.getElementById('chat-input'); const msg = input.value.trim(); if (!msg) return; if (window.DungeonChat && DungeonChat.channel) DungeonChat.send(msg); else { const div = document.createElement('div'); div.className = 'chat-msg'; div.innerHTML = `<span class="avatar">${guestId[0].toUpperCase()}</span><p><strong>${guestId}:</strong> ${msg}</p>`; document.getElementById('chat-messages').appendChild(div); } input.value = ''; };
+</script>
+</body>
+</html>

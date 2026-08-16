@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#070403"><title>Cum IN Dungeon — Grand Lobby</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--black:#070403;--gold:#d7a35a;--gold2:#f3cf8a;--cream:#f4eadc;--muted:#ad9b89;--red:#8f1f29;--serif:'Cormorant Garamond',Georgia,serif;--sans:Inter,system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}
+body{background:var(--black);color:var(--cream);font-family:var(--sans);overflow-x:hidden}
+.slideshow{position:fixed;inset:0;z-index:0;overflow:hidden}
+.slideshow .slide{position:absolute;inset:0;opacity:0;animation:fadeSlide 24s infinite}
+.slideshow .slide img{width:100%;height:100%;object-fit:cover;animation:kenBurns 24s infinite}
+.slideshow .slide:nth-child(1){animation-delay:0s}.slideshow .slide:nth-child(1) img{animation-delay:0s}
+.slideshow .slide:nth-child(2){animation-delay:6s}.slideshow .slide:nth-child(2) img{animation-delay:6s}
+.slideshow .slide:nth-child(3){animation-delay:12s}.slideshow .slide:nth-child(3) img{animation-delay:12s}
+.slideshow .slide:nth-child(4){animation-delay:18s}.slideshow .slide:nth-child(4) img{animation-delay:18s}
+@keyframes fadeSlide{0%,4%{opacity:0}5%,25%{opacity:1}26%,100%{opacity:0}}
+@keyframes kenBurns{0%{transform:scale(1)}50%{transform:scale(1.08) translate(-1%,-1%)}100%{transform:scale(1.04)}}
+.slideshow-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,4,3,.4),rgba(7,4,3,.92));z-index:1}
+.lobby{position:relative;z-index:2;min-height:100vh;padding:28px 20px 90px}
+.top{max-width:1180px;margin:auto;display:flex;justify-content:space-between;align-items:center}
+.wordmark{font:700 30px var(--serif)}.wordmark em{color:#bd303a;font-style:italic}
+.pill{border:1px solid #8b6036;background:#100905cc;padding:10px 15px;border-radius:999px;color:var(--gold2);font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+.hero{max-width:1180px;margin:38px auto 0;text-align:center}
+.hero h1{font:700 clamp(42px,7vw,88px)/.95 var(--serif);margin:10px 0;color:#f6ead8;text-shadow:0 5px 30px #000}
+.hero h1 em{color:#bd303a;font-style:italic}
+.section-title{text-align:center;margin:60px 0 22px;font:700 38px var(--serif)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:1180px;margin:auto}
+.card{min-height:220px;position:relative;overflow:hidden;border:1px solid #6d4725;border-radius:14px;display:block;text-decoration:none;color:inherit;transition:.25s}
+.card:hover{transform:translateY(-5px);border-color:#c18b48}
+.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 4s}
+.card:hover img{transform:scale(1.08)}
+.card .card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,4,3,.88),rgba(7,4,3,.15) 100%)}
+.card .card-content{position:absolute;bottom:0;left:0;right:0;padding:16px;text-align:center}
+.card strong{display:block;font:700 22px var(--serif)}
+.card small{display:block;margin-top:4px;color:var(--gold);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.grid{grid-template-columns:1fr}}
+</style></head>
+<body>
+<div class="slideshow">
+  <div class="slide"><img src="/assets/art/1_16adc8b3-9070-4b50-8233-5fbd18ca1106.png" alt=""></div>
+  <div class="slide"><img src="/assets/art/1_75f41f68-c64f-4ee8-aa22-8803a09bd553.png" alt=""></div>
+  <div class="slide"><img src="/assets/art/1_b5972f3b-52bb-4d4e-8eb2-059583b51bbc.png" alt=""></div>
+  <div class="slide"><img src="/assets/art/1_d62da434-f6cf-479e-9751-17fad35203ee.png" alt=""></div>
+  <div class="slideshow-overlay"></div>
+</div>
+<main class="lobby">
+<header class="top"><div class="wordmark">Cum <em>IN</em> Dungeon</div><div class="pill">Grand Lobby · 18+</div></header>
+<section class="hero"><h1>Welcome to the <em>Dungeon</em></h1></section>
+<section><h2 class="section-title">Choose Your Door</h2><div class="grid" id="grid"></div></section>
+</main>
+<script src="/js/transitions.js"></script>
+<script>
+const cats=[
+  {name:'Velvet Room',sub:'Women',img:'/assets/art/b3239591-8c30-4dae-b261-7c42ab8022f1.png',id:'velvet-room'},
+  {name:'Tangled Throne',sub:'Couples',img:'/assets/art/cd1f1eae-f7ce-4c72-85b1-457d8bf4f3c1.png',id:'tangled-throne'},
+  {name:'Pink Silk',sub:'18-21',img:'/assets/art/d8541cfb-406f-46c1-8ec3-39af3b570035.png',id:'pink-silk'},
+  {name:"Devil's Playground",sub:'Fetish / Kink',img:'/assets/art/e6c0d2d7-f4e2-40bb-b34c-13b84d7b7fe1.png',id:'devils-playground'},
+  {name:'Back Room',sub:'Gay / Bi',img:'/assets/art/f7ce0ef5-b1c5-4ea5-8488-d5bb36035de3.png',id:'back-room'},
+  {name:'The Dungeon',sub:'VIP',img:'/assets/art/file_00000000b6c081fdaa791db34c771c9e.png',id:'the-dungeon'},
+  {name:"Haley's Halo",sub:'Women / VIP',img:'/assets/art/generated-image-8ca9f7c9-47b9-4a01-a1ce-e7f69104e45c.png',id:'haleys-halo'},
+  {name:'Trans Kinks',sub:'Trans',img:'/assets/art/generated-image-ea3dbc19-54ae-4ef1-b68a-78cb3f9b8250.png',id:'trans-kinks'}
+];
+const grid=document.getElementById('grid');
+cats.forEach(cat=>{
+  const a=document.createElement('a');a.className='card';a.href='/room.html?id='+cat.id;
+  a.dataset.from='lobby';a.dataset.to='room';
+  a.innerHTML=`<img src="${cat.img}" alt="${cat.name}"><div class="card-overlay"></div><div class="card-content"><strong>${cat.name}</strong><small>${cat.sub}</small></div>`;
+  grid.appendChild(a);
+});
+</script></body></html>
