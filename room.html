@@ -10,16 +10,13 @@
 * { box-sizing: border-box; margin: 0; }
 body { background: var(--bg); color: var(--cream); font-family: var(--sans); font-size: 14px; line-height: 1.5; overflow-x: hidden; }
 button { font: inherit; color: inherit; cursor: pointer; border: none; background: none; }
-
 .room-page { height: 100vh; height: 100dvh; display: flex; flex-direction: column; position: relative; }
-
 .video-area { flex: 1; position: relative; background: #000; display: grid; place-items: center; overflow: hidden; }
 .video-area .room-bg { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.35; animation:roomBgPan 30s ease-in-out infinite alternate; z-index:0; }
 @keyframes roomBgPan { from{transform:scale(1) translate(0,0)} to{transform:scale(1.08) translate(-1%,-1%)} }
 .video-area::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 40%, rgba(213,154,75,0.06), transparent 50%); pointer-events: none; z-index:1; }
 .video-placeholder { text-align: center; color: var(--muted); font-size: 0.8rem; position:relative; z-index:2; }
 .video-placeholder .icon { font-size: 3rem; opacity: 0.2; display: block; margin-bottom: 8px; }
-
 .top-bar { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent); z-index: 10; }
 .live-badge { display: flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 100px; background: rgba(230,57,70,0.9); font-size: 0.55rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
 .live-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: white; animation: pulse 2s infinite; }
@@ -27,13 +24,11 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
 .top-right { display: flex; gap: 8px; align-items: center; }
 .viewers-pill { padding: 5px 10px; border-radius: 100px; background: rgba(0,0,0,0.6); font-size: 0.6rem; color: var(--muted); }
 .btn-nav { padding: 7px 14px; border-radius: 8px; background: rgba(0,0,0,0.6); border: 1px solid var(--line); font-size: 0.65rem; font-weight: 700; }
-
 .bottom-bar { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); z-index: 10; display: flex; justify-content: space-between; align-items: flex-end; }
 .room-info h2 { font-family: var(--serif); font-size: 1.3rem; font-weight: 600; font-style: italic; }
 .room-info p { font-size: 0.65rem; color: var(--muted); margin-top: 2px; }
 .vip-btn { padding: 10px 20px; border-radius: 10px; background: linear-gradient(135deg, #8b1a24, #c0392b); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.03em; color: white; box-shadow: 0 4px 20px rgba(192,57,43,0.3); }
 .vip-btn:hover { transform: translateY(-1px); }
-
 .gift-tray { position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; background: var(--surface); border-top: 1px solid var(--line); border-radius: 16px 16px 0 0; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.22,1,0.36,1); padding: 16px; max-height: 60vh; overflow-y: auto; }
 .gift-tray.open { transform: translateY(0); }
 .gift-tray-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
@@ -50,7 +45,6 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
 .tip-row button { padding: 10px 16px; border-radius: 8px; background: var(--gold); color: var(--bg); font-weight: 800; font-size: 0.72rem; }
 .gift-trigger { position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); z-index: 40; padding: 10px 24px; border-radius: 100px; background: var(--surface); border: 1px solid var(--gold); font-size: 0.72rem; font-weight: 700; color: var(--gold-light); box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
 .gift-trigger:hover { background: rgba(213,154,75,0.1); }
-
 .chat-drawer { position: fixed; bottom: 0; left: 0; right: 0; z-index: 45; background: var(--surface); border-top: 1px solid var(--line); border-radius: 16px 16px 0 0; transform: translateY(calc(100% - 48px)); transition: transform 0.3s cubic-bezier(0.22,1,0.36,1); max-height: 50vh; display: flex; flex-direction: column; }
 .chat-drawer.open { transform: translateY(0); }
 .chat-handle { height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
@@ -64,7 +58,6 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
 .chat-input-row { display: flex; gap: 8px; padding: 8px 16px 12px; border-top: 1px solid var(--line); flex-shrink: 0; }
 .chat-input-row input { flex: 1; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--cream); font-size: 0.72rem; }
 .chat-input-row button { padding: 9px 14px; border-radius: 8px; background: var(--gold); color: var(--bg); font-weight: 800; font-size: 0.68rem; }
-
 @media (min-width: 900px) {
   .room-page { flex-direction: row; }
   .video-area { flex: 1; }
@@ -76,7 +69,6 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
 </style>
 </head>
 <body>
-
 <div class="room-page">
   <div class="video-area">
     <img class="room-bg" id="room-bg" src="" alt="">
@@ -85,7 +77,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
       <span class="live-badge">Live</span>
       <div class="top-right">
         <span class="viewers-pill" id="viewer-count">● 184</span>
-        <button class="btn-nav" id="back-btn">Back</button>
+        <button class="btn-nav" onclick="window.location.href='/'">Back</button>
       </div>
     </div>
     <div class="bottom-bar">
@@ -96,7 +88,6 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
       <button class="vip-btn" id="vip-btn">✧ Go Private</button>
     </div>
   </div>
-
   <div class="chat-drawer" id="chat-drawer">
     <div class="chat-handle" id="chat-handle"><div class="chat-handle-bar"></div><span>Chat</span></div>
     <div class="chat-messages" id="chat-messages"></div>
@@ -106,9 +97,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
     </form>
   </div>
 </div>
-
 <button class="gift-trigger" id="gift-trigger">🎁 Gifts & Tips</button>
-
 <div class="gift-tray" id="gift-tray">
   <div class="gift-tray-header">
     <h3>Send a Gift</h3>
@@ -120,10 +109,9 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
     <button id="send-tip">💰 Tip</button>
   </div>
 </div>
-
-<script src="/public/js/transition.js"></script>
 <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
 <script src="/public/js/chat.js"></script>
+<script src="/public/js/transitions.js"></script>
 <script src="/public/js/admin-bar.js"></script>
 <script>
 const params = new URLSearchParams(window.location.search);
@@ -131,28 +119,18 @@ const roomId = params.get('id') || 'velvet-room';
 const guestId = localStorage.getItem('admin_key') && localStorage.getItem('ghost_mode') === 'true'
   ? (localStorage.getItem('ghost_alias') || 'Elias')
   : 'Guest_' + Math.random().toString(36).slice(2,7);
-
-/* Room background art map */
 const ROOM_ART = {
-  'velvet-room': '/public/assets/art/6690.png',
-  'tangled-throne': '/public/assets/art/6694.png',
-  'pink-silk': '/public/assets/art/6691.png',
-  'devils-playground': '/public/assets/art/6695.png',
-  'back-room': '/public/assets/art/6696.png',
-  'the-dungeon': '/public/assets/art/6693.png',
-  'haleys-halo': '/public/assets/art/6699.png',
-  'trans-kinks': '/public/assets/art/6698.png'
+  'velvet-room': '/public/assets/art/b3239591-8c30-4dae-b261-7c42ab8022f1.png',
+  'tangled-throne': '/public/assets/art/cd1f1eae-f7ce-4c72-85b1-457d8bf4f3c1.png',
+  'pink-silk': '/public/assets/art/d8541cfb-406f-46c1-8ec3-39af3b570035.png',
+  'devils-playground': '/public/assets/art/e6c0d2d7-f4e2-40bb-b34c-13b84d7b7fe1.png',
+  'back-room': '/public/assets/art/f7ce0ef5-b1c5-4ea5-8488-d5bb36035de3.png',
+  'the-dungeon': '/public/assets/art/file_00000000b6c081fdaa791db34c771c9e.png',
+  'haleys-halo': '/public/assets/art/generated-image-8ca9f7c9-47b9-4a01-a1ce-e7f69104e45c.png',
+  'trans-kinks': '/public/assets/art/generated-image-ea3dbc19-54ae-4ef1-b68a-78cb3f9b8250.png'
 };
-
-/* Set room background art */
 const bgEl = document.getElementById('room-bg');
-if (ROOM_ART[roomId]) bgEl.src = ROOM_ART[roomId];
-else bgEl.src = '/public/assets/art/6700.png';
-
-/* Back button with transition */
-document.getElementById('back-btn').onclick = () => DungeonTransition.go('/castle-lobby.html');
-
-// Load room info
+bgEl.src = ROOM_ART[roomId] || '/public/assets/art/PosterMyWall_GeneratedImage_799c3f21.png';
 fetch('/api/rooms/' + roomId).then(r => r.json()).then(room => {
   if (room.error) { document.getElementById('room-title').textContent = 'Room not found'; return; }
   document.getElementById('room-title').textContent = room.name;
@@ -160,8 +138,6 @@ fetch('/api/rooms/' + roomId).then(r => r.json()).then(room => {
   document.getElementById('viewer-count').textContent = '\u25cf ' + room.viewers + ' watching';
   document.title = room.name + ' | Cum IN Dungeon';
 });
-
-// Load gifts
 fetch('/api/tokens/redeem').then(r => r.json()).then(data => {
   const grid = document.getElementById('gift-grid');
   data.gifts.forEach(gift => {
@@ -172,31 +148,19 @@ fetch('/api/tokens/redeem').then(r => r.json()).then(data => {
     grid.appendChild(item);
   });
 });
-
-// Gift tray toggle
 document.getElementById('gift-trigger').addEventListener('click', () => { document.getElementById('gift-tray').classList.add('open'); });
 document.getElementById('close-tray').addEventListener('click', () => { document.getElementById('gift-tray').classList.remove('open'); });
-
-// Custom tip
 document.getElementById('send-tip').addEventListener('click', () => {
   const amount = document.getElementById('tip-amount').value;
   if (amount && parseInt(amount) > 0) { alert(`Tipped ${amount} tokens!`); document.getElementById('tip-amount').value = ''; }
 });
-
-// Chat drawer toggle (mobile)
 document.getElementById('chat-handle').addEventListener('click', () => { document.getElementById('chat-drawer').classList.toggle('open'); });
-
-// VIP button with transition
 document.getElementById('vip-btn').addEventListener('click', () => {
-  DungeonTransition.go('/private-show.html?performer=' + encodeURIComponent(document.getElementById('room-title').textContent) + '&rate=5');
+  window.location.href = '/private-show.html?performer=' + encodeURIComponent(document.getElementById('room-title').textContent) + '&rate=5';
 });
-
-// Init chat
 if (window.DungeonChat && window.Ably) {
   DungeonChat.init(roomId, guestId, document.getElementById('chat-messages'), document.getElementById('viewer-count'));
 }
-
-// Chat form
 document.getElementById('chat-form').addEventListener('submit', (e) => {
   e.preventDefault();
   const input = document.getElementById('chat-input');

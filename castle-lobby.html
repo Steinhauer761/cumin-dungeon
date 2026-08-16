@@ -7,8 +7,6 @@
 :root{--black:#070403;--gold:#d7a35a;--gold2:#f3cf8a;--cream:#f4eadc;--muted:#ad9b89;--red:#8f1f29;--serif:'Cormorant Garamond',Georgia,serif;--sans:Inter,system-ui,sans-serif}
 *{box-sizing:border-box;margin:0}
 body{background:var(--black);color:var(--cream);font-family:var(--sans);overflow-x:hidden}
-
-/* === SLIDESHOW HERO WITH KEN BURNS === */
 .slideshow{position:fixed;inset:0;z-index:0;overflow:hidden}
 .slideshow .slide{position:absolute;inset:0;opacity:0;animation:fadeSlide 24s infinite;will-change:opacity,transform}
 .slideshow .slide img{width:100%;height:100%;object-fit:cover;animation:kenBurns 24s infinite}
@@ -23,29 +21,22 @@ body{background:var(--black);color:var(--cream);font-family:var(--sans);overflow
 @keyframes fadeSlide{0%,4%{opacity:0}5%,25%{opacity:1}26%,100%{opacity:0}}
 @keyframes kenBurns{0%{transform:scale(1) translate(0,0)}50%{transform:scale(1.08) translate(-1%,-1%)}100%{transform:scale(1.04) translate(1%,0)}}
 .slideshow-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,4,3,.4) 0%,rgba(7,4,3,.7) 50%,rgba(7,4,3,.92) 100%);z-index:1}
-
-/* === CONTENT === */
 .lobby{position:relative;z-index:2;min-height:100vh;padding:28px 20px 90px}
 .top{max-width:1180px;margin:auto;display:flex;justify-content:space-between;align-items:center}
 .wordmark{font:700 30px var(--serif);letter-spacing:.02em}
 .wordmark em{color:#bd303a;font-style:italic}
 .pill{border:1px solid #8b6036;background:#100905cc;padding:10px 15px;border-radius:999px;color:var(--gold2);font-size:12px;letter-spacing:.16em;text-transform:uppercase;backdrop-filter:blur(8px)}
-
 .hero{max-width:1180px;margin:38px auto 0;text-align:center}
 .eyebrow{font-size:11px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);font-weight:800}
 .hero h1{font:700 clamp(42px,7vw,88px)/.95 var(--serif);margin:10px 0;color:#f6ead8;text-shadow:0 5px 30px #000}
 .hero h1 em{color:#bd303a;font-style:italic}
 .hero p{max-width:680px;margin:16px auto;color:var(--muted);line-height:1.7;font-size:.85rem}
-
-/* Chandelier */
 .chandelier{height:115px;position:relative;margin:20px auto -5px;width:380px}
 .chandelier:before{content:"";position:absolute;left:50%;top:0;width:3px;height:50px;background:#8b642d;box-shadow:0 0 15px #d6a34e}
 .arms{position:absolute;left:50%;top:44px;transform:translateX(-50%);width:360px;height:65px;border-top:5px solid #8b642d;border-radius:50%}
 .arms i{position:absolute;bottom:-4px;width:18px;height:48px;border-left:4px solid #9a6c30}
 .arms i:nth-child(1){left:4%}.arms i:nth-child(2){left:24%}.arms i:nth-child(3){left:46%}.arms i:nth-child(4){right:24%}.arms i:nth-child(5){right:4%}
 .arms i:after{content:"";position:absolute;left:-10px;top:-13px;width:22px;height:28px;border-radius:50%;background:radial-gradient(circle,#fff0ae,#e79b35 42%,transparent 70%);filter:drop-shadow(0 0 12px #e79b35)}
-
-/* Doors */
 .doors{position:relative;max-width:1000px;height:430px;margin:42px auto 0;perspective:1100px;filter:drop-shadow(0 35px 50px #000)}
 .door{position:absolute;top:0;width:50%;height:100%;border:8px solid #17100b;background:repeating-linear-gradient(90deg,transparent 0 42px,#120b07 43px 48px),linear-gradient(90deg,#3b2111,#241209 48%,#452511);box-shadow:inset 0 0 0 3px #68431e,inset 0 0 55px #000;transition:transform 1.15s cubic-bezier(.2,.75,.15,1)}
 .door:after{content:"";position:absolute;inset:20px;border:2px solid #8a5b2c;box-shadow:inset 0 0 0 12px #1c1009,inset 0 0 0 14px #71491f;pointer-events:none}
@@ -68,14 +59,10 @@ body{background:var(--black);color:var(--cream);font-family:var(--sans);overflow
 .dragon-seam{position:absolute;left:50%;top:50%;width:3px;height:185px;transform:translate(-50%,-50%);z-index:2;background:linear-gradient(180deg,transparent,#d7a35a 20%,#f3cf8a 50%,#8f1f29 80%,transparent);box-shadow:0 0 18px #d7a35a;opacity:.55;transition:opacity .4s}
 .doors.open .dragon-seam{opacity:0}
 .open-btn{margin:22px auto 0;display:block;border:1px solid #b9833f;background:linear-gradient(#c99a58,#754318);color:#160a04;border-radius:999px;padding:13px 24px;font-weight:800;letter-spacing:.08em;cursor:pointer;font-size:.85rem}
-
-/* Rug */
 .rug{max-width:900px;height:220px;margin:-10px auto 0;position:relative;transform:perspective(700px) rotateX(58deg);transform-origin:top;clip-path:polygon(7% 0,93% 0,100% 100%,0 100%);background:radial-gradient(ellipse at center,#7d111c 0,#3b080d 42%,#100506 72%);border:4px solid #b27b39;box-shadow:inset 0 0 0 10px #190807,inset 0 0 0 13px #9a682f,inset 0 0 70px #000,0 35px 60px #000}
 .rug:before{content:"";position:absolute;inset:18px;border:2px solid #b27b39}
 .rug svg{position:absolute;inset:35px;width:calc(100% - 70px);height:130px}
 .rug-text{position:absolute;inset:0;display:grid;place-items:center;font:700 25px var(--serif);letter-spacing:.18em;color:#f1cf8a;text-shadow:0 3px 10px #000}
-
-/* Categories with art images */
 .categories{max-width:1180px;margin:10px auto}
 .section-title{text-align:center;margin:60px 0 22px;font:700 38px var(--serif)}
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
@@ -92,16 +79,13 @@ body{background:var(--black);color:var(--cream);font-family:var(--sans);overflow
 @media(max-width:520px){.grid{grid-template-columns:1fr}.doors{height:260px}}
 </style></head>
 <body>
-
-<!-- CROSSFADE SLIDESHOW BACKGROUND -->
 <div class="slideshow">
-  <div class="slide"><img src="/public/assets/art/6557.jpg" alt=""></div>
-  <div class="slide"><img src="/public/assets/art/6558.png" alt=""></div>
-  <div class="slide"><img src="/public/assets/art/6561.png" alt=""></div>
-  <div class="slide"><img src="/public/assets/art/6564.png" alt=""></div>
+  <div class="slide"><img src="/public/assets/art/1_16adc8b3-9070-4b50-8233-5fbd18ca1106.png" alt=""></div>
+  <div class="slide"><img src="/public/assets/art/1_75f41f68-c64f-4ee8-aa22-8803a09bd553.png" alt=""></div>
+  <div class="slide"><img src="/public/assets/art/1_b5972f3b-52bb-4d4e-8eb2-059583b51bbc.png" alt=""></div>
+  <div class="slide"><img src="/public/assets/art/1_d62da434-f6cf-479e-9751-17fad35203ee.png" alt=""></div>
   <div class="slideshow-overlay"></div>
 </div>
-
 <main class="lobby">
 <header class="top"><div class="wordmark">Cum <em>IN</em> Dungeon</div><div class="pill">Grand Lobby · 18+</div></header>
 <section class="hero"><div class="eyebrow">The Castle Entrance</div><h1>Welcome to the <em>Dungeon</em></h1><p>The front door is a single dragon crest split cleanly across two heavy timber leaves. Open the doors and the dragon separates with them.</p>
@@ -112,20 +96,19 @@ body{background:var(--black);color:var(--cream);font-family:var(--sans);overflow
 <section class="categories"><h2 class="section-title">Choose Your Door</h2><div class="grid" id="grid"></div></section>
 <p class="footer">© 2026 Cum IN Dungeon · 18+ only</p>
 </main>
-
 <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
 <script src="/public/js/chat.js"></script>
 <script src="/public/js/transitions.js"></script>
 <script>
 const cats=[
-  {name:'Velvet Room', sub:'Women', img:'/public/assets/art/6690.png', id:'velvet-room'},
-  {name:'Tangled Throne', sub:'Couples', img:'/public/assets/art/6694.png', id:'tangled-throne'},
-  {name:'Pink Silk', sub:'18-21', img:'/public/assets/art/6691.png', id:'pink-silk'},
-  {name:"Devil's Playground", sub:'Fetish / Kink', img:'/public/assets/art/6695.png', id:'devils-playground'},
-  {name:'Back Room', sub:'Gay / Bi', img:'/public/assets/art/6696.png', id:'back-room'},
-  {name:'The Dungeon', sub:'VIP', img:'/public/assets/art/6693.png', id:'the-dungeon'},
-  {name:"Haley's Halo", sub:'Women / VIP', img:'/public/assets/art/6699.png', id:'haleys-halo'},
-  {name:'Trans Kinks', sub:'Trans', img:'/public/assets/art/6698.png', id:'trans-kinks'}
+  {name:'Velvet Room', sub:'Women', img:'/public/assets/art/b3239591-8c30-4dae-b261-7c42ab8022f1.png', id:'velvet-room'},
+  {name:'Tangled Throne', sub:'Couples', img:'/public/assets/art/cd1f1eae-f7ce-4c72-85b1-457d8bf4f3c1.png', id:'tangled-throne'},
+  {name:'Pink Silk', sub:'18-21', img:'/public/assets/art/d8541cfb-406f-46c1-8ec3-39af3b570035.png', id:'pink-silk'},
+  {name:"Devil's Playground", sub:'Fetish / Kink', img:'/public/assets/art/e6c0d2d7-f4e2-40bb-b34c-13b84d7b7fe1.png', id:'devils-playground'},
+  {name:'Back Room', sub:'Gay / Bi', img:'/public/assets/art/f7ce0ef5-b1c5-4ea5-8488-d5bb36035de3.png', id:'back-room'},
+  {name:'The Dungeon', sub:'VIP', img:'/public/assets/art/file_00000000b6c081fdaa791db34c771c9e.png', id:'the-dungeon'},
+  {name:"Haley's Halo", sub:'Women / VIP', img:'/public/assets/art/generated-image-8ca9f7c9-47b9-4a01-a1ce-e7f69104e45c.png', id:'haleys-halo'},
+  {name:'Trans Kinks', sub:'Trans', img:'/public/assets/art/generated-image-ea3dbc19-54ae-4ef1-b68a-78cb3f9b8250.png', id:'trans-kinks'}
 ];
 const grid=document.getElementById('grid');
 cats.forEach(cat=>{
