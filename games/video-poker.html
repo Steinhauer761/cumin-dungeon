@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>Jacks or Better | CumIN Dungeon Casino</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#050304;--surface:#0c0908;--surface-2:#141010;--gold:#d59a4b;--gold-light:#f5c77e;--gold-dim:#8b6230;--cream:#f5eee4;--muted:#7a6e64;--red:#c0392b;--green:#4ade80;--line:rgba(190,137,77,.12);--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--cream);font-family:var(--sans);min-height:100vh;min-height:100dvh;overflow-x:hidden;-webkit-font-smoothing:antialiased;user-select:none}
+.app{width:min(520px,100%);margin:0 auto;padding:8px 10px;min-height:100vh;display:flex;flex-direction:column}
+.header{display:flex;justify-content:space-between;align-items:center;padding:6px 0 8px}
+.header a{color:var(--muted);text-decoration:none;font-size:.7rem;font-weight:600;padding:7px 10px;border:1px solid var(--line);border-radius:6px}
+.header a:hover{border-color:var(--gold);color:var(--cream)}
+.brand{font-family:var(--serif);font-style:italic;font-size:.65rem;color:var(--gold-dim)}
+.title-area{text-align:center;padding:2px 0 6px}
+.title-area h1{font-family:var(--serif);font-style:italic;font-weight:700;font-size:clamp(1.4rem,5vw,1.8rem);color:var(--gold-light);text-shadow:0 4px 20px rgba(0,0,0,.5)}
+.title-area .sub{font-size:.52rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-top:2px}
+
+/* Paytable strip */
+.paytable-strip{margin:8px 0;padding:8px 10px;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow-x:auto}
+.pt-table{width:100%;border-collapse:collapse;font-size:.5rem;white-space:nowrap}
+.pt-table th{text-align:left;color:var(--muted);font-weight:700;padding:3px 6px;border-bottom:1px solid var(--line)}
+.pt-table td{padding:3px 6px;color:var(--cream);font-weight:600}
+.pt-table .active-col{background:rgba(213,154,75,.08);color:var(--gold-light);font-weight:800}
+.pt-table tr.winner{background:rgba(74,222,128,.1)}
+.pt-table tr.winner td{color:var(--green);font-weight:800}
+
+/* Cards */
+.card-area{display:flex;gap:8px;justify-content:center;padding:16px 0;min-height:180px;align-items:center}
+.vp-card{width:72px;height:100px;border-radius:10px;position:relative;cursor:pointer;transition:transform .2s cubic-bezier(.16,1,.3,1);transform-style:preserve-3d}
+.vp-card.held{transform:translateY(-12px)}
+.vp-card.dealing{animation:vpDeal .35s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes vpDeal{from{opacity:0;transform:translateY(-40px) rotateZ(-8deg) scale(.7)}to{opacity:1;transform:translateY(0) rotateZ(0) scale(1)}}
+.vp-card .c-front{position:absolute;inset:0;border-radius:10px;background:linear-gradient(145deg,#fff,#ece6de);border:2px solid #ddd;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;box-shadow:0 6px 18px rgba(0,0,0,.35);backface-visibility:hidden}
+.vp-card .c-front .rank{font-size:1.3rem;font-weight:900;line-height:1}
+.vp-card .c-front .suit{font-size:1.1rem;line-height:1}
+.vp-card .c-front.red{color:var(--red)}
+.vp-card .c-front.black{color:#1a1214}
+.vp-card .c-back{position:absolute;inset:0;border-radius:10px;background:linear-gradient(145deg,#8b1a24,#5a1018);border:2px solid #a0323c;box-shadow:0 6px 18px rgba(0,0,0,.35);backface-visibility:hidden;transform:rotateY(180deg);display:grid;place-items:center}
+.vp-card .c-back::after{content:'\2666';font-size:1.5rem;color:rgba(255,255,255,.1)}
+.vp-card.face-down{transform:rotateY(180deg)}
+.vp-card.face-down.held{transform:rotateY(180deg) translateY(-12px)}
+.hold-label{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:.5rem;font-weight:800;color:var(--gold-light);letter-spacing:.08em;text-transform:uppercase;opacity:0;transition:opacity .2s}
+.vp-card.held .hold-label{opacity:1}
+
+/* Win display */
+.win-display{text-align:center;min-height:36px;display:grid;place-items:center}
+.win-display span{font-family:var(--serif);font-weight:700;font-size:0;opacity:0;transition:all .35s cubic-bezier(.16,1,.3,1)}
+.win-display span.active{opacity:1;font-size:1.1rem}
+.win-display span.win{color:var(--green)}
+.win-display span.big{color:var(--gold-light);font-size:1.4rem;text-shadow:0 0 20px rgba(213,154,75,.5)}
+.win-display span.royal{color:var(--gold-light);font-size:1.6rem;text-shadow:0 0 40px rgba(213,154,75,.7);animation:royalPulse 1s ease-in-out infinite}
+@keyframes royalPulse{0%,100%{text-shadow:0 0 20px rgba(213,154,75,.5)}50%{text-shadow:0 0 40px rgba(213,154,75,.8)}}
+.win-display span.lose{color:var(--muted);font-size:.72rem;font-family:var(--sans);font-weight:600}
+
+/* Info bar */
+.info-bar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin:8px 0}
+.info-box{background:rgba(0,0,0,.5);border:1px solid var(--line);border-radius:8px;padding:6px;text-align:center}
+.info-box .lbl{display:block;font-size:.42rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.info-box .val{display:block;font-size:.85rem;font-weight:800;color:var(--gold-light);font-variant-numeric:tabular-nums}
+
+/* Controls */
+.controls{display:flex;flex-direction:column;gap:8px;padding:6px 0}
+.main-actions{display:flex;gap:8px;justify-content:center}
+.deal-btn{padding:14px 32px;border-radius:10px;border:2px solid var(--gold);background:linear-gradient(135deg,var(--gold-light),#a06b28);color:#1a0d07;font-size:.75rem;font-weight:900;letter-spacing:.04em;cursor:pointer;box-shadow:0 6px 24px rgba(213,154,75,.3);transition:transform .12s}
+.deal-btn:active{transform:scale(.95)}
+.deal-btn:disabled{opacity:.3;cursor:not-allowed}
+.deal-btn.draw-mode{background:linear-gradient(135deg,var(--green),#1a7a3a);border-color:var(--green);color:#fff}
+
+/* Bet controls */
+.bet-row{display:flex;align-items:center;justify-content:center;gap:10px}
+.bet-row .bet-lbl{font-size:.48rem;color:var(--muted);font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.coin-btns{display:flex;gap:4px}
+.coin-btn{width:36px;height:36px;border-radius:50%;border:2px solid var(--line);background:var(--surface-2);color:var(--cream);font-size:.6rem;font-weight:800;display:grid;place-items:center;cursor:pointer;transition:all .12s}
+.coin-btn:hover{border-color:var(--gold-dim)}
+.coin-btn:active{transform:scale(.9)}
+.coin-btn.active{border-color:var(--gold);background:rgba(213,154,75,.15);color:var(--gold-light)}
+.max-btn{padding:8px 14px;border-radius:6px;border:1px solid var(--gold-dim);background:rgba(213,154,75,.08);color:var(--gold-light);font-size:.55rem;font-weight:800;cursor:pointer}
+.max-btn:active{transform:scale(.95)}
+
+/* Double up */
+.double-area{display:none;text-align:center;padding:12px;margin:8px 0;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.double-area.show{display:block}
+.double-area h3{font-family:var(--serif);font-style:italic;font-size:.9rem;color:var(--gold-light);margin-bottom:8px}
+.double-area p{font-size:.6rem;color:var(--muted);margin-bottom:10px}
+.double-btns{display:flex;gap:8px;justify-content:center}
+.double-btn{padding:12px 24px;border-radius:8px;border:1.5px solid var(--line);background:rgba(0,0,0,.4);font-size:.7rem;font-weight:800;cursor:pointer;transition:all .12s}
+.double-btn:hover{border-color:var(--gold)}
+.double-btn.red-btn{color:var(--red)}
+.double-btn.black-btn{color:var(--cream)}
+.double-btn.collect{color:var(--green);border-color:rgba(74,222,128,.3)}
+
+.notice{text-align:center;font-size:.42rem;color:rgba(122,110,100,.4);padding:6px 0}
+.fx-layer{position:fixed;inset:0;pointer-events:none;z-index:1000;overflow:hidden}
+.coin{position:absolute;width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#f5c77e,#8b5a1e);animation:coinFall var(--dur) linear forwards;opacity:0}
+@keyframes coinFall{0%{transform:translateY(-20px) scale(.5);opacity:0}10%{opacity:1;transform:translateY(0) scale(1)}100%{transform:translateY(calc(100vh + 20px)) scale(.7);opacity:.6}}
+
+@media(max-width:380px){
+  .vp-card{width:60px;height:84px}
+  .vp-card .c-front .rank{font-size:1rem}
+  .vp-card .c-front .suit{font-size:.9rem}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header"><a href="/casino.html">&larr; Casino</a><span class="brand">CumIN Dungeon</span></div>
+  <div class="title-area"><h1>Jacks or Better</h1><p class="sub">Video Poker • Hold & Draw • Double Up</p></div>
+
+  <div class="paytable-strip">
+    <table class="pt-table" id="ptTable"></table>
+  </div>
+
+  <div class="card-area" id="cardArea"></div>
+
+  <div class="win-display"><span id="wTxt"></span></div>
+
+  <div class="info-bar">
+    <div class="info-box"><span class="lbl">Credits</span><span class="val" id="credits">1000</span></div>
+    <div class="info-box"><span class="lbl">Bet</span><span class="val" id="betDisplay">1</span></div>
+    <div class="info-box"><span class="lbl">Win</span><span class="val" id="winDisplay">0</span></div>
+  </div>
+
+  <div class="double-area" id="doubleArea">
+    <h3>Double Up?</h3>
+    <p>Guess the color of the next card to double your win.</p>
+    <div class="double-btns">
+      <button class="double-btn red-btn" id="dblRed">♥ Red</button>
+      <button class="double-btn black-btn" id="dblBlack">♠ Black</button>
+      <button class="double-btn collect" id="dblCollect">Collect</button>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="main-actions">
+      <button class="deal-btn" id="dealBtn">DEAL</button>
+    </div>
+    <div class="bet-row">
+      <span class="bet-lbl">Bet</span>
+      <div class="coin-btns">
+        <button class="coin-btn active" data-coins="1">1</button>
+        <button class="coin-btn" data-coins="2">2</button>
+        <button class="coin-btn" data-coins="3">3</button>
+        <button class="coin-btn" data-coins="4">4</button>
+        <button class="coin-btn" data-coins="5">5</button>
+      </div>
+      <button class="max-btn" id="maxBtn">MAX</button>
+    </div>
+  </div>
+
+  <p class="notice">Entertainment tokens only. No cash value.</p>
+</div>
+<div class="fx-layer" id="fxL"></div>
+
+<script>
+(function(){
+'use strict';
+
+// ===== CONFIG =====
+var PAYTABLE = [
+  {name:'Royal Flush',   pays:[250,500,750,1000,4000]},
+  {name:'Straight Flush', pays:[50,100,150,200,250]},
+  {name:'Four of a Kind', pays:[25,50,75,100,125]},
+  {name:'Full House',     pays:[9,18,27,36,45]},
+  {name:'Flush',          pays:[6,12,18,24,30]},
+  {name:'Straight',       pays:[4,8,12,16,20]},
+  {name:'Three of a Kind',pays:[3,6,9,12,15]},
+  {name:'Two Pair',       pays:[2,4,6,8,10]},
+  {name:'Jacks or Better',pays:[1,2,3,4,5]}
+];
+
+var RANKS = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
+var SUITS = ['\u2660','\u2665','\u2666','\u2663'];
+var RANK_VAL = {2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:10,J:11,Q:12,K:13,A:14};
+
+// ===== STATE =====
+var credits = 1000;
+var bet = 1;
+var hand = [];
+var held = [false,false,false,false,false];
+var phase = 'bet'; // bet, hold, double
+var lastWin = 0;
+var lastHandName = '';
+var deck = [];
+
+var fmtBet = function(n){ return n.toLocaleString(); };
+
+// ===== AUDIO =====
+var SFX = (function(){
+  var c;
+  var g = function(){ if(!c) c=new(window.AudioContext||window.webkitAudioContext)(); if(c.state==='suspended')c.resume(); return c; };
+  var p = function(f,t,d,v){
+    v=v||.06;
+    try{ var x=g(),o=x.createOscillator(),gn=x.createGain(); o.type=t; o.frequency.setValueAtTime(f,x.currentTime); gn.gain.setValueAtTime(v,x.currentTime); gn.gain.exponentialRampToValueAtTime(.001,x.currentTime+d); o.connect(gn).connect(x.destination); o.start(); o.stop(x.currentTime+d); }catch(e){}
+  };
+  return {
+    deal: function(){ p(600,'sine',.05,.05); },
+    hold: function(){ p(900,'sine',.03,.04); },
+    win: function(){ [0,60,120,180].forEach(function(d,i){ setTimeout(function(){ p(500+i*80,'sine',.12,.07); },d); }); },
+    big: function(){ [0,80,160,240,320,400].forEach(function(d,i){ setTimeout(function(){ p(350+i*110,'triangle',.2,.09); },d); }); },
+    lose: function(){ p(150,'sawtooth',.1,.04); },
+    coin: function(){ p(1200,'sine',.02,.03); }
+  };
+})();
+
+// ===== DECK =====
+function buildDeck(){
+  deck = [];
+  for(var s=0;s<4;s++) for(var r=0;r<13;r++) deck.push({rank:RANKS[r], suit:SUITS[s]});
+  for(var i=deck.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var tmp=deck[i]; deck[i]=deck[j]; deck[j]=tmp; }
+}
+function drawCard(){ return deck.pop(); }
+function isRed(card){ return card.suit==='\u2665'||card.suit==='\u2666'; }
+
+// ===== HAND EVALUATION =====
+function evaluateHand(cards){
+  var vals = cards.map(function(c){return RANK_VAL[c.rank];}).sort(function(a,b){return a-b;});
+  var suits = cards.map(function(c){return c.suit;});
+  var isFlush = suits.every(function(s){return s===suits[0];});
+  var isStraight = false;
+  if(vals[4]-vals[0]===4 && new Set(vals).size===5) isStraight = true;
+  // Wheel (A-2-3-4-5)
+  if(vals[0]===2&&vals[1]===3&&vals[2]===4&&vals[3]===5&&vals[4]===14){ isStraight=true; }
+  
+  var counts = {};
+  vals.forEach(function(v){ counts[v]=(counts[v]||0)+1; });
+  var groups = Object.values(counts).sort(function(a,b){return b-a;});
+  
+  // Royal Flush
+  if(isFlush && isStraight && vals[0]===10) return 0;
+  // Straight Flush
+  if(isFlush && isStraight) return 1;
+  // Four of a Kind
+  if(groups[0]===4) return 2;
+  // Full House
+  if(groups[0]===3 && groups[1]===2) return 3;
+  // Flush
+  if(isFlush) return 4;
+  // Straight
+  if(isStraight) return 5;
+  // Three of a Kind
+  if(groups[0]===3) return 6;
+  // Two Pair
+  if(groups[0]===2 && groups[1]===2) return 7;
+  // Jacks or Better (pair of J, Q, K, or A)
+  if(groups[0]===2){
+    for(var v in counts){ if(counts[v]===2 && parseInt(v)>=11) return 8; }
+  }
+  return -1; // No win
+}
+
+// ===== RENDERING =====
+function buildPaytable(){
+  var table = document.getElementById('ptTable');
+  var html = '<tr><th></th>';
+  for(var c=1;c<=5;c++) html += '<th class="'+(c===bet?'active-col':'')+'">'+c+'</th>';
+  html += '</tr>';
+  PAYTABLE.forEach(function(row, idx){
+    var isWinner = (phase==='double'||lastHandName===row.name) && lastWin>0 && lastHandName===row.name;
+    html += '<tr class="'+(isWinner?'winner':'')+'">';
+    html += '<td>'+row.name+'</td>';
+    for(var c=0;c<5;c++) html += '<td class="'+(c+1===bet?'active-col':'')+'">'+row.pays[c]+'</td>';
+    html += '</tr>';
+  });
+  table.innerHTML = html;
+}
+
+function renderCards(){
+  var area = document.getElementById('cardArea');
+  area.innerHTML = '';
+  hand.forEach(function(card, i){
+    var el = document.createElement('div');
+    el.className = 'vp-card' + (held[i]?' held':'') + (phase==='bet'?' face-down':'') + ' dealing';
+    el.style.animationDelay = (i*80)+'ms';
+    var frontClass = isRed(card)?'red':'black';
+    el.innerHTML = '<div class="hold-label">HELD</div><div class="c-front '+frontClass+'"><span class="rank">'+card.rank+'</span><span class="suit">'+card.suit+'</span></div><div class="c-back"></div>';
+    el.addEventListener('click', function(){ toggleHold(i); });
+    area.appendChild(el);
+  });
+}
+
+function toggleHold(idx){
+  if(phase !== 'hold') return;
+  held[idx] = !held[idx];
+  SFX.hold();
+  renderCards();
+}
+
+function updateUI(){
+  document.getElementById('credits').textContent = fmtBet(credits);
+  document.getElementById('betDisplay').textContent = bet;
+  buildPaytable();
+}
+
+// ===== GAME FLOW =====
+function deal(){
+  if(phase === 'hold'){
+    // DRAW phase: replace unheld cards
+    drawPhase();
+    return;
+  }
+  
+  if(credits < bet) return;
+  credits -= bet;
+  lastWin = 0;
+  lastHandName = '';
+  held = [false,false,false,false,false];
+  hideWin();
+  document.getElementById('doubleArea').classList.remove('show');
+  
+  buildDeck();
+  hand = [drawCard(),drawCard(),drawCard(),drawCard(),drawCard()];
+  phase = 'hold';
+  
+  document.getElementById('dealBtn').textContent = 'DRAW';
+  document.getElementById('dealBtn').classList.add('draw-mode');
+  
+  renderCards();
+  // Flip cards face up after deal animation
+  setTimeout(function(){
+    document.querySelectorAll('.vp-card').forEach(function(el){ el.classList.remove('face-down'); });
+    SFX.deal();
+  }, 400);
+  
+  updateUI();
+  document.getElementById('winDisplay').textContent = '0';
+}
+
+function drawPhase(){
+  // Replace unheld cards
+  for(var i=0;i<5;i++){
+    if(!held[i]) hand[i] = drawCard();
+  }
+  phase = 'result';
+  renderCards();
+  setTimeout(function(){
+    document.querySelectorAll('.vp-card').forEach(function(el){ el.classList.remove('face-down'); });
+    SFX.deal();
+    setTimeout(evaluate, 300);
+  }, 300);
+}
+
+function evaluate(){
+  var result = evaluateHand(hand);
+  
+  if(result >= 0){
+    var payout = PAYTABLE[result].pays[bet-1];
+    lastWin = payout;
+    lastHandName = PAYTABLE[result].name;
+    document.getElementById('winDisplay').textContent = fmtBet(payout);
+    buildPaytable();
+    
+    if(result === 0){
+      // Royal Flush!
+      showMsg('ROYAL FLUSH! +' + fmtBet(payout), 'royal');
+      SFX.big();
+      spawnCoins(50);
+    } else if(payout >= 25){
+      showMsg(lastHandName + '! +' + fmtBet(payout), 'big');
+      SFX.big();
+      spawnCoins(30);
+    } else {
+      showMsg(lastHandName + ' +' + fmtBet(payout), 'win');
+      SFX.win();
+      spawnCoins(10);
+    }
+    
+    // Show double-up option
+    phase = 'double';
+    document.getElementById('doubleArea').classList.add('show');
+    document.getElementById('dealBtn').disabled = true;
+  } else {
+    lastWin = 0;
+    lastHandName = '';
+    showMsg('No qualifying hand', 'lose');
+    SFX.lose();
+    resetForNewHand();
+  }
+  updateUI();
+}
+
+function resetForNewHand(){
+  phase = 'bet';
+  document.getElementById('dealBtn').textContent = 'DEAL';
+  document.getElementById('dealBtn').classList.remove('draw-mode');
+  document.getElementById('dealBtn').disabled = false;
+  document.getElementById('doubleArea').classList.remove('show');
+  if(credits < 1) credits = 1000; // Refill
+}
+
+// ===== DOUBLE UP =====
+function doubleUp(guessRed){
+  var card = {rank:RANKS[Math.floor(Math.random()*13)], suit:SUITS[Math.floor(Math.random()*4)]};
+  var cardIsRed = isRed(card);
+  var won = (guessRed && cardIsRed) || (!guessRed && !cardIsRed);
+  
+  if(won){
+    lastWin *= 2;
+    document.getElementById('winDisplay').textContent = fmtBet(lastWin);
+    showMsg('DOUBLED! ' + card.rank + card.suit + ' +' + fmtBet(lastWin), 'win');
+    SFX.win();
+    spawnCoins(8);
+    // Can double again
+  } else {
+    showMsg('Lost! ' + card.rank + card.suit + ' was ' + (cardIsRed?'Red':'Black'), 'lose');
+    SFX.lose();
+    lastWin = 0;
+    document.getElementById('winDisplay').textContent = '0';
+    collectWin();
+  }
+}
+
+function collectWin(){
+  credits += lastWin;
+  lastWin = 0;
+  updateUI();
+  resetForNewHand();
+}
+
+// ===== UTILITIES =====
+function hideWin(){ var e=document.getElementById('wTxt'); e.className=''; e.textContent=''; }
+function showMsg(text,type){ var e=document.getElementById('wTxt'); e.className=''; setTimeout(function(){ e.textContent=text; e.className='active '+type; },50); }
+function spawnCoins(n){ var l=document.getElementById('fxL'); for(var i=0;i<n;i++){ var c=document.createElement('div'); c.className='coin'; c.style.left=(10+Math.random()*80)+'%'; c.style.setProperty('--dur',(1.5+Math.random()*1.5)+'s'); c.style.animationDelay=(Math.random()*.5)+'s'; var sz=6+Math.random()*6; c.style.width=sz+'px'; c.style.height=sz+'px'; l.appendChild(c); setTimeout((function(el){return function(){el.remove();};})(c),3500); } }
+
+// ===== EVENTS =====
+document.getElementById('dealBtn').addEventListener('click', deal);
+document.getElementById('dblRed').addEventListener('click', function(){ doubleUp(true); });
+document.getElementById('dblBlack').addEventListener('click', function(){ doubleUp(false); });
+document.getElementById('dblCollect').addEventListener('click', collectWin);
+document.getElementById('maxBtn').addEventListener('click', function(){ bet=5; updateBetButtons(); updateUI(); });
+
+// Coin buttons
+document.querySelectorAll('.coin-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    if(phase!=='bet') return;
+    bet = parseInt(btn.dataset.coins);
+    updateBetButtons();
+    updateUI();
+    SFX.coin();
+  });
+});
+
+function updateBetButtons(){
+  document.querySelectorAll('.coin-btn').forEach(function(b){
+    b.classList.toggle('active', parseInt(b.dataset.coins)===bet);
+  });
+}
+
+document.addEventListener('keydown', function(e){
+  if(e.code==='Space'){ e.preventDefault(); deal(); }
+  if(e.key>='1'&&e.key<='5' && phase==='hold'){ toggleHold(parseInt(e.key)-1); }
+});
+
+// ===== INIT =====
+renderCards();
+updateUI();
+buildPaytable();
+// Show 5 face-down cards initially
+hand = [{rank:'?',suit:''},{rank:'?',suit:''},{rank:'?',suit:''},{rank:'?',suit:''},{rank:'?',suit:''}];
+renderCards();
+})();
+</script>
+</body>
+</html>
