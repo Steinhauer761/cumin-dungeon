@@ -30,6 +30,10 @@
 .nav{position:sticky;top:0;z-index:10;background:rgba(7,5,4,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
 .navin{height:60px;display:flex;align-items:center;justify-content:space-between}
 .brand{font:700 1.15rem var(--serif)}.brand strong{color:var(--gold)}
+.nav-links{display:flex;gap:10px;align-items:center}
+.nav-link{padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--cream);font-size:.65rem;font-weight:700;transition:border-color .15s}
+.nav-link:hover{border-color:var(--gold)}
+.nav-link.casino{border-color:rgba(213,154,75,.3);color:var(--gold2)}
 .exit{padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--cream);font-size:.68rem;cursor:pointer}
 .hero{text-align:center;padding:54px 0 28px}
 .hero h2{font:700 clamp(2.4rem,7vw,4.5rem)/1 var(--serif);margin:8px 0}
@@ -73,15 +77,18 @@
   </div>
 </section>
 <div class="venue" id="venue">
-<header class="nav"><div class="shell navin"><div class="brand">Cum <strong>IN</strong> Dungeon</div><button class="exit" id="exit">Exit</button></div></header>
+<header class="nav"><div class="shell navin"><div class="brand">Cum <strong>IN</strong> Dungeon</div><div class="nav-links"><a href="/casino.html" class="nav-link casino">♦ Casino</a><a href="/hall.html" class="nav-link">Grand Hall</a><button class="exit" id="exit">Exit</button></div></div></header>
 <main class="shell">
-  <section class="hero"><div class="eyebrow">The Grand Hall</div><h2>Choose your entrance</h2><p>The rooms are back. Pick a door and step inside.</p></section>
+  <section class="hero"><div class="eyebrow">The Venue</div><h2>Choose your entrance</h2><p>Pick a room, hit the Grand Hall, or try your luck at the Casino.</p></section>
   <a class="hall" href="/hall.html"><img src="/PosterMyWall_GeneratedImage_9f01a225~2.jpg" alt="The Grand Hall"><div class="hallcopy"><h3>The Grand Hall</h3><p>Social games, chat, tokens and the casino.</p></div></a>
   <p class="label">Choose a room</p>
   <div class="grid" id="rooms"><div class="loading">Loading rooms...</div></div>
-  <div class="foot">&copy; 2026 Cum IN Dungeon · 18+ only · Prototype</div>
+  <div class="foot">&copy; 2026 Cum IN Dungeon · 18+ only</div>
 </main>
 </div>
+<script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
+<script src="/public/js/chat.js"></script>
+<script src="/public/js/chat-panel.js"></script>
 <script src="/public/js/transitions.js"></script>
 <script>
 const age=document.getElementById('age'),rules=document.getElementById('rules'),enter=document.getElementById('enter'),gate=document.getElementById('gate'),venue=document.getElementById('venue');
