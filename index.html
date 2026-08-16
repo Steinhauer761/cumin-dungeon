@@ -60,7 +60,7 @@
 </head>
 <body>
 <section class="gate" id="gate">
-  <div class="gate-bg"><img src="/public/assets/art/PosterMyWall_GeneratedImage_222b2ae7.png" alt=""></div>
+  <div class="gate-bg"><img src="/PosterMyWall_GeneratedImage_222b2ae7~2.jpg" alt=""></div>
   <div class="gate-card">
     <div class="eyebrow">Private digital venue · 18+ only</div>
     <h1>Cum <strong>IN</strong> Dungeon</h1>
@@ -76,7 +76,7 @@
 <header class="nav"><div class="shell navin"><div class="brand">Cum <strong>IN</strong> Dungeon</div><button class="exit" id="exit">Exit</button></div></header>
 <main class="shell">
   <section class="hero"><div class="eyebrow">The Grand Hall</div><h2>Choose your entrance</h2><p>The rooms are back. Pick a door and step inside.</p></section>
-  <a class="hall" href="/hall.html" data-from="lobby" data-to="hall"><img src="/public/assets/art/PosterMyWall_GeneratedImage_799c3f21.png" alt="The Grand Hall"><div class="hallcopy"><h3>The Grand Hall</h3><p>Social games, chat, tokens and the casino.</p></div></a>
+  <a class="hall" href="/hall.html"><img src="/PosterMyWall_GeneratedImage_9f01a225~2.jpg" alt="The Grand Hall"><div class="hallcopy"><h3>The Grand Hall</h3><p>Social games, chat, tokens and the casino.</p></div></a>
   <p class="label">Choose a room</p>
   <div class="grid" id="rooms"><div class="loading">Loading rooms...</div></div>
   <div class="foot">&copy; 2026 Cum IN Dungeon · 18+ only · Prototype</div>
@@ -90,14 +90,14 @@ age.onchange=sync;rules.onchange=sync;
 enter.onclick=()=>{gate.style.display='none';venue.classList.add('active');loadRooms()};
 document.getElementById('exit').onclick=()=>{venue.classList.remove('active');gate.style.display='grid'};
 const art={
-  'velvet-room':'/public/assets/art/b3239591-8c30-4dae-b261-7c42ab8022f1.png',
-  'tangled-throne':'/public/assets/art/cd1f1eae-f7ce-4c72-85b1-457d8bf4f3c1.png',
-  'pink-silk':'/public/assets/art/d8541cfb-406f-46c1-8ec3-39af3b570035.png',
-  'devils-playground':'/public/assets/art/e6c0d2d7-f4e2-40bb-b34c-13b84d7b7fe1.png',
-  'back-room':'/public/assets/art/f7ce0ef5-b1c5-4ea5-8488-d5bb36035de3.png',
-  'the-dungeon':'/public/assets/art/file_00000000b6c081fdaa791db34c771c9e.png',
-  'haleys-halo':'/public/assets/art/generated-image-8ca9f7c9-47b9-4a01-a1ce-e7f69104e45c.png',
-  'trans-kinks':'/public/assets/art/generated-image-ea3dbc19-54ae-4ef1-b68a-78cb3f9b8250.png'
+  'velvet-room':'/0d1aa119-4cf4-4e20-95ce-0128d6a214c0.png',
+  'tangled-throne':'/3af61642-13f2-481f-b7d3-2b2dc3fbd6bb.png',
+  'pink-silk':'/96cef52b-2d51-485b-addc-afeac1029c2d.png',
+  'devils-playground':'/e3bb1bca-1222-41a3-8242-b4d31028d9b2.png',
+  'back-room':'/f948783e-838e-4125-b532-86f6c0056aad.png',
+  'the-dungeon':'/7a1332f7-9c1a-4ed3-9f66-1805d93a7e2c.png',
+  'haleys-halo':'/e23d1ac1-44bf-4955-a4e1-c7ed76e96a26.png',
+  'trans-kinks':'/f2dbed22-2b86-429d-a9d1-80fa97e3e40d.png'
 };
 async function loadRooms(){
   const grid=document.getElementById('rooms');
@@ -112,8 +112,7 @@ async function loadRooms(){
       const a=document.createElement('a');
       a.className='room';
       a.href='/room.html?id='+encodeURIComponent(room.id);
-      a.dataset.from='lobby';a.dataset.to='room';
-      a.innerHTML=`<img src="${art[room.id]||'/public/assets/art/PosterMyWall_GeneratedImage_799c3f21.png'}" alt="${room.name}"><div class="roombody"><div class="roomtop"><h3>${room.name}</h3><span class="live">${room.status}</span></div><p>${room.description}</p><span class="viewers">● ${room.viewers} watching</span></div>`;
+      a.innerHTML=`<img src="${art[room.id]||'/PosterMyWall_GeneratedImage_9f01a225~2.jpg'}" alt="${room.name}"><div class="roombody"><div class="roomtop"><h3>${room.name}</h3><span class="live">${room.status}</span></div><p>${room.description}</p><span class="viewers">● ${room.viewers} watching</span></div>`;
       grid.appendChild(a);
     });
   }catch(e){
