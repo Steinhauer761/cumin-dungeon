@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Performer Dashboard | CumIN Dungeon</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --bg: #0a0604; --surface: #110d0a; --surface2: #1a1410; --gold: #d59a4b; --gold-light: #f5c77e; --red: #e63946; --green: #27ae60; --cream: #f5eee4; --muted: #a6998b; --line: rgba(190,137,77,0.18); --serif: 'Cormorant Garamond', Georgia, serif; --sans: 'Inter', system-ui, sans-serif; }
+* { box-sizing: border-box; margin: 0; }
+body { background: var(--bg); color: var(--cream); font-family: var(--sans); font-size: 14px; line-height: 1.6; min-height: 100vh; }
+button { font: inherit; color: inherit; cursor: pointer; border: none; background: none; }
+a { color: var(--gold); text-decoration: none; }
+
+.dashboard { max-width: 800px; margin: 0 auto; padding: 32px 20px 80px; }
+.dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; flex-wrap: wrap; gap: 12px; }
+.dash-header h1 { font-family: var(--serif); font-style: italic; font-size: 1.5rem; font-weight: 600; }
+.header-actions { display: flex; gap: 10px; }
+.btn { padding: 10px 18px; border-radius: 8px; font-size: 0.72rem; font-weight: 700; transition: all 0.15s; }
+.btn-gold { background: linear-gradient(135deg, var(--gold), #b8802e); color: var(--bg); box-shadow: 0 2px 12px rgba(213,154,75,0.2); }
+.btn-gold:hover { box-shadow: 0 4px 20px rgba(213,154,75,0.35); transform: translateY(-1px); }
+.btn-outline { border: 1px solid var(--line); color: var(--cream); }
+.btn-outline:hover { border-color: var(--gold); color: var(--gold-light); }
+.btn-red { background: linear-gradient(135deg, #8b1a24, #c0392b); color: white; }
+
+.stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 32px; }
+.stat-card { padding: 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); text-align: center; }
+.stat-card .val { font-size: 1.4rem; font-weight: 800; color: var(--gold-light); display: block; }
+.stat-card .label { font-size: 0.6rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; display: block; }
+
+.section { margin-bottom: 32px; padding: 24px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.section h2 { font-family: var(--serif); font-style: italic; font-size: 1.1rem; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.section p { font-size: 0.75rem; color: var(--muted); margin-bottom: 12px; }
+
+.status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.status-dot.online { background: var(--green); box-shadow: 0 0 6px rgba(39,174,96,0.5); }
+.status-dot.offline { background: var(--muted); }
+
+.toy-list { margin: 12px 0; }
+.toy-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; margin-bottom: 8px; background: var(--surface2); }
+.toy-info { display: flex; align-items: center; gap: 10px; }
+.toy-icon { font-size: 1.2rem; }
+.toy-name { font-size: 0.75rem; font-weight: 600; }
+.toy-type { font-size: 0.6rem; color: var(--muted); }
+.toy-status { font-size: 0.6rem; font-weight: 700; padding: 4px 8px; border-radius: 4px; }
+.toy-status.connected { background: rgba(39,174,96,0.15); color: var(--green); }
+.toy-status.disconnected { background: rgba(166,153,139,0.15); color: var(--muted); }
+
+.qr-area { text-align: center; padding: 24px; border: 2px dashed var(--line); border-radius: 10px; margin: 12px 0; }
+.qr-area img { max-width: 200px; border-radius: 8px; margin-bottom: 12px; }
+.qr-area .instructions { font-size: 0.68rem; color: var(--muted); }
+
+.settings-iframe-wrap { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin-top: 12px; }
+.settings-iframe-wrap iframe { width: 100%; height: 600px; border: none; background: var(--surface2); }
+
+.stream-setup { margin-top: 12px; }
+.stream-field { margin-bottom: 12px; }
+.stream-field label { display: block; font-size: 0.65rem; font-weight: 600; color: var(--muted); text-transform: uppercase; margin-bottom: 4px; }
+.stream-field .copyable { display: flex; gap: 8px; }
+.stream-field input { flex: 1; padding: 10px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--cream); font-family: monospace; font-size: 0.7rem; }
+.stream-field .copy-btn { padding: 10px 14px; border-radius: 6px; background: var(--surface2); border: 1px solid var(--line); font-size: 0.65rem; font-weight: 700; color: var(--cream); white-space: nowrap; }
+.stream-field .copy-btn:hover { border-color: var(--gold); color: var(--gold-light); }
+
+.go-live-section { text-align: center; padding: 20px 0; }
+.go-live-btn { padding: 16px 48px; border-radius: 12px; font-size: 1rem; font-weight: 800; }
+
+.tab-nav { display: flex; gap: 4px; margin-bottom: 24px; border-bottom: 1px solid var(--line); padding-bottom: 0; }
+.tab-btn { padding: 10px 16px; font-size: 0.72rem; font-weight: 600; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.15s; }
+.tab-btn:hover { color: var(--cream); }
+.tab-btn.active { color: var(--gold-light); border-bottom-color: var(--gold); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+@media (max-width: 600px) {
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+<div class="dashboard">
+  <div class="dash-header">
+    <h1>✨ Performer Dashboard</h1>
+    <div class="header-actions">
+      <a href="/" class="btn btn-outline">Back to Venue</a>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card"><span class="val" id="stat-earnings">0</span><span class="label">Tokens Earned (today)</span></div>
+    <div class="stat-card"><span class="val" id="stat-tips">0</span><span class="label">Tips Received</span></div>
+    <div class="stat-card"><span class="val" id="stat-viewers">0</span><span class="label">Peak Viewers</span></div>
+    <div class="stat-card"><span class="val" id="stat-hours">0h</span><span class="label">Stream Time</span></div>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" data-tab="stream">Go Live</button>
+    <button class="tab-btn" data-tab="lovense">Lovense Toys</button>
+    <button class="tab-btn" data-tab="settings">Settings</button>
+  </div>
+
+  <!-- GO LIVE TAB -->
+  <div class="tab-panel active" id="tab-stream">
+    <div class="section">
+      <h2>📡 Stream Setup</h2>
+      <p>Point OBS (or any RTMP encoder) at this server. When your stream is active, members in your room see it live.</p>
+      
+      <div class="stream-setup">
+        <div class="stream-field">
+          <label>RTMP Server URL</label>
+          <div class="copyable">
+            <input type="text" id="rtmp-url" value="rtmp://live.cumindungeon.com/live" readonly>
+            <button class="copy-btn" onclick="copyField('rtmp-url')">Copy</button>
+          </div>
+        </div>
+        <div class="stream-field">
+          <label>Stream Key</label>
+          <div class="copyable">
+            <input type="text" id="stream-key" value="Loading..." readonly>
+            <button class="copy-btn" onclick="copyField('stream-key')">Copy</button>
+          </div>
+          <p style="margin-top:6px;font-size:0.6rem;color:var(--red)">Never share your stream key. Anyone with it can broadcast to your room.</p>
+        </div>
+      </div>
+
+      <div class="go-live-section">
+        <button class="btn btn-red go-live-btn" id="go-live-btn">🔴 Go Live</button>
+        <p style="margin-top:8px;font-size:0.62rem;color:var(--muted)">Press once OBS is streaming. This makes you visible in the venue.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>🎯 Room Assignment</h2>
+      <p>Which room should members find you in?</p>
+      <div class="stream-field">
+        <label>Your Room</label>
+        <select id="room-select" style="width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--cream);font-size:0.75rem">
+          <option value="velvet-room">Velvet Room</option>
+          <option value="tangled-throne">Tangled Throne</option>
+          <option value="pink-silk">Pink Silk (18-21)</option>
+          <option value="devils-playground">Devil's Playground</option>
+          <option value="back-room">Back Room</option>
+          <option value="haleys-halo">Haley's Halo</option>
+          <option value="trans-kinks">Trans Kinks</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOVENSE TAB -->
+  <div class="tab-panel" id="tab-lovense">
+    <div class="section">
+      <h2><span class="status-dot offline" id="toy-status-dot"></span> Lovense Connection</h2>
+      <p>Connect your Lovense toys so tips trigger vibrations automatically. Members tip, you feel it instantly.</p>
+
+      <div class="toy-list" id="toy-list">
+        <p style="text-align:center;padding:16px;font-size:0.7rem;color:var(--muted)">No toys connected yet</p>
+      </div>
+
+      <div class="qr-area" id="qr-area">
+        <div id="qr-loading">
+          <span class="icon" style="font-size:2rem;display:block;margin-bottom:8px">📱</span>
+          <button class="btn btn-gold" id="connect-toy-btn">Connect Lovense Toy</button>
+          <p class="instructions" style="margin-top:12px">
+            1. Open the <strong>Lovense Connect</strong> app on your phone<br>
+            2. Make sure your toy is paired in the app<br>
+            3. Click the button above to generate a QR code<br>
+            4. Scan the QR code with Lovense Connect
+          </p>
+        </div>
+        <div id="qr-display" style="display:none">
+          <img id="qr-image" src="" alt="QR Code">
+          <p class="instructions">Scan this with the Lovense Connect app on your phone.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>⚙️ Vibration Settings</h2>
+      <p>Configure how your toys respond to different tip amounts. Set your own levels, patterns, and special commands.</p>
+      <div class="settings-iframe-wrap" id="lovense-settings-wrap" style="display:none">
+        <iframe id="lovense-settings-iframe" src="about:blank"></iframe>
+      </div>
+      <div id="settings-placeholder" style="text-align:center;padding:24px">
+        <p style="font-size:0.72rem;color:var(--muted)">Connect a toy first to access vibration settings.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS TAB -->
+  <div class="tab-panel" id="tab-settings">
+    <div class="section">
+      <h2>👤 Profile</h2>
+      <div class="stream-field">
+        <label>Stage Name</label>
+        <input type="text" id="stage-name" value="" placeholder="Your performer name" style="width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--cream);font-size:0.75rem">
+      </div>
+      <div class="stream-field">
+        <label>Bio / Tagline</label>
+        <input type="text" id="bio" value="" placeholder="A short line members see in the room" maxlength="120" style="width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--cream);font-size:0.75rem">
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>💎 VIP Private Shows</h2>
+      <p>Set your rate for 1-on-1 private sessions. VIP members can request you anytime you're live.</p>
+      <div class="stream-field">
+        <label>Rate (tokens per minute)</label>
+        <input type="number" id="vip-rate" value="5" min="1" max="100" style="width:120px;padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--cream);font-size:0.75rem">
+        <p style="margin-top:4px;font-size:0.6rem;color:var(--muted)">You keep 75% of private show earnings.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>💰 Payouts</h2>
+      <p>Payouts are processed weekly. Minimum $50 balance to withdraw.</p>
+      <div class="stat-card" style="margin:12px 0;text-align:left;display:flex;justify-content:space-between;align-items:center">
+        <div><span class="label">Available Balance</span><span class="val" style="font-size:1.1rem">$0.00</span></div>
+        <button class="btn btn-outline" disabled>Request Payout</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Tab navigation
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabPanels = document.querySelectorAll('.tab-panel');
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    tabBtns.forEach(b => b.classList.remove('active'));
+    tabPanels.forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// Copy to clipboard
+function copyField(id) {
+  const input = document.getElementById(id);
+  navigator.clipboard.writeText(input.value).then(() => {
+    const btn = input.parentElement.querySelector('.copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+  });
+}
+
+// Generate stream key (unique per performer session)
+const performerId = localStorage.getItem('performer_id') || 'demo_' + Math.random().toString(36).slice(2, 10);
+localStorage.setItem('performer_id', performerId);
+document.getElementById('stream-key').value = performerId + '_' + Date.now().toString(36);
+
+// Lovense toy connection
+const connectBtn = document.getElementById('connect-toy-btn');
+connectBtn.addEventListener('click', async () => {
+  connectBtn.textContent = 'Generating QR...';
+  connectBtn.disabled = true;
+
+  try {
+    // Generate mToken for this performer if we don't have one
+    let mToken = localStorage.getItem('lovense_mtoken');
+    
+    if (!mToken) {
+      const stageName = localStorage.getItem('stage_name') || 'Performer';
+      const tokenResp = await fetch('/api/lovense/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ modelId: performerId, modelName: stageName }),
+      });
+      const tokenData = await tokenResp.json();
+      if (tokenData.data && tokenData.data.mToken) {
+        mToken = tokenData.data.mToken;
+        localStorage.setItem('lovense_mtoken', mToken);
+      } else {
+        throw new Error(tokenData.error || 'Failed to get Lovense token');
+      }
+    }
+
+    // Show Lovense settings iframe
+    document.getElementById('lovense-settings-iframe').src = 
+      'https://api.lovense.com/api/cam/model/v2/setting?mToken=' + mToken;
+    document.getElementById('lovense-settings-wrap').style.display = 'block';
+    document.getElementById('settings-placeholder').style.display = 'none';
+
+    // Show QR connect instructions
+    document.getElementById('qr-loading').innerHTML = `
+      <span style="font-size:2rem;display:block;margin-bottom:8px">✅</span>
+      <p class="instructions" style="font-size:0.72rem;color:var(--gold-light);font-weight:600">Lovense Ready</p>
+      <p class="instructions" style="margin-top:8px">
+        Open <strong>Lovense Connect</strong> on your phone, go to<br>
+        <strong>Discover → Cam Model → test:CumIN Dungeon</strong><br>
+        and enable the connection. Tips will trigger your toy automatically.
+      </p>
+    `;
+
+    // Update status
+    document.getElementById('toy-status-dot').classList.remove('offline');
+    document.getElementById('toy-status-dot').classList.add('online');
+
+  } catch (err) {
+    connectBtn.textContent = 'Connection Failed - Try Again';
+    connectBtn.disabled = false;
+    console.error('[Lovense]', err);
+  }
+});
+
+// Go live button
+const goLiveBtn = document.getElementById('go-live-btn');
+let isLive = false;
+goLiveBtn.addEventListener('click', () => {
+  isLive = !isLive;
+  if (isLive) {
+    goLiveBtn.textContent = '⏹ End Stream';
+    goLiveBtn.style.background = 'linear-gradient(135deg, #333, #555)';
+    // TODO: POST to /api/rooms/:id/sessions to register as live
+  } else {
+    goLiveBtn.textContent = '🔴 Go Live';
+    goLiveBtn.style.background = '';
+  }
+});
+
+// Load Lovense client module
+const lovenseScript = document.createElement('script');
+lovenseScript.src = '/js/lovense.js';
+document.head.appendChild(lovenseScript);
+</script>
+</body>
+</html>
