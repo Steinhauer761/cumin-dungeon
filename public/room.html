@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Room | Cum IN Dungeon</title>
+<title>Room | CumIN Dungeon</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
 :root { --bg: #0a0604; --surface: #110d0a; --gold: #d59a4b; --gold-light: #f5c77e; --red: #e63946; --cream: #f5eee4; --muted: #a6998b; --line: rgba(190,137,77,0.18); --serif: 'Cormorant Garamond', Georgia, serif; --sans: 'Inter', system-ui, sans-serif; }
@@ -89,11 +89,12 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
   <div class="gift-grid" id="gift-grid"></div>
 </div>
 
-<!-- HLS Player -->
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest/dist/hls.min.js"></script>
-<script src="/js/live-player.js"></script>
+<!-- Mux Player (handles HLS, autoplay, Chromecast, controls) -->
+<script src="https://cdn.jsdelivr.net/npm/@mux/mux-player@latest"></script>
+<!-- Chromecast support -->
+<script defer src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
 
-<!-- Chat -->
+<script src="/js/live-player.js"></script>
 <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
 <script src="/js/chat.js"></script>
 <script src="/js/lovense.js"></script>
@@ -103,6 +104,8 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
 const params = new URLSearchParams(window.location.search);
 const roomId = params.get('id') || 'velvet-room';
 const guestId = localStorage.getItem('admin_key') && localStorage.getItem('ghost_mode') === 'true' ? (localStorage.getItem('ghost_alias') || 'Elias') : 'Guest_' + Math.random().toString(36).slice(2,7);
+window._guestId = guestId;
+
 const ROOM_ART = {
   'velvet-room': '/assets/art/b3239591-8c30-4dae-b261-7c42ab8022f1.png',
   'tangled-throne': '/assets/art/cd1f1eae-f7ce-4c72-85b1-457d8bf4f3c1.png',
@@ -124,7 +127,7 @@ fetch('/api/rooms/' + roomId).then(r => r.json()).then(room => {
   document.title = room.name + ' | CumIN Dungeon';
 });
 
-// Initialize live video player
+// Initialize live video player (Mux Player)
 DungeonPlayer.init(roomId, document.getElementById('video-area'));
 
 // Gifts
@@ -134,17 +137,16 @@ fetch('/api/tokens/redeem').then(r => r.json()).then(data => {
     const item = document.createElement('div'); item.className = 'gift-item';
     item.innerHTML = `<span class="emoji">${gift.emoji}</span><span class="name">${gift.name}</span><span class="cost">${gift.cost} tokens</span>`;
     item.onclick = () => {
-      // Send tip and trigger Lovense
       fetch('/api/tokens/redeem', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: 'gift', giftId: gift.id, recipientId: roomId, tipperName: guestId }),
       }).then(r => r.json()).then(res => {
         if (res.sent) {
-          // Show gift animation in chat
           const div = document.createElement('div'); div.className = 'chat-msg';
           div.innerHTML = `<span class="avatar">${gift.emoji}</span><p><strong>${guestId}</strong> sent ${gift.emoji} ${gift.name}!</p>`;
           document.getElementById('chat-messages').appendChild(div);
+          document.getElementById('gift-tray').classList.remove('open');
         } else {
           alert(res.error || 'Not enough tokens');
         }
