@@ -20,20 +20,18 @@ const GIFTS = [
  * Trigger Lovense toy via server API after a successful tip.
  * Non-blocking: we fire-and-forget so tips aren't delayed by toy latency.
  */
-async function triggerLovenseToy(recipientId: string, tipperName: string, amount: number): Promise<void> {
+async function triggerLovenseToy(recipientId: string, _tipperName: string, amount: number): Promise<void> {
   const token = process.env.LOVENSE_DEV_TOKEN;
-  if (!token) return; // Lovense not configured, skip silently
+  if (!token) return;
 
   // Look up performer's Lovense UID from Supabase
-  const { data: performer } = await supabase
+  const { data: rows } = await supabase
     .from('performers')
-    .select('lovense_uid')
-    .eq('user_id', recipientId)
-    .single();
+    .select('lovense_uid', `user_id=eq.${recipientId}`);
 
-  if (!performer?.lovense_uid) return; // Performer hasn't connected a toy
+  const performer = Array.isArray(rows) && rows.length > 0 ? rows[0] : null;
+  if (!performer?.lovense_uid) return;
 
-  // Scale vibration: 1 token = level 1, 100+ tokens = level 20
   const strength = Math.min(20, Math.max(1, Math.ceil(amount / 5)));
   const duration = Math.min(30, Math.max(3, Math.ceil(amount / 3)));
 
