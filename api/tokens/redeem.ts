@@ -26,7 +26,7 @@ async function triggerLovenseToy(recipientId: string, _tipperName: string, amoun
 
   // Look up performer's Lovense UID from Supabase
   const { data: rows } = await supabase
-    .from('performers')
+    .from('performer_profiles')
     .select('lovense_uid', `user_id=eq.${recipientId}`);
 
   const performer = Array.isArray(rows) && rows.length > 0 ? rows[0] : null;
