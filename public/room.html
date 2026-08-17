@@ -89,11 +89,8 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
   <div class="gift-grid" id="gift-grid"></div>
 </div>
 
-<!-- Mux Player (handles HLS, autoplay, Chromecast, controls) -->
 <script src="https://cdn.jsdelivr.net/npm/@mux/mux-player@latest"></script>
-<!-- Chromecast support -->
-<script defer src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
-
+<script src="/js/room-art-map.js"></script>
 <script src="/js/live-player.js"></script>
 <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
 <script src="/js/chat.js"></script>
@@ -106,19 +103,9 @@ const roomId = params.get('id') || 'velvet-room';
 const guestId = localStorage.getItem('admin_key') && localStorage.getItem('ghost_mode') === 'true' ? (localStorage.getItem('ghost_alias') || 'Elias') : 'Guest_' + Math.random().toString(36).slice(2,7);
 window._guestId = guestId;
 
-const ROOM_ART = {
-  'velvet-room': '/assets/art/b3239591-8c30-4dae-b261-7c42ab8022f1.png',
-  'tangled-throne': '/assets/art/cd1f1eae-f7ce-4c72-85b1-457d8bf4f3c1.png',
-  'pink-silk': '/assets/art/d8541cfb-406f-46c1-8ec3-39af3b570035.png',
-  'devils-playground': '/assets/art/e6c0d2d7-f4e2-40bb-b34c-13b84d7b7fe1.png',
-  'back-room': '/assets/art/f7ce0ef5-b1c5-4ea5-8488-d5bb36035de3.png',
-  'the-dungeon': '/assets/art/file_00000000b6c081fdaa791db34c771c9e.png',
-  'haleys-halo': '/assets/art/generated-image-8ca9f7c9-47b9-4a01-a1ce-e7f69104e45c.png',
-  'trans-kinks': '/assets/art/generated-image-ea3dbc19-54ae-4ef1-b68a-78cb3f9b8250.png'
-};
-document.getElementById('room-bg').src = ROOM_ART[roomId] || '/assets/art/PosterMyWall_GeneratedImage_799c3f21.png';
+// Use the central art map
+document.getElementById('room-bg').src = window.ROOM_ART[roomId] || '/assets/art/PosterMyWall_GeneratedImage_799c3f21.png';
 
-// Load room info
 fetch('/api/rooms/' + roomId).then(r => r.json()).then(room => {
   if (room.error) { document.getElementById('room-title').textContent = 'Room not found'; return; }
   document.getElementById('room-title').textContent = room.name;
@@ -127,10 +114,8 @@ fetch('/api/rooms/' + roomId).then(r => r.json()).then(room => {
   document.title = room.name + ' | CumIN Dungeon';
 });
 
-// Initialize live video player (Mux Player)
 DungeonPlayer.init(roomId, document.getElementById('video-area'));
 
-// Gifts
 fetch('/api/tokens/redeem').then(r => r.json()).then(data => {
   const grid = document.getElementById('gift-grid');
   data.gifts.forEach(gift => {
@@ -161,7 +146,6 @@ document.getElementById('close-tray').onclick = () => document.getElementById('g
 document.getElementById('chat-handle').onclick = () => document.getElementById('chat-drawer').classList.toggle('open');
 document.getElementById('vip-btn').onclick = () => { window.location.href = '/private-show.html?performer=' + encodeURIComponent(document.getElementById('room-title').textContent) + '&rate=5'; };
 
-// Chat init
 if (window.DungeonChat && window.Ably) { DungeonChat.init(roomId, guestId, document.getElementById('chat-messages'), document.getElementById('viewer-count')); }
 document.getElementById('chat-form').onsubmit = (e) => { e.preventDefault(); const input = document.getElementById('chat-input'); const msg = input.value.trim(); if (!msg) return; if (window.DungeonChat && DungeonChat.channel) DungeonChat.send(msg); else { const div = document.createElement('div'); div.className = 'chat-msg'; div.innerHTML = `<span class="avatar">${guestId[0].toUpperCase()}</span><p><strong>${guestId}:</strong> ${msg}</p>`; document.getElementById('chat-messages').appendChild(div); } input.value = ''; };
 </script>
