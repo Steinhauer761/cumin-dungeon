@@ -2,28 +2,30 @@
 (function(){
   'use strict';
 
-  // Room-specific transition videos (using actual uploaded filenames)
+  var BASE = '/public/assets/art/';
+
   var ROOM_VIDEOS = {
-    'velvet-room':       '/assets/art/Velvet Room~2.mp4',
-    'tangled-throne':    '/assets/art/Tangled Throne.mp4',
-    'pink-silk':         '/assets/art/Pink Silk.mp4',
-    'devils-playground': '/assets/art/05-devils-playground~2.mp4',
-    'back-room':         '/assets/art/06-back-room~2.mp4',
-    'the-dungeon':       '/assets/art/07-the-dungeon-vip~2.mp4',
-    'haleys-halo':       "/assets/art/Haley's Halo.mp4",
-    'trans-kinks':       '/assets/art/09-trans-kinks~2.mp4'
+    'velvet-room':       BASE + 'Velvet Room~2.mp4',
+    'tangled-throne':    BASE + 'Tangled Throne.mp4',
+    'pink-silk':         BASE + 'Pink Silk.mp4',
+    'devils-playground': BASE + '05-devils-playground~2.mp4',
+    'back-room':         BASE + '06-back-room~2.mp4',
+    'the-dungeon':       BASE + '07-the-dungeon-vip~2.mp4',
+    'haleys-halo':       BASE + "Haley's Halo.mp4",
+    'trans-kinks':       BASE + '09-trans-kinks~2.mp4'
   };
 
-  // Named transitions
   var NAMED = {
-    'lobby-hall':  '/assets/art/Hallway Transition 1-3-3.mp4',
-    'hall-casino': '/assets/art/hall-casino-sequence.mp4',
-    'hall-lobby':  '/assets/art/Hallway Transition 2-3-2.mp4'
+    'lobby-hall':  BASE + 'Hallway Transition 1-3-3.mp4',
+    'hall-casino': BASE + 'hall-casino-sequence.mp4',
+    'lobby-casino': BASE + 'hall-casino-sequence.mp4',
+    'room-casino': BASE + 'hall-casino-sequence.mp4',
+    'hall-lobby':  BASE + 'Hallway Transition 2-3-2.mp4'
   };
 
-  var GENERIC = '/assets/art/Hallway Transition 3-3-1.mp4';
+  var CASINO_TRANSITION = BASE + 'hall-casino-sequence.mp4';
+  var GENERIC = BASE + 'Hallway Transition 3-3-1.mp4';
 
-  // Build overlay
   var overlay = document.createElement('div');
   overlay.id = 'dt-overlay';
   overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:#070403;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s ease-out';
@@ -31,6 +33,7 @@
   var video = document.createElement('video');
   video.muted = true;
   video.playsInline = true;
+  video.preload = 'auto';
   video.style.cssText = 'width:100%;height:100%;object-fit:cover;position:absolute;inset:0';
   overlay.appendChild(video);
 
@@ -38,51 +41,42 @@
     document.body.appendChild(overlay);
   });
 
-  function fadeIn() {
-    overlay.style.pointerEvents = 'auto';
-    overlay.style.opacity = '1';
-  }
-
-  function navigate(href) {
-    window.location.href = href;
-  }
+  function navigate(href) { window.location.href = href; }
 
   window.DungeonTransition = function(href, from, to, roomId) {
     var src = GENERIC;
-    // Room-specific video
-    if (roomId && ROOM_VIDEOS[roomId]) {
-      src = ROOM_VIDEOS[roomId];
-    }
-    // Named transition (lobby->hall, hall->casino, etc)
-    else if (NAMED[from + '-' + to]) {
-      src = NAMED[from + '-' + to];
-    }
+
+    // Casino entry always gets the dedicated casino transition, no matter where it starts.
+    if (to === 'casino') src = CASINO_TRANSITION;
+    else if (roomId && ROOM_VIDEOS[roomId]) src = ROOM_VIDEOS[roomId];
+    else if (NAMED[from + '-' + to]) src = NAMED[from + '-' + to];
 
     video.src = src;
     video.currentTime = 0;
-    fadeIn();
+    overlay.style.pointerEvents = 'auto';
+    overlay.style.opacity = '1';
 
-    video.play().then(function() {
-      video.onended = function() { navigate(href); };
-      setTimeout(function() { navigate(href); }, 6000);
-    }).catch(function() {
-      setTimeout(function() { navigate(href); }, 500);
+    var fallback = setTimeout(function() { navigate(href); }, 6500);
+    video.onended = function() { clearTimeout(fallback); navigate(href); };
+    video.play().catch(function() {
+      clearTimeout(fallback);
+      setTimeout(function() { navigate(href); }, 350);
     });
   };
 
-  // Auto-attach to data-from/data-to links
   document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('click', function(e) {
       var link = e.target.closest('[data-from][data-to]');
       if (!link) return;
-      e.preventDefault();
       var href = link.getAttribute('href') || link.dataset.href;
+      if (!href) return;
+      e.preventDefault();
       var roomId = null;
-      if (href && href.indexOf('room') !== -1) {
+      if (href.indexOf('room') !== -1) {
         var match = href.match(/[?&]id=([^&]+)/);
         if (match) roomId = decodeURIComponent(match[1]);
       }
-      if (href) DungeonTransition(href, link.dataset.from, link.dataset.to, roomId);
+      DungeonTransition(href, link.dataset.from, link.dataset.to, roomId);
     });
   });
 })();
