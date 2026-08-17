@@ -9,7 +9,6 @@ import { supabase } from '../lib/supabase';
  * If they don't have a stream yet, creates one via /api/stream/create.
  *
  * Body: { roomId: string }
- * Returns existing RTMP credentials or creates new ones.
  */
 export default async function handler(req: Request): Promise<Response> {
   if (req.method !== 'POST') {
@@ -26,18 +25,18 @@ export default async function handler(req: Request): Promise<Response> {
   if (!roomId) return Response.json({ error: 'roomId required' }, { status: 400 });
 
   // Check if performer already has a stream
-  const { data: existing } = await supabase
+  const { data: rows, error } = await supabase
     .from('performer_streams')
-    .select('mux_stream_key, mux_playback_id, mux_stream_id, status')
-    .eq('performer_id', auth.userId)
-    .single();
+    .select('mux_stream_key,mux_playback_id,mux_stream_id,status', `performer_id=eq.${auth.userId}`);
+
+  const existing = Array.isArray(rows) && rows.length > 0 ? rows[0] : null;
 
   if (existing && existing.mux_stream_key) {
     // Update room assignment
-    await supabase
-      .from('performer_streams')
-      .update({ room_id: roomId })
-      .eq('performer_id', auth.userId);
+    await supabase.from('performer_streams').update(
+      { room_id: roomId },
+      `performer_id=eq.${auth.userId}`
+    );
 
     return Response.json({
       rtmpUrl: 'rtmps://global-live.mux.com:443/app',

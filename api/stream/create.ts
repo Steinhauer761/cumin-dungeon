@@ -1,7 +1,7 @@
 export const config = { runtime: 'edge' };
 
-import { requireUser } from '../lib/auth';
 import { supabase } from '../lib/supabase';
+import { requireUser } from '../lib/auth';
 
 declare const process: { env: Record<string, string | undefined> };
 
@@ -44,7 +44,7 @@ export default async function handler(req: Request): Promise<Response> {
       playback_policy: ['public'],
       new_asset_settings: { playback_policy: ['public'] },
       reduced_latency: true,
-      max_continuous_duration: 43200, // 12 hours max
+      max_continuous_duration: 43200,
     }),
   });
 
@@ -57,22 +57,18 @@ export default async function handler(req: Request): Promise<Response> {
   const muxData = await muxResp.json();
   const stream = muxData.data;
 
-  // Store stream info in Supabase
-  const { error: dbError } = await supabase
-    .from('performer_streams')
-    .upsert({
-      performer_id: auth.userId,
-      room_id: roomId,
-      mux_stream_id: stream.id,
-      mux_stream_key: stream.stream_key,
-      mux_playback_id: stream.playback_ids?.[0]?.id || null,
-      status: 'idle',
-      created_at: new Date().toISOString(),
-    }, { onConflict: 'performer_id' });
+  // Delete any existing stream record for this performer, then insert new one
+  await supabase.from('performer_streams').delete(`performer_id=eq.${auth.userId}`);
 
-  if (dbError) {
-    console.error('[DB] Store stream failed:', dbError);
-  }
+  await supabase.from('performer_streams').insert({
+    performer_id: auth.userId,
+    room_id: roomId,
+    mux_stream_id: stream.id,
+    mux_stream_key: stream.stream_key,
+    mux_playback_id: stream.playback_ids?.[0]?.id || null,
+    status: 'idle',
+    created_at: new Date().toISOString(),
+  });
 
   return Response.json({
     rtmpUrl: `rtmps://global-live.mux.com:443/app`,

@@ -5,7 +5,6 @@ import { supabase } from '../lib/supabase';
 /**
  * GET /api/stream/playback?roomId=velvet-room
  * Returns the HLS playback URL for a room's active stream.
- * Viewers call this to get the video URL.
  */
 export default async function handler(req: Request): Promise<Response> {
   if (req.method !== 'GET') {
@@ -17,15 +16,13 @@ export default async function handler(req: Request): Promise<Response> {
   if (!roomId) return Response.json({ error: 'roomId required' }, { status: 400 });
 
   // Look up active stream for this room
-  const { data: stream, error } = await supabase
+  const { data: rows } = await supabase
     .from('performer_streams')
-    .select('mux_playback_id, status, performer_id')
-    .eq('room_id', roomId)
-    .eq('status', 'active')
-    .limit(1)
-    .single();
+    .select('mux_playback_id,status,performer_id', `room_id=eq.${roomId}&status=eq.active`);
 
-  if (error || !stream) {
+  const stream = Array.isArray(rows) && rows.length > 0 ? rows[0] : null;
+
+  if (!stream) {
     return Response.json({ live: false, playbackUrl: null });
   }
 
