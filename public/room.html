@@ -88,7 +88,6 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h3 style="font-family:var(--serif);font-style:italic">Send a Gift</h3><button id="close-tray" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.08);display:grid;place-items:center;font-size:.8rem">✕</button></div>
   <div class="gift-grid" id="gift-grid"></div>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/@mux/mux-player@latest"></script>
 <script src="/js/room-art-map.js"></script>
 <script src="/js/live-player.js"></script>
@@ -103,7 +102,7 @@ const roomId = params.get('id') || 'velvet-room';
 const guestId = localStorage.getItem('admin_key') && localStorage.getItem('ghost_mode') === 'true' ? (localStorage.getItem('ghost_alias') || 'Elias') : 'Guest_' + Math.random().toString(36).slice(2,7);
 window._guestId = guestId;
 
-// Use the central art map
+// Use the art map for room backgrounds
 document.getElementById('room-bg').src = window.ROOM_ART[roomId] || '/assets/art/PosterMyWall_GeneratedImage_799c3f21.png';
 
 fetch('/api/rooms/' + roomId).then(r => r.json()).then(room => {
@@ -132,9 +131,7 @@ fetch('/api/tokens/redeem').then(r => r.json()).then(data => {
           div.innerHTML = `<span class="avatar">${gift.emoji}</span><p><strong>${guestId}</strong> sent ${gift.emoji} ${gift.name}!</p>`;
           document.getElementById('chat-messages').appendChild(div);
           document.getElementById('gift-tray').classList.remove('open');
-        } else {
-          alert(res.error || 'Not enough tokens');
-        }
+        } else { alert(res.error || 'Not enough tokens'); }
       });
     };
     grid.appendChild(item);
