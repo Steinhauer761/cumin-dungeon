@@ -3,49 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kink Wheel | CumIN Dungeon</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+<title>After Dark Wheel | CumIN Dungeon</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
-:root { --bg: #09070c; --surface: #121218; --pink: #FF007F; --purple: #8A2BE2; --green: #39FF14; --gold: #e2b966; --cream: #f5edf6; --muted: #95869f; --line: rgba(255,255,255,0.08); --red: #ff4d7f; --serif: 'Cormorant Garamond', Georgia, serif; --sans: 'Inter', system-ui, sans-serif; }
+:root { --bg: #050304; --surface: #0c0908; --surface-2: #141010; --gold: #d59a4b; --gold-light: #f5c77e; --gold-dim: #8b6230; --cream: #f5eee4; --muted: #7a6e64; --red: #9f2330; --green: #4ade80; --line: rgba(190,137,77,0.18); --serif: 'Cormorant Garamond', Georgia, serif; --sans: 'Inter', system-ui, sans-serif; }
 * { box-sizing: border-box; margin: 0; }
-body { background: radial-gradient(circle at top, rgba(138,43,226,0.14), transparent 30%), var(--bg); color: var(--cream); font-family: var(--sans); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+body { background: var(--bg); color: var(--cream); font-family: var(--sans); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; position: relative; overflow: hidden; }
+body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at 50% 20%, rgba(159,35,48,0.08), transparent 50%), radial-gradient(ellipse at 50% 80%, rgba(213,154,75,0.06), transparent 40%); pointer-events: none; }
 button { font: inherit; color: inherit; cursor: pointer; }
-body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(circle at 50% 25%, rgba(255,0,127,0.08), transparent 28%), radial-gradient(circle at 50% 80%, rgba(138,43,226,0.08), transparent 30%); pointer-events: none; }
-.back-btn { position: fixed; top: 16px; left: 16px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 10px; background: rgba(9,7,12,0.85); font-size: 0.68rem; font-weight: 700; color: var(--cream); text-decoration: none; z-index: 50; }
-.back-btn:hover { border-color: var(--pink); }
-.game-box { width: min(460px, 100%); background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015)); border: 1px solid rgba(255,0,127,0.22); border-radius: 24px; padding: 24px; box-shadow: 0 0 50px rgba(255,0,127,0.08), 0 0 80px rgba(138,43,226,0.08), inset 0 0 30px rgba(0,0,0,0.5); text-align: center; }
-.game-header h1 { font-family: var(--serif); font-size: 1.9rem; font-style: italic; color: var(--cream); }
+.back-btn { position: fixed; top: 16px; left: 16px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 10px; background: rgba(5,3,4,0.9); font-size: 0.68rem; font-weight: 700; color: var(--cream); text-decoration: none; z-index: 50; }
+.back-btn:hover { border-color: var(--gold); }
+.game-box { width: min(460px, 100%); background: linear-gradient(180deg, var(--surface), var(--bg)); border: 1px solid var(--line); border-radius: 24px; padding: 24px; box-shadow: 0 0 60px rgba(159,35,48,0.06), inset 0 0 40px rgba(0,0,0,0.5); text-align: center; }
+.game-header h1 { font-family: var(--serif); font-size: 2rem; font-style: italic; font-weight: 700; color: var(--gold-light); }
 .game-header p { font-size: 0.65rem; color: var(--muted); margin-top: 4px; margin-bottom: 16px; }
-.token-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: rgba(0,0,0,0.32); border-radius: 12px; margin-bottom: 16px; border: 1px solid var(--line); }
-.token-bar .balance { font-size: 1.1rem; font-weight: 800; color: var(--gold); text-shadow: 0 0 10px rgba(255,0,127,0.24), 0 0 20px rgba(138,43,226,0.24); }
-.token-bar .label { font-size: 0.6rem; color: var(--muted); }
+.info-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: rgba(0,0,0,0.3); border-radius: 12px; margin-bottom: 16px; border: 1px solid var(--line); }
+.info-bar .balance { font-size: 1.1rem; font-weight: 800; color: var(--gold-light); font-variant-numeric: tabular-nums; }
+.info-bar .label { font-size: 0.5rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; }
 .wheel-wrapper { position: relative; width: 300px; height: 300px; margin: 0 auto 20px; }
-.wheel-pointer { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 24px solid var(--pink); z-index: 10; filter: drop-shadow(0 2px 10px rgba(255,0,127,0.32)); }
-.wheel-canvas { width: 100%; height: 100%; border-radius: 50%; border: 3px solid rgba(255,0,127,0.28); box-shadow: 0 0 36px rgba(255,0,127,0.12), 0 0 42px rgba(138,43,226,0.12); transition: transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
-.win-display { min-height: 60px; margin: 16px 0; display: flex; align-items: center; justify-content: center; }
-.win-label { font-family: var(--serif); font-size: 1.5rem; font-style: italic; color: var(--cream); animation: fadeIn 0.4s; }
-.win-payout { font-size: 1rem; font-weight: 800; margin-top: 4px; animation: fadeIn 0.4s; }
+.wheel-pointer { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 24px solid var(--red); z-index: 10; filter: drop-shadow(0 2px 12px rgba(159,35,48,0.5)); }
+.wheel-canvas { width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--gold-dim); box-shadow: 0 0 40px rgba(213,154,75,0.1), inset 0 0 20px rgba(0,0,0,0.3); transition: transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
+.win-display { min-height: 70px; margin: 16px 0; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+.win-label { font-family: var(--serif); font-size: 1.4rem; font-style: italic; color: var(--gold-light); animation: fadeIn 0.4s; }
+.win-payout { font-size: 0.9rem; font-weight: 800; margin-top: 4px; animation: fadeIn 0.4s; }
 .win-payout.positive { color: var(--green); }
-.win-payout.negative { color: var(--pink); }
+.win-payout.negative { color: var(--red); }
 .bet-row { display: flex; gap: 8px; justify-content: center; align-items: center; margin-bottom: 16px; }
-.amt-btn { width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(255,0,127,0.3); background: rgba(255,0,127,0.08); font-weight: 800; font-size: 1rem; display: grid; place-items: center; color: var(--pink); }
-.amt-display { font-size: 1.2rem; font-weight: 800; min-width: 40px; text-align: center; color: var(--gold); text-shadow: 0 0 10px rgba(255,0,127,0.24), 0 0 20px rgba(138,43,226,0.24); }
-.spin-btn { display: block; width: 100%; padding: 14px; border: none; border-radius: 12px; background: linear-gradient(135deg, var(--purple), var(--pink)); color: #fff; font-weight: 800; font-size: 0.9rem; box-shadow: 0 0 22px rgba(255,0,127,0.2); transition: transform 0.15s; }
+.amt-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); background: rgba(213,154,75,0.06); font-weight: 800; font-size: 1rem; display: grid; place-items: center; color: var(--gold); transition: all 0.15s; }
+.amt-btn:active { transform: scale(0.9); background: rgba(213,154,75,0.15); }
+.amt-display { font-size: 1.2rem; font-weight: 800; min-width: 50px; text-align: center; color: var(--gold-light); }
+.spin-btn { display: block; width: 100%; padding: 14px; border: none; border-radius: 12px; background: linear-gradient(180deg, var(--gold-light), var(--gold-dim)); color: var(--bg); font-family: var(--serif); font-weight: 700; font-size: 1rem; font-style: italic; letter-spacing: 0.02em; box-shadow: 0 4px 20px rgba(213,154,75,0.2); transition: transform 0.15s, opacity 0.15s; }
 .spin-btn:hover { transform: translateY(-2px); }
-.spin-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+.spin-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+.notice { font-size: 0.5rem; color: var(--muted); margin-top: 12px; opacity: 0.6; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.fx-layer { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 100; }
+.coin { position: absolute; top: -20px; width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, var(--gold-light), var(--gold)); animation: coinFall var(--dur) ease-in forwards; opacity: 0.9; }
+@keyframes coinFall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
 </style>
 </head>
 <body>
-<a href="/hall.html" class="back-btn">← Back to Hall</a>
+<a href="/hall.html" class="back-btn">◂ Casino</a>
 <div class="game-box">
   <div class="game-header">
-    <h1>Kink Wheel</h1>
-    <p>Spin the wheel. Land on gold and multiply your tokens.</p>
+    <h1>After Dark Wheel</h1>
+    <p>Spin the wheel. Land on fortune or fate.</p>
   </div>
-  <div class="token-bar">
-    <div><span class="label">Balance</span><span class="balance" id="balance">500</span></div>
-    <div><span class="label">Bet</span><span class="balance" id="bet-display">10</span></div>
+  <div class="info-bar">
+    <div><span class="label">Balance</span><span class="balance" id="balance">1,000,000</span></div>
+    <div><span class="label">Bet</span><span class="balance" id="bet-display">1,000</span></div>
   </div>
   <div class="wheel-wrapper">
     <div class="wheel-pointer"></div>
@@ -54,74 +59,160 @@ body::before { content: ''; position: fixed; inset: 0; background: radial-gradie
   <div class="win-display" id="win-display"></div>
   <div class="bet-row">
     <button class="amt-btn" id="bet-down">−</button>
-    <span class="amt-display" id="bet-label">10</span>
+    <span class="amt-display" id="bet-label">1K</span>
     <button class="amt-btn" id="bet-up">+</button>
   </div>
-  <button class="spin-btn" id="spin-btn">SPIN THE WHEEL</button>
+  <button class="spin-btn" id="spin-btn">Spin the Wheel</button>
+  <p class="notice">Entertainment tokens only. No cash value.</p>
 </div>
+<div class="fx-layer" id="fxL"></div>
 <script>
-const SEGMENTS = [
-  { label: '2x', multiplier: 2, color: '#7a1738' },
-  { label: 'Lose', multiplier: 0, color: '#1a1a1a' },
-  { label: '3x', multiplier: 3, color: '#124b2a' },
-  { label: '1.5x', multiplier: 1.5, color: '#2a1439' },
-  { label: 'Lose', multiplier: 0, color: '#1a1a1a' },
-  { label: '5x', multiplier: 5, color: '#623d10' },
-  { label: '1.5x', multiplier: 1.5, color: '#2a1439' },
-  { label: 'Lose', multiplier: 0, color: '#1a1a1a' },
-  { label: '2x', multiplier: 2, color: '#7a1738' },
-  { label: '10x', multiplier: 10, color: '#c09546' },
-  { label: 'Lose', multiplier: 0, color: '#1a1a1a' },
-  { label: '1.5x', multiplier: 1.5, color: '#2a1439' },
+var SEGMENTS = [
+  { label: 'Velvet Kiss', sub: '2x', multiplier: 2, color: '#3d0a12' },
+  { label: 'Shadow\'s Edge', sub: 'Lose', multiplier: 0, color: '#0c0908' },
+  { label: 'Chains & Roses', sub: '5x', multiplier: 5, color: '#1a2a14' },
+  { label: 'Silk Whisper', sub: '1.5x', multiplier: 1.5, color: '#1a0a20' },
+  { label: 'Dungeon Toll', sub: 'Lose', multiplier: 0, color: '#0c0908' },
+  { label: 'Dragon\'s Breath', sub: '10x', multiplier: 10, color: '#3d2a08' },
+  { label: 'Crimson Tease', sub: '3x', multiplier: 3, color: '#2a0a14' },
+  { label: 'Dark Passage', sub: 'Lose', multiplier: 0, color: '#0c0908' },
+  { label: 'Golden Shackle', sub: '2x', multiplier: 2, color: '#2a1a08' },
+  { label: 'Sinful 50x', sub: '50x', multiplier: 50, color: '#4a1a08' },
+  { label: 'Forbidden Peek', sub: '1.5x', multiplier: 1.5, color: '#1a0a20' },
+  { label: 'Throne\'s Mercy', sub: 'Lose', multiplier: 0, color: '#0c0908' },
 ];
-let balance = 500, bet = 10, spinning = false, currentRotation = 0;
-const BETS = [5,10,15,20,25,50];
-let betIdx = 1;
-const canvas = document.getElementById('wheel');
-const ctx = canvas.getContext('2d');
-const cx = 150, cy = 150, r = 140;
+
+var CONFIG = { BETS: [500, 1000, 2500, 5000, 10000, 25000, 50000, 100000], START_BALANCE: 1000000 };
+var balance = CONFIG.START_BALANCE, betIdx = 1, bet = CONFIG.BETS[1], spinning = false, currentRotation = 0;
+
+var fmtBet = function(n) { return n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n >= 1e3 ? (n/1e3)+'K' : ''+n; };
+function fmt(n) { return n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n.toLocaleString(); }
+
+var canvas = document.getElementById('wheel');
+var ctx = canvas.getContext('2d');
+var cx = 150, cy = 150, r = 140;
+
 function drawWheel() {
-  const sliceAngle = (2 * Math.PI) / SEGMENTS.length;
-  SEGMENTS.forEach((seg, i) => {
-    const start = i * sliceAngle - Math.PI/2;
-    const end = start + sliceAngle;
+  var sliceAngle = (2 * Math.PI) / SEGMENTS.length;
+  SEGMENTS.forEach(function(seg, i) {
+    var start = i * sliceAngle - Math.PI/2;
+    var end = start + sliceAngle;
     ctx.beginPath();
     ctx.moveTo(cx, cy);
     ctx.arc(cx, cy, r, start, end);
     ctx.closePath();
     ctx.fillStyle = seg.color;
     ctx.fill();
-    ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+    ctx.strokeStyle = 'rgba(213,154,75,0.15)';
     ctx.lineWidth = 1;
     ctx.stroke();
     ctx.save();
     ctx.translate(cx, cy);
     ctx.rotate(start + sliceAngle/2);
-    ctx.fillStyle = '#f5edf6';
-    ctx.font = 'bold 13px Inter';
+    ctx.fillStyle = seg.multiplier > 0 ? '#f5c77e' : '#7a6e64';
+    ctx.font = 'bold 9px Inter';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(seg.label, 0, -r + 30);
+    ctx.fillText(seg.label, 0, -r + 28);
+    ctx.fillStyle = seg.multiplier >= 10 ? '#4ade80' : seg.multiplier > 0 ? '#f5eee4' : '#9f2330';
+    ctx.font = 'bold 11px Inter';
+    ctx.fillText(seg.sub, 0, -r + 42);
     ctx.restore();
   });
   ctx.beginPath();
-  ctx.arc(cx, cy, 24, 0, 2*Math.PI);
-  ctx.fillStyle = '#09070c';
+  ctx.arc(cx, cy, 22, 0, 2*Math.PI);
+  ctx.fillStyle = '#0c0908';
   ctx.fill();
-  ctx.strokeStyle = '#FF007F';
+  ctx.strokeStyle = '#d59a4b';
   ctx.lineWidth = 2;
   ctx.stroke();
-  ctx.fillStyle = '#FF007F';
-  ctx.font = 'bold 10px Inter';
+  ctx.fillStyle = '#f5c77e';
+  ctx.font = 'italic bold 9px Georgia';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillText('SPIN', cx, cy);
 }
 drawWheel();
-document.getElementById('bet-up').addEventListener('click', () => { if (betIdx < BETS.length-1) betIdx++; bet = BETS[betIdx]; document.getElementById('bet-display').textContent = bet; document.getElementById('bet-label').textContent = bet; });
-document.getElementById('bet-down').addEventListener('click', () => { if (betIdx > 0) betIdx--; bet = BETS[betIdx]; document.getElementById('bet-display').textContent = bet; document.getElementById('bet-label').textContent = bet; });
-document.getElementById('spin-btn').addEventListener('click', spinWheel);
-function spinWheel() { if (spinning || balance < bet) return; spinning = true; document.getElementById('spin-btn').disabled = true; document.getElementById('win-display').innerHTML = ''; balance -= bet; document.getElementById('balance').textContent = balance; const resultIdx = Math.floor(Math.random() * SEGMENTS.length); const seg = SEGMENTS[resultIdx]; const sliceAngle = 360 / SEGMENTS.length; const targetAngle = 360 - (resultIdx * sliceAngle) - sliceAngle/2; const totalRotation = currentRotation + 360 * 5 + targetAngle; currentRotation = totalRotation; canvas.style.transition = 'none'; canvas.offsetHeight; canvas.style.transition = 'transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99)'; canvas.style.transform = `rotate(${totalRotation}deg)`; setTimeout(() => { const display = document.getElementById('win-display'); if (seg.multiplier > 0) { const payout = Math.floor(bet * seg.multiplier); balance += payout; document.getElementById('balance').textContent = balance; display.innerHTML = `<div><div class="win-label">${seg.label}</div><div class="win-payout positive">+${payout} tokens!</div></div>`; } else { display.innerHTML = `<div><div class="win-label">${seg.label}</div><div class="win-payout negative">-${bet} tokens</div></div>`; } spinning = false; document.getElementById('spin-btn').disabled = false; }, 5200); }
+
+function updateDisplays() {
+  document.getElementById('balance').textContent = fmt(balance);
+  document.getElementById('bet-display').textContent = fmtBet(bet);
+  document.getElementById('bet-label').textContent = fmtBet(bet);
+}
+
+document.getElementById('bet-up').addEventListener('click', function() {
+  if (spinning) return;
+  if (betIdx < CONFIG.BETS.length - 1) betIdx++;
+  bet = CONFIG.BETS[betIdx];
+  updateDisplays();
+});
+document.getElementById('bet-down').addEventListener('click', function() {
+  if (spinning) return;
+  if (betIdx > 0) betIdx--;
+  bet = CONFIG.BETS[betIdx];
+  updateDisplays();
+});
+
+function spawnCoins(n) {
+  var l = document.getElementById('fxL');
+  for (var i = 0; i < n; i++) {
+    var c = document.createElement('div');
+    c.className = 'coin';
+    c.style.left = (10 + Math.random() * 80) + '%';
+    c.style.setProperty('--dur', (1.5 + Math.random() * 1.5) + 's');
+    c.style.animationDelay = (Math.random() * 0.5) + 's';
+    l.appendChild(c);
+    setTimeout((function(el) { return function() { el.remove(); }; })(c), 3500);
+  }
+}
+
+document.getElementById('spin-btn').addEventListener('click', function() {
+  if (spinning || balance < bet) return;
+  spinning = true;
+  document.getElementById('spin-btn').disabled = true;
+  document.getElementById('win-display').innerHTML = '';
+  balance -= bet;
+  updateDisplays();
+
+  // Weighted random
+  var weights = [20, 18, 6, 16, 14, 2, 10, 14, 12, 1, 10, 12];
+  var totalW = weights.reduce(function(a, b) { return a + b; }, 0);
+  var roll = Math.random() * totalW;
+  var resultIdx = 0;
+  for (var i = 0; i < weights.length; i++) {
+    roll -= weights[i];
+    if (roll <= 0) { resultIdx = i; break; }
+  }
+
+  var seg = SEGMENTS[resultIdx];
+  var sliceAngle = 360 / SEGMENTS.length;
+  var targetAngle = 360 - (resultIdx * sliceAngle) - sliceAngle / 2;
+  var totalRotation = currentRotation + 360 * 6 + targetAngle;
+  currentRotation = totalRotation;
+
+  canvas.style.transition = 'none';
+  canvas.offsetHeight;
+  canvas.style.transition = 'transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
+  canvas.style.transform = 'rotate(' + totalRotation + 'deg)';
+
+  setTimeout(function() {
+    var display = document.getElementById('win-display');
+    if (seg.multiplier > 0) {
+      var payout = Math.floor(bet * seg.multiplier);
+      balance += payout;
+      updateDisplays();
+      display.innerHTML = '<div class="win-label">' + seg.label + '</div><div class="win-payout positive">+' + fmt(payout) + ' tokens</div>';
+      spawnCoins(Math.min(Math.floor(seg.multiplier * 4), 40));
+    } else {
+      display.innerHTML = '<div class="win-label">' + seg.label + '</div><div class="win-payout negative">Lost ' + fmtBet(bet) + ' tokens</div>';
+    }
+    spinning = false;
+    document.getElementById('spin-btn').disabled = false;
+    if (balance < CONFIG.BETS[0]) { balance = CONFIG.START_BALANCE; updateDisplays(); }
+  }, 5300);
+});
+
+updateDisplays();
 </script>
 <script src="/public/js/admin-bar.js"></script>
 </body>
