@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Pleasure Wheel | CumIN Dungeon</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;1,700&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#050204;--surface:#0c0608;--surface-2:#140d10;--gold:#d59a4b;--gold-light:#f5c77e;--cream:#f5eee4;--muted:#7a6064;--red:#9f1525;--red-light:#e63946;--pink:#d63384;--purple:#7c3aed;--line:rgba(159,21,37,.18);--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--cream);font-family:var(--sans);font-size:14px;touch-action:manipulation}
+.app{display:flex;flex-direction:column;height:100dvh;width:100vw;overflow:hidden;align-items:center}
+.hdr{width:100%;display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:var(--surface);border-bottom:1px solid var(--line);flex-shrink:0}
+.hdr a{color:var(--muted);font-size:.65rem;font-weight:700;text-decoration:none}
+.hdr .brand{font-family:var(--serif);font-style:italic;font-size:1.1rem;color:var(--pink)}
+.hdr .level-badge{font-size:.55rem;font-weight:800;padding:4px 10px;border-radius:100px;background:rgba(214,51,132,.12);color:var(--pink)}
+
+.game-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;min-height:0;width:100%;max-width:500px}
+
+/* Intensity selector */
+.intensity{display:flex;gap:6px;margin-bottom:16px;flex-shrink:0}
+.intensity button{padding:8px 14px;border-radius:100px;border:1px solid var(--line);background:var(--surface-2);color:var(--muted);font-size:.6rem;font-weight:700;cursor:pointer;transition:all .15s}
+.intensity button.active{background:rgba(214,51,132,.15);border-color:var(--pink);color:var(--pink)}
+.intensity button:hover{border-color:var(--pink)}
+
+/* Wheel */
+.wheel-wrap{position:relative;width:min(320px,75vw);height:min(320px,75vw);flex-shrink:0}
+.wheel-canvas{width:100%;height:100%;border-radius:50%;box-shadow:0 0 60px rgba(214,51,132,.2),0 0 0 4px #2a0a18,0 0 0 6px rgba(214,51,132,.15)}
+.wheel-pointer{position:absolute;top:-14px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:28px solid var(--pink);filter:drop-shadow(0 2px 6px rgba(214,51,132,.5));z-index:2}
+.wheel-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px;border-radius:50%;background:radial-gradient(circle,#2a0a18,#0a0204);border:2px solid #3a1020;display:grid;place-items:center;font-size:1.2rem;z-index:2}
+
+/* Result */
+.result{text-align:center;margin-top:16px;min-height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.result h2{font-family:var(--serif);font-style:italic;font-size:clamp(1.2rem,4vw,1.8rem);color:var(--pink);opacity:0;transition:all .4s}
+.result h2.show{opacity:1}
+.result p{font-size:.7rem;color:var(--muted);margin-top:4px;opacity:0;transition:all .4s .1s}
+.result p.show{opacity:1}
+
+/* Spin button */
+.spin-btn{margin-top:12px;padding:16px 48px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--pink),#9f1545);color:white;font-size:.85rem;font-weight:900;cursor:pointer;box-shadow:0 4px 24px rgba(214,51,132,.3);transition:all .15s}
+.spin-btn:hover{transform:translateY(-1px);box-shadow:0 6px 30px rgba(214,51,132,.4)}
+.spin-btn:active{transform:translateY(0)}
+.spin-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+/* History */
+.history{width:100%;max-width:500px;padding:8px 16px;overflow-x:auto;display:flex;gap:4px;flex-shrink:0;border-top:1px solid var(--line);background:var(--surface)}
+.history .pill{padding:4px 8px;border-radius:6px;font-size:.5rem;font-weight:700;white-space:nowrap;background:rgba(214,51,132,.08);color:var(--pink);border:1px solid rgba(214,51,132,.15)}
+
+/* Fullscreen */
+.fs-btn{position:absolute;top:10px;right:10px;z-index:20;width:28px;height:28px;border-radius:6px;background:rgba(0,0,0,.6);border:1px solid var(--line);color:var(--cream);font-size:.8rem;display:grid;place-items:center;cursor:pointer}
+
+.fx-layer{position:fixed;inset:0;pointer-events:none;z-index:100;overflow:hidden}
+.heart{position:absolute;font-size:1.2rem;animation:heartFloat var(--dur) ease-out forwards;opacity:0}
+@keyframes heartFloat{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-120px) scale(.5)}}
+
+@media(max-width:360px){.wheel-wrap{width:260px;height:260px}}
+@media(orientation:landscape){.game-area{flex-direction:row;gap:24px;max-width:700px}.result{text-align:left;align-items:flex-start}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="hdr">
+    <a href="/casino.html">← Back</a>
+    <span class="brand">Pleasure Wheel</span>
+    <span class="level-badge" id="levelBadge">Tease</span>
+  </header>
+
+  <div class="game-area">
+    <div class="intensity">
+      <button class="active" data-level="tease">Tease</button>
+      <button data-level="heated">Heated</button>
+      <button data-level="explicit">Explicit</button>
+    </div>
+
+    <div class="wheel-wrap">
+      <div class="wheel-pointer"></div>
+      <canvas class="wheel-canvas" id="cv" width="640" height="640"></canvas>
+      <div class="wheel-center">🔥</div>
+      <button class="fs-btn" id="fsBtn">⛶</button>
+    </div>
+
+    <div class="result">
+      <h2 id="resultText"></h2>
+      <p id="resultSub"></p>
+    </div>
+
+    <button class="spin-btn" id="spinBtn">SPIN</button>
+  </div>
+
+  <div class="history" id="history"></div>
+</div>
+<div class="fx-layer" id="fxL"></div>
+
+<script>
+(function(){
+'use strict';
+
+var LEVELS = {
+  tease: [
+    {text:'Whisper something dirty', sub:'In their ear. 10 seconds minimum.', color:'#d63384'},
+    {text:'Slow neck kiss', sub:'From jaw to collarbone. Take your time.', color:'#9f1545'},
+    {text:'Body compliment', sub:'Be specific. Mean it.', color:'#e63946'},
+    {text:'Finger trace', sub:'Down their spine. Feather light.', color:'#d63384'},
+    {text:'Blindfold tease', sub:'30 seconds. No touching below the waist.', color:'#7c3aed'},
+    {text:'Ice cube trail', sub:'Across their chest. Watch the reaction.', color:'#3b82f6'},
+    {text:'Lip bite & stare', sub:'5 seconds of eye contact. No blinking.', color:'#e63946'},
+    {text:'Earlobe nibble', sub:'Gentle. Then whisper what you want.', color:'#d63384'}
+  ],
+  heated: [
+    {text:'Strip one piece', sub:'Their choice which one comes off.', color:'#e63946'},
+    {text:'Lap dance', sub:'60 seconds. Full contact allowed.', color:'#d63384'},
+    {text:'Blindfolded touch', sub:'Explore for 30 seconds. Anywhere.', color:'#9f1545'},
+    {text:'Body shot', sub:'Choose the location. Lick it clean.', color:'#e63946'},
+    {text:'Massage with intent', sub:'Start innocent. End anywhere.', color:'#7c3aed'},
+    {text:'Dirty truth', sub:'Answer honestly or remove clothing.', color:'#d63384'},
+    {text:'Bite mark', sub:'Leave one where only they can see.', color:'#9f1545'},
+    {text:'Hands tied', sub:'60 seconds. They choose what happens.', color:'#7c3aed'}
+  ],
+  explicit: [
+    {text:'Oral: 2 minutes', sub:'No hands. Eye contact required.', color:'#e63946'},
+    {text:'Edge them', sub:'Bring to the edge. Then stop. Repeat.', color:'#9f1545'},
+    {text:'Position change', sub:'They pick the next position. You obey.', color:'#d63384'},
+    {text:'Toy introduction', sub:'Their favourite. 3 minutes.', color:'#7c3aed'},
+    {text:'Dirty talk only', sub:'Describe what you want. In detail.', color:'#e63946'},
+    {text:'Sensation play', sub:'Hot wax, ice, or feather. Their pick.', color:'#d63384'},
+    {text:'Power exchange', sub:'Submit for 5 minutes. Their rules.', color:'#9f1545'},
+    {text:'Finish together', sub:'Sync up. Eye contact. No rushing.', color:'#7c3aed'}
+  ]
+};
+
+var currentLevel = 'tease';
+var spinning = false;
+var historyArr = [];
+
+var cv = document.getElementById('cv');
+var ctx = cv.getContext('2d');
+var resultText = document.getElementById('resultText');
+var resultSub = document.getElementById('resultSub');
+var spinBtn = document.getElementById('spinBtn');
+
+// Intensity buttons
+document.querySelectorAll('.intensity button').forEach(function(btn){
+  btn.onclick = function(){
+    if(spinning) return;
+    document.querySelectorAll('.intensity button').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    currentLevel = btn.dataset.level;
+    document.getElementById('levelBadge').textContent = btn.textContent;
+    drawWheel(0);
+  };
+});
+
+function drawWheel(rotation){
+  var sectors = LEVELS[currentLevel];
+  var cx = 320, cy = 320, r = 300;
+  var arc = (Math.PI * 2) / sectors.length;
+  ctx.clearRect(0, 0, 640, 640);
+
+  sectors.forEach(function(s, i){
+    var startAngle = rotation + i * arc;
+    // Sector
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, r, startAngle, startAngle + arc);
+    ctx.fillStyle = i % 2 === 0 ? '#1a0810' : '#120508';
+    ctx.fill();
+    ctx.strokeStyle = '#3a1520';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // Colored edge
+    ctx.beginPath();
+    ctx.arc(cx, cy, r - 5, startAngle + 0.02, startAngle + arc - 0.02);
+    ctx.strokeStyle = s.color;
+    ctx.lineWidth = 4;
+    ctx.globalAlpha = 0.4;
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+
+    // Text
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(startAngle + arc / 2);
+    ctx.fillStyle = var(--cream) || '#f5eee4';
+    ctx.font = '700 13px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    // Wrap text
+    var words = s.text.split(' ');
+    var line1 = words.slice(0, Math.ceil(words.length/2)).join(' ');
+    var line2 = words.slice(Math.ceil(words.length/2)).join(' ');
+    ctx.fillStyle = '#f5eee4';
+    ctx.fillText(line1, r * 0.55, -7);
+    ctx.font = '600 11px Inter, sans-serif';
+    ctx.fillStyle = '#a6998b';
+    ctx.fillText(line2, r * 0.55, 9);
+    ctx.restore();
+  });
+
+  // Outer ring
+  ctx.beginPath();
+  ctx.arc(cx, cy, r + 2, 0, Math.PI * 2);
+  ctx.strokeStyle = '#3a1520';
+  ctx.lineWidth = 3;
+  ctx.stroke();
+}
+
+function spinWheel(){
+  if(spinning) return;
+  spinning = true;
+  spinBtn.disabled = true;
+  resultText.classList.remove('show');
+  resultSub.classList.remove('show');
+
+  var sectors = LEVELS[currentLevel];
+  var winIdx = Math.floor(Math.random() * sectors.length);
+  var arc = (Math.PI * 2) / sectors.length;
+  var targetAngle = -(winIdx * arc) - arc / 2 + Math.PI * 2 * (6 + Math.random() * 4);
+
+  var start = performance.now();
+  var duration = 4000;
+
+  SFX.spin();
+
+  function anim(now){
+    var t = Math.min(1, (now - start) / duration);
+    var ease = 1 - Math.pow(1 - t, 5); // quint ease-out
+    var angle = targetAngle * ease;
+    drawWheel(-angle);
+
+    // Tick sound on sector boundaries
+    if(t > 0.3 && t < 0.95 && Math.random() < 0.15) SFX.tick();
+
+    if(t < 1) requestAnimationFrame(anim);
+    else {
+      spinning = false;
+      spinBtn.disabled = false;
+      var result = sectors[winIdx];
+      resultText.textContent = result.text;
+      resultText.classList.add('show');
+      resultSub.textContent = result.sub;
+      resultSub.classList.add('show');
+      SFX.win();
+      spawnHearts(12);
+
+      historyArr.unshift(result.text);
+      if(historyArr.length > 15) historyArr.pop();
+      renderHistory();
+    }
+  }
+  requestAnimationFrame(anim);
+}
+
+function renderHistory(){
+  var el = document.getElementById('history');
+  el.innerHTML = '';
+  historyArr.forEach(function(t){
+    el.innerHTML += '<span class="pill">' + t + '</span>';
+  });
+}
+
+spinBtn.onclick = spinWheel;
+document.getElementById('fsBtn').onclick = function(){
+  if(!document.fullscreenElement) document.documentElement.requestFullscreen().catch(function(){});
+  else document.exitFullscreen();
+};
+
+// Audio
+var SFX = (function(){
+  var c;
+  function g(){ if(!c) c=new(window.AudioContext||window.webkitAudioContext)(); if(c.state==='suspended')c.resume(); return c; }
+  function tone(f,t,d,v){ try{var x=g(),o=x.createOscillator(),gn=x.createGain();o.type=t;o.frequency.value=f;gn.gain.value=v||.03;gn.gain.exponentialRampToValueAtTime(.001,x.currentTime+d);o.connect(gn);gn.connect(x.destination);o.start();o.stop(x.currentTime+d)}catch(e){} }
+  return {
+    spin: function(){ tone(250,'sine',.3,.03); },
+    tick: function(){ tone(600+Math.random()*300,'sine',.02,.02); },
+    win: function(){ tone(523,'sine',.15,.05);setTimeout(function(){tone(659,'sine',.15,.04)},100);setTimeout(function(){tone(784,'sine',.2,.05)},200) }
+  };
+})();
+
+function spawnHearts(n){
+  var l=document.getElementById('fxL');
+  var emojis = ['❤️','💋','🔥','💜','✨'];
+  for(var i=0;i<n;i++){
+    var h=document.createElement('div');h.className='heart';
+    h.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+    h.style.left=(15+Math.random()*70)+'%';
+    h.style.bottom='10%';
+    h.style.setProperty('--dur',(1.5+Math.random()*1.5)+'s');
+    h.style.animationDelay=(Math.random()*.4)+'s';
+    l.appendChild(h);setTimeout(function(el){return function(){el.remove()}}(h),3500);
+  }
+}
+
+// Fix CSS var in JS context
+ctx.fillStyle = '#f5eee4';
+drawWheel(0);
+})();
+</script>
+</body>
+</html>

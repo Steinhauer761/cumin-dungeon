@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Dare Roulette | CumIN Dungeon</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;1,700&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#050204;--surface:#0c0608;--surface-2:#140d10;--gold:#d59a4b;--gold-light:#f5c77e;--cream:#f5eee4;--muted:#7a6064;--red:#e63946;--pink:#d63384;--purple:#7c3aed;--line:rgba(159,21,37,.18);--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow-x:hidden}
+body{background:var(--bg);color:var(--cream);font-family:var(--sans);font-size:14px;touch-action:manipulation}
+.app{min-height:100dvh;display:flex;flex-direction:column;align-items:center;padding:0 0 80px}
+.hdr{width:100%;display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--surface);border-bottom:1px solid var(--line)}
+.hdr a{color:var(--muted);font-size:.65rem;font-weight:700;text-decoration:none}
+.hdr .brand{font-family:var(--serif);font-style:italic;font-size:1.1rem;color:var(--red)}
+
+.players{padding:16px;width:100%;max-width:500px}
+.players h3{font-family:var(--serif);font-style:italic;font-size:.9rem;color:var(--gold-light);margin-bottom:8px}
+.player-list{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.player-chip{padding:6px 12px;border-radius:100px;background:var(--surface-2);border:1px solid var(--line);font-size:.65rem;font-weight:700;color:var(--cream);display:flex;align-items:center;gap:6px}
+.player-chip .dot{width:8px;height:8px;border-radius:50%}
+.add-player{display:flex;gap:6px}
+.add-player input{flex:1;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--cream);font-size:.72rem}
+.add-player button{padding:8px 14px;border:none;border-radius:8px;background:var(--red);color:white;font-weight:800;font-size:.65rem;cursor:pointer}
+
+.card-area{width:100%;max-width:500px;padding:0 16px;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.dare-card{width:100%;padding:40px 24px;border-radius:16px;background:linear-gradient(145deg,#1a0810,#0a0408);border:2px solid var(--line);text-align:center;position:relative;overflow:hidden;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.dare-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(214,51,132,.05),transparent);pointer-events:none}
+.dare-card .for-who{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--pink);margin-bottom:8px}
+.dare-card .dare-text{font-family:var(--serif);font-style:italic;font-size:clamp(1.3rem,5vw,2rem);color:var(--cream);line-height:1.3;margin-bottom:8px}
+.dare-card .dare-sub{font-size:.7rem;color:var(--muted);line-height:1.4}
+.dare-card .category-tag{position:absolute;top:12px;right:12px;font-size:.5rem;font-weight:800;padding:3px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:.06em}
+.dare-card .category-tag.mild{background:rgba(74,222,128,.12);color:#4ade80}
+.dare-card .category-tag.spicy{background:rgba(214,51,132,.12);color:var(--pink)}
+.dare-card .category-tag.extreme{background:rgba(230,57,70,.12);color:var(--red)}
+
+.draw-btn{margin-top:20px;padding:16px 48px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--red),#9f1525);color:white;font-size:.85rem;font-weight:900;cursor:pointer;box-shadow:0 4px 24px rgba(230,57,70,.25);transition:all .15s}
+.draw-btn:hover{transform:translateY(-1px);box-shadow:0 6px 30px rgba(230,57,70,.35)}
+.draw-btn:active{transform:translateY(0)}
+
+.skip-btn{margin-top:10px;padding:8px 20px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--muted);font-size:.65rem;font-weight:700;cursor:pointer}
+.skip-btn:hover{border-color:var(--red);color:var(--cream)}
+
+.score-bar{width:100%;max-width:500px;padding:12px 16px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.score-item{font-size:.6rem;font-weight:700;color:var(--muted)}
+.score-item strong{color:var(--gold-light)}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="hdr">
+    <a href="/casino.html">← Back</a>
+    <span class="brand">Dare Roulette</span>
+  </header>
+
+  <div class="players">
+    <h3>Players</h3>
+    <div class="player-list" id="playerList"></div>
+    <div class="add-player">
+      <input id="nameInput" placeholder="Add player name" maxlength="20">
+      <button id="addBtn">Add</button>
+    </div>
+  </div>
+
+  <div class="card-area">
+    <div class="dare-card" id="dareCard">
+      <span class="for-who" id="forWho">Add players and draw</span>
+      <span class="dare-text" id="dareText">Tap Draw to start</span>
+      <span class="dare-sub" id="dareSub"></span>
+    </div>
+    <button class="draw-btn" id="drawBtn">DRAW DARE</button>
+    <button class="skip-btn" id="skipBtn">Skip (coward)</button>
+  </div>
+
+  <div class="score-bar" id="scoreBar"></div>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+var DARES = {
+  mild: [
+    {text:'Give a 30-second shoulder massage', sub:'Make eye contact when you finish.', for:'any'},
+    {text:'Whisper your biggest fantasy', sub:'Into their ear. Quietly.', for:'any'},
+    {text:'Let them draw on your body', sub:'With their finger. 20 seconds. Eyes closed.', for:'any'},
+    {text:'Act out your best fake orgasm', sub:'Commit. No laughing.', for:'solo'},
+    {text:'Take a body shot', sub:'Off the person to your left.', for:'any'},
+    {text:'Send a flirty text', sub:'To someone not in this room. Screenshot it.', for:'solo'},
+    {text:'Demonstrate your kissing technique', sub:'On your own hand. Seriously.', for:'solo'},
+    {text:'Remove one article of clothing', sub:'Dealer\'s choice which one.', for:'solo'}
+  ],
+  spicy: [
+    {text:'Lap dance for 60 seconds', sub:'Music is optional. Confidence is not.', for:'any'},
+    {text:'Kiss for 30 seconds', sub:'No pecks. Mean it.', for:'pair'},
+    {text:'Blindfolded touch guess', sub:'They touch you somewhere. Guess where without looking.', for:'pair'},
+    {text:'Describe in detail', sub:'What you\'d do to the person across from you. 30 seconds.', for:'solo'},
+    {text:'Body part worship', sub:'Pick a body part. 20 seconds of attention.', for:'pair'},
+    {text:'Truth or strip', sub:'Answer the group\'s dirtiest question honestly or lose an item.', for:'solo'},
+    {text:'Neck and collarbone only', sub:'30 seconds of kissing. Nothing below.', for:'pair'},
+    {text:'Demonstrate a position', sub:'On a pillow. The group scores your form.', for:'solo'}
+  ],
+  extreme: [
+    {text:'Full strip tease', sub:'60 seconds. Go all out.', for:'solo'},
+    {text:'2 minutes in the closet', sub:'With the person to your right. What happens is between you.', for:'pair'},
+    {text:'Oral demonstration', sub:'On a popsicle or banana. Maintain eye contact with someone.', for:'solo'},
+    {text:'Choose: perform or receive', sub:'60 seconds of anything. They pick what.', for:'pair'},
+    {text:'Edge yourself', sub:'Right here. 30 seconds. Then stop.', for:'solo'},
+    {text:'Spanking round', sub:'5 spanks. You choose who delivers.', for:'any'},
+    {text:'Confess your kink', sub:'The real one. Then demonstrate if asked.', for:'solo'},
+    {text:'Body writing', sub:'They write something dirty on you. With their tongue.', for:'pair'}
+  ]
+};
+
+var COLORS = ['#e63946','#d63384','#7c3aed','#3b82f6','#22c55e','#f59e0b','#06b6d4','#ec4899'];
+var players = [];
+var scores = {};
+var currentDare = null;
+var turnIdx = 0;
+
+function renderPlayers(){
+  var el = document.getElementById('playerList');
+  el.innerHTML = '';
+  players.forEach(function(p, i){
+    el.innerHTML += '<div class="player-chip"><span class="dot" style="background:'+COLORS[i%COLORS.length]+'"></span>'+p+'</div>';
+  });
+  renderScores();
+}
+
+function renderScores(){
+  var el = document.getElementById('scoreBar');
+  el.innerHTML = '';
+  players.forEach(function(p){
+    el.innerHTML += '<span class="score-item">'+p+': <strong>'+(scores[p]||0)+'</strong></span>';
+  });
+}
+
+document.getElementById('addBtn').onclick = function(){
+  var input = document.getElementById('nameInput');
+  var name = input.value.trim();
+  if(!name || players.length >= 8) return;
+  players.push(name);
+  scores[name] = 0;
+  input.value = '';
+  renderPlayers();
+};
+
+document.getElementById('nameInput').onkeydown = function(e){
+  if(e.key === 'Enter') document.getElementById('addBtn').click();
+};
+
+function drawDare(){
+  if(players.length < 1) return;
+
+  // Pick category weighted toward spicy
+  var r = Math.random();
+  var cat = r < 0.3 ? 'mild' : r < 0.75 ? 'spicy' : 'extreme';
+  var pool = DARES[cat];
+  var dare = pool[Math.floor(Math.random() * pool.length)];
+
+  var player = players[turnIdx % players.length];
+  turnIdx++;
+
+  var partner = null;
+  if(dare.for === 'pair' && players.length > 1){
+    do { partner = players[Math.floor(Math.random() * players.length)]; } while(partner === player);
+  }
+
+  currentDare = { dare: dare, player: player, partner: partner, cat: cat };
+
+  var card = document.getElementById('dareCard');
+  document.getElementById('forWho').textContent = partner ? player + ' → ' + partner : player + '\'s turn';
+  document.getElementById('dareText').textContent = dare.text;
+  document.getElementById('dareSub').textContent = dare.sub;
+
+  // Remove old tag, add new
+  var oldTag = card.querySelector('.category-tag');
+  if(oldTag) oldTag.remove();
+  var tag = document.createElement('span');
+  tag.className = 'category-tag ' + cat;
+  tag.textContent = cat;
+  card.appendChild(tag);
+
+  // Animation
+  card.style.transform = 'scale(0.95)';
+  card.style.opacity = '0.5';
+  setTimeout(function(){ card.style.transition = 'all .3s cubic-bezier(.22,1,.36,1)'; card.style.transform = ''; card.style.opacity = ''; }, 50);
+
+  SFX.draw();
+}
+
+document.getElementById('drawBtn').onclick = drawDare;
+document.getElementById('skipBtn').onclick = function(){
+  if(currentDare){
+    // Penalty: -1 point
+    scores[currentDare.player] = (scores[currentDare.player] || 0) - 1;
+    renderScores();
+  }
+  drawDare();
+};
+
+// Complete dare (tap the card)
+document.getElementById('dareCard').onclick = function(){
+  if(!currentDare) return;
+  scores[currentDare.player] = (scores[currentDare.player] || 0) + 1;
+  renderScores();
+  document.getElementById('dareSub').textContent = '✅ Completed! +1 point';
+  SFX.complete();
+};
+
+var SFX = (function(){
+  var c;
+  function g(){ if(!c) c=new(window.AudioContext||window.webkitAudioContext)(); if(c.state==='suspended')c.resume(); return c; }
+  function tone(f,t,d,v){ try{var x=g(),o=x.createOscillator(),gn=x.createGain();o.type=t;o.frequency.value=f;gn.gain.value=v||.04;gn.gain.exponentialRampToValueAtTime(.001,x.currentTime+d);o.connect(gn);gn.connect(x.destination);o.start();o.stop(x.currentTime+d)}catch(e){} }
+  return {
+    draw: function(){ tone(400,'sine',.1,.04);setTimeout(function(){tone(600,'sine',.1,.03)},80) },
+    complete: function(){ tone(523,'sine',.1,.05);setTimeout(function(){tone(784,'sine',.15,.04)},100) }
+  };
+})();
+
+renderPlayers();
+})();
+</script>
+</body>
+</html>
