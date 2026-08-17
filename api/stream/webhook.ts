@@ -1,15 +1,13 @@
 export const config = { runtime: 'edge' };
 
-import { supabase } from '../lib/supabase';
+import { supabaseAdmin } from '../lib/supabase';
 
 declare const process: { env: Record<string, string | undefined> };
 
 /**
  * POST /api/stream/webhook
  * Mux sends webhooks here when stream status changes.
- *
- * Set this URL in Mux Dashboard -> Settings -> Webhooks:
- *   https://cumindungeon.com/api/stream/webhook
+ * Uses supabaseAdmin to bypass RLS (no user JWT in Mux callbacks).
  */
 export default async function handler(req: Request): Promise<Response> {
   if (req.method !== 'POST') {
@@ -27,14 +25,12 @@ export default async function handler(req: Request): Promise<Response> {
   console.info('[Mux Webhook]', type, streamId);
 
   if (type === 'video.live_stream.active') {
-    // Performer started streaming
-    await supabase.from('performer_streams').update(
+    await supabaseAdmin.from('performer_streams').update(
       { status: 'active', started_at: new Date().toISOString() },
       `mux_stream_id=eq.${streamId}`
     );
   } else if (type === 'video.live_stream.idle' || type === 'video.live_stream.disabled') {
-    // Performer stopped streaming
-    await supabase.from('performer_streams').update(
+    await supabaseAdmin.from('performer_streams').update(
       { status: 'idle', ended_at: new Date().toISOString() },
       `mux_stream_id=eq.${streamId}`
     );

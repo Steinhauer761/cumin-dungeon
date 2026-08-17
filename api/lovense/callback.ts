@@ -1,20 +1,13 @@
 export const config = { runtime: 'edge' };
 
-declare const process: {
-  env: Record<string, string | undefined>;
-};
+import { supabaseAdmin } from '../lib/supabase';
+
+declare const process: { env: Record<string, string | undefined> };
 
 /**
  * POST /api/lovense/callback
- * Lovense Connect app posts toy connection data here after QR scan.
- * Also receives Display Panel model status forwarding callbacks.
- *
- * Set this URL in your Lovense Developer Dashboard:
- *   https://cumindungeon.com/api/lovense/callback?secret=YOUR_SECRET
- *
- * Env vars needed:
- *   LOVENSE_CALLBACK_SECRET - shared secret for verifying callbacks
- *   ABLY_API_KEY - for publishing toy status to performer channels
+ * Lovense Connect app posts toy connection data here.
+ * Uses supabaseAdmin to bypass RLS (no user JWT in Lovense callbacks).
  */
 
 function safeEqual(a: string, b: string): boolean {
@@ -40,7 +33,6 @@ export default async function handler(req: Request): Promise<Response> {
     return Response.json({ error: 'Callback not configured' }, { status: 500 });
   }
 
-  // Verify secret from query param or header
   const requestUrl = new URL(req.url);
   const querySecret = requestUrl.searchParams.get('secret') ?? '';
   const headerSecret = req.headers.get('x-lovense-callback-secret') ?? '';
@@ -75,24 +67,21 @@ export default async function handler(req: Request): Promise<Response> {
       toyCount: Object.keys(toys).length,
     });
 
-    // TODO: Store connection info in Supabase for the performer
-    // TODO: Publish toy status to Ably channel so room UI updates
-    // Example: await ably.channels.get(`room:${uid}`).publish('toy-status', { toys });
+    // Store Lovense UID on performer profile
+    await supabaseAdmin.from('performer_profiles').update(
+      { lovense_uid: uid },
+      `user_id=eq.${uid}`
+    );
   }
 
-  // Display Panel forwarding callback (model status changes)
+  // Display Panel forwarding callback
   if (payload.from && payload.to && payload.data) {
     const to = payload.to as { type: string; target: string };
-    const data = payload.data as string;
-
     console.info('Lovense display panel callback', {
       toType: to.type,
       target: to.target,
     });
-
-    // TODO: Forward data to appropriate viewers via Ably
-    // If to.type === 'customersOfModel', broadcast to all viewers in model's room
-    // If to.type === 'customer', send to specific viewer
+    // TODO: Forward to viewers via Ably
   }
 
   return Response.json({ ok: true });

@@ -1,6 +1,6 @@
 export const config = { runtime: 'edge' };
 
-import { supabase } from '../lib/supabase';
+import { supabaseAdmin } from '../lib/supabase';
 import { requireUser } from '../lib/auth';
 
 declare const process: { env: Record<string, string | undefined> };
@@ -8,10 +8,7 @@ declare const process: { env: Record<string, string | undefined> };
 /**
  * POST /api/stream/create
  * Creates a new Mux live stream for a performer.
- * Returns RTMP URL + stream key + playback ID.
- *
- * Body: { roomId: string }
- * Requires: MUX_TOKEN_ID, MUX_TOKEN_SECRET env vars
+ * Uses supabaseAdmin for DB writes (performer may not have service role).
  */
 export default async function handler(req: Request): Promise<Response> {
   if (req.method !== 'POST') {
@@ -33,7 +30,6 @@ export default async function handler(req: Request): Promise<Response> {
   const { roomId } = body;
   if (!roomId) return Response.json({ error: 'roomId required' }, { status: 400 });
 
-  // Create a Mux live stream
   const muxResp = await fetch('https://api.mux.com/video/v1/live-streams', {
     method: 'POST',
     headers: {
@@ -57,10 +53,9 @@ export default async function handler(req: Request): Promise<Response> {
   const muxData = await muxResp.json();
   const stream = muxData.data;
 
-  // Delete any existing stream record for this performer, then insert new one
-  await supabase.from('performer_streams').delete(`performer_id=eq.${auth.userId}`);
+  await supabaseAdmin.from('performer_streams').delete(`performer_id=eq.${auth.userId}`);
 
-  await supabase.from('performer_streams').insert({
+  await supabaseAdmin.from('performer_streams').insert({
     performer_id: auth.userId,
     room_id: roomId,
     mux_stream_id: stream.id,

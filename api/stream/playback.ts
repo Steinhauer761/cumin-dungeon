@@ -1,10 +1,11 @@
 export const config = { runtime: 'edge' };
 
-import { supabase } from '../lib/supabase';
+import { supabaseAdmin } from '../lib/supabase';
 
 /**
  * GET /api/stream/playback?roomId=velvet-room
  * Returns the HLS playback URL for a room's active stream.
+ * Uses supabaseAdmin so unauthenticated viewers can still get playback URLs.
  */
 export default async function handler(req: Request): Promise<Response> {
   if (req.method !== 'GET') {
@@ -15,8 +16,7 @@ export default async function handler(req: Request): Promise<Response> {
   const roomId = url.searchParams.get('roomId');
   if (!roomId) return Response.json({ error: 'roomId required' }, { status: 400 });
 
-  // Look up active stream for this room
-  const { data: rows } = await supabase
+  const { data: rows } = await supabaseAdmin
     .from('performer_streams')
     .select('mux_playback_id,status,performer_id', `room_id=eq.${roomId}&status=eq.active`);
 
