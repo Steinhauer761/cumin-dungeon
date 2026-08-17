@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vercel dev",
+    "typecheck": "tsc --noEmit",
     "deploy": "vercel --prod"
   },
   "devDependencies": {

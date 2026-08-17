@@ -1,35 +1,22 @@
 export const config = { runtime: 'edge' };
 
 import { supabaseAdmin } from '../lib/supabase';
+import { requireActiveMember } from '../lib/auth';
 
-/**
- * GET /api/stream/playback?roomId=velvet-room
- * Returns the HLS playback URL for a room's active stream.
- * Uses supabaseAdmin so unauthenticated viewers can still get playback URLs.
- */
+/** GET /api/stream/playback?roomId=velvet-room */
 export default async function handler(req: Request): Promise<Response> {
-  if (req.method !== 'GET') {
-    return Response.json({ error: 'Method not allowed' }, { status: 405 });
-  }
+  if (req.method !== 'GET') return Response.json({ error: 'Method not allowed' }, { status: 405 });
+  const auth = await requireActiveMember(req);
+  if (auth instanceof Response) return auth;
 
-  const url = new URL(req.url);
-  const roomId = url.searchParams.get('roomId');
-  if (!roomId) return Response.json({ error: 'roomId required' }, { status: 400 });
+  const roomId = new URL(req.url).searchParams.get('roomId') || '';
+  if (!/^[a-z0-9-]{1,60}$/.test(roomId)) return Response.json({ error: 'Valid roomId required' }, { status: 400 });
 
-  const { data: rows } = await supabaseAdmin
-    .from('performer_streams')
-    .select('mux_playback_id,status,performer_id', `room_id=eq.${roomId}&status=eq.active`);
+  const { data: rows, error } = await supabaseAdmin.from('performer_streams')
+    .select('mux_playback_id,status,performer_id', `room_id=eq.${roomId}&status=eq.active&limit=1`);
+  if (error) return Response.json({ error: 'Unable to read stream' }, { status: 500 });
+  const stream = Array.isArray(rows) && rows.length ? rows[0] : null;
+  if (!stream?.mux_playback_id) return Response.json({ live: false, playbackId: null, performerId: null });
 
-  const stream = Array.isArray(rows) && rows.length > 0 ? rows[0] : null;
-
-  if (!stream) {
-    return Response.json({ live: false, playbackUrl: null });
-  }
-
-  return Response.json({
-    live: true,
-    playbackUrl: `https://stream.mux.com/${stream.mux_playback_id}.m3u8`,
-    thumbnailUrl: `https://image.mux.com/${stream.mux_playback_id}/thumbnail.jpg?time=0`,
-    performerId: stream.performer_id,
-  });
+  return Response.json({ live: true, playbackId: stream.mux_playback_id, performerId: stream.performer_id });
 }
