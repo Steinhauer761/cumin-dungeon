@@ -1,15 +1,18 @@
 export const config = { runtime: 'edge' };
 
+import { requireUser } from '../lib/auth';
+
 declare const process: {
   env: Record<string, string | undefined>;
 };
 
 /**
  * POST /api/lovense/token
- * Generates a unique mToken for a performer.
- * Call once per performer, store the mToken in their Supabase profile.
+ * Generates a unique mToken for the authenticated performer.
+ * Now requires auth and uses the caller's own userId as modelId.
+ * Prevents anyone from minting tokens for other performers.
  *
- * Body: { modelId: string, modelName: string }
+ * Body: { modelName: string }
  * Returns: { result, code, data: { mId, mToken } }
  */
 export default async function handler(req: Request): Promise<Response> {
@@ -20,26 +23,33 @@ export default async function handler(req: Request): Promise<Response> {
     );
   }
 
+  // Require authentication
+  const auth = await requireUser(req);
+  if (auth instanceof Response) return auth;
+
   const dToken = process.env.LOVENSE_DEV_TOKEN;
   if (!dToken) {
     console.error('LOVENSE_DEV_TOKEN not configured');
     return Response.json({ error: 'Lovense not configured' }, { status: 500 });
   }
 
-  let body: { modelId?: string; modelName?: string };
+  let body: { modelName?: string };
   try {
     body = await req.json();
   } catch {
     return Response.json({ error: 'Invalid JSON' }, { status: 400 });
   }
 
-  const { modelId, modelName } = body;
-  if (!modelId || !modelName) {
+  const { modelName } = body;
+  if (!modelName || modelName.length > 50) {
     return Response.json(
-      { error: 'modelId and modelName are required' },
+      { error: 'modelName is required (max 50 chars)' },
       { status: 400 }
     );
   }
+
+  // Use authenticated userId as modelId (can't mint for someone else)
+  const modelId = auth.userId;
 
   const resp = await fetch('https://api.lovense.com/api/cam/model/getToken', {
     method: 'POST',
