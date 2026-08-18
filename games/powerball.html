@@ -8,29 +8,21 @@
 <style>
 :root { --bg: #050304; --surface: #0c0908; --surface-2: #141010; --gold: #d59a4b; --gold-light: #f5c77e; --gold-dim: #8b6230; --cream: #f5eee4; --muted: #7a6e64; --red: #9f2330; --red-light: #e63946; --green: #4ade80; --line: rgba(190,137,77,0.18); --serif: 'Cormorant Garamond', Georgia, serif; --sans: 'Inter', system-ui, sans-serif; }
 * { box-sizing: border-box; margin: 0; }
-body { background: var(--bg); color: var(--cream); font-family: var(--sans); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 16px; padding-bottom: 40px; }
-body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at 50% 15%, rgba(159,35,48,0.06), transparent 50%), radial-gradient(ellipse at 50% 85%, rgba(213,154,75,0.04), transparent 40%); pointer-events: none; }
+body { background: var(--bg); color: var(--cream); font-family: var(--sans); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 16px; padding-bottom: 60px; }
+body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at 50% 15%, rgba(159,35,48,0.06), transparent 50%); pointer-events: none; }
 button { font: inherit; color: inherit; cursor: pointer; border: none; background: none; }
-
 .back-btn { position: fixed; top: 12px; left: 12px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 8px; background: rgba(5,3,4,0.9); font-size: 0.65rem; font-weight: 700; color: var(--cream); text-decoration: none; z-index: 50; }
-.back-btn:hover { border-color: var(--gold); }
-
-.app { width: min(460px, 100%); display: flex; flex-direction: column; gap: 16px; }
-
+.app { width: min(460px, 100%); display: flex; flex-direction: column; gap: 14px; }
 .header { text-align: center; padding-top: 20px; }
 .header h1 { font-family: var(--serif); font-size: 2rem; font-style: italic; font-weight: 700; color: var(--gold-light); }
 .header p { font-size: 0.6rem; color: var(--muted); margin-top: 4px; }
-
 .jackpot-card { background: linear-gradient(135deg, rgba(159,35,48,0.08), rgba(213,154,75,0.06)); border: 1px solid var(--line); border-radius: 16px; padding: 16px; text-align: center; }
 .jackpot-label { font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); font-weight: 700; }
-.jackpot-amount { font-family: var(--serif); font-size: 2.2rem; font-weight: 700; font-style: italic; color: var(--gold-light); margin-top: 4px; font-variant-numeric: tabular-nums; }
-
+.jackpot-amount { font-family: var(--serif); font-size: 2.2rem; font-weight: 700; font-style: italic; color: var(--gold-light); margin-top: 4px; }
 .info-bar { display: flex; gap: 8px; }
 .info-box { flex: 1; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; text-align: center; }
 .info-box .lbl { font-size: 0.45rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); }
 .info-box .val { font-size: 0.9rem; font-weight: 800; color: var(--gold-light); font-variant-numeric: tabular-nums; }
-
-/* Number Grid */
 .pick-section { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
 .pick-section h3 { font-family: var(--serif); font-size: 0.9rem; font-style: italic; color: var(--cream); margin-bottom: 8px; }
 .pick-section .pick-hint { font-size: 0.5rem; color: var(--muted); margin-bottom: 10px; }
@@ -43,12 +35,9 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
 .num-btn.drawn { border-color: var(--gold); background: var(--gold); color: var(--bg); opacity: 0.9; }
 .num-btn.drawn.pb { background: var(--red); border-color: var(--red-light); color: white; }
 .num-btn.match { box-shadow: 0 0 12px var(--green); border-color: var(--green); }
-
 .quick-pick-row { display: flex; gap: 8px; margin-top: 10px; }
 .qp-btn { flex: 1; padding: 8px; border: 1px solid var(--line); border-radius: 8px; background: rgba(213,154,75,0.04); font-size: 0.6rem; font-weight: 700; color: var(--gold); text-align: center; }
 .qp-btn:hover { background: rgba(213,154,75,0.1); border-color: var(--gold); }
-
-/* Ticket Display */
 .ticket { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px; text-align: center; }
 .ticket h3 { font-family: var(--serif); font-size: 0.85rem; font-style: italic; color: var(--cream); margin-bottom: 8px; }
 .ticket-numbers { display: flex; gap: 6px; justify-content: center; align-items: center; flex-wrap: wrap; }
@@ -57,24 +46,18 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
 .ticket-ball.empty { border-color: rgba(255,255,255,0.1); background: transparent; color: var(--muted); }
 .ticket-ball.match { border-color: var(--green); background: rgba(74,222,128,0.1); color: var(--green); box-shadow: 0 0 8px rgba(74,222,128,0.3); }
 .ticket-divider { width: 1px; height: 24px; background: var(--line); margin: 0 4px; }
-
-/* Draw Area */
-.draw-area { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; text-align: center; min-height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
-.draw-area h3 { font-family: var(--serif); font-size: 0.9rem; font-style: italic; color: var(--cream); }
-.drawn-balls { display: flex; gap: 8px; justify-content: center; align-items: center; flex-wrap: wrap; }
-.drawn-ball { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; font-size: 0.85rem; font-weight: 900; background: linear-gradient(135deg, var(--gold-light), var(--gold-dim)); color: var(--bg); box-shadow: 0 4px 15px rgba(213,154,75,0.25); animation: ballPop 0.4s cubic-bezier(0.22,1,0.36,1); }
-.drawn-ball.pb { background: linear-gradient(135deg, var(--red-light), var(--red)); color: white; box-shadow: 0 4px 15px rgba(159,35,48,0.35); }
-@keyframes ballPop { 0% { transform: scale(0) translateY(-20px); opacity: 0; } 60% { transform: scale(1.15) translateY(0); } 100% { transform: scale(1); opacity: 1; } }
-
-/* Controls */
 .controls { display: flex; gap: 8px; }
 .draw-btn { flex: 1; padding: 14px; border-radius: 12px; background: linear-gradient(180deg, var(--gold-light), var(--gold-dim)); color: var(--bg); font-family: var(--serif); font-weight: 700; font-size: 1rem; font-style: italic; box-shadow: 0 4px 20px rgba(213,154,75,0.2); transition: transform 0.15s; }
 .draw-btn:hover { transform: translateY(-2px); }
 .draw-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
 .clear-btn { padding: 14px 20px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); font-size: 0.7rem; font-weight: 700; color: var(--muted); }
 .clear-btn:hover { border-color: var(--gold); color: var(--cream); }
-
-/* Result */
+.draw-area { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; text-align: center; min-height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
+.draw-area h3 { font-family: var(--serif); font-size: 0.9rem; font-style: italic; color: var(--cream); }
+.drawn-balls { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.drawn-ball { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; font-size: 0.85rem; font-weight: 900; background: linear-gradient(135deg, var(--gold-light), var(--gold-dim)); color: var(--bg); box-shadow: 0 4px 15px rgba(213,154,75,0.25); animation: ballPop 0.4s cubic-bezier(0.22,1,0.36,1); }
+.drawn-ball.pb { background: linear-gradient(135deg, var(--red-light), var(--red)); color: white; box-shadow: 0 4px 15px rgba(159,35,48,0.35); }
+@keyframes ballPop { 0% { transform: scale(0) translateY(-20px); opacity: 0; } 60% { transform: scale(1.15) translateY(0); } 100% { transform: scale(1); opacity: 1; } }
 .result-card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; text-align: center; display: none; }
 .result-card.show { display: block; animation: fadeIn 0.4s; }
 .result-card h3 { font-family: var(--serif); font-size: 1.1rem; font-style: italic; color: var(--gold-light); margin-bottom: 4px; }
@@ -82,8 +65,6 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
 .result-card .payout { font-size: 1.4rem; font-weight: 900; }
 .result-card .payout.win { color: var(--green); }
 .result-card .payout.lose { color: var(--red); }
-
-/* Prize Table */
 .prize-table { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
 .prize-table h3 { font-family: var(--serif); font-size: 0.85rem; font-style: italic; color: var(--cream); margin-bottom: 8px; text-align: center; }
 .prize-row { display: flex; justify-content: space-between; padding: 5px 8px; font-size: 0.58rem; border-radius: 4px; }
@@ -92,8 +73,6 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
 .prize-row .mult { color: var(--gold-light); font-weight: 700; }
 .prize-row.active { background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.2); }
 .prize-row.active .tier, .prize-row.active .mult { color: var(--green); }
-
-/* History */
 .history { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
 .history h3 { font-family: var(--serif); font-size: 0.8rem; font-style: italic; color: var(--cream); margin-bottom: 8px; text-align: center; }
 .history-entry { display: flex; gap: 4px; align-items: center; justify-content: center; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 0.55rem; }
@@ -103,98 +82,37 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
 .hist-result { margin-left: 8px; font-weight: 700; }
 .hist-result.win { color: var(--green); }
 .hist-result.lose { color: var(--muted); }
-
 .notice { text-align: center; font-size: 0.5rem; color: var(--muted); opacity: 0.6; }
-
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
 .fx-layer { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 100; }
 .coin { position: absolute; top: -20px; width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, var(--gold-light), var(--gold)); animation: coinFall var(--dur) ease-in forwards; }
 @keyframes coinFall { 0% { transform: translateY(0) rotate(0); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
 </style>
 </head>
 <body>
-<a href="/hall.html" class="back-btn">◂ Casino</a>
-
+<a href="/casino.html" class="back-btn">◂ Casino</a>
 <div class="app">
-  <div class="header">
-    <h1>Dungeon Powerball</h1>
-    <p>Pick 5 numbers + 1 Powerball. Match to win.</p>
-  </div>
-
-  <div class="jackpot-card">
-    <div class="jackpot-label">Current Jackpot</div>
-    <div class="jackpot-amount" id="jackpot">50,000,000</div>
-  </div>
-
+  <div class="header"><h1>Dungeon Powerball</h1><p>Pick 5 numbers + 1 Powerball. Match to win.</p></div>
+  <div class="jackpot-card"><div class="jackpot-label">Current Jackpot</div><div class="jackpot-amount" id="jackpot">50,000,000</div></div>
   <div class="info-bar">
-    <div class="info-box"><div class="lbl">Balance</div><div class="val" id="balance">1,000,000</div></div>
-    <div class="info-box"><div class="lbl">Ticket Cost</div><div class="val" id="ticket-cost">1,000</div></div>
+    <div class="info-box"><div class="lbl">Balance</div><div class="val" id="balance">0</div></div>
+    <div class="info-box"><div class="lbl">Ticket</div><div class="val">1,000</div></div>
     <div class="info-box"><div class="lbl">Last Win</div><div class="val" id="last-win">0</div></div>
   </div>
-
-  <div class="pick-section" id="main-picks">
-    <h3>Pick 5 Numbers (1–69)</h3>
-    <div class="pick-hint">Tap numbers or use Quick Pick</div>
-    <div class="number-grid" id="main-grid"></div>
-    <div class="quick-pick-row">
-      <button class="qp-btn" id="qp-main">Quick Pick 5</button>
-      <button class="qp-btn" id="qp-all">Quick Pick All</button>
-      <button class="qp-btn" id="clear-picks">Clear</button>
-    </div>
-  </div>
-
-  <div class="pick-section" id="pb-picks">
-    <h3>Pick 1 Powerball (1–26)</h3>
-    <div class="number-grid" id="pb-grid"></div>
-  </div>
-
-  <div class="ticket" id="ticket-display">
-    <h3>Your Ticket</h3>
-    <div class="ticket-numbers" id="ticket-nums"></div>
-  </div>
-
-  <div class="controls">
-    <button class="draw-btn" id="draw-btn" disabled>Draw Numbers</button>
-    <button class="clear-btn" id="reset-btn">New Ticket</button>
-  </div>
-
-  <div class="draw-area" id="draw-area">
-    <h3>Drawn Numbers</h3>
-    <div class="drawn-balls" id="drawn-balls"></div>
-  </div>
-
-  <div class="result-card" id="result-card">
-    <h3 id="result-title">Results</h3>
-    <div class="matches" id="result-matches"></div>
-    <div class="payout" id="result-payout"></div>
-  </div>
-
-  <div class="prize-table" id="prize-table">
-    <h3>Prize Table</h3>
-    <div class="prize-row"><span class="tier">5 + Powerball</span><span class="mult">JACKPOT (50,000x)</span></div>
-    <div class="prize-row"><span class="tier">5 Numbers</span><span class="mult">5,000x</span></div>
-    <div class="prize-row"><span class="tier">4 + Powerball</span><span class="mult">1,000x</span></div>
-    <div class="prize-row"><span class="tier">4 Numbers</span><span class="mult">100x</span></div>
-    <div class="prize-row"><span class="tier">3 + Powerball</span><span class="mult">50x</span></div>
-    <div class="prize-row"><span class="tier">3 Numbers</span><span class="mult">7x</span></div>
-    <div class="prize-row"><span class="tier">2 + Powerball</span><span class="mult">7x</span></div>
-    <div class="prize-row"><span class="tier">1 + Powerball</span><span class="mult">4x</span></div>
-    <div class="prize-row"><span class="tier">0 + Powerball</span><span class="mult">2x</span></div>
-  </div>
-
-  <div class="history" id="history-section" style="display:none">
-    <h3>Recent Draws</h3>
-    <div id="history-list"></div>
-  </div>
-
+  <div class="pick-section"><h3>Pick 5 Numbers (1–69)</h3><div class="pick-hint">Tap numbers or use Quick Pick</div><div class="number-grid" id="main-grid"></div><div class="quick-pick-row"><button class="qp-btn" id="qp-main">Quick Pick 5</button><button class="qp-btn" id="qp-all">Quick Pick All</button><button class="qp-btn" id="clear-picks">Clear</button></div></div>
+  <div class="pick-section"><h3>Pick 1 Powerball (1–26)</h3><div class="number-grid" id="pb-grid"></div></div>
+  <div class="ticket"><h3>Your Ticket</h3><div class="ticket-numbers" id="ticket-nums"></div></div>
+  <div class="controls"><button class="draw-btn" id="draw-btn" disabled>Draw Numbers</button><button class="clear-btn" id="reset-btn">New Ticket</button></div>
+  <div class="draw-area" id="draw-area"><h3>Drawn Numbers</h3><div class="drawn-balls" id="drawn-balls"></div></div>
+  <div class="result-card" id="result-card"><h3 id="result-title">Results</h3><div class="matches" id="result-matches"></div><div class="payout" id="result-payout"></div></div>
+  <div class="prize-table" id="prize-table"><h3>Prize Table</h3><div class="prize-row"><span class="tier">5 + Powerball</span><span class="mult">JACKPOT (50,000x)</span></div><div class="prize-row"><span class="tier">5 Numbers</span><span class="mult">5,000x</span></div><div class="prize-row"><span class="tier">4 + Powerball</span><span class="mult">1,000x</span></div><div class="prize-row"><span class="tier">4 Numbers</span><span class="mult">100x</span></div><div class="prize-row"><span class="tier">3 + Powerball</span><span class="mult">50x</span></div><div class="prize-row"><span class="tier">3 Numbers</span><span class="mult">7x</span></div><div class="prize-row"><span class="tier">2 + Powerball</span><span class="mult">7x</span></div><div class="prize-row"><span class="tier">1 + Powerball</span><span class="mult">4x</span></div><div class="prize-row"><span class="tier">0 + Powerball</span><span class="mult">2x</span></div></div>
+  <div class="history" id="history-section" style="display:none"><h3>Recent Draws</h3><div id="history-list"></div></div>
   <p class="notice">Entertainment tokens only. No cash value.</p>
 </div>
-
 <div class="fx-layer" id="fxL"></div>
-
+<script src="/public/js/balance.js"></script>
 <script>
-var CONFIG = { MAIN_MAX: 69, PB_MAX: 26, PICK_COUNT: 5, TICKET_COST: 1000, START_BALANCE: 1000000, JACKPOT: 50000000 };
+var CONFIG = { MAIN_MAX: 69, PB_MAX: 26, PICK_COUNT: 5, TICKET_COST: 1000, JACKPOT: 50000000 };
 var PRIZES = [
   { main: 5, pb: true, mult: 50000, label: 'JACKPOT' },
   { main: 5, pb: false, mult: 5000, label: '5 Numbers' },
@@ -206,295 +124,65 @@ var PRIZES = [
   { main: 1, pb: true, mult: 4, label: '1 + Powerball' },
   { main: 0, pb: true, mult: 2, label: '0 + Powerball' },
 ];
-
-var state = {
-  balance: CONFIG.START_BALANCE,
-  mainPicks: [],
-  pbPick: null,
-  drawnMain: [],
-  drawnPB: null,
-  drawing: false,
-  history: []
-};
-
-function fmt(n) { return n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n.toLocaleString(); }
+var state = { mainPicks: [], pbPick: null, drawnMain: [], drawnPB: null, drawing: false, history: [] };
 function $(id) { return document.getElementById(id); }
+function refreshBalance() { $('balance').textContent = TokenBank.fmt(TokenBank.get()); }
+refreshBalance();
 
-// Build grids
-function buildMainGrid() {
-  var grid = $('main-grid');
-  grid.innerHTML = '';
-  for (var i = 1; i <= CONFIG.MAIN_MAX; i++) {
-    var btn = document.createElement('button');
-    btn.className = 'num-btn';
-    btn.textContent = i;
-    btn.dataset.num = i;
-    btn.addEventListener('click', function() { toggleMain(parseInt(this.dataset.num)); });
-    grid.appendChild(btn);
-  }
-}
-
-function buildPBGrid() {
-  var grid = $('pb-grid');
-  grid.innerHTML = '';
-  for (var i = 1; i <= CONFIG.PB_MAX; i++) {
-    var btn = document.createElement('button');
-    btn.className = 'num-btn pb';
-    btn.textContent = i;
-    btn.dataset.num = i;
-    btn.addEventListener('click', function() { togglePB(parseInt(this.dataset.num)); });
-    grid.appendChild(btn);
-  }
-}
-
-function toggleMain(n) {
-  if (state.drawing) return;
-  var idx = state.mainPicks.indexOf(n);
-  if (idx >= 0) {
-    state.mainPicks.splice(idx, 1);
-  } else if (state.mainPicks.length < CONFIG.PICK_COUNT) {
-    state.mainPicks.push(n);
-  }
-  renderSelections();
-}
-
-function togglePB(n) {
-  if (state.drawing) return;
-  state.pbPick = state.pbPick === n ? null : n;
-  renderSelections();
-}
-
+function buildMainGrid() { var grid = $('main-grid'); grid.innerHTML = ''; for (var i = 1; i <= CONFIG.MAIN_MAX; i++) { var btn = document.createElement('button'); btn.className = 'num-btn'; btn.textContent = i; btn.dataset.num = i; btn.addEventListener('click', function() { toggleMain(parseInt(this.dataset.num)); }); grid.appendChild(btn); } }
+function buildPBGrid() { var grid = $('pb-grid'); grid.innerHTML = ''; for (var i = 1; i <= CONFIG.PB_MAX; i++) { var btn = document.createElement('button'); btn.className = 'num-btn pb'; btn.textContent = i; btn.dataset.num = i; btn.addEventListener('click', function() { togglePB(parseInt(this.dataset.num)); }); grid.appendChild(btn); } }
+function toggleMain(n) { if (state.drawing) return; var idx = state.mainPicks.indexOf(n); if (idx >= 0) state.mainPicks.splice(idx, 1); else if (state.mainPicks.length < CONFIG.PICK_COUNT) state.mainPicks.push(n); renderSelections(); }
+function togglePB(n) { if (state.drawing) return; state.pbPick = state.pbPick === n ? null : n; renderSelections(); }
 function renderSelections() {
-  // Main grid
-  var mainBtns = $('main-grid').querySelectorAll('.num-btn');
-  mainBtns.forEach(function(btn) {
-    var n = parseInt(btn.dataset.num);
-    btn.classList.toggle('selected', state.mainPicks.indexOf(n) >= 0);
-  });
-  // PB grid
-  var pbBtns = $('pb-grid').querySelectorAll('.num-btn');
-  pbBtns.forEach(function(btn) {
-    var n = parseInt(btn.dataset.num);
-    btn.classList.toggle('selected', state.pbPick === n);
-  });
-  // Ticket display
-  renderTicket();
-  // Enable draw button
-  $('draw-btn').disabled = !(state.mainPicks.length === CONFIG.PICK_COUNT && state.pbPick !== null);
+  $('main-grid').querySelectorAll('.num-btn').forEach(function(btn) { btn.classList.toggle('selected', state.mainPicks.indexOf(parseInt(btn.dataset.num)) >= 0); });
+  $('pb-grid').querySelectorAll('.num-btn').forEach(function(btn) { btn.classList.toggle('selected', state.pbPick === parseInt(btn.dataset.num)); });
+  renderTicket(); $('draw-btn').disabled = !(state.mainPicks.length === CONFIG.PICK_COUNT && state.pbPick !== null);
 }
-
 function renderTicket() {
-  var container = $('ticket-nums');
-  container.innerHTML = '';
-  for (var i = 0; i < CONFIG.PICK_COUNT; i++) {
-    var ball = document.createElement('div');
-    ball.className = 'ticket-ball' + (state.mainPicks[i] ? '' : ' empty');
-    ball.textContent = state.mainPicks[i] || '?';
-    container.appendChild(ball);
-  }
-  var divider = document.createElement('div');
-  divider.className = 'ticket-divider';
-  container.appendChild(divider);
-  var pbBall = document.createElement('div');
-  pbBall.className = 'ticket-ball pb' + (state.pbPick ? '' : ' empty');
-  pbBall.textContent = state.pbPick || '?';
-  container.appendChild(pbBall);
+  var c = $('ticket-nums'); c.innerHTML = '';
+  for (var i = 0; i < CONFIG.PICK_COUNT; i++) { var b = document.createElement('div'); b.className = 'ticket-ball' + (state.mainPicks[i] ? '' : ' empty'); b.textContent = state.mainPicks[i] || '?'; c.appendChild(b); }
+  var d = document.createElement('div'); d.className = 'ticket-divider'; c.appendChild(d);
+  var p = document.createElement('div'); p.className = 'ticket-ball pb' + (state.pbPick ? '' : ' empty'); p.textContent = state.pbPick || '?'; c.appendChild(p);
 }
-
-// Quick Pick
-function quickPickMain() {
-  state.mainPicks = [];
-  var available = [];
-  for (var i = 1; i <= CONFIG.MAIN_MAX; i++) available.push(i);
-  for (var i = 0; i < CONFIG.PICK_COUNT; i++) {
-    var idx = Math.floor(Math.random() * available.length);
-    state.mainPicks.push(available.splice(idx, 1)[0]);
-  }
-  state.mainPicks.sort(function(a, b) { return a - b; });
-}
-
-function quickPickPB() {
-  state.pbPick = Math.floor(Math.random() * CONFIG.PB_MAX) + 1;
-}
-
+function quickPickMain() { state.mainPicks = []; var a = []; for (var i = 1; i <= CONFIG.MAIN_MAX; i++) a.push(i); for (var i = 0; i < CONFIG.PICK_COUNT; i++) { var idx = Math.floor(Math.random() * a.length); state.mainPicks.push(a.splice(idx, 1)[0]); } state.mainPicks.sort(function(a, b) { return a - b; }); }
+function quickPickPB() { state.pbPick = Math.floor(Math.random() * CONFIG.PB_MAX) + 1; }
 $('qp-main').addEventListener('click', function() { quickPickMain(); renderSelections(); });
 $('qp-all').addEventListener('click', function() { quickPickMain(); quickPickPB(); renderSelections(); });
 $('clear-picks').addEventListener('click', function() { state.mainPicks = []; state.pbPick = null; renderSelections(); });
-
-// Draw
 $('draw-btn').addEventListener('click', startDraw);
-$('reset-btn').addEventListener('click', function() {
-  state.mainPicks = []; state.pbPick = null; state.drawnMain = []; state.drawnPB = null;
-  $('drawn-balls').innerHTML = '';
-  $('result-card').classList.remove('show');
-  renderSelections();
-  // Reset grid highlights
-  $('main-grid').querySelectorAll('.num-btn').forEach(function(b) { b.classList.remove('drawn', 'match'); });
-  $('pb-grid').querySelectorAll('.num-btn').forEach(function(b) { b.classList.remove('drawn', 'match'); });
-  $('ticket-nums').querySelectorAll('.ticket-ball').forEach(function(b) { b.classList.remove('match'); });
-});
+$('reset-btn').addEventListener('click', function() { state.mainPicks = []; state.pbPick = null; state.drawnMain = []; state.drawnPB = null; $('drawn-balls').innerHTML = ''; $('result-card').classList.remove('show'); renderSelections(); $('main-grid').querySelectorAll('.num-btn').forEach(function(b) { b.classList.remove('drawn', 'match'); }); $('pb-grid').querySelectorAll('.num-btn').forEach(function(b) { b.classList.remove('drawn', 'match'); }); });
 
 async function startDraw() {
   if (state.drawing) return;
-  if (state.balance < CONFIG.TICKET_COST) { state.balance = CONFIG.START_BALANCE; updateInfo(); return; }
-
-  state.drawing = true;
-  state.balance -= CONFIG.TICKET_COST;
-  updateInfo();
-  $('draw-btn').disabled = true;
-  $('drawn-balls').innerHTML = '';
-  $('result-card').classList.remove('show');
-
-  // Generate drawn numbers
-  var available = [];
-  for (var i = 1; i <= CONFIG.MAIN_MAX; i++) available.push(i);
-  state.drawnMain = [];
-  for (var i = 0; i < CONFIG.PICK_COUNT; i++) {
-    var idx = Math.floor(Math.random() * available.length);
-    state.drawnMain.push(available.splice(idx, 1)[0]);
-  }
+  if (TokenBank.get() < CONFIG.TICKET_COST) return;
+  state.drawing = true; TokenBank.subtract(CONFIG.TICKET_COST); refreshBalance();
+  $('draw-btn').disabled = true; $('drawn-balls').innerHTML = ''; $('result-card').classList.remove('show');
+  var available = []; for (var i = 1; i <= CONFIG.MAIN_MAX; i++) available.push(i);
+  state.drawnMain = []; for (var i = 0; i < CONFIG.PICK_COUNT; i++) { var idx = Math.floor(Math.random() * available.length); state.drawnMain.push(available.splice(idx, 1)[0]); }
   state.drawnMain.sort(function(a, b) { return a - b; });
   state.drawnPB = Math.floor(Math.random() * CONFIG.PB_MAX) + 1;
-
-  // Animate draw
-  for (var i = 0; i < state.drawnMain.length; i++) {
-    await wait(600);
-    var ball = document.createElement('div');
-    ball.className = 'drawn-ball';
-    ball.textContent = state.drawnMain[i];
-    $('drawn-balls').appendChild(ball);
-    highlightDrawn(state.drawnMain[i], false);
-  }
-
-  await wait(900);
-  var pbBall = document.createElement('div');
-  pbBall.className = 'drawn-ball pb';
-  pbBall.textContent = state.drawnPB;
-  $('drawn-balls').appendChild(pbBall);
-  highlightDrawn(state.drawnPB, true);
-
-  await wait(600);
-  evaluateResult();
-  state.drawing = false;
+  for (var i = 0; i < state.drawnMain.length; i++) { await wait(600); var ball = document.createElement('div'); ball.className = 'drawn-ball'; ball.textContent = state.drawnMain[i]; $('drawn-balls').appendChild(ball); highlightDrawn(state.drawnMain[i], false); }
+  await wait(900); var pbBall = document.createElement('div'); pbBall.className = 'drawn-ball pb'; pbBall.textContent = state.drawnPB; $('drawn-balls').appendChild(pbBall); highlightDrawn(state.drawnPB, true);
+  await wait(600); evaluateResult(); state.drawing = false;
 }
-
 function highlightDrawn(num, isPB) {
-  if (!isPB) {
-    var btns = $('main-grid').querySelectorAll('.num-btn');
-    btns.forEach(function(b) {
-      if (parseInt(b.dataset.num) === num) {
-        b.classList.add('drawn');
-        if (state.mainPicks.indexOf(num) >= 0) b.classList.add('match');
-      }
-    });
-    // Highlight on ticket
-    var ticketBalls = $('ticket-nums').querySelectorAll('.ticket-ball:not(.pb)');
-    ticketBalls.forEach(function(tb) { if (parseInt(tb.textContent) === num) tb.classList.add('match'); });
-  } else {
-    var btns = $('pb-grid').querySelectorAll('.num-btn');
-    btns.forEach(function(b) {
-      if (parseInt(b.dataset.num) === num) {
-        b.classList.add('drawn');
-        if (state.pbPick === num) b.classList.add('match');
-      }
-    });
-    var pbTicket = $('ticket-nums').querySelector('.ticket-ball.pb');
-    if (pbTicket && parseInt(pbTicket.textContent) === num) pbTicket.classList.add('match');
-  }
+  if (!isPB) { $('main-grid').querySelectorAll('.num-btn').forEach(function(b) { if (parseInt(b.dataset.num) === num) { b.classList.add('drawn'); if (state.mainPicks.indexOf(num) >= 0) b.classList.add('match'); } }); $('ticket-nums').querySelectorAll('.ticket-ball:not(.pb)').forEach(function(tb) { if (parseInt(tb.textContent) === num) tb.classList.add('match'); }); }
+  else { $('pb-grid').querySelectorAll('.num-btn').forEach(function(b) { if (parseInt(b.dataset.num) === num) { b.classList.add('drawn'); if (state.pbPick === num) b.classList.add('match'); } }); var pbt = $('ticket-nums').querySelector('.ticket-ball.pb'); if (pbt && parseInt(pbt.textContent) === num) pbt.classList.add('match'); }
 }
-
 function evaluateResult() {
-  var mainMatches = 0;
-  state.mainPicks.forEach(function(p) { if (state.drawnMain.indexOf(p) >= 0) mainMatches++; });
+  var mainMatches = 0; state.mainPicks.forEach(function(p) { if (state.drawnMain.indexOf(p) >= 0) mainMatches++; });
   var pbMatch = state.pbPick === state.drawnPB;
-
-  var prize = null;
-  for (var i = 0; i < PRIZES.length; i++) {
-    if (PRIZES[i].main === mainMatches && PRIZES[i].pb === pbMatch) {
-      prize = PRIZES[i]; break;
-    }
-  }
-
-  var resultCard = $('result-card');
-  resultCard.classList.add('show');
-
-  if (prize) {
-    var payout = CONFIG.TICKET_COST * prize.mult;
-    state.balance += payout;
-    updateInfo();
-    $('last-win').textContent = fmt(payout);
-    $('result-title').textContent = prize.label === 'JACKPOT' ? '\ud83c\udf89 JACKPOT! \ud83c\udf89' : prize.label + '!';
-    $('result-matches').textContent = mainMatches + ' numbers' + (pbMatch ? ' + Powerball' : '') + ' matched';
-    $('result-payout').textContent = '+' + fmt(payout) + ' tokens';
-    $('result-payout').className = 'payout win';
-    spawnCoins(Math.min(prize.mult / 2, 50));
-    highlightPrizeRow(mainMatches, pbMatch);
-  } else {
-    $('result-title').textContent = 'No Prize';
-    $('result-matches').textContent = mainMatches + ' numbers' + (pbMatch ? ' + Powerball' : '') + ' matched';
-    $('result-payout').textContent = 'Better luck next draw';
-    $('result-payout').className = 'payout lose';
-  }
-
-  // Add to history
-  state.history.unshift({ main: state.drawnMain.slice(), pb: state.drawnPB, prize: prize });
-  if (state.history.length > 5) state.history.pop();
-  renderHistory();
+  var prize = null; for (var i = 0; i < PRIZES.length; i++) { if (PRIZES[i].main === mainMatches && PRIZES[i].pb === pbMatch) { prize = PRIZES[i]; break; } }
+  $('result-card').classList.add('show');
+  if (prize) { var payout = CONFIG.TICKET_COST * prize.mult; TokenBank.add(payout); refreshBalance(); $('last-win').textContent = TokenBank.fmt(payout); $('result-title').textContent = prize.label === 'JACKPOT' ? '\ud83c\udf89 JACKPOT! \ud83c\udf89' : prize.label + '!'; $('result-matches').textContent = mainMatches + ' numbers' + (pbMatch ? ' + Powerball' : '') + ' matched'; $('result-payout').textContent = '+' + TokenBank.fmt(payout); $('result-payout').className = 'payout win'; spawnCoins(Math.min(prize.mult / 2, 50)); highlightPrizeRow(mainMatches, pbMatch); }
+  else { $('result-title').textContent = 'No Prize'; $('result-matches').textContent = mainMatches + ' numbers' + (pbMatch ? ' + Powerball' : ''); $('result-payout').textContent = 'Better luck next draw'; $('result-payout').className = 'payout lose'; }
+  state.history.unshift({ main: state.drawnMain.slice(), pb: state.drawnPB, prize: prize }); if (state.history.length > 5) state.history.pop(); renderHistory();
 }
-
-function highlightPrizeRow(mainCount, pbMatch) {
-  var rows = $('prize-table').querySelectorAll('.prize-row');
-  rows.forEach(function(r) { r.classList.remove('active'); });
-  for (var i = 0; i < PRIZES.length; i++) {
-    if (PRIZES[i].main === mainCount && PRIZES[i].pb === pbMatch) {
-      rows[i].classList.add('active'); break;
-    }
-  }
-}
-
-function renderHistory() {
-  var section = $('history-section');
-  var list = $('history-list');
-  if (state.history.length === 0) { section.style.display = 'none'; return; }
-  section.style.display = 'block';
-  list.innerHTML = '';
-  state.history.forEach(function(entry) {
-    var row = document.createElement('div');
-    row.className = 'history-entry';
-    var html = '';
-    entry.main.forEach(function(n) { html += '<div class="hist-ball">' + n + '</div>'; });
-    html += '<div class="hist-ball pb">' + entry.pb + '</div>';
-    html += '<span class="hist-result ' + (entry.prize ? 'win' : 'lose') + '">' + (entry.prize ? entry.prize.label : 'No win') + '</span>';
-    row.innerHTML = html;
-    list.appendChild(row);
-  });
-}
-
-function updateInfo() {
-  $('balance').textContent = fmt(state.balance);
-  $('jackpot').textContent = fmt(CONFIG.JACKPOT);
-}
-
-function spawnCoins(n) {
-  var l = $('fxL');
-  for (var i = 0; i < n; i++) {
-    var c = document.createElement('div');
-    c.className = 'coin';
-    c.style.left = (10 + Math.random() * 80) + '%';
-    c.style.setProperty('--dur', (1.5 + Math.random() * 1.5) + 's');
-    c.style.animationDelay = (Math.random() * 0.5) + 's';
-    l.appendChild(c);
-    setTimeout((function(el) { return function() { el.remove(); }; })(c), 3500);
-  }
-}
-
+function highlightPrizeRow(mc, pb) { var rows = $('prize-table').querySelectorAll('.prize-row'); rows.forEach(function(r) { r.classList.remove('active'); }); for (var i = 0; i < PRIZES.length; i++) { if (PRIZES[i].main === mc && PRIZES[i].pb === pb) { rows[i].classList.add('active'); break; } } }
+function renderHistory() { var s = $('history-section'), l = $('history-list'); if (state.history.length === 0) { s.style.display = 'none'; return; } s.style.display = 'block'; l.innerHTML = ''; state.history.forEach(function(e) { var row = document.createElement('div'); row.className = 'history-entry'; var html = ''; e.main.forEach(function(n) { html += '<div class="hist-ball">' + n + '</div>'; }); html += '<div class="hist-ball pb">' + e.pb + '</div>'; html += '<span class="hist-result ' + (e.prize ? 'win' : 'lose') + '">' + (e.prize ? e.prize.label : 'No win') + '</span>'; row.innerHTML = html; l.appendChild(row); }); }
+function spawnCoins(n) { var l = $('fxL'); for (var i = 0; i < n; i++) { var c = document.createElement('div'); c.className = 'coin'; c.style.left = (10 + Math.random() * 80) + '%'; c.style.setProperty('--dur', (1.5 + Math.random() * 1.5) + 's'); c.style.animationDelay = (Math.random() * 0.5) + 's'; l.appendChild(c); setTimeout((function(el) { return function() { el.remove(); }; })(c), 3500); } }
 function wait(ms) { return new Promise(function(r) { setTimeout(r, ms); }); }
-
-// Init
-buildMainGrid();
-buildPBGrid();
-renderSelections();
-updateInfo();
+buildMainGrid(); buildPBGrid(); renderSelections();
 </script>
 <script src="/public/js/admin-bar.js"></script>
 </body>
