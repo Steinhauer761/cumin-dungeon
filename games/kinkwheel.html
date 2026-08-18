@@ -6,7 +6,7 @@
 <title>After Dark Wheel | CumIN Dungeon</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
-:root { --bg: #050304; --surface: #0c0908; --surface-2: #141010; --gold: #d59a4b; --gold-light: #f5c77e; --gold-dim: #8b6230; --cream: #f5eee4; --muted: #7a6e64; --red: #9f2330; --green: #4ade80; --line: rgba(190,137,77,0.18); --serif: 'Cormorant Garamond', Georgia, serif; --sans: 'Inter', system-ui, sans-serif; }
+:root { --bg: #050304; --surface: #0c0908; --surface-2: #141010; --gold: #d59a4b; --gold-light: #f5c77e; --gold-dim: #8b6230; --cream: #f5eee4; --muted: #7a6e64; --red: #9f2330; --red-light: #e63946; --green: #4ade80; --purple: #8b5cf6; --line: rgba(190,137,77,0.18); --serif: 'Cormorant Garamond', Georgia, serif; --sans: 'Inter', system-ui, sans-serif; }
 * { box-sizing: border-box; margin: 0; }
 body { background: var(--bg); color: var(--cream); font-family: var(--sans); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; position: relative; overflow: hidden; }
 body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at 50% 20%, rgba(159,35,48,0.08), transparent 50%), radial-gradient(ellipse at 50% 80%, rgba(213,154,75,0.06), transparent 40%); pointer-events: none; }
@@ -27,6 +27,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .win-payout { font-size: 0.9rem; font-weight: 800; margin-top: 4px; animation: fadeIn 0.4s; }
 .win-payout.positive { color: var(--green); }
 .win-payout.negative { color: var(--red); }
+.win-payout.bonus { color: var(--purple); }
 .bet-row { display: flex; gap: 8px; justify-content: center; align-items: center; margin-bottom: 16px; }
 .amt-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); background: rgba(213,154,75,0.06); font-weight: 800; font-size: 1rem; display: grid; place-items: center; color: var(--gold); transition: all 0.15s; }
 .amt-btn:active { transform: scale(0.9); background: rgba(213,154,75,0.15); }
@@ -36,6 +37,57 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .spin-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
 .notice { font-size: 0.5rem; color: var(--muted); margin-top: 12px; opacity: 0.6; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Bonus Overlay */
+.bonus-overlay { position: fixed; inset: 0; z-index: 500; background: rgba(5,3,4,0.96); display: none; flex-direction: column; align-items: center; justify-content: center; padding: 24px; overflow-y: auto; }
+.bonus-overlay.show { display: flex; }
+.bonus-title { font-family: var(--serif); font-size: 1.6rem; font-style: italic; font-weight: 700; color: var(--purple); margin-bottom: 6px; text-shadow: 0 0 20px rgba(139,92,246,0.3); }
+.bonus-subtitle { font-size: 0.65rem; color: var(--muted); margin-bottom: 20px; }
+.bonus-content { width: min(400px, 100%); }
+
+/* Pick-a-Door Bonus */
+.doors-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+.door-btn { aspect-ratio: 0.7; border-radius: 14px; border: 2px solid var(--line); background: linear-gradient(180deg, #1a0a14, #0c0608); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s; cursor: pointer; position: relative; overflow: hidden; }
+.door-btn::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 30%, rgba(159,35,48,0.1), transparent 60%); }
+.door-btn:hover { border-color: var(--red-light); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(159,35,48,0.15); }
+.door-btn.revealed { pointer-events: none; }
+.door-btn.revealed.winner { border-color: var(--green); background: rgba(74,222,128,0.06); box-shadow: 0 0 20px rgba(74,222,128,0.15); }
+.door-btn.revealed.loser { border-color: var(--muted); opacity: 0.5; }
+.door-icon { font-size: 2rem; position: relative; }
+.door-label { font-size: 0.55rem; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; position: relative; }
+.door-reward { font-size: 1rem; font-weight: 900; color: var(--green); display: none; position: relative; }
+.door-btn.revealed .door-icon { display: none; }
+.door-btn.revealed .door-label { display: none; }
+.door-btn.revealed .door-reward { display: block; }
+
+/* Dare Wheel Bonus */
+.dare-area { text-align: center; }
+.dare-text { font-family: var(--serif); font-size: 1.1rem; font-style: italic; color: var(--cream); margin: 16px 0; min-height: 50px; display: flex; align-items: center; justify-content: center; }
+.dare-reveal-btn { padding: 12px 28px; border: none; border-radius: 10px; background: linear-gradient(135deg, var(--purple), var(--red)); color: white; font-weight: 700; font-size: 0.8rem; transition: transform 0.12s; }
+.dare-reveal-btn:hover { transform: translateY(-2px); }
+.dare-reveal-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.dare-mult { font-size: 2rem; font-weight: 900; color: var(--green); margin: 12px 0; }
+
+/* Strip Reveal Bonus */
+.cards-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
+.reveal-card { aspect-ratio: 0.75; border-radius: 12px; border: 2px solid var(--line); background: linear-gradient(180deg, #140a10, #0a0608); display: grid; place-items: center; font-size: 1.8rem; cursor: pointer; transition: all 0.25s; position: relative; }
+.reveal-card:hover { border-color: var(--purple); transform: scale(1.05); }
+.reveal-card.flipped { pointer-events: none; transform: rotateY(180deg); }
+.reveal-card.flipped .card-front { display: none; }
+.reveal-card.flipped .card-back { display: flex; }
+.card-front { position: relative; }
+.card-back { display: none; flex-direction: column; align-items: center; justify-content: center; gap: 4px; transform: rotateY(180deg); }
+.card-back .cb-emoji { font-size: 1.4rem; }
+.card-back .cb-mult { font-size: 0.7rem; font-weight: 900; color: var(--green); }
+.card-back .cb-text { font-size: 0.45rem; color: var(--muted); }
+
+/* Bonus collect */
+.bonus-result { text-align: center; margin-top: 16px; }
+.bonus-result .total { font-family: var(--serif); font-size: 1.8rem; font-style: italic; color: var(--green); }
+.bonus-result .msg { font-size: 0.65rem; color: var(--muted); margin-top: 4px; }
+.bonus-collect-btn { margin-top: 16px; padding: 12px 28px; border: none; border-radius: 10px; background: linear-gradient(180deg, var(--gold-light), var(--gold-dim)); color: var(--bg); font-family: var(--serif); font-weight: 700; font-size: 0.9rem; font-style: italic; cursor: pointer; display: none; }
+.bonus-collect-btn.show { display: inline-block; }
+
 .fx-layer { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 100; }
 .coin { position: absolute; top: -20px; width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, var(--gold-light), var(--gold)); animation: coinFall var(--dur) ease-in forwards; opacity: 0.9; }
 @keyframes coinFall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
@@ -46,7 +98,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 <div class="game-box">
   <div class="game-header">
     <h1>After Dark Wheel</h1>
-    <p>Spin the wheel. Land on fortune or fate.</p>
+    <p>Spin the wheel. Land on Bonus for the real fun.</p>
   </div>
   <div class="info-bar">
     <div><span class="label">Balance</span><span class="balance" id="balance">0</span></div>
@@ -65,26 +117,71 @@ button { font: inherit; color: inherit; cursor: pointer; }
   <button class="spin-btn" id="spin-btn">Spin the Wheel</button>
   <p class="notice">Entertainment tokens only. No cash value.</p>
 </div>
+
+<!-- Bonus Overlay -->
+<div class="bonus-overlay" id="bonus-overlay">
+  <div class="bonus-title" id="bonus-title">Bonus Round</div>
+  <div class="bonus-subtitle" id="bonus-subtitle"></div>
+  <div class="bonus-content" id="bonus-content"></div>
+  <div class="bonus-result" id="bonus-result" style="display:none">
+    <div class="total" id="bonus-total">+0</div>
+    <div class="msg" id="bonus-msg"></div>
+  </div>
+  <button class="bonus-collect-btn" id="bonus-collect">Collect Winnings</button>
+</div>
+
 <div class="fx-layer" id="fxL"></div>
 <script src="/public/js/balance.js"></script>
 <script>
 var SEGMENTS = [
-  { label: 'Velvet Kiss', sub: '2x', multiplier: 2, color: '#3d0a12' },
-  { label: 'Shadow\'s Edge', sub: 'Lose', multiplier: 0, color: '#0c0908' },
-  { label: 'Chains & Roses', sub: '5x', multiplier: 5, color: '#1a2a14' },
-  { label: 'Silk Whisper', sub: '1.5x', multiplier: 1.5, color: '#1a0a20' },
-  { label: 'Dungeon Toll', sub: 'Lose', multiplier: 0, color: '#0c0908' },
-  { label: 'Dragon\'s Breath', sub: '10x', multiplier: 10, color: '#3d2a08' },
-  { label: 'Crimson Tease', sub: '3x', multiplier: 3, color: '#2a0a14' },
-  { label: 'Dark Passage', sub: 'Lose', multiplier: 0, color: '#0c0908' },
-  { label: 'Golden Shackle', sub: '2x', multiplier: 2, color: '#2a1a08' },
-  { label: 'Sinful 50x', sub: '50x', multiplier: 50, color: '#4a1a08' },
-  { label: 'Forbidden Peek', sub: '1.5x', multiplier: 1.5, color: '#1a0a20' },
-  { label: 'Throne\'s Mercy', sub: 'Lose', multiplier: 0, color: '#0c0908' },
+  { label: 'Velvet Kiss', sub: '2x', multiplier: 2, color: '#3d0a12', type: 'win' },
+  { label: 'Shadow\'s Edge', sub: 'Lose', multiplier: 0, color: '#0c0908', type: 'lose' },
+  { label: 'Chains & Roses', sub: '5x', multiplier: 5, color: '#1a2a14', type: 'win' },
+  { label: 'Midnight Dare', sub: 'BONUS', multiplier: 0, color: '#2a1040', type: 'bonus_dare' },
+  { label: 'Dungeon Toll', sub: 'Lose', multiplier: 0, color: '#0c0908', type: 'lose' },
+  { label: 'Dragon\'s Breath', sub: '10x', multiplier: 10, color: '#3d2a08', type: 'win' },
+  { label: 'Crimson Tease', sub: '3x', multiplier: 3, color: '#2a0a14', type: 'win' },
+  { label: 'Private Room', sub: 'BONUS', multiplier: 0, color: '#0a2030', type: 'bonus_doors' },
+  { label: 'Golden Shackle', sub: '2x', multiplier: 2, color: '#2a1a08', type: 'win' },
+  { label: 'Sinful 50x', sub: '50x', multiplier: 50, color: '#4a1a08', type: 'win' },
+  { label: 'Strip Reveal', sub: 'BONUS', multiplier: 0, color: '#301030', type: 'bonus_strip' },
+  { label: 'Throne\'s Mercy', sub: 'Lose', multiplier: 0, color: '#0c0908', type: 'lose' },
 ];
 
 var CONFIG = { BETS: [500, 1000, 2500, 5000, 10000, 25000, 50000, 100000] };
 var betIdx = 1, bet = CONFIG.BETS[1], spinning = false, currentRotation = 0;
+
+// Bonus data
+var DOOR_REWARDS = [
+  { emoji: '\ud83d\udc8b', text: 'Deep Kiss', mult: 8 },
+  { emoji: '\ud83d\udd25', text: 'Heating Up', mult: 5 },
+  { emoji: '\u26d3\ufe0f', text: 'Bound & Lucky', mult: 15 },
+  { emoji: '\ud83e\uddca', text: 'Ice Play', mult: 3 },
+  { emoji: '\ud83d\udc60', text: 'Stiletto Jackpot', mult: 25 },
+  { emoji: '\ud83d\udc44', text: 'Whispered Secret', mult: 10 },
+];
+
+var DARES = [
+  { text: '"Take it off... slowly."', mult: 5 },
+  { text: '"Blindfold on. Trust the wheel."', mult: 8 },
+  { text: '"Handcuffs click. You\'re committed."', mult: 12 },
+  { text: '"Whisper your darkest fantasy..."', mult: 6 },
+  { text: '"The safeword is... irrelevant."', mult: 20 },
+  { text: '"On your knees. Fortune favors the bold."', mult: 15 },
+  { text: '"Close your eyes. Feel the anticipation."', mult: 7 },
+  { text: '"Leather or lace? Choose wisely."', mult: 10 },
+];
+
+var STRIP_CARDS = [
+  { emoji: '\ud83e\udde4', text: 'Gloves Off', mult: 2 },
+  { emoji: '\ud83d\udc59', text: 'Corset Unlaced', mult: 5 },
+  { emoji: '\ud83e\ude74', text: 'Thigh High', mult: 3 },
+  { emoji: '\ud83d\udc60', text: 'Heels Stay On', mult: 8 },
+  { emoji: '\ud83c\udfad', text: 'Mask Removed', mult: 4 },
+  { emoji: '\u26d3\ufe0f', text: 'Chains Drop', mult: 10 },
+  { emoji: '\ud83d\udc8d', text: 'Ring of Desire', mult: 15 },
+  { emoji: '\ud83e\uddf4', text: 'Blindfold Reveal', mult: 6 },
+];
 
 function fmtBet(n) { return n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n >= 1e3 ? (n/1e3)+'K' : ''+n; }
 function refreshUI() {
@@ -106,10 +203,15 @@ function drawWheel() {
     ctx.fillStyle = seg.color; ctx.fill();
     ctx.strokeStyle = 'rgba(213,154,75,0.15)'; ctx.lineWidth = 1; ctx.stroke();
     ctx.save(); ctx.translate(cx, cy); ctx.rotate(start + sliceAngle/2);
-    ctx.fillStyle = seg.multiplier > 0 ? '#f5c77e' : '#7a6e64';
-    ctx.font = 'bold 9px Inter'; ctx.textAlign = 'center'; ctx.fillText(seg.label, 0, -r + 28);
-    ctx.fillStyle = seg.multiplier >= 10 ? '#4ade80' : seg.multiplier > 0 ? '#f5eee4' : '#9f2330';
-    ctx.font = 'bold 11px Inter'; ctx.fillText(seg.sub, 0, -r + 42);
+    // Label
+    var isBonus = seg.type.indexOf('bonus') === 0;
+    ctx.fillStyle = isBonus ? '#c084fc' : (seg.multiplier > 0 ? '#f5c77e' : '#7a6e64');
+    ctx.font = isBonus ? 'bold 9px Inter' : 'bold 8px Inter';
+    ctx.textAlign = 'center'; ctx.fillText(seg.label, 0, -r + 26);
+    // Sub
+    ctx.fillStyle = isBonus ? '#a78bfa' : (seg.multiplier >= 10 ? '#4ade80' : seg.multiplier > 0 ? '#f5eee4' : '#9f2330');
+    ctx.font = isBonus ? 'bold 12px Inter' : 'bold 11px Inter';
+    ctx.fillText(seg.sub, 0, -r + 42);
     ctx.restore();
   });
   ctx.beginPath(); ctx.arc(cx, cy, 22, 0, 2*Math.PI); ctx.fillStyle = '#0c0908'; ctx.fill();
@@ -138,7 +240,7 @@ document.getElementById('spin-btn').addEventListener('click', function() {
   document.getElementById('win-display').innerHTML = '';
   TokenBank.subtract(bet); refreshUI();
 
-  var weights = [20, 18, 6, 16, 14, 2, 10, 14, 12, 1, 10, 12];
+  var weights = [18, 16, 5, 4, 14, 2, 10, 4, 12, 1, 4, 12];
   var totalW = weights.reduce(function(a, b) { return a + b; }, 0);
   var roll = Math.random() * totalW; var resultIdx = 0;
   for (var i = 0; i < weights.length; i++) { roll -= weights[i]; if (roll <= 0) { resultIdx = i; break; } }
@@ -155,16 +257,146 @@ document.getElementById('spin-btn').addEventListener('click', function() {
 
   setTimeout(function() {
     var display = document.getElementById('win-display');
-    if (seg.multiplier > 0) {
+    if (seg.type === 'win') {
       var payout = Math.floor(bet * seg.multiplier);
       TokenBank.add(payout); refreshUI();
       display.innerHTML = '<div class="win-label">' + seg.label + '</div><div class="win-payout positive">+' + TokenBank.fmt(payout) + ' tokens</div>';
       spawnCoins(Math.min(Math.floor(seg.multiplier * 4), 40));
-    } else {
+    } else if (seg.type === 'lose') {
       display.innerHTML = '<div class="win-label">' + seg.label + '</div><div class="win-payout negative">Lost ' + fmtBet(bet) + ' tokens</div>';
+    } else if (seg.type.indexOf('bonus') === 0) {
+      display.innerHTML = '<div class="win-label">' + seg.label + '</div><div class="win-payout bonus">✨ BONUS ROUND ✨</div>';
+      setTimeout(function() { triggerBonus(seg.type); }, 800);
     }
     spinning = false; document.getElementById('spin-btn').disabled = false;
   }, 5300);
+});
+
+// ==================== BONUS ROUNDS ====================
+var bonusWin = 0;
+
+function triggerBonus(type) {
+  bonusWin = 0;
+  var overlay = document.getElementById('bonus-overlay');
+  var content = document.getElementById('bonus-content');
+  var result = document.getElementById('bonus-result');
+  var collect = document.getElementById('bonus-collect');
+  result.style.display = 'none';
+  collect.classList.remove('show');
+  overlay.classList.add('show');
+
+  if (type === 'bonus_doors') buildDoorBonus(content);
+  else if (type === 'bonus_dare') buildDareBonus(content);
+  else if (type === 'bonus_strip') buildStripBonus(content);
+}
+
+// Door Bonus: "Private Room" - pick 2 of 6 doors
+function buildDoorBonus(container) {
+  document.getElementById('bonus-title').textContent = '\ud83d\udeaa Private Room';
+  document.getElementById('bonus-subtitle').textContent = 'Pick 2 doors. Behind each: a naughty reward.';
+  var shuffled = DOOR_REWARDS.slice().sort(function() { return Math.random() - 0.5; });
+  var picks = 0;
+  var html = '<div class="doors-grid">';
+  for (var i = 0; i < 6; i++) {
+    html += '<button class="door-btn" data-idx="' + i + '">' +
+      '<span class="door-icon">' + ['\ud83d\udeaa','\ud83d\udd12','\ud83d\udd11','\ud83e\ude9e','\ud83c\udfad','\u2764\ufe0f'][i] + '</span>' +
+      '<span class="door-label">Door ' + (i+1) + '</span>' +
+      '<span class="door-reward">' + shuffled[i].emoji + '<br>' + shuffled[i].text + '<br><b>' + shuffled[i].mult + 'x</b></span>' +
+      '</button>';
+  }
+  html += '</div>';
+  container.innerHTML = html;
+
+  container.querySelectorAll('.door-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      if (picks >= 2) return;
+      var idx = parseInt(btn.dataset.idx);
+      var reward = shuffled[idx];
+      btn.classList.add('revealed', 'winner');
+      bonusWin += Math.floor(bet * reward.mult);
+      picks++;
+      if (picks >= 2) {
+        // Reveal all doors
+        container.querySelectorAll('.door-btn:not(.revealed)').forEach(function(d) { d.classList.add('revealed', 'loser'); });
+        finishBonus();
+      }
+    });
+  });
+}
+
+// Dare Bonus: "Midnight Dare" - 3 reveals with escalating dares
+function buildDareBonus(container) {
+  document.getElementById('bonus-title').textContent = '\ud83d\udd25 Midnight Dare';
+  document.getElementById('bonus-subtitle').textContent = '3 dares revealed. Each one pays more if you\'re brave enough.';
+  var shuffled = DARES.slice().sort(function() { return Math.random() - 0.5; }).slice(0, 3);
+  var stage = 0;
+
+  container.innerHTML = '<div class="dare-area">' +
+    '<div class="dare-text" id="dare-text">Ready for your first dare?</div>' +
+    '<div class="dare-mult" id="dare-mult"></div>' +
+    '<button class="dare-reveal-btn" id="dare-reveal">Reveal Dare ' + (stage + 1) + '</button>' +
+    '</div>';
+
+  document.getElementById('dare-reveal').addEventListener('click', function revealDare() {
+    if (stage >= 3) return;
+    var dare = shuffled[stage];
+    document.getElementById('dare-text').textContent = dare.text;
+    document.getElementById('dare-mult').textContent = dare.mult + 'x';
+    bonusWin += Math.floor(bet * dare.mult);
+    stage++;
+    if (stage < 3) {
+      document.getElementById('dare-reveal').textContent = 'Reveal Dare ' + (stage + 1);
+    } else {
+      document.getElementById('dare-reveal').textContent = 'All Dares Complete';
+      document.getElementById('dare-reveal').disabled = true;
+      finishBonus();
+    }
+  });
+}
+
+// Strip Reveal Bonus: flip 3 of 8 cards
+function buildStripBonus(container) {
+  document.getElementById('bonus-title').textContent = '\ud83c\udfad Strip Reveal';
+  document.getElementById('bonus-subtitle').textContent = 'Flip 3 cards. Each piece revealed adds to your prize.';
+  var shuffled = STRIP_CARDS.slice().sort(function() { return Math.random() - 0.5; });
+  var flips = 0;
+
+  var html = '<div class="cards-grid">';
+  for (var i = 0; i < 8; i++) {
+    html += '<div class="reveal-card" data-idx="' + i + '">' +
+      '<div class="card-front">\ud83c\udccf</div>' +
+      '<div class="card-back"><span class="cb-emoji">' + shuffled[i].emoji + '</span><span class="cb-mult">' + shuffled[i].mult + 'x</span><span class="cb-text">' + shuffled[i].text + '</span></div>' +
+      '</div>';
+  }
+  html += '</div>';
+  container.innerHTML = html;
+
+  container.querySelectorAll('.reveal-card').forEach(function(card) {
+    card.addEventListener('click', function() {
+      if (flips >= 3) return;
+      var idx = parseInt(card.dataset.idx);
+      card.classList.add('flipped');
+      bonusWin += Math.floor(bet * shuffled[idx].mult);
+      flips++;
+      if (flips >= 3) {
+        setTimeout(finishBonus, 400);
+      }
+    });
+  });
+}
+
+function finishBonus() {
+  TokenBank.add(bonusWin); refreshUI();
+  document.getElementById('bonus-result').style.display = 'block';
+  document.getElementById('bonus-total').textContent = '+' + TokenBank.fmt(bonusWin) + ' tokens';
+  document.getElementById('bonus-msg').textContent = 'That was worth it.';
+  document.getElementById('bonus-collect').classList.add('show');
+  spawnCoins(Math.min(Math.floor(bonusWin / bet * 3), 40));
+}
+
+document.getElementById('bonus-collect').addEventListener('click', function() {
+  document.getElementById('bonus-overlay').classList.remove('show');
+  document.getElementById('win-display').innerHTML = '<div class="win-label">Bonus Collected</div><div class="win-payout positive">+' + TokenBank.fmt(bonusWin) + '</div>';
 });
 
 refreshUI();
