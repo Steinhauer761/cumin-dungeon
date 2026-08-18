@@ -1,4 +1,83 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Casino | CumIN Dungeon</title><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet"><style>:root{--bg:#080403;--s:#130d09;--gold:#d59a4b;--cream:#f5eee4;--muted:#a6998b;--line:rgba(190,137,77,.22);--serif:'Cormorant Garamond',serif}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--cream);font:14px/1.5 Inter,sans-serif}.nav{padding:16px 24px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}.nav a{color:var(--cream)}main{width:min(1150px,calc(100% - 28px));margin:auto;padding:38px 0}h1{font:italic 700 2.6rem var(--serif);margin:0}.balance{color:var(--gold)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:28px}.game{min-height:270px;position:relative;overflow:hidden;border:1px solid var(--line);border-radius:16px;color:inherit;text-decoration:none;background:var(--s)}.game img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.65}.game:after{content:'';position:absolute;inset:0;background:linear-gradient(transparent,#080403f2)}.copy{position:absolute;z-index:2;bottom:0;padding:18px}.copy h2{font:italic 700 1.5rem var(--serif);margin:0}.copy p{color:#cabdb1;font-size:12px}</style></head><body><nav class="nav"><a href="/hall.html">← Grand Hall</a><strong class="balance" id="balance">Balance: sign in</strong></nav><main><p>Grand Hall Entertainment</p><h1>CumIN Casino</h1><p>Slots, tables, poker and number games. Every tile below opens a real page.</p><div class="grid" id="grid"></div></main><script src="/public/js/auth-fetch.js"></script><script>
-const games=[['Dragon Slots','/games/slots.html','/public/assets/art/1_16adc8b3-9070-4b50-8233-5fbd18ca1106.png'],['Blackjack','/games/blackjack.html','/public/assets/art/0d1aa119-4cf4-4e20-95ce-0128d6a214c0.png'],["Devil's Dice",'/games/dice.html','/public/assets/art/d62da434-f6cf-479e-9751-17fad35203ee.png'],['High or Low','/games/highlow.html','/public/assets/art/1_d62da434-f6cf-479e-9751-17fad35203ee.png'],['Sin Roulette','/games/roulette.html','/public/assets/art/PosterMyWall_GeneratedImage_799c3f21.png'],['Kink Wheel','/games/kinkwheel.html','/public/assets/art/PosterMyWall_GeneratedImage_222b2ae7.png'],["Texas Holdem",'/games/holdem.html','/public/assets/art/PosterMyWall_GeneratedImage_9f01a225.png'],['Video Poker','/games/video-poker.html','/public/assets/art/e3bb1bca-1222-41a3-8242-b4d31028d9b2.png'],['Fireball Keno','/games/fireball-keno.html','/public/assets/art/f948783e-838e-4125-b532-86f6c0056aad.png']];games.forEach(g=>grid.insertAdjacentHTML('beforeend',`<a class="game" href="${g[1]}"><img src="${g[2]}" alt="${g[0]}"><div class="copy"><h2>${g[0]}</h2><p>Play now</p></div></a>`));
-if(DungeonAuth.token()){DungeonAuth.fetch('/api/tokens/balance').then(async r=>{const d=await r.json();balance.textContent=r.ok?'Balance: '+d.balance+' tokens':'Balance unavailable'}).catch(()=>balance.textContent='Balance unavailable')}
-</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050304">
+<title>Casino | CumIN Dungeon</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --bg: #050304; --surface: #0c0908; --surface-2: #141010; --gold: #d59a4b; --gold-light: #f5c77e; --gold-dim: #8b6230; --cream: #f5eee4; --muted: #7a6e64; --red: #9f2330; --green: #4ade80; --line: rgba(190,137,77,0.18); --serif: 'Cormorant Garamond', Georgia, serif; --sans: 'Inter', system-ui, sans-serif; }
+* { box-sizing: border-box; margin: 0; }
+body { background: var(--bg); color: var(--cream); font-family: var(--sans); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at 50% 15%, rgba(159,35,48,0.06), transparent 50%), radial-gradient(ellipse at 50% 85%, rgba(213,154,75,0.04), transparent 40%); pointer-events: none; }
+button, a { font: inherit; color: inherit; }
+a { text-decoration: none; }
+.page { max-width: 900px; margin: 0 auto; padding: 20px 16px 60px; }
+.header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+.brand { font-family: var(--serif); font-size: 1rem; font-style: italic; }
+.brand strong { color: var(--gold); font-weight: 700; font-style: normal; }
+.back-link { padding: 7px 14px; border: 1px solid var(--line); border-radius: 8px; font-size: 0.65rem; font-weight: 700; background: transparent; cursor: pointer; }
+.back-link:hover { border-color: var(--gold); }
+.hero { text-align: center; margin-bottom: 32px; }
+.hero-eyebrow { font-size: 0.5rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+.hero h1 { font-family: var(--serif); font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 700; font-style: italic; line-height: 1.05; color: var(--cream); }
+.hero p { color: var(--muted); font-size: 0.75rem; margin-top: 6px; max-width: 400px; margin-left: auto; margin-right: auto; }
+.balance-bar { display: flex; gap: 12px; justify-content: center; margin-bottom: 28px; }
+.bal-box { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 18px; text-align: center; }
+.bal-box .lbl { font-size: 0.45rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); }
+.bal-box .val { font-size: 1rem; font-weight: 800; color: var(--gold-light); font-variant-numeric: tabular-nums; }
+.section-label { font-size: 0.52rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+.games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin-bottom: 32px; }
+.game-card { position: relative; display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; cursor: pointer; transition: transform 0.2s cubic-bezier(0.22,1,0.36,1), border-color 0.2s; }
+.game-card:hover { transform: translateY(-3px); border-color: var(--gold-dim); }
+.game-art { height: 110px; background: linear-gradient(135deg, var(--surface-2), var(--bg)); display: grid; place-items: center; font-size: 2.5rem; position: relative; overflow: hidden; }
+.game-art::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 50%, var(--surface)); }
+.game-info { padding: 14px; flex: 1; display: flex; flex-direction: column; }
+.game-info h3 { font-family: var(--serif); font-size: 1.05rem; font-weight: 600; font-style: italic; margin-bottom: 4px; }
+.game-info p { font-size: 0.6rem; color: var(--muted); line-height: 1.5; flex: 1; }
+.game-badge { position: absolute; top: 8px; right: 8px; padding: 3px 8px; border-radius: 100px; font-size: 0.45rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: white; }
+.game-badge.new { background: rgba(74,222,128,0.15); color: var(--green); border: 1px solid rgba(74,222,128,0.3); }
+.game-badge.hot { background: rgba(159,35,48,0.15); color: #e63946; border: 1px solid rgba(159,35,48,0.3); }
+.game-meta { display: flex; gap: 12px; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); }
+.game-meta span { font-size: 0.5rem; color: var(--muted); }
+.game-meta span strong { color: var(--gold-light); }
+.footer { text-align: center; padding: 20px; border-top: 1px solid var(--line); font-size: 0.55rem; color: var(--muted); }
+.footer a { color: var(--gold); }
+@media (max-width: 600px) { .games-grid { grid-template-columns: 1fr 1fr; gap: 8px; } .game-art { height: 80px; font-size: 2rem; } .game-info { padding: 10px; } .game-info h3 { font-size: 0.85rem; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="header"><div class="brand"><strong>CumIN</strong> Dungeon</div><a href="/castle-lobby.html" class="back-link">◂ Lobby</a></header>
+  <section class="hero"><p class="hero-eyebrow">The Casino Floor</p><h1>Play, Spin, Win</h1><p>Spend tokens on games of chance. Every spin costs, every win pays.</p></section>
+  <div class="balance-bar"><div class="bal-box"><div class="lbl">Balance</div><div class="val" id="balance">0</div></div></div>
+  <p class="section-label">Casino Games</p>
+  <div class="games-grid" id="games-grid"></div>
+  <footer class="footer">&copy; 2026 CumIN Dungeon · 18+ · <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a></footer>
+</div>
+<script src="/public/js/balance.js"></script>
+<script>
+var GAMES = [
+  { id: 'slots', name: 'Dungeon Slots', emoji: '\ud83c\udfb0', desc: '5-reel premium slot. Wilds, free spins, 25 paylines.', badge: 'hot', minBet: 500, maxWin: '5,000x' },
+  { id: 'kinkwheel', name: 'After Dark Wheel', emoji: '\ud83c\udfab', desc: 'Spin the wheel. 3 bonus rounds: Private Room, Midnight Dare, Strip Reveal.', badge: 'hot', minBet: 500, maxWin: '50x + Bonus' },
+  { id: 'blackjack', name: 'Strip Blackjack', emoji: '\ud83c\udccf', desc: 'Beat the dealer to 21. Double down if you dare.', badge: null, minBet: 1000, maxWin: '2.5x' },
+  { id: 'roulette', name: 'Sin Roulette', emoji: '\ud83c\udfb2', desc: 'Classic roulette. Straight, color, odd/even bets.', badge: null, minBet: 500, maxWin: '36x' },
+  { id: 'highlow', name: 'High or Low', emoji: '\ud83c\udca0', desc: 'Guess the next card. Build your streak, cash out before you crash.', badge: null, minBet: 1000, maxWin: '10x' },
+  { id: 'dice', name: "Devil's Dice", emoji: '\ud83c\udfb2', desc: 'Roll the dice. 7 or 11 doubles. Snake eyes hits 5x.', badge: null, minBet: 1000, maxWin: '5x' },
+  { id: 'powerball', name: 'Dungeon Powerball', emoji: '\ud83c\udfb1', desc: 'Pick 5 + Powerball. Match for massive payouts up to 50,000x.', badge: 'new', minBet: 1000, maxWin: '50,000x' },
+  { id: 'taboo-after-dark', name: 'Taboo After Dark', emoji: '\ud83c\udfb0', desc: 'Premium 5-reel adult slot. Expanding wilds, bonus wheel, Red Room.', badge: null, minBet: 500, maxWin: '5,000x' },
+  { id: 'plinko', name: 'Dungeon Plinko', emoji: '\ud83d\udfe0', desc: 'Drop the ball. Watch it bounce. Land on a prize.', badge: null, minBet: 500, maxWin: '100x' },
+  { id: 'video-poker', name: 'Video Poker', emoji: '\ud83c\udccf', desc: 'Jacks or Better. Hold, draw, and win.', badge: null, minBet: 1000, maxWin: '800x' },
+];
+var grid = document.getElementById('games-grid');
+GAMES.forEach(function(game) {
+  var card = document.createElement('a'); card.className = 'game-card'; card.href = '/games/' + game.id + '.html';
+  card.innerHTML = '<div class="game-art">' + game.emoji + '</div>' + (game.badge ? '<span class="game-badge ' + game.badge + '">' + game.badge + '</span>' : '') + '<div class="game-info"><h3>' + game.name + '</h3><p>' + game.desc + '</p><div class="game-meta"><span>Min: <strong>' + game.minBet + '</strong></span><span>Max Win: <strong>' + game.maxWin + '</strong></span></div></div>';
+  grid.appendChild(card);
+});
+document.getElementById('balance').textContent = TokenBank.fmt(TokenBank.get());
+</script>
+<script src="/public/js/admin-bar.js"></script>
+</body>
+</html>
