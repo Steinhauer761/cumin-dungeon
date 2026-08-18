@@ -1,0 +1,262 @@
+/* CumIN Dungeon Brand System
+ * Based on the membership card: red script "CumIN", gold "DUNGEON",
+ * red dragon, matte black surface, gold fine-line borders, CD monogram.
+ * Include this on every page: <link rel="stylesheet" href="/public/css/brand.css">
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  /* Core palette from the brand card */
+  --brand-black: #0a0604;
+  --brand-surface: #100b08;
+  --brand-surface-2: #1a1210;
+  --brand-red: #c0232a;
+  --brand-red-dark: #8b1a20;
+  --brand-red-glow: rgba(192, 35, 42, 0.15);
+  --brand-gold: #c9944a;
+  --brand-gold-light: #e8c078;
+  --brand-gold-dim: #8b6a30;
+  --brand-gold-border: rgba(180, 130, 60, 0.25);
+  --brand-cream: #f0e8dc;
+  --brand-muted: #8a7e72;
+  --brand-line: rgba(180, 130, 60, 0.12);
+
+  /* Typography */
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  /* Semantic aliases */
+  --bg: var(--brand-black);
+  --surface: var(--brand-surface);
+  --surface-2: var(--brand-surface-2);
+  --gold: var(--brand-gold);
+  --gold-light: var(--brand-gold-light);
+  --gold-dim: var(--brand-gold-dim);
+  --red: var(--brand-red);
+  --red-dark: var(--brand-red-dark);
+  --cream: var(--brand-cream);
+  --muted: var(--brand-muted);
+  --line: var(--brand-line);
+  --serif: var(--font-display);
+  --sans: var(--font-body);
+}
+
+/* Base reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--cream);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* Brand wordmark component */
+.brand-wordmark {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+.brand-wordmark .cumin {
+  color: var(--brand-red);
+  font-style: italic;
+  font-weight: 600;
+}
+.brand-wordmark .dungeon {
+  color: var(--brand-gold-light);
+  font-weight: 700;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.85em;
+}
+
+/* Page background atmosphere */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 10%, var(--brand-red-glow), transparent 50%),
+    radial-gradient(ellipse at 50% 90%, rgba(180, 130, 60, 0.04), transparent 40%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Gold border cards (like the membership card) */
+.brand-card {
+  background: var(--surface);
+  border: 1px solid var(--brand-gold-border);
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+}
+.brand-card::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(180, 130, 60, 0.08);
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+/* Buttons */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(160deg, var(--brand-gold-light), var(--brand-gold-dim));
+  color: var(--brand-black);
+  font-family: var(--serif);
+  font-weight: 700;
+  font-style: italic;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: transform 0.12s, box-shadow 0.12s;
+  box-shadow: 0 4px 16px rgba(180, 130, 60, 0.2);
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(180, 130, 60, 0.3); }
+.btn-primary:active { transform: translateY(0); }
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border: 1px solid var(--brand-gold-border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--brand-gold-light);
+  font-size: 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.btn-outline:hover { border-color: var(--brand-gold); background: rgba(180, 130, 60, 0.06); }
+
+.btn-red {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(160deg, var(--brand-red), var(--brand-red-dark));
+  color: white;
+  font-weight: 800;
+  font-size: 0.8rem;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(192, 35, 42, 0.25);
+  transition: transform 0.12s;
+}
+.btn-red:hover { transform: translateY(-1px); }
+
+/* Section labels */
+.section-label {
+  font-size: 0.55rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--brand-gold);
+}
+
+/* Headings */
+h1, h2, h3 {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 700;
+  color: var(--cream);
+}
+h1 { font-size: clamp(2rem, 6vw, 3.5rem); line-height: 0.95; }
+h2 { font-size: clamp(1.3rem, 4vw, 2rem); }
+h3 { font-size: 1.1rem; }
+
+/* Navigation bar */
+.brand-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10, 6, 4, 0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--brand-line);
+  padding: 0 16px;
+}
+.brand-nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.brand-nav-links {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex: 1;
+}
+.brand-nav-links::-webkit-scrollbar { display: none; }
+.brand-nav-link {
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--muted);
+  white-space: nowrap;
+  transition: all 0.15s;
+  text-decoration: none;
+}
+.brand-nav-link:hover { color: var(--cream); background: rgba(255,255,255,0.03); }
+.brand-nav-link.active { color: var(--brand-gold-light); background: rgba(180,130,60,0.06); }
+
+/* Input fields */
+input, select, textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid var(--brand-line);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--cream);
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--brand-gold-dim); }
+input::placeholder { color: var(--muted); }
+
+/* Utility */
+.text-red { color: var(--brand-red); }
+.text-gold { color: var(--brand-gold-light); }
+.text-muted { color: var(--muted); }
+.text-center { text-align: center; }
+.mt-sm { margin-top: 8px; }
+.mt-md { margin-top: 16px; }
+.mt-lg { margin-top: 32px; }
+
+/* Footer */
+.brand-footer {
+  max-width: 1100px;
+  margin: 48px auto 0;
+  padding: 20px 16px;
+  border-top: 1px solid var(--brand-line);
+  text-align: center;
+  font-size: 0.55rem;
+  color: var(--muted);
+}
+.brand-footer a { color: var(--brand-gold); text-decoration: none; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  h1 { font-size: 2rem; }
+  .brand-wordmark { font-size: 1.1rem; }
+}
