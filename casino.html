@@ -3,22 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050304">
 <title>Casino | CumIN Dungeon</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#050304;--surface:#0c0908;--surface-2:#141010;--gold:#d59a4b;--gold-light:#f5c77e;--gold-dim:#8b6230;--cream:#f5eee4;--muted:#7a6e64;--red:#9f2330;--green:#4ade80;--line:rgba(190,137,77,0.18);--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif}
 *{box-sizing:border-box;margin:0}
-body{background:var(--bg);color:var(--cream);font-family:var(--sans);min-height:100vh}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 50% 15%,rgba(159,35,48,0.06),transparent 50%);pointer-events:none}
-a{text-decoration:none;color:inherit}
+body{background:var(--bg);color:var(--cream);font-family:var(--sans);min-height:100vh;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 50% 15%,rgba(159,35,48,0.06),transparent 50%),radial-gradient(ellipse at 50% 85%,rgba(213,154,75,0.04),transparent 40%);pointer-events:none}
+button,a{font:inherit;color:inherit}a{text-decoration:none}
 .page{max-width:900px;margin:0 auto;padding:20px 16px 60px}
 .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
 .brand{font-family:var(--serif);font-size:1rem;font-style:italic}
 .brand strong{color:var(--gold);font-weight:700;font-style:normal}
-.back-link{padding:7px 14px;border:1px solid var(--line);border-radius:8px;font-size:.65rem;font-weight:700;background:transparent}
+.back-link{padding:7px 14px;border:1px solid var(--line);border-radius:8px;font-size:.65rem;font-weight:700;background:transparent;cursor:pointer}
 .hero{text-align:center;margin-bottom:32px}
 .hero-eyebrow{font-size:.5rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
-.hero h1{font-family:var(--serif);font-size:clamp(1.8rem,5vw,2.8rem);font-weight:700;font-style:italic;line-height:1.05}
+.hero h1{font-family:var(--serif);font-size:clamp(1.8rem,5vw,2.8rem);font-weight:700;font-style:italic;line-height:1.05;color:var(--cream)}
 .hero p{color:var(--muted);font-size:.75rem;margin-top:6px;max-width:400px;margin-left:auto;margin-right:auto}
 .balance-bar{display:flex;gap:12px;justify-content:center;margin-bottom:28px}
 .bal-box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 18px;text-align:center}
@@ -26,7 +27,7 @@ a{text-decoration:none;color:inherit}
 .bal-box .val{font-size:1rem;font-weight:800;color:var(--gold-light);font-variant-numeric:tabular-nums}
 .section-label{font-size:.52rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
 .games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-bottom:32px}
-.game-card{position:relative;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:transform .2s,border-color .2s}
+.game-card{position:relative;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;transition:transform .2s cubic-bezier(0.22,1,0.36,1),border-color .2s}
 .game-card:hover{transform:translateY(-3px);border-color:var(--gold-dim)}
 .game-art{height:110px;background:linear-gradient(135deg,var(--surface-2),var(--bg));display:grid;place-items:center;font-size:2.5rem;position:relative;overflow:hidden}
 .game-art::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,var(--surface))}
@@ -60,13 +61,13 @@ var GAMES=[
   {id:'kinkwheel',name:'After Dark Wheel',emoji:'\ud83c\udfab',desc:'Spin the wheel. 3 bonus rounds: Private Room, Midnight Dare, Strip Reveal.',badge:'hot',minBet:500,maxWin:'50x + Bonus'},
   {id:'blackjack',name:'Strip Blackjack',emoji:'\ud83c\udccf',desc:'Beat the dealer to 21. Double down if you dare.',badge:null,minBet:1000,maxWin:'2.5x'},
   {id:'roulette',name:'Sin Roulette',emoji:'\ud83c\udfb2',desc:'Classic roulette. Straight, color, odd/even bets.',badge:null,minBet:500,maxWin:'36x'},
-  {id:'highlow',name:'High or Low',emoji:'\ud83c\udca0',desc:'Guess the next card. Build your streak, cash out.',badge:null,minBet:1000,maxWin:'10x'},
-  {id:'dice',name:"Devil's Dice",emoji:'\ud83c\udfb2',desc:'Roll the dice. 7 or 11 doubles. Snake eyes 5x.',badge:null,minBet:1000,maxWin:'5x'},
-  {id:'powerball',name:'Dungeon Powerball',emoji:'\ud83c\udfb1',desc:'Pick 5 + Powerball. Match for payouts up to 50,000x.',badge:'new',minBet:1000,maxWin:'50,000x'},
+  {id:'highlow',name:'High or Low',emoji:'\ud83c\udca0',desc:'Guess the next card. Build your streak, cash out before you crash.',badge:null,minBet:1000,maxWin:'10x'},
+  {id:'dice',name:"Devil's Dice",emoji:'\ud83c\udfb2',desc:'Roll the dice. 7 or 11 doubles. Snake eyes hits 5x.',badge:null,minBet:1000,maxWin:'5x'},
+  {id:'powerball',name:'Dungeon Powerball',emoji:'\ud83c\udfb1',desc:'Pick 5 + Powerball. Match for massive payouts up to 50,000x.',badge:'new',minBet:1000,maxWin:'50,000x'},
+  {id:'fireball-keno',name:'Fireball Keno',emoji:'\ud83d\udd25',desc:'80-ball keno with Fireball multiplier. Pick up to 10 numbers.',badge:null,minBet:500,maxWin:'10,000x'},
   {id:'taboo-after-dark',name:'Taboo After Dark',emoji:'\ud83c\udfb0',desc:'Premium 5-reel adult slot. Expanding wilds, bonus wheel, Red Room.',badge:null,minBet:500,maxWin:'5,000x'},
-  {id:'fireball-keno',name:'Fireball Keno',emoji:'\ud83d\udd25',desc:'Pick up to 15 numbers. 20 balls drawn. Fireball multiplier on last ball.',badge:null,minBet:500,maxWin:'10,000x'},
-  {id:'plinko',name:'Dungeon Plinko',emoji:'\ud83d\udfe0',desc:'Drop the ball. Watch it bounce. Land on a prize slot.',badge:null,minBet:1000,maxWin:'100x'},
-  {id:'video-poker',name:'Video Poker',emoji:'\ud83c\udccf',desc:'Jacks or Better. Hold, draw, double up.',badge:null,minBet:1000,maxWin:'4,000x'}
+  {id:'plinko',name:'Dungeon Plinko',emoji:'\ud83d\udfe0',desc:'Drop the ball. Watch it bounce. Land on a prize.',badge:null,minBet:1000,maxWin:'100x'},
+  {id:'video-poker',name:'Video Poker',emoji:'\ud83c\udccf',desc:'Jacks or Better. Hold, draw, and win.',badge:null,minBet:1000,maxWin:'800x'},
 ];
 var grid=document.getElementById('games-grid');
 GAMES.forEach(function(game){
