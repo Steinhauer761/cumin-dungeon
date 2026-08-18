@@ -1,125 +1,104 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#070403"><title>Cum IN Dungeon — Grand Lobby</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#070403"><title>CumIN Dungeon — Grand Lobby</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--black:#070403;--gold:#d7a35a;--gold2:#f3cf8a;--cream:#f4eadc;--muted:#ad9b89;--red:#8f1f29;--serif:'Cormorant Garamond',Georgia,serif;--sans:Inter,system-ui,sans-serif}
-*{box-sizing:border-box;margin:0}
-body{background:var(--black);color:var(--cream);font-family:var(--sans);overflow-x:hidden}
-.slideshow{position:fixed;inset:0;z-index:0;overflow:hidden}
-.slideshow .slide{position:absolute;inset:0;opacity:0;animation:fadeSlide 24s infinite;will-change:opacity,transform}
-.slideshow .slide img{width:100%;height:100%;object-fit:cover;animation:kenBurns 24s infinite}
-.slideshow .slide:nth-child(1){animation-delay:0s}
-.slideshow .slide:nth-child(1) img{animation-delay:0s}
-.slideshow .slide:nth-child(2){animation-delay:6s}
-.slideshow .slide:nth-child(2) img{animation-delay:6s}
-.slideshow .slide:nth-child(3){animation-delay:12s}
-.slideshow .slide:nth-child(3) img{animation-delay:12s}
-.slideshow .slide:nth-child(4){animation-delay:18s}
-.slideshow .slide:nth-child(4) img{animation-delay:18s}
-@keyframes fadeSlide{0%,4%{opacity:0}5%,25%{opacity:1}26%,100%{opacity:0}}
-@keyframes kenBurns{0%{transform:scale(1) translate(0,0)}50%{transform:scale(1.08) translate(-1%,-1%)}100%{transform:scale(1.04) translate(1%,0)}}
-.slideshow-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,4,3,.4) 0%,rgba(7,4,3,.7) 50%,rgba(7,4,3,.92) 100%);z-index:1}
-.lobby{position:relative;z-index:2;min-height:100vh;padding:28px 20px 90px}
+:root{--black:#070403;--gold:#d7a35a;--gold2:#f3cf8a;--cream:#f4eadc;--muted:#ad9b89;--red:#8f1f29;--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}body{background:radial-gradient(circle at 50% 10%,#43200e 0,#120905 32%,#050302 75%);color:var(--cream);font-family:var(--sans);min-height:100vh}
+.lobby{padding:28px 20px 90px;overflow:hidden}
 .top{max-width:1180px;margin:auto;display:flex;justify-content:space-between;align-items:center}
-.wordmark{font:700 30px var(--serif);letter-spacing:.02em}
-.wordmark em{color:#bd303a;font-style:italic}
-.pill{border:1px solid #8b6036;background:#100905cc;padding:10px 15px;border-radius:999px;color:var(--gold2);font-size:12px;letter-spacing:.16em;text-transform:uppercase;backdrop-filter:blur(8px)}
-.hero{max-width:1180px;margin:38px auto 0;text-align:center}
-.eyebrow{font-size:11px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);font-weight:800}
-.hero h1{font:700 clamp(42px,7vw,88px)/.95 var(--serif);margin:10px 0;color:#f6ead8;text-shadow:0 5px 30px #000}
+.wordmark{font:700 28px var(--serif);font-style:italic}.wordmark strong{color:var(--gold);font-style:normal}
+.pill{border:1px solid #8b6036;background:#100905aa;padding:8px 14px;border-radius:999px;color:var(--gold2);font-size:11px;letter-spacing:.16em;text-transform:uppercase}
+.hero{max-width:1180px;margin:32px auto 0;text-align:center}
+.eyebrow{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);font-weight:800}
+.hero h1{font:700 clamp(36px,7vw,72px)/.95 var(--serif);font-style:italic;margin:10px 0;color:#f6ead8;text-shadow:0 5px 30px #000}
 .hero h1 em{color:#bd303a;font-style:italic}
-.hero p{max-width:680px;margin:16px auto;color:var(--muted);line-height:1.7;font-size:.85rem}
-.chandelier{height:115px;position:relative;margin:20px auto -5px;width:380px}
-.chandelier:before{content:"";position:absolute;left:50%;top:0;width:3px;height:50px;background:#8b642d;box-shadow:0 0 15px #d6a34e}
-.arms{position:absolute;left:50%;top:44px;transform:translateX(-50%);width:360px;height:65px;border-top:5px solid #8b642d;border-radius:50%}
-.arms i{position:absolute;bottom:-4px;width:18px;height:48px;border-left:4px solid #9a6c30}
-.arms i:nth-child(1){left:4%}.arms i:nth-child(2){left:24%}.arms i:nth-child(3){left:46%}.arms i:nth-child(4){right:24%}.arms i:nth-child(5){right:4%}
-.arms i:after{content:"";position:absolute;left:-10px;top:-13px;width:22px;height:28px;border-radius:50%;background:radial-gradient(circle,#fff0ae,#e79b35 42%,transparent 70%);filter:drop-shadow(0 0 12px #e79b35)}
-.doors{position:relative;max-width:1000px;height:430px;margin:42px auto 0;perspective:1100px;filter:drop-shadow(0 35px 50px #000)}
-.door{position:absolute;top:0;width:50%;height:100%;border:8px solid #17100b;background:repeating-linear-gradient(90deg,transparent 0 42px,#120b07 43px 48px),linear-gradient(90deg,#3b2111,#241209 48%,#452511);box-shadow:inset 0 0 0 3px #68431e,inset 0 0 55px #000;transition:transform 1.15s cubic-bezier(.2,.75,.15,1)}
-.door:after{content:"";position:absolute;inset:20px;border:2px solid #8a5b2c;box-shadow:inset 0 0 0 12px #1c1009,inset 0 0 0 14px #71491f;pointer-events:none}
-.left{left:0;transform-origin:left center;border-radius:16px 3px 3px 16px}
-.right{right:0;transform-origin:right center;border-radius:3px 16px 16px 3px}
-.doors.open .left{transform:rotateY(-55deg)}
-.doors.open .right{transform:rotateY(55deg)}
-.dragon-half{position:absolute;top:50%;width:220px;height:220px;margin-top:-110px;z-index:3;pointer-events:none;display:grid;place-items:center;overflow:hidden}
-.left .dragon-half{right:-110px;clip-path:inset(0 50% 0 0)}
-.right .dragon-half{left:-110px;clip-path:inset(0 0 0 50%)}
-.dragon-half svg{width:220px;height:220px;flex:none}
-.dragon-frame{position:absolute;inset:0;border:2px solid #a87339;border-radius:50%;background:radial-gradient(circle,#4a090e,#130706 65%,#080403);box-shadow:0 0 0 9px #17100b,0 0 0 11px #765020,0 0 40px #000}
-.dragon-art{position:relative;z-index:1}
-.dragon{stroke:#c48b43;stroke-width:7;fill:none;stroke-linecap:round;stroke-linejoin:round}
-.dragon2{stroke:#9e1d29;stroke-width:5;fill:none;stroke-linecap:round}
-.door-label{position:absolute;bottom:46px;left:50%;transform:translateX(-50%);font:700 25px var(--serif);letter-spacing:.18em;white-space:nowrap;color:#f0d39a;text-shadow:0 3px 8px #000;z-index:4}
-.knob{position:absolute;z-index:4;top:52%;width:32px;height:32px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f2cc83,#7a4a1b 55%,#211107);border:2px solid #bd8a48;box-shadow:0 3px 10px #000}
-.left .knob{right:22px}
-.right .knob{left:22px}
-.dragon-seam{position:absolute;left:50%;top:50%;width:3px;height:185px;transform:translate(-50%,-50%);z-index:2;background:linear-gradient(180deg,transparent,#d7a35a 20%,#f3cf8a 50%,#8f1f29 80%,transparent);box-shadow:0 0 18px #d7a35a;opacity:.55;transition:opacity .4s}
-.doors.open .dragon-seam{opacity:0}
-.open-btn{margin:22px auto 0;display:block;border:1px solid #b9833f;background:linear-gradient(#c99a58,#754318);color:#160a04;border-radius:999px;padding:13px 24px;font-weight:800;letter-spacing:.08em;cursor:pointer;font-size:.85rem}
-.rug{max-width:900px;height:220px;margin:-10px auto 0;position:relative;transform:perspective(700px) rotateX(58deg);transform-origin:top;clip-path:polygon(7% 0,93% 0,100% 100%,0 100%);background:radial-gradient(ellipse at center,#7d111c 0,#3b080d 42%,#100506 72%);border:4px solid #b27b39;box-shadow:inset 0 0 0 10px #190807,inset 0 0 0 13px #9a682f,inset 0 0 70px #000,0 35px 60px #000}
-.rug:before{content:"";position:absolute;inset:18px;border:2px solid #b27b39}
-.rug svg{position:absolute;inset:35px;width:calc(100% - 70px);height:130px}
-.rug-text{position:absolute;inset:0;display:grid;place-items:center;font:700 25px var(--serif);letter-spacing:.18em;color:#f1cf8a;text-shadow:0 3px 10px #000}
-.categories{max-width:1180px;margin:10px auto}
-.section-title{text-align:center;margin:60px 0 22px;font:700 38px var(--serif)}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.card{min-height:220px;position:relative;overflow:hidden;border:1px solid #6d4725;border-radius:14px;box-shadow:0 16px 40px #0008;cursor:pointer;color:inherit;transition:.25s;display:block;text-decoration:none}
-.card:hover{transform:translateY(-5px);border-color:#c18b48;box-shadow:0 20px 50px rgba(213,154,75,.15)}
-.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 4s ease}
-.card:hover img{transform:scale(1.08)}
-.card .card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,4,3,.88) 0%,rgba(7,4,3,.3) 50%,rgba(7,4,3,.15) 100%)}
-.card .card-content{position:absolute;bottom:0;left:0;right:0;padding:16px;text-align:center}
-.card strong{display:block;font:700 22px var(--serif);text-shadow:0 2px 8px #000}
-.card small{display:block;margin-top:4px;color:var(--gold);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
-.footer{max-width:900px;margin:65px auto 0;text-align:center;color:#8e7c6b;font-size:12px;line-height:1.7}
-@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.doors{height:330px}}
-@media(max-width:520px){.grid{grid-template-columns:1fr}.doors{height:260px}}
-</style></head>
+.hero p{max-width:600px;margin:14px auto;color:var(--muted);font-size:.8rem;line-height:1.7}
+
+/* Nav Row */
+.nav-row{max-width:1180px;margin:32px auto;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.nav-pill{padding:10px 20px;border:1px solid rgba(213,154,75,0.2);border-radius:10px;background:rgba(18,9,5,0.6);color:var(--cream);font-size:.7rem;font-weight:700;text-decoration:none;transition:all .15s}
+.nav-pill:hover{border-color:var(--gold);background:rgba(213,154,75,0.06);color:var(--gold2)}
+.nav-pill.active{border-color:var(--gold);color:var(--gold2)}
+
+/* Category Grid */
+.categories{max-width:1180px;margin:20px auto}
+.section-title{text-align:center;margin:40px 0 20px;font:700 clamp(28px,4vw,38px) var(--serif);font-style:italic;color:var(--cream)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{position:relative;overflow:hidden;border:1px solid rgba(109,71,37,0.4);border-radius:14px;background:linear-gradient(145deg,#21120a,#0b0604);box-shadow:0 16px 40px rgba(0,0,0,0.4);cursor:pointer;transition:all .2s;text-decoration:none;color:inherit;display:flex;flex-direction:column;min-height:180px}
+.card:hover{transform:translateY(-4px);border-color:var(--gold)}
+.card .art{position:absolute;inset:0;opacity:.2;background-size:cover;background-position:center}
+.card-content{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center}
+.card-icon{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(213,154,75,0.3);background:rgba(16,7,6,0.8);box-shadow:0 0 20px rgba(0,0,0,0.5);font-size:1.8rem;margin-bottom:12px}
+.card-content strong{font:700 1.1rem var(--serif);font-style:italic;display:block}
+.card-content small{margin-top:4px;color:var(--muted);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase}
+.card-badge{position:absolute;top:10px;right:10px;padding:3px 8px;border-radius:100px;font-size:.42rem;font-weight:800;letter-spacing:.06em}
+.card-badge.live{background:rgba(230,57,70,0.85);color:white}
+.card-badge.vip{background:rgba(213,154,75,0.15);border:1px solid rgba(213,154,75,0.3);color:var(--gold2)}
+
+.footer{max-width:900px;margin:50px auto 0;text-align:center;color:#8e7c6b;font-size:11px;line-height:1.7}
+.footer a{color:var(--gold);text-decoration:none}
+
+@media(max-width:600px){.grid{grid-template-columns:1fr 1fr;gap:10px}.card{min-height:150px}.card-icon{width:50px;height:50px;font-size:1.4rem}.card-content strong{font-size:.9rem}}
+</style>
+</head>
 <body>
-<div class="slideshow">
-  <div class="slide"><img src="/public/assets/art/1_16adc8b3-9070-4b50-8233-5fbd18ca1106.png" alt=""></div>
-  <div class="slide"><img src="/public/assets/art/1_75f41f68-c64f-4ee8-aa22-8803a09bd553.png" alt=""></div>
-  <div class="slide"><img src="/public/assets/art/1_b5972f3b-52bb-4d4e-8eb2-059583b51bbc.png" alt=""></div>
-  <div class="slide"><img src="/public/assets/art/1_d62da434-f6cf-479e-9751-17fad35203ee.png" alt=""></div>
-  <div class="slideshow-overlay"></div>
-</div>
 <main class="lobby">
-<header class="top"><div class="wordmark">Cum <em>IN</em> Dungeon</div><div class="pill">Grand Lobby · 18+</div></header>
-<section class="hero"><div class="eyebrow">The Castle Entrance</div><h1>Welcome to the <em>Dungeon</em></h1><p>The front door is a single dragon crest split cleanly across two heavy timber leaves. Open the doors and the dragon separates with them.</p>
-<div class="chandelier"><div class="arms"><i></i><i></i><i></i><i></i><i></i></div></div>
-<div class="doors" id="doors"><div class="dragon-seam"></div><div class="door left"><div class="dragon-half"><div class="dragon-frame"></div><svg class="dragon-art" viewBox="0 0 220 220"><path class="dragon" d="M20 130 C62 58 106 66 139 102 C164 130 187 127 205 97 M33 153 C76 119 103 139 129 165 C151 187 180 179 199 145 M149 100 l34 -24 25 11 -25 17 20 15 -39 -3z"/><path class="dragon2" d="M37 89 C78 42 120 47 149 77"/></svg></div><div class="door-label">CUM IN</div><span class="knob"></span></div><div class="door right"><div class="dragon-half"><div class="dragon-frame"></div><svg class="dragon-art" viewBox="0 0 220 220"><path class="dragon" d="M20 130 C62 58 106 66 139 102 C164 130 187 127 205 97 M33 153 C76 119 103 139 129 165 C151 187 180 179 199 145 M149 100 l34 -24 25 11 -25 17 20 15 -39 -3z"/><path class="dragon2" d="M37 89 C78 42 120 47 149 77"/></svg></div><div class="door-label">DUNGEON</div><span class="knob"></span></div></div>
-<button class="open-btn" id="open">Open the Castle Doors</button>
-<div class="rug"><svg viewBox="0 0 1000 140"><path class="dragon2" d="M0 100 C130 20 210 30 300 88 S470 130 560 70 S740 15 850 70 S970 110 1000 55"/><path class="dragon" d="M0 103 C130 23 210 33 300 91 S470 133 560 73 S740 18 850 73 S970 113 1000 58"/></svg><div class="rug-text">CUM IN DUNGEON</div></div></section>
-<section class="categories"><h2 class="section-title">Choose Your Door</h2><div class="grid" id="grid"></div></section>
-<p class="footer">© 2026 Cum IN Dungeon · 18+ only</p>
+<header class="top">
+  <div class="wordmark"><strong>CumIN</strong> Dungeon</div>
+  <div class="pill">Grand Lobby · 18+</div>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">The Castle Entrance</div>
+  <h1>Welcome to the <em>Dungeon</em></h1>
+  <p>Choose a room, explore the casino, or discover performers live now.</p>
+</section>
+
+<nav class="nav-row">
+  <a href="/discover.html" class="nav-pill">Discover</a>
+  <a href="/casino.html" class="nav-pill">Casino</a>
+  <a href="/hall.html" class="nav-pill">Grand Hall</a>
+  <a href="/lovense.html" class="nav-pill">Shop</a>
+</nav>
+
+<section class="categories">
+  <h2 class="section-title">Choose a Category</h2>
+  <div class="grid" id="grid"></div>
+</section>
+
+<p class="footer">CumIN Dungeon · 18+ Private Venue · <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> · <a href="/2257.html">2257</a></p>
 </main>
+
 <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
 <script src="/public/js/chat.js"></script>
-<script src="/public/js/transitions.js"></script>
 <script>
-const cats=[
-  {name:'Velvet Room', sub:'Women', img:'/public/assets/art/b3239591-8c30-4dae-b261-7c42ab8022f1.png', id:'velvet-room'},
-  {name:'Tangled Throne', sub:'Couples', img:'/public/assets/art/cd1f1eae-f7ce-4c72-85b1-457d8bf4f3c1.png', id:'tangled-throne'},
-  {name:'Pink Silk', sub:'18-21', img:'/public/assets/art/d8541cfb-406f-46c1-8ec3-39af3b570035.png', id:'pink-silk'},
-  {name:"Devil's Playground", sub:'Fetish / Kink', img:'/public/assets/art/e6c0d2d7-f4e2-40bb-b34c-13b84d7b7fe1.png', id:'devils-playground'},
-  {name:'Back Room', sub:'Gay / Bi', img:'/public/assets/art/f7ce0ef5-b1c5-4ea5-8488-d5bb36035de3.png', id:'back-room'},
-  {name:'The Dungeon', sub:'VIP', img:'/public/assets/art/file_00000000b6c081fdaa791db34c771c9e.png', id:'the-dungeon'},
-  {name:"Haley's Halo", sub:'Women / VIP', img:'/public/assets/art/generated-image-8ca9f7c9-47b9-4a01-a1ce-e7f69104e45c.png', id:'haleys-halo'},
-  {name:'Trans Kinks', sub:'Trans', img:'/public/assets/art/generated-image-ea3dbc19-54ae-4ef1-b68a-78cb3f9b8250.png', id:'trans-kinks'}
+var CATEGORIES = [
+  { name: 'Women', icon: '\ud83c\udf39', desc: 'Live female performers', href: '/discover.html?category=women', badge: 'live' },
+  { name: 'Men', icon: '\ud83d\udc51', desc: 'Male performers live', href: '/discover.html?category=men', badge: null },
+  { name: 'Couples', icon: '\ud83d\udc8d', desc: 'Watch together, play together', href: '/discover.html?category=couples', badge: 'live' },
+  { name: 'Trans', icon: '\ud83c\udf08', desc: 'Bold, expressive, electric', href: '/discover.html?category=trans', badge: 'live' },
+  { name: 'LGBTQ+', icon: '\ud83c\udff3\ufe0f', desc: 'All identities welcome', href: '/discover.html?category=lgbtq', badge: null },
+  { name: 'Fetish & Kink', icon: '\u26d3\ufe0f', desc: 'Consensual, intense, unleashed', href: '/discover.html?category=fetish', badge: null },
+  { name: 'Solo', icon: '\u2728', desc: 'One-on-one performances', href: '/discover.html?category=solo', badge: null },
+  { name: 'VIP Rooms', icon: '\ud83d\udd12', desc: 'Very Intimate Pleasure', href: '/discover.html?category=vip', badge: 'vip' },
 ];
-const grid=document.getElementById('grid');
-cats.forEach(cat=>{
-  const a=document.createElement('a');
-  a.className='card';
-  a.href='/room.html?id='+cat.id;
-  a.dataset.from='lobby';
-  a.dataset.to='room';
-  a.innerHTML=`<img src="${cat.img}" alt="${cat.name}"><div class="card-overlay"></div><div class="card-content"><strong>${cat.name}</strong><small>${cat.sub}</small></div>`;
+
+var grid = document.getElementById('grid');
+CATEGORIES.forEach(function(cat) {
+  var a = document.createElement('a');
+  a.className = 'card';
+  a.href = cat.href;
+  a.innerHTML = '<div class="card-content">' +
+    '<div class="card-icon">' + cat.icon + '</div>' +
+    '<strong>' + cat.name + '</strong>' +
+    '<small>' + cat.desc + '</small>' +
+    '</div>' +
+    (cat.badge ? '<span class="card-badge ' + cat.badge + '">' + cat.badge.toUpperCase() + '</span>' : '');
   grid.appendChild(a);
 });
-const doors=document.getElementById('doors'),openBtn=document.getElementById('open');
-openBtn.onclick=()=>{doors.classList.toggle('open');const isOpen=doors.classList.contains('open');openBtn.textContent=isOpen?'Close the Castle Doors':'Open the Castle Doors';};
-</script></body></html>
+</script>
+<script src="/public/js/admin-bar.js"></script>
+</body>
+</html>
