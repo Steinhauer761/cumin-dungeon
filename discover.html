@@ -11,8 +11,6 @@
 *{box-sizing:border-box;margin:0}html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--cream);font-family:var(--sans);min-height:100vh;-webkit-font-smoothing:antialiased}
 button,input{font:inherit;color:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}
-
-/* Nav */
 .nav{position:sticky;top:0;z-index:100;background:rgba(5,3,4,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
 .nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;padding:0 16px;height:52px;gap:8px}
 .nav-brand{font-family:var(--serif);font-size:1rem;font-style:italic;white-space:nowrap;margin-right:12px}
@@ -24,26 +22,17 @@ button,input{font:inherit;color:inherit}button{cursor:pointer}a{color:inherit;te
 .nav-right{margin-left:auto;display:flex;align-items:center;gap:8px}
 .nav-btn{padding:6px 12px;border-radius:6px;border:1px solid var(--gold-dim);background:transparent;font-size:.6rem;font-weight:700;color:var(--gold);transition:all .12s}
 .nav-btn:hover{background:rgba(213,154,75,.06);border-color:var(--gold)}
-.nav-avatar{width:28px;height:28px;border-radius:50%;background:var(--surface-2);border:1px solid var(--line);display:grid;place-items:center;font-size:.55rem;font-weight:800;color:var(--gold);display:none}
-.nav-avatar.show{display:grid}
-.nav-btn.hide{display:none}
-
-/* Search */
 .search-bar{max-width:1100px;margin:0 auto;padding:16px 16px 0}
 .search-wrap{position:relative}
 .search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:.85rem;color:var(--muted);pointer-events:none}
 .search-input{width:100%;padding:12px 16px 12px 40px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--cream);font-size:.8rem;outline:none;transition:border-color .2s}
 .search-input:focus{border-color:var(--gold-dim)}
 .search-input::placeholder{color:var(--muted)}
-
-/* Chips */
 .chips-section{max-width:1100px;margin:0 auto;padding:14px 16px 0}
 .chips-row{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}.chips-row::-webkit-scrollbar{display:none}
 .chip{padding:7px 14px;border-radius:100px;border:1px solid var(--line);background:var(--surface);font-size:.6rem;font-weight:700;color:var(--muted);white-space:nowrap;transition:all .15s;flex-shrink:0}
 .chip:hover{border-color:var(--gold-dim);color:var(--cream)}
 .chip.active{border-color:var(--gold);background:rgba(213,154,75,.08);color:var(--gold-light)}
-
-/* Filters */
 .filter-bar{max-width:1100px;margin:0 auto;padding:10px 16px 0;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .filter-btn{padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:transparent;font-size:.55rem;font-weight:600;color:var(--muted);transition:all .12s}
 .filter-btn:hover{border-color:var(--gold-dim);color:var(--cream)}
@@ -51,18 +40,14 @@ button,input{font:inherit;color:inherit}button{cursor:pointer}a{color:inherit;te
 .filter-btn .dot{width:5px;height:5px;border-radius:50%;background:var(--green);display:inline-block;margin-right:4px}
 .filter-clear{font-size:.5rem;color:var(--red-light);font-weight:700;border:none;background:none;padding:5px 8px;display:none}
 .filter-clear.show{display:inline-block}
-
-/* Sections */
 .section{max-width:1100px;margin:0 auto;padding:24px 16px 0}
 .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .section-title{font-family:var(--serif);font-size:1.1rem;font-weight:600;font-style:italic;color:var(--cream)}
 .section-more{font-size:.55rem;font-weight:700;color:var(--gold);padding:5px 10px;border:1px solid var(--line);border-radius:6px;background:transparent}
-
-/* Creator Cards */
 .creators-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
 .creator-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:transform .2s cubic-bezier(.22,1,.36,1),border-color .2s;cursor:pointer}
 .creator-card:hover{transform:translateY(-3px);border-color:var(--gold-dim)}
-.creator-img{height:140px;background:linear-gradient(135deg,var(--surface-2),var(--surface-3));position:relative;display:grid;place-items:center}
+.creator-img{height:140px;background:linear-gradient(135deg,var(--surface-2),var(--surface-3));position:relative;display:grid;place-items:center;background-size:cover;background-position:center}
 .creator-img .placeholder{font-size:2.5rem;opacity:.3}
 .creator-img .live-badge{position:absolute;top:8px;left:8px;padding:3px 8px;border-radius:100px;background:rgba(230,57,70,.9);font-size:.45rem;font-weight:800;display:flex;align-items:center;gap:4px}
 .creator-img .live-badge::before{content:'';width:5px;height:5px;border-radius:50%;background:white;animation:pulse 2s infinite}
@@ -79,12 +64,10 @@ button,input{font:inherit;color:inherit}button{cursor:pointer}a{color:inherit;te
 .creator-btn{flex:1;padding:7px;border-radius:6px;border:1px solid var(--line);background:transparent;font-size:.55rem;font-weight:700;color:var(--muted);text-align:center;transition:all .12s}
 .creator-btn:hover{border-color:var(--gold);color:var(--cream)}
 .creator-btn.primary{background:rgba(213,154,75,.08);border-color:var(--gold-dim);color:var(--gold-light)}
-
-/* Room Cards */
-.rooms-scroll{display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}.rooms-scroll::-webkit-scrollbar{display:none}
-.room-card{min-width:220px;max-width:260px;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;flex-shrink:0;transition:transform .2s,border-color .2s;cursor:pointer}
+.rooms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.room-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:transform .2s,border-color .2s;cursor:pointer}
 .room-card:hover{transform:translateY(-2px);border-color:var(--gold-dim)}
-.room-img{height:100px;background:linear-gradient(135deg,var(--surface-2),#1a0a10);display:grid;place-items:center;position:relative}
+.room-img{height:120px;background:linear-gradient(135deg,var(--surface-2),#1a0a10);display:grid;place-items:center;position:relative;background-size:cover;background-position:center}
 .room-img .emoji{font-size:2rem;opacity:.4}
 .room-img .status{position:absolute;top:8px;left:8px;padding:3px 7px;border-radius:100px;font-size:.42rem;font-weight:800}
 .room-img .status.live{background:rgba(230,57,70,.85)}
@@ -92,90 +75,62 @@ button,input{font:inherit;color:inherit}button{cursor:pointer}a{color:inherit;te
 .room-info{padding:10px 12px}
 .room-info h3{font-family:var(--serif);font-size:.85rem;font-style:italic}
 .room-info p{font-size:.52rem;color:var(--muted);margin-top:3px;line-height:1.4}
-
-/* Live Strip */
+.room-info .room-category{font-size:.45rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
 .live-strip{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}.live-strip::-webkit-scrollbar{display:none}
 .live-thumb{width:72px;flex-shrink:0;text-align:center;cursor:pointer}
 .live-thumb .avatar{width:60px;height:60px;border-radius:50%;border:2px solid var(--red-light);background:var(--surface-2);display:grid;place-items:center;margin:0 auto 4px;font-size:1.2rem;transition:transform .15s}
 .live-thumb:hover .avatar{transform:scale(1.05)}
-.live-thumb .name{font-size:.48rem;font-weight:600;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-
-/* Sign Up Modal */
+.live-thumb .name{font-size:.48rem;font-weight:600;color:var(--muted)}
 .modal-backdrop{position:fixed;inset:0;z-index:200;background:rgba(5,3,4,.88);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px}
 .modal-backdrop.show{display:flex}
 .modal{width:min(420px,100%);background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:32px 24px;position:relative;animation:modalIn .3s cubic-bezier(.22,1,.36,1)}
 @keyframes modalIn{from{opacity:0;transform:translateY(20px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
 .modal-close{position:absolute;top:12px;right:12px;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.04);border:1px solid var(--line);display:grid;place-items:center;font-size:.8rem;color:var(--muted);cursor:pointer}
-.modal-close:hover{border-color:var(--gold);color:var(--cream)}
 .modal h2{font-family:var(--serif);font-size:1.5rem;font-style:italic;font-weight:700;color:var(--gold-light);text-align:center;margin-bottom:4px}
 .modal .modal-sub{font-size:.65rem;color:var(--muted);text-align:center;margin-bottom:20px}
-
-/* Toggle */
 .toggle-row{display:flex;gap:4px;margin-bottom:20px;padding:3px;background:rgba(0,0,0,.3);border-radius:8px;border:1px solid var(--line)}
 .toggle-btn{flex:1;padding:9px;border:none;border-radius:6px;background:transparent;font-size:.65rem;font-weight:700;color:var(--muted);transition:all .15s}
 .toggle-btn.active{background:rgba(213,154,75,.1);color:var(--gold-light);border:1px solid var(--gold-dim)}
-
-/* Form */
 .form-group{margin-bottom:14px}
 .form-group label{display:block;font-size:.52rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
 .form-group input,.form-group select,.form-group textarea{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--cream);font-size:.75rem;outline:none;transition:border-color .15s}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--gold-dim)}
+.form-group input:focus,.form-group select:focus{border-color:var(--gold-dim)}
 .form-group input::placeholder{color:var(--muted)}
 .form-group textarea{resize:vertical;min-height:60px}
-.form-group select{appearance:none}
 .form-check{display:flex;align-items:flex-start;gap:8px;margin-bottom:10px}
 .form-check input[type=checkbox]{width:16px;height:16px;accent-color:var(--gold);margin-top:2px;flex-shrink:0}
 .form-check span{font-size:.6rem;color:var(--muted);line-height:1.4}
 .form-check a{color:var(--gold-light)}
 .submit-btn{width:100%;padding:13px;border:none;border-radius:10px;background:linear-gradient(180deg,var(--gold-light),var(--gold-dim));color:var(--bg);font-family:var(--serif);font-weight:700;font-size:.9rem;font-style:italic;margin-top:8px;transition:transform .12s}
 .submit-btn:hover{transform:translateY(-1px)}
-.submit-btn:active{transform:translateY(0)}
 .form-footer{text-align:center;margin-top:12px;font-size:.55rem;color:var(--muted)}
 .form-footer a{color:var(--gold-light)}
-
-/* Performer-specific fields */
-.performer-fields{display:none}
-.performer-fields.show{display:block}
-
+.performer-fields{display:none}.performer-fields.show{display:block}
+.empty-state{text-align:center;padding:40px 20px;color:var(--muted);font-size:.75rem}
+.empty-state .emoji{font-size:2rem;opacity:.3;margin-bottom:8px;display:block}
 .footer{max-width:1100px;margin:40px auto 0;padding:20px 16px;border-top:1px solid var(--line);text-align:center;font-size:.5rem;color:var(--muted)}
 .footer a{color:var(--gold)}
-
-@media(max-width:640px){.creators-grid{grid-template-columns:1fr 1fr;gap:8px}.creator-img{height:110px}.creator-info{padding:8px}.section-title{font-size:.95rem}}
+@media(max-width:640px){.creators-grid,.rooms-grid{grid-template-columns:1fr 1fr;gap:8px}.creator-img,.room-img{height:110px}.creator-info{padding:8px}.section-title{font-size:.95rem}}
 </style>
 </head>
 <body>
-
 <nav class="nav"><div class="nav-inner">
-  <a href="/" class="nav-brand"><strong>CumIN</strong> Dungeon</a>
+  <a href="/castle-lobby.html" class="nav-brand"><strong>CumIN</strong> Dungeon</a>
   <div class="nav-links">
     <a href="/discover.html" class="nav-link active">Discover</a>
-    <a href="#live" class="nav-link">Live Now</a>
-    <a href="#rooms" class="nav-link">Rooms</a>
-    <a href="#creators" class="nav-link">Creators</a>
+    <a href="/discover.html?filter=online" class="nav-link">Live Now</a>
+    <a href="/discover.html#rooms" class="nav-link">Rooms</a>
+    <a href="/discover.html#creators" class="nav-link">Creators</a>
     <a href="/casino.html" class="nav-link">Casino</a>
-    <a href="#" class="nav-link">VIP</a>
+    <a href="/discover.html?category=vip" class="nav-link">VIP</a>
     <a href="/lovense.html" class="nav-link">Shop</a>
   </div>
-  <div class="nav-right">
-    <button class="nav-btn" id="joinBtn">Join Free</button>
-    <div class="nav-avatar" id="navAvatar">J</div>
-  </div>
+  <div class="nav-right"><button class="nav-btn" id="joinBtn">Join Free</button></div>
 </div></nav>
 
 <div class="search-bar"><div class="search-wrap"><span class="search-icon">⌕</span><input class="search-input" id="searchInput" type="text" placeholder="Search creators, rooms, tags..."></div></div>
 
-<div class="chips-section"><div class="chips-row" id="categoryChips">
-  <button class="chip active" data-cat="all">All</button>
-  <button class="chip" data-cat="women">Women</button>
-  <button class="chip" data-cat="men">Men</button>
-  <button class="chip" data-cat="couples">Couples</button>
-  <button class="chip" data-cat="trans">Trans</button>
-  <button class="chip" data-cat="groups">Groups</button>
-  <button class="chip" data-cat="lgbtq">LGBTQ+</button>
-  <button class="chip" data-cat="solo">Solo</button>
-  <button class="chip" data-cat="fetish">Fetish</button>
-  <button class="chip" data-cat="vip">VIP</button>
-</div></div>
+<div class="chips-section"><div class="chips-row" id="categoryChips"></div></div>
 
 <div class="filter-bar" id="filterBar">
   <button class="filter-btn" data-filter="online"><span class="dot"></span>Online</button>
@@ -189,27 +144,18 @@ button,input{font:inherit;color:inherit}button{cursor:pointer}a{color:inherit;te
 </div>
 
 <section class="section" id="live">
-  <div class="section-header"><h2 class="section-title">Live Now</h2><button class="section-more">See All</button></div>
-  <div class="live-strip" id="liveStrip">
-    <div class="live-thumb"><div class="avatar">🌹</div><span class="name">Velvet</span></div>
-    <div class="live-thumb"><div class="avatar">👑</div><span class="name">DarkLord</span></div>
-    <div class="live-thumb"><div class="avatar">🦋</div><span class="name">Haley</span></div>
-    <div class="live-thumb"><div class="avatar">🔥</div><span class="name">Mistress K</span></div>
-    <div class="live-thumb"><div class="avatar">💎</div><span class="name">Jade</span></div>
-    <div class="live-thumb"><div class="avatar">⚡</div><span class="name">Storm</span></div>
-    <div class="live-thumb"><div class="avatar">🌙</div><span class="name">Luna</span></div>
-    <div class="live-thumb"><div class="avatar">�\udda4</div><span class="name">Raven</span></div>
-  </div>
-</section>
-
-<section class="section" id="creators">
-  <div class="section-header"><h2 class="section-title">Featured Creators</h2><button class="section-more">View All</button></div>
-  <div class="creators-grid" id="creatorsGrid"></div>
+  <div class="section-header"><h2 class="section-title">Live Now</h2></div>
+  <div class="live-strip" id="liveStrip"></div>
 </section>
 
 <section class="section" id="rooms">
-  <div class="section-header"><h2 class="section-title">Rooms</h2><button class="section-more">All Rooms</button></div>
-  <div class="rooms-scroll" id="roomsScroll"></div>
+  <div class="section-header"><h2 class="section-title" id="roomsTitle">Rooms</h2></div>
+  <div class="rooms-grid" id="roomsGrid"></div>
+</section>
+
+<section class="section" id="creators">
+  <div class="section-header"><h2 class="section-title" id="creatorsTitle">Featured Creators</h2></div>
+  <div class="creators-grid" id="creatorsGrid"></div>
 </section>
 
 <footer class="footer">&copy; 2026 CumIN Dungeon &middot; 18+ &middot; <a href="/terms.html">Terms</a> &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/2257.html">2257</a></footer>
@@ -242,38 +188,216 @@ button,input{font:inherit;color:inherit}button{cursor:pointer}a{color:inherit;te
 </div>
 
 <script>
-// Mock creators
-var CREATORS=[{name:'Velvet Rose',verified:true,category:'Women',tags:['Popular','Lovense','English'],online:true,viewers:184,vip:false,isNew:false,avatar:'\ud83c\udf39'},{name:'DarkLord',verified:true,category:'Men',tags:['Featured','BDSM','English'],online:true,viewers:92,vip:true,isNew:false,avatar:'\ud83d\udc51'},{name:'Haley',verified:true,category:'Women',tags:['Popular','Lingerie','English'],online:true,viewers:156,vip:true,isNew:false,avatar:'\ud83e\udd8b'},{name:'Mistress Kay',verified:true,category:'Fetish',tags:['Domination','Leather','English'],online:true,viewers:47,vip:false,isNew:false,avatar:'\ud83d\udd25'},{name:'Jade & Mark',verified:false,category:'Couples',tags:['New','Toys','English'],online:true,viewers:68,vip:false,isNew:true,avatar:'\ud83d\udc8e'},{name:'Storm',verified:true,category:'Trans',tags:['Popular','Cosplay','English'],online:true,viewers:74,vip:false,isNew:false,avatar:'\u26a1'},{name:'Luna Noir',verified:false,category:'Women',tags:['New','Petite','French'],online:false,viewers:0,vip:false,isNew:true,avatar:'\ud83c\udf19'},{name:'Raven',verified:true,category:'Solo',tags:['Featured','Athletic','English'],online:true,viewers:203,vip:true,isNew:false,avatar:'\ud83d\udda4'},{name:'Phoenix Duo',verified:false,category:'Couples',tags:['New','Roleplay','Spanish'],online:false,viewers:0,vip:false,isNew:true,avatar:'\ud83d\udd25'},{name:'Siren',verified:true,category:'Women',tags:['Popular','Curvy','English'],online:true,viewers:128,vip:false,isNew:false,avatar:'\ud83e\udddc'},{name:'Kai',verified:true,category:'Men',tags:['Muscular','Verified','English'],online:false,viewers:0,vip:false,isNew:false,avatar:'\ud83d\udcaa'},{name:'Nyx',verified:false,category:'LGBTQ+',tags:['New','Free Chat','English'],online:true,viewers:31,vip:false,isNew:true,avatar:'\u2728'}];
-var ROOMS=[{name:'Velvet Room',desc:'Women performers live. Intimate, warm.',status:'live',emoji:'\ud83c\udf39'},{name:'Tangled Throne',desc:'Couples only. Watch together, play together.',status:'live',emoji:'\ud83d\udc51'},{name:'Pink Silk',desc:'Young performers 18-21. Fresh, bold.',status:'live',emoji:'\ud83c\udf80'},{name:"Devil's Playground",desc:'Fetish and kink. Consensual, intense.',status:'open',emoji:'\u26d3\ufe0f'},{name:'Back Room',desc:'Gay and bi. Dark, discreet, real.',status:'live',emoji:'\ud83d\udda4'},{name:'The Dungeon',desc:'VIP private 1-on-1.',status:'live',emoji:'\ud83d\udd12'},{name:"Haley's Halo",desc:'She looks innocent but she is not.',status:'live',emoji:'\ud83d\ude07'},{name:'Trans Kinks',desc:'Trans performers. Bold, electric.',status:'live',emoji:'\ud83c\udf08'}];
+// ========== DATA ==========
+var CATEGORIES = [
+  { slug: 'all', name: 'All' },
+  { slug: 'women', name: 'Women' },
+  { slug: 'men', name: 'Men' },
+  { slug: 'couples', name: 'Couples' },
+  { slug: 'trans', name: 'Trans' },
+  { slug: 'groups', name: 'Groups' },
+  { slug: 'lgbtq', name: 'LGBTQ+' },
+  { slug: 'solo', name: 'Solo' },
+  { slug: 'fetish', name: 'Fetish' },
+  { slug: 'vip', name: 'VIP' }
+];
 
-var activeCategory='all',activeFilters=[];
+var ROOMS = [
+  { name: 'Velvet Room', desc: 'Women performers live. Intimate, warm.', status: 'live', category: 'women', img: '/public/assets/art/rooms/velvet-room.jpg' },
+  { name: 'Tangled Throne', desc: 'Couples only. Watch together, play together.', status: 'live', category: 'couples', img: '/public/assets/art/rooms/tangled-throne.jpg' },
+  { name: 'Pink Silk', desc: 'Young performers 18-21. Fresh, bold.', status: 'live', category: 'women', img: '/public/assets/art/rooms/pink-silk.jpg' },
+  { name: "Devil's Playground", desc: 'Fetish and kink. Consensual, intense.', status: 'open', category: 'fetish', img: '/public/assets/art/rooms/devils-playground.jpg' },
+  { name: 'Back Room', desc: 'Gay and bi. Dark, discreet, real.', status: 'live', category: 'lgbtq', img: '/public/assets/art/rooms/back-room.jpg' },
+  { name: 'The Dungeon', desc: 'Very Intimate Pleasure. Private 1-on-1.', status: 'live', category: 'vip', img: '/public/assets/art/rooms/the-dungeon.jpg' },
+  { name: "Haley's Halo", desc: 'She looks innocent but she is not.', status: 'live', category: 'women', img: '/public/assets/art/rooms/haleys-halo.jpg' },
+  { name: 'Trans Kinks', desc: 'Trans performers. Bold, expressive, electric.', status: 'live', category: 'trans', img: '/public/assets/art/rooms/trans-kinks.jpg' }
+];
 
-function renderCreators(container,list){var el=document.getElementById(container);el.innerHTML='';list.forEach(function(c){var card=document.createElement('div');card.className='creator-card';card.innerHTML='<div class="creator-img"><span class="placeholder">'+c.avatar+'</span>'+(c.online?'<span class="live-badge">LIVE</span>':'')+(c.viewers?'<span class="viewers">'+c.viewers+'</span>':'')+(c.vip?'<span class="vip-badge">VIP</span>':'')+'</div><div class="creator-info"><div class="creator-name">'+c.name+(c.verified?' <span class="verified">\u2713</span>':'')+'</div><div class="creator-category">'+c.category+'</div><div class="creator-tags">'+c.tags.map(function(t){return'<span class="creator-tag">'+t+'</span>'}).join('')+'</div><div class="creator-actions"><button class="creator-btn">Follow</button><button class="creator-btn primary">Enter</button></div></div>';el.appendChild(card)})}
+var CREATORS = [
+  { name: 'Velvet Rose', verified: true, category: 'women', tags: ['Popular','Lovense','English'], online: true, viewers: 184, vip: false, isNew: false, avatar: '\ud83c\udf39' },
+  { name: 'DarkLord', verified: true, category: 'men', tags: ['Featured','BDSM','English'], online: true, viewers: 92, vip: true, isNew: false, avatar: '\ud83d\udc51' },
+  { name: 'Haley', verified: true, category: 'women', tags: ['Popular','Lingerie','English'], online: true, viewers: 156, vip: true, isNew: false, avatar: '\ud83e\udd8b' },
+  { name: 'Mistress Kay', verified: true, category: 'fetish', tags: ['Domination','Leather','English'], online: true, viewers: 47, vip: false, isNew: false, avatar: '\ud83d\udd25' },
+  { name: 'Jade & Mark', verified: false, category: 'couples', tags: ['New','Toys','English'], online: true, viewers: 68, vip: false, isNew: true, avatar: '\ud83d\udc8e' },
+  { name: 'Storm', verified: true, category: 'trans', tags: ['Popular','Cosplay','English'], online: true, viewers: 74, vip: false, isNew: false, avatar: '\u26a1' },
+  { name: 'Luna Noir', verified: false, category: 'women', tags: ['New','Petite','French'], online: false, viewers: 0, vip: false, isNew: true, avatar: '\ud83c\udf19' },
+  { name: 'Raven', verified: true, category: 'solo', tags: ['Featured','Athletic','English'], online: true, viewers: 203, vip: true, isNew: false, avatar: '\ud83d\udda4' },
+  { name: 'Phoenix Duo', verified: false, category: 'couples', tags: ['New','Roleplay','Spanish'], online: false, viewers: 0, vip: false, isNew: true, avatar: '\ud83d\udd25' },
+  { name: 'Siren', verified: true, category: 'women', tags: ['Popular','Curvy','English'], online: true, viewers: 128, vip: false, isNew: false, avatar: '\ud83e\udddc' },
+  { name: 'Kai', verified: true, category: 'men', tags: ['Muscular','Verified','English'], online: false, viewers: 0, vip: false, isNew: false, avatar: '\ud83d\udcaa' },
+  { name: 'Nyx', verified: false, category: 'lgbtq', tags: ['New','Free Chat','English'], online: true, viewers: 31, vip: false, isNew: true, avatar: '\u2728' }
+];
 
-function renderRooms(){var el=document.getElementById('roomsScroll');el.innerHTML='';ROOMS.forEach(function(r){var card=document.createElement('div');card.className='room-card';card.innerHTML='<div class="room-img"><span class="emoji">'+r.emoji+'</span><span class="status '+r.status+'">'+(r.status==='live'?'LIVE':'OPEN')+'</span></div><div class="room-info"><h3>'+r.name+'</h3><p>'+r.desc+'</p></div>';el.appendChild(card)})}
+// ========== STATE ==========
+var params = new URLSearchParams(window.location.search);
+var activeCategory = params.get('category') || 'all';
+var activeFilters = params.get('filter') ? [params.get('filter')] : [];
 
-function filterCreators(){var filtered=CREATORS.filter(function(c){if(activeCategory!=='all'&&c.category.toLowerCase()!==activeCategory)return false;if(activeFilters.indexOf('online')>=0&&!c.online)return false;if(activeFilters.indexOf('verified')>=0&&!c.verified)return false;if(activeFilters.indexOf('new')>=0&&!c.isNew)return false;if(activeFilters.indexOf('popular')>=0&&c.tags.indexOf('Popular')<0)return false;if(activeFilters.indexOf('featured')>=0&&c.tags.indexOf('Featured')<0)return false;if(activeFilters.indexOf('lovense')>=0&&c.tags.indexOf('Lovense')<0)return false;return true});renderCreators('creatorsGrid',filtered)}
+// ========== RENDER CHIPS ==========
+function renderChips() {
+  var container = document.getElementById('categoryChips');
+  container.innerHTML = '';
+  CATEGORIES.forEach(function(cat) {
+    var btn = document.createElement('button');
+    btn.className = 'chip' + (activeCategory === cat.slug ? ' active' : '');
+    btn.dataset.cat = cat.slug;
+    btn.textContent = cat.name;
+    container.appendChild(btn);
+  });
+}
 
-document.getElementById('categoryChips').addEventListener('click',function(e){var chip=e.target.closest('.chip');if(!chip)return;document.querySelectorAll('.chip').forEach(function(c){c.classList.remove('active')});chip.classList.add('active');activeCategory=chip.dataset.cat;filterCreators()});
-document.getElementById('filterBar').addEventListener('click',function(e){var btn=e.target.closest('.filter-btn');if(!btn)return;btn.classList.toggle('active');var f=btn.dataset.filter;var idx=activeFilters.indexOf(f);if(idx>=0)activeFilters.splice(idx,1);else activeFilters.push(f);document.getElementById('clearFilters').classList.toggle('show',activeFilters.length>0);filterCreators()});
-document.getElementById('clearFilters').addEventListener('click',function(){activeFilters=[];document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active')});this.classList.remove('show');filterCreators()});
-document.getElementById('searchInput').addEventListener('input',function(){var q=this.value.toLowerCase().trim();if(!q){filterCreators();return}var filtered=CREATORS.filter(function(c){return c.name.toLowerCase().indexOf(q)>=0||c.category.toLowerCase().indexOf(q)>=0||c.tags.some(function(t){return t.toLowerCase().indexOf(q)>=0})});renderCreators('creatorsGrid',filtered)});
+// ========== RENDER ROOMS ==========
+function renderRooms() {
+  var el = document.getElementById('roomsGrid');
+  el.innerHTML = '';
+  var filtered = ROOMS.filter(function(r) {
+    if (activeCategory !== 'all' && r.category !== activeCategory) return false;
+    return true;
+  });
+  if (filtered.length === 0) {
+    el.innerHTML = '<div class="empty-state"><span class="emoji">\ud83d\udeaa</span>No rooms in this category yet</div>';
+    return;
+  }
+  var title = activeCategory === 'all' ? 'All Rooms' : CATEGORIES.find(function(c){return c.slug===activeCategory}).name + ' Rooms';
+  document.getElementById('roomsTitle').textContent = title;
+  filtered.forEach(function(r) {
+    var card = document.createElement('a');
+    card.className = 'room-card';
+    card.href = '/room.html?id=' + r.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/,'');
+    card.innerHTML = '<div class="room-img" style="background-image:url(' + r.img + ')">' +
+      '<span class="status ' + r.status + '">' + (r.status === 'live' ? 'LIVE' : 'OPEN') + '</span></div>' +
+      '<div class="room-info"><h3>' + r.name + '</h3><p>' + r.desc + '</p>' +
+      '<div class="room-category">' + r.category + '</div></div>';
+    el.appendChild(card);
+  });
+}
+
+// ========== RENDER CREATORS ==========
+function renderCreators() {
+  var el = document.getElementById('creatorsGrid');
+  el.innerHTML = '';
+  var filtered = CREATORS.filter(function(c) {
+    if (activeCategory !== 'all' && c.category !== activeCategory) return false;
+    if (activeFilters.indexOf('online') >= 0 && !c.online) return false;
+    if (activeFilters.indexOf('verified') >= 0 && !c.verified) return false;
+    if (activeFilters.indexOf('new') >= 0 && !c.isNew) return false;
+    if (activeFilters.indexOf('popular') >= 0 && c.tags.indexOf('Popular') < 0) return false;
+    if (activeFilters.indexOf('featured') >= 0 && c.tags.indexOf('Featured') < 0) return false;
+    if (activeFilters.indexOf('lovense') >= 0 && c.tags.indexOf('Lovense') < 0) return false;
+    return true;
+  });
+  if (filtered.length === 0) {
+    el.innerHTML = '<div class="empty-state"><span class="emoji">\ud83d\udc64</span>No creators match these filters</div>';
+    return;
+  }
+  filtered.forEach(function(c) {
+    var card = document.createElement('div');
+    card.className = 'creator-card';
+    card.innerHTML = '<div class="creator-img"><span class="placeholder">' + c.avatar + '</span>' +
+      (c.online ? '<span class="live-badge">LIVE</span>' : '') +
+      (c.viewers ? '<span class="viewers">' + c.viewers + '</span>' : '') +
+      (c.vip ? '<span class="vip-badge">VIP</span>' : '') +
+      '</div><div class="creator-info">' +
+      '<div class="creator-name">' + c.name + (c.verified ? ' <span class="verified">\u2713</span>' : '') + '</div>' +
+      '<div class="creator-category">' + c.category + '</div>' +
+      '<div class="creator-tags">' + c.tags.map(function(t){return '<span class="creator-tag">'+t+'</span>'}).join('') + '</div>' +
+      '<div class="creator-actions"><button class="creator-btn">Follow</button><button class="creator-btn primary">Enter</button></div></div>';
+    el.appendChild(card);
+  });
+}
+
+// ========== LIVE STRIP ==========
+function renderLiveStrip() {
+  var el = document.getElementById('liveStrip');
+  el.innerHTML = '';
+  CREATORS.filter(function(c){return c.online}).forEach(function(c) {
+    var thumb = document.createElement('div');
+    thumb.className = 'live-thumb';
+    thumb.innerHTML = '<div class="avatar">' + c.avatar + '</div><span class="name">' + c.name + '</span>';
+    el.appendChild(thumb);
+  });
+}
+
+// ========== EVENTS ==========
+document.getElementById('categoryChips').addEventListener('click', function(e) {
+  var chip = e.target.closest('.chip');
+  if (!chip) return;
+  activeCategory = chip.dataset.cat;
+  // Update URL without reload
+  var url = new URL(window.location);
+  if (activeCategory === 'all') url.searchParams.delete('category');
+  else url.searchParams.set('category', activeCategory);
+  history.replaceState(null, '', url);
+  renderChips();
+  renderRooms();
+  renderCreators();
+});
+
+document.getElementById('filterBar').addEventListener('click', function(e) {
+  var btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  btn.classList.toggle('active');
+  var f = btn.dataset.filter;
+  var idx = activeFilters.indexOf(f);
+  if (idx >= 0) activeFilters.splice(idx, 1);
+  else activeFilters.push(f);
+  document.getElementById('clearFilters').classList.toggle('show', activeFilters.length > 0);
+  renderCreators();
+});
+
+document.getElementById('clearFilters').addEventListener('click', function() {
+  activeFilters = [];
+  document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active')});
+  this.classList.remove('show');
+  renderCreators();
+});
+
+document.getElementById('searchInput').addEventListener('input', function() {
+  var q = this.value.toLowerCase().trim();
+  if (!q) { renderCreators(); renderRooms(); return; }
+  var fc = CREATORS.filter(function(c) {
+    return c.name.toLowerCase().indexOf(q) >= 0 || c.category.indexOf(q) >= 0 || c.tags.some(function(t){return t.toLowerCase().indexOf(q)>=0});
+  });
+  var fr = ROOMS.filter(function(r) {
+    return r.name.toLowerCase().indexOf(q) >= 0 || r.category.indexOf(q) >= 0 || r.desc.toLowerCase().indexOf(q) >= 0;
+  });
+  document.getElementById('creatorsGrid').innerHTML = '';
+  fc.forEach(function(c) {
+    var card = document.createElement('div'); card.className = 'creator-card';
+    card.innerHTML = '<div class="creator-img"><span class="placeholder">' + c.avatar + '</span>' + (c.online ? '<span class="live-badge">LIVE</span>' : '') + '</div><div class="creator-info"><div class="creator-name">' + c.name + (c.verified?' <span class="verified">\u2713</span>':'') + '</div><div class="creator-category">' + c.category + '</div></div>';
+    document.getElementById('creatorsGrid').appendChild(card);
+  });
+  document.getElementById('roomsGrid').innerHTML = '';
+  fr.forEach(function(r) {
+    var card = document.createElement('a'); card.className = 'room-card'; card.href = '#';
+    card.innerHTML = '<div class="room-img" style="background-image:url(' + r.img + ')"><span class="status ' + r.status + '">' + (r.status==='live'?'LIVE':'OPEN') + '</span></div><div class="room-info"><h3>' + r.name + '</h3><p>' + r.desc + '</p></div>';
+    document.getElementById('roomsGrid').appendChild(card);
+  });
+});
+
+// Apply URL filter on load (e.g. ?filter=online)
+if (activeFilters.length > 0) {
+  activeFilters.forEach(function(f) {
+    var btn = document.querySelector('[data-filter="' + f + '"]');
+    if (btn) btn.classList.add('active');
+  });
+  document.getElementById('clearFilters').classList.add('show');
+}
 
 // Modal
-var modal=document.getElementById('modalBackdrop');
-var signupType='member';
-document.getElementById('joinBtn').addEventListener('click',function(){modal.classList.add('show')});
-document.getElementById('modalClose').addEventListener('click',function(){modal.classList.remove('show')});
-modal.addEventListener('click',function(e){if(e.target===modal)modal.classList.remove('show')});
-
+var modal = document.getElementById('modalBackdrop');
+var signupType = 'member';
+document.getElementById('joinBtn').addEventListener('click', function(){modal.classList.add('show')});
+document.getElementById('modalClose').addEventListener('click', function(){modal.classList.remove('show')});
+modal.addEventListener('click', function(e){if(e.target===modal)modal.classList.remove('show')});
 document.querySelectorAll('.toggle-btn').forEach(function(btn){btn.addEventListener('click',function(){document.querySelectorAll('.toggle-btn').forEach(function(b){b.classList.remove('active')});this.classList.add('active');signupType=this.dataset.type;document.getElementById('performerFields').classList.toggle('show',signupType==='performer');document.getElementById('submitBtn').textContent=signupType==='performer'?'Apply as Performer':'Create Account'})});
+document.getElementById('signupForm').addEventListener('submit',function(e){e.preventDefault();alert(signupType==='performer'?'Performer application submitted! We\'ll review and get back to you.':'Account created! Welcome to the dungeon.');modal.classList.remove('show')});
 
-document.getElementById('signupForm').addEventListener('submit',function(e){e.preventDefault();var data={name:document.getElementById('fname').value,email:document.getElementById('femail').value,type:signupType};if(signupType==='performer'){data.stageName=document.getElementById('fstagename').value;data.category=document.getElementById('fcategory').value;data.bio=document.getElementById('fbio').value}alert(signupType==='performer'?'Performer application submitted! We\'ll review and get back to you.':'Account created! Welcome to the dungeon.');modal.classList.remove('show')});
-
-// Check if already logged in (simple localStorage check)
-if(localStorage.getItem('admin_key')){document.getElementById('joinBtn').classList.add('hide');document.getElementById('navAvatar').classList.add('show')}
-
-filterCreators();renderRooms();
+// Init
+renderChips();
+renderRooms();
+renderCreators();
+renderLiveStrip();
 </script>
 <script src="/public/js/admin-bar.js"></script>
 </body>
