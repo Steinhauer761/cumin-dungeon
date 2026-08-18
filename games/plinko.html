@@ -6,8 +6,8 @@
 <title>Dungeon Plinko | CumIN Dungeon Casino</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;1,700&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#050304;--surface:#0c0908;--surface-2:#141010;--gold:#d59a4b;--gold-light:#f5c77e;--gold-dim:#8b6230;--cream:#f5eee4;--muted:#7a6e64;--red:#e63946;--green:#4ade80;--purple:#a855f7;--blue:#3b82f6;--line:rgba(190,137,77,.18);--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--bg:#050304;--surface:#0c0908;--surface-2:#141010;--gold:#d59a4b;--gold-light:#f5c77e;--gold-dim:#8b6230;--cream:#f5eee4;--muted:#7a6e64;--red:#e63946;--green:#4ade80;--purple:#a855f7;--line:rgba(190,137,77,.18);--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden}
 body{background:var(--bg);color:var(--cream);font-family:var(--sans);font-size:14px;touch-action:manipulation}
 .app{display:flex;flex-direction:column;height:100dvh;width:100vw;position:relative;overflow:hidden}
@@ -15,21 +15,22 @@ body{background:var(--bg);color:var(--cream);font-family:var(--sans);font-size:1
 .hdr a{color:var(--muted);font-size:.7rem;font-weight:700;text-decoration:none}
 .hdr .brand{font-family:var(--serif);font-style:italic;font-size:1rem;color:var(--gold-light)}
 .hdr .bal{font-size:.72rem;font-weight:800;color:var(--gold-light);font-variant-numeric:tabular-nums}
-.game-area{flex:1;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(ellipse at 50% 30%,#1a0f1f,var(--bg))}
+.game-area{flex:1;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(ellipse at 50% 30%,#1a0f08,var(--bg))}
 canvas{display:block;max-width:100%;max-height:100%}
 .prize-bar{display:flex;justify-content:center;gap:4px;padding:8px 12px;background:var(--surface);border-top:1px solid var(--line);flex-shrink:0}
-.prize-slot{flex:1;max-width:120px;padding:8px 4px;border-radius:8px;text-align:center;font-size:.55rem;font-weight:700;line-height:1.2;color:var(--cream);transition:all .3s}
-.prize-slot:nth-child(1){background:#9f2330}
-.prize-slot:nth-child(2){background:#b8802e}
-.prize-slot:nth-child(3){background:#1a7a3a}
-.prize-slot:nth-child(4){background:#2563eb}
-.prize-slot:nth-child(5){background:#7c3aed}
+.prize-slot{flex:1;max-width:100px;padding:8px 4px;border-radius:8px;text-align:center;font-size:.5rem;font-weight:700;line-height:1.3;color:var(--cream);transition:all .3s}
+.prize-slot:nth-child(1){background:#6a1a28}
+.prize-slot:nth-child(2){background:#4a3a10}
+.prize-slot:nth-child(3){background:#1a3a1a}
+.prize-slot:nth-child(4){background:#4a3a10}
+.prize-slot:nth-child(5){background:#3a1a40}
+.prize-slot:nth-child(6){background:#6a1a28}
+.prize-slot:nth-child(7){background:#1a3a1a}
 .prize-slot.won{transform:scale(1.1);box-shadow:0 0 20px currentColor}
 .controls{display:flex;align-items:center;justify-content:center;gap:12px;padding:12px 16px;background:var(--surface);border-top:1px solid var(--line);flex-shrink:0}
-.drop-btn{padding:14px 40px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--gold),#b8802e);color:#0a0604;font-size:.85rem;font-weight:900;cursor:pointer;transition:all .15s;box-shadow:0 4px 20px rgba(213,154,75,.3)}
-.drop-btn:hover{transform:translateY(-1px);box-shadow:0 6px 28px rgba(213,154,75,.4)}
-.drop-btn:active{transform:translateY(0)}
-.drop-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.drop-btn{padding:14px 40px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--gold-light),var(--gold-dim));color:#0a0604;font-size:.85rem;font-weight:900;cursor:pointer;box-shadow:0 4px 20px rgba(213,154,75,.3)}
+.drop-btn:active{transform:scale(.95)}
+.drop-btn:disabled{opacity:.4;cursor:not-allowed}
 .bet-ctrl{display:flex;align-items:center;gap:6px}
 .bet-ctrl button{width:28px;height:28px;border-radius:6px;background:var(--surface-2);border:1px solid var(--line);color:var(--cream);font-weight:800;font-size:.8rem;cursor:pointer}
 .bet-ctrl .amount{font-size:.78rem;font-weight:800;color:var(--gold-light);min-width:40px;text-align:center}
@@ -38,366 +39,59 @@ canvas{display:block;max-width:100%;max-height:100%}
 .result-overlay h2{font-family:var(--serif);font-style:italic;font-size:clamp(1.5rem,6vw,2.5rem);color:var(--gold-light);text-align:center;padding:0 20px}
 .result-overlay p{font-size:.85rem;color:var(--muted)}
 .result-overlay button{padding:12px 28px;border:none;border-radius:8px;background:var(--gold);color:#0a0604;font-weight:800;font-size:.78rem;cursor:pointer}
-.fs-btn{position:absolute;top:10px;right:10px;z-index:20;width:32px;height:32px;border-radius:6px;background:rgba(0,0,0,.6);border:1px solid var(--line);color:var(--cream);font-size:.9rem;display:grid;place-items:center;cursor:pointer}
 .fx-layer{position:fixed;inset:0;pointer-events:none;z-index:100;overflow:hidden}
 .coin{position:absolute;top:-20px;width:12px;height:12px;background:var(--gold);border-radius:50%;animation:coinFall var(--dur) ease-in forwards}
 @keyframes coinFall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
-@media(orientation:landscape){.prize-bar{padding:6px 8px}.prize-slot{font-size:.5rem;padding:6px 3px}.controls{padding:8px 12px}}
 </style>
 </head>
 <body>
 <div class="app">
-  <header class="hdr">
-    <a href="/casino.html">← Casino</a>
-    <span class="brand">Dungeon Plinko</span>
-    <span class="bal" id="bal">1,000,000</span>
-  </header>
-  <main class="game-area" id="gameArea">
-    <canvas id="cv"></canvas>
-    <button class="fs-btn" id="fsBtn" title="Fullscreen">⛶</button>
-    <div class="result-overlay" id="overlay">
-      <h2 id="resultText"></h2>
-      <p id="resultSub"></p>
-      <button id="playAgain">Drop Again</button>
-    </div>
+  <header class="hdr"><a href="/casino.html">← Casino</a><span class="brand">Dungeon Plinko</span><span class="bal" id="bal">0</span></header>
+  <main class="game-area" id="gameArea"><canvas id="cv"></canvas>
+    <div class="result-overlay" id="overlay"><h2 id="resultText"></h2><p id="resultSub"></p><button id="playAgain">Drop Again</button></div>
   </main>
   <div class="prize-bar" id="prizeBar">
-    <div class="prize-slot" data-idx="0">🦁<br>Lions<br>Tickets</div>
-    <div class="prize-slot" data-idx="1">🐯<br>Tigers<br>Tickets</div>
-    <div class="prize-slot" data-idx="2">🛏️<br>Bedroom<br>Set</div>
-    <div class="prize-slot" data-idx="3">🔥<br>Outdoor<br>Fireplace</div>
-    <div class="prize-slot" data-idx="4">✈️<br>Family<br>Vacation</div>
+    <div class="prize-slot" data-idx="0">🔥<br>2x</div>
+    <div class="prize-slot" data-idx="1">⛓️<br>3x</div>
+    <div class="prize-slot" data-idx="2">💋<br>10x</div>
+    <div class="prize-slot" data-idx="3">👑<br>5x</div>
+    <div class="prize-slot" data-idx="4">🌹<br>2x</div>
+    <div class="prize-slot" data-idx="5">👠<br>25x</div>
+    <div class="prize-slot" data-idx="6">💎<br>50x</div>
   </div>
   <div class="controls">
-    <div class="bet-ctrl">
-      <button id="betM">−</button>
-      <span class="amount" id="betA">10K</span>
-      <button id="betP">+</button>
-    </div>
+    <div class="bet-ctrl"><button id="betM">−</button><span class="amount" id="betA">5K</span><button id="betP">+</button></div>
     <button class="drop-btn" id="dropBtn">DROP</button>
   </div>
 </div>
 <div class="fx-layer" id="fxL"></div>
-
+<script src="/public/js/balance.js"></script>
 <script>
 (function(){
 'use strict';
-
-var PRIZES = [
-  {name:'Lions Tickets', emoji:'🦁', msg:'You won Lions Tickets!'},
-  {name:'Tigers Tickets', emoji:'🐯', msg:'You won Tigers Tickets!'},
-  {name:'Bedroom Set', emoji:'🛏️', msg:'You won a Bedroom Set!'},
-  {name:'Outdoor Fireplace', emoji:'🔥', msg:'You won an Outdoor Fireplace!'},
-  {name:'Family Vacation', emoji:'✈️', msg:'You won a Family Vacation!'}
-];
-
-var BETS = [1000,2000,5000,10000,25000,50000,100000];
-var MULTIPLIERS = [3, 2, 5, 2, 8]; // payout multipliers per slot
-var balance = 1000000;
-var bet = 10000;
-var dropping = false;
-
-var ROWS = 12;
-var COLS = 5; // slots
-var PEG_RADIUS = 4;
-var CHIP_RADIUS = 8;
-var GRAVITY = 0.35;
-var BOUNCE = 0.7;
-var FRICTION = 0.98;
-
-var cv = document.getElementById('cv');
-var ctx = cv.getContext('2d');
-var gameArea = document.getElementById('gameArea');
-var balEl = document.getElementById('bal');
-var betA = document.getElementById('betA');
-var dropBtn = document.getElementById('dropBtn');
-var overlay = document.getElementById('overlay');
-var resultText = document.getElementById('resultText');
-var resultSub = document.getElementById('resultSub');
-
-var pegs = [];
-var chip = null;
-var slotPositions = [];
-var boardW, boardH, offsetX, offsetY;
-
-function fmtBet(n){ return n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?Math.round(n/1e3)+'K':n; }
-
-function resize(){
-  var w = gameArea.offsetWidth;
-  var h = gameArea.offsetHeight;
-  cv.width = w * devicePixelRatio;
-  cv.height = h * devicePixelRatio;
-  cv.style.width = w + 'px';
-  cv.style.height = h + 'px';
-  ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
-  buildBoard(w, h);
-}
-
-function buildBoard(w, h){
-  pegs = [];
-  slotPositions = [];
-  var margin = 40;
-  boardW = w - margin * 2;
-  boardH = h - margin * 2;
-  offsetX = margin;
-  offsetY = margin;
-
-  // Trapezoidal peg layout (wider at bottom)
-  for(var row = 0; row < ROWS; row++){
-    var pegsInRow = 3 + row; // starts narrow, gets wider
-    var rowY = offsetY + (row + 1) * (boardH / (ROWS + 1));
-    var spread = 0.3 + (row / ROWS) * 0.7; // how wide this row is (0.3 to 1.0)
-    var rowWidth = boardW * spread;
-    var startX = offsetX + (boardW - rowWidth) / 2;
-    for(var col = 0; col < pegsInRow; col++){
-      var pegX = startX + (col / (pegsInRow - 1)) * rowWidth;
-      pegs.push({x: pegX, y: rowY});
-    }
-  }
-
-  // Slot positions (bottom)
-  var slotWidth = boardW / COLS;
-  for(var i = 0; i < COLS; i++){
-    slotPositions.push({
-      x: offsetX + slotWidth * i + slotWidth / 2,
-      left: offsetX + slotWidth * i,
-      right: offsetX + slotWidth * (i + 1),
-      y: offsetY + boardH
-    });
-  }
-}
-
-function drawBoard(){
-  var w = cv.width / devicePixelRatio;
-  var h = cv.height / devicePixelRatio;
-  ctx.clearRect(0, 0, w, h);
-
-  // Pegs
-  pegs.forEach(function(p){
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, PEG_RADIUS, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(245,200,126,0.6)';
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, PEG_RADIUS - 1, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(245,200,126,0.9)';
-    ctx.fill();
-  });
-
-  // Slot dividers
-  ctx.strokeStyle = 'rgba(190,137,77,0.3)';
-  ctx.lineWidth = 1;
-  for(var i = 1; i < COLS; i++){
-    var x = offsetX + (boardW / COLS) * i;
-    ctx.beginPath();
-    ctx.moveTo(x, offsetY + boardH - 30);
-    ctx.lineTo(x, offsetY + boardH + 10);
-    ctx.stroke();
-  }
-
-  // Slot labels at bottom
-  ctx.font = '600 9px Inter, sans-serif';
-  ctx.textAlign = 'center';
-  var colors = ['#e63946','#d59a4b','#22c55e','#3b82f6','#a855f7'];
-  slotPositions.forEach(function(s, i){
-    ctx.fillStyle = colors[i];
-    ctx.fillText(MULTIPLIERS[i] + 'x', s.x, s.y + 8);
-  });
-
-  // Chip
-  if(chip){
-    ctx.beginPath();
-    ctx.arc(chip.x, chip.y, CHIP_RADIUS, 0, Math.PI * 2);
-    ctx.fillStyle = '#f5c77e';
-    ctx.shadowColor = '#d59a4b';
-    ctx.shadowBlur = 12;
-    ctx.fill();
-    ctx.shadowBlur = 0;
-    ctx.beginPath();
-    ctx.arc(chip.x, chip.y, CHIP_RADIUS - 2, 0, Math.PI * 2);
-    ctx.fillStyle = '#fff8e8';
-    ctx.fill();
-
-    // Trail
-    if(chip.trail && chip.trail.length > 1){
-      ctx.beginPath();
-      ctx.strokeStyle = 'rgba(245,200,126,0.2)';
-      ctx.lineWidth = 2;
-      chip.trail.forEach(function(p, idx){
-        if(idx === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
-      });
-      ctx.stroke();
-    }
-  }
-}
-
-function dropChip(){
-  if(dropping) return;
-  if(balance < bet) return;
-  balance -= bet;
-  updateBal();
-  dropping = true;
-  dropBtn.disabled = true;
-
-  // Random start position (slight variation from center top)
-  var startX = offsetX + boardW / 2 + (Math.random() - 0.5) * 30;
-  chip = {
-    x: startX,
-    y: offsetY - CHIP_RADIUS,
-    vx: (Math.random() - 0.5) * 2,
-    vy: 0,
-    trail: []
-  };
-
-  SFX.drop();
-  animate();
-}
-
-function animate(){
-  if(!chip) return;
-
-  // Physics
-  chip.vy += GRAVITY;
-  chip.vx *= FRICTION;
-  chip.x += chip.vx;
-  chip.y += chip.vy;
-
-  // Trail
-  chip.trail.push({x: chip.x, y: chip.y});
-  if(chip.trail.length > 40) chip.trail.shift();
-
-  // Peg collisions
-  pegs.forEach(function(p){
-    var dx = chip.x - p.x;
-    var dy = chip.y - p.y;
-    var dist = Math.sqrt(dx * dx + dy * dy);
-    var minDist = PEG_RADIUS + CHIP_RADIUS;
-    if(dist < minDist){
-      // Bounce
-      var angle = Math.atan2(dy, dx);
-      chip.x = p.x + Math.cos(angle) * minDist;
-      chip.y = p.y + Math.sin(angle) * minDist;
-      var speed = Math.sqrt(chip.vx * chip.vx + chip.vy * chip.vy);
-      chip.vx = Math.cos(angle) * speed * BOUNCE + (Math.random() - 0.5) * 1.5;
-      chip.vy = Math.sin(angle) * speed * BOUNCE * 0.5;
-      if(chip.vy < 0.5) chip.vy = 0.5;
-      SFX.tick();
-    }
-  });
-
-  // Wall bounds
-  var leftBound = offsetX + CHIP_RADIUS;
-  var rightBound = offsetX + boardW - CHIP_RADIUS;
-  if(chip.x < leftBound){ chip.x = leftBound; chip.vx = Math.abs(chip.vx) * BOUNCE; }
-  if(chip.x > rightBound){ chip.x = rightBound; chip.vx = -Math.abs(chip.vx) * BOUNCE; }
-
-  // Check if reached bottom
-  if(chip.y >= offsetY + boardH){
-    landChip();
-    return;
-  }
-
-  drawBoard();
-  requestAnimationFrame(animate);
-}
-
-function landChip(){
-  // Determine which slot
-  var slotIdx = 0;
-  var minDist = Infinity;
-  slotPositions.forEach(function(s, i){
-    var d = Math.abs(chip.x - s.x);
-    if(d < minDist){ minDist = d; slotIdx = i; }
-  });
-
-  var prize = PRIZES[slotIdx];
-  var mult = MULTIPLIERS[slotIdx];
-  var winAmount = bet * mult;
-  balance += winAmount;
-  updateBal();
-
-  // Highlight slot
-  document.querySelectorAll('.prize-slot').forEach(function(el, i){
-    el.classList.toggle('won', i === slotIdx);
-  });
-
-  // Show result
-  resultText.textContent = prize.emoji + ' ' + prize.msg;
-  resultSub.textContent = 'Won ' + fmtBet(winAmount) + ' tokens (' + mult + 'x)';
-  overlay.classList.add('show');
-
-  SFX.win();
-  spawnCoins(Math.min(40, mult * 5));
-
-  dropping = false;
-  dropBtn.disabled = false;
-}
-
-function reset(){
-  overlay.classList.remove('show');
-  document.querySelectorAll('.prize-slot').forEach(function(el){ el.classList.remove('won'); });
-  chip = null;
-  drawBoard();
-  if(balance < 100) balance = 1000000;
-  updateBal();
-}
-
-function updateBal(){ balEl.textContent = balance.toLocaleString(); }
-
-// Bet controls
-function cycleBet(dir){
-  var idx = BETS.indexOf(bet);
-  if(idx === -1) idx = 3;
-  idx += dir;
-  idx = Math.max(0, Math.min(BETS.length - 1, idx));
-  bet = BETS[idx];
-  betA.textContent = fmtBet(bet);
-}
-document.getElementById('betM').onclick = function(){ cycleBet(-1); };
-document.getElementById('betP').onclick = function(){ cycleBet(1); };
-betA.textContent = fmtBet(bet);
-
-// Events
-dropBtn.onclick = dropChip;
-document.getElementById('playAgain').onclick = reset;
-document.getElementById('fsBtn').onclick = function(){
-  if(!document.fullscreenElement) document.documentElement.requestFullscreen().catch(function(){});
-  else document.exitFullscreen();
-};
-
-// Audio
-var SFX = (function(){
-  var c;
-  function g(){ if(!c) c=new(window.AudioContext||window.webkitAudioContext)(); if(c.state==='suspended')c.resume(); return c; }
-  function tone(freq,type,dur,vol){
-    var x=g(),o=x.createOscillator(),gn=x.createGain();
-    o.type=type;o.frequency.value=freq;gn.gain.value=vol||.04;
-    gn.gain.exponentialRampToValueAtTime(.001,x.currentTime+dur);
-    o.connect(gn);gn.connect(x.destination);o.start();o.stop(x.currentTime+dur);
-  }
-  return {
-    tick: function(){ tone(800+Math.random()*400,'sine',.03,.02); },
-    drop: function(){ tone(300,'sine',.15,.05); },
-    win: function(){ tone(523,'sine',.15,.06);setTimeout(function(){tone(659,'sine',.15,.05)},100);setTimeout(function(){tone(784,'sine',.2,.06)},200); }
-  };
-})();
-
-function spawnCoins(n){
-  var l=document.getElementById('fxL');
-  for(var i=0;i<n;i++){
-    var c=document.createElement('div');c.className='coin';
-    c.style.left=(10+Math.random()*80)+'%';
-    c.style.setProperty('--dur',(1.5+Math.random()*1.5)+'s');
-    c.style.animationDelay=(Math.random()*.4)+'s';
-    l.appendChild(c);setTimeout(function(el){return function(){el.remove()}}(c),3500);
-  }
-}
-
-window.addEventListener('resize', resize);
-resize();
-drawBoard();
-updateBal();
+var PRIZES=[{name:'Flame',emoji:'\ud83d\udd25',mult:2},{name:'Chains',emoji:'\u26d3\ufe0f',mult:3},{name:'Kiss',emoji:'\ud83d\udc8b',mult:10},{name:'Crown',emoji:'\ud83d\udc51',mult:5},{name:'Rose',emoji:'\ud83c\udf39',mult:2},{name:'Stiletto',emoji:'\ud83d\udc60',mult:25},{name:'Gem',emoji:'\ud83d\udc8e',mult:50}];
+var BETS=[1000,2000,5000,10000,25000,50000];
+var bet=5000,dropping=false;
+var ROWS=12,COLS=7,PEG_RADIUS=3,CHIP_RADIUS=5,GRAVITY=0.3,BOUNCE=0.65,FRICTION=0.98;
+var cv=document.getElementById('cv'),ctx=cv.getContext('2d'),gameArea=document.getElementById('gameArea');
+var pegs=[],chip=null,slotPositions=[],boardW,boardH,offsetX,offsetY;
+function fmtBet(n){return n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?Math.round(n/1e3)+'K':n}
+function refreshBal(){document.getElementById('bal').textContent=TokenBank.fmt(TokenBank.get())}
+refreshBal();
+function resize(){var w=gameArea.offsetWidth,h=gameArea.offsetHeight;cv.width=w*devicePixelRatio;cv.height=h*devicePixelRatio;cv.style.width=w+'px';cv.style.height=h+'px';ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);buildBoard(w,h)}
+function buildBoard(w,h){pegs=[];slotPositions=[];var margin=30;boardW=w-margin*2;boardH=h-margin*2;offsetX=margin;offsetY=margin;for(var row=0;row<ROWS;row++){var pegsInRow=4+row;var rowY=offsetY+(row+1)*(boardH/(ROWS+1));var spread=0.35+(row/ROWS)*0.65;var rowWidth=boardW*spread;var startX=offsetX+(boardW-rowWidth)/2;for(var col=0;col<pegsInRow;col++){pegs.push({x:startX+(col/(pegsInRow-1))*rowWidth,y:rowY})}}var slotWidth=boardW/COLS;for(var i=0;i<COLS;i++){slotPositions.push({x:offsetX+slotWidth*i+slotWidth/2,left:offsetX+slotWidth*i,right:offsetX+slotWidth*(i+1),y:offsetY+boardH})}}
+function drawBoard(){var w=cv.width/devicePixelRatio,h=cv.height/devicePixelRatio;ctx.clearRect(0,0,w,h);pegs.forEach(function(p){ctx.beginPath();ctx.arc(p.x,p.y,PEG_RADIUS,0,Math.PI*2);ctx.fillStyle='rgba(213,154,75,0.7)';ctx.fill()});ctx.strokeStyle='rgba(190,137,77,0.2)';ctx.lineWidth=1;for(var i=1;i<COLS;i++){var x=offsetX+(boardW/COLS)*i;ctx.beginPath();ctx.moveTo(x,offsetY+boardH-25);ctx.lineTo(x,offsetY+boardH+5);ctx.stroke()}ctx.font='600 8px Inter';ctx.textAlign='center';var colors=['#e63946','#d59a4b','#4ade80','#d59a4b','#e63946','#a855f7','#f5c77e'];slotPositions.forEach(function(s,i){ctx.fillStyle=colors[i]||'#d59a4b';ctx.fillText(PRIZES[i].mult+'x',s.x,s.y+8)});if(chip){ctx.beginPath();ctx.arc(chip.x,chip.y,CHIP_RADIUS,0,Math.PI*2);ctx.fillStyle='#f5c77e';ctx.shadowColor='#d59a4b';ctx.shadowBlur=8;ctx.fill();ctx.shadowBlur=0}}
+function dropChip(){if(dropping)return;if(TokenBank.get()<bet)return;TokenBank.subtract(bet);refreshBal();dropping=true;document.getElementById('dropBtn').disabled=true;var startX=offsetX+boardW/2+(Math.random()-0.5)*20;chip={x:startX,y:offsetY-CHIP_RADIUS,vx:(Math.random()-0.5)*1.5,vy:0};animate()}
+function animate(){if(!chip)return;chip.vy+=GRAVITY;chip.vx*=FRICTION;chip.x+=chip.vx;chip.y+=chip.vy;pegs.forEach(function(p){var dx=chip.x-p.x,dy=chip.y-p.y,dist=Math.sqrt(dx*dx+dy*dy),minDist=PEG_RADIUS+CHIP_RADIUS;if(dist<minDist){var angle=Math.atan2(dy,dx);chip.x=p.x+Math.cos(angle)*minDist;chip.y=p.y+Math.sin(angle)*minDist;var speed=Math.sqrt(chip.vx*chip.vx+chip.vy*chip.vy);chip.vx=Math.cos(angle)*speed*BOUNCE+(Math.random()-0.5)*1.2;chip.vy=Math.sin(angle)*speed*BOUNCE*0.4;if(chip.vy<0.4)chip.vy=0.4}});var lb=offsetX+CHIP_RADIUS,rb=offsetX+boardW-CHIP_RADIUS;if(chip.x<lb){chip.x=lb;chip.vx=Math.abs(chip.vx)*BOUNCE}if(chip.x>rb){chip.x=rb;chip.vx=-Math.abs(chip.vx)*BOUNCE}if(chip.y>=offsetY+boardH){landChip();return}drawBoard();requestAnimationFrame(animate)}
+function landChip(){var slotIdx=0,minDist=Infinity;slotPositions.forEach(function(s,i){var d=Math.abs(chip.x-s.x);if(d<minDist){minDist=d;slotIdx=i}});var prize=PRIZES[slotIdx];var winAmount=bet*prize.mult;TokenBank.add(winAmount);refreshBal();document.querySelectorAll('.prize-slot').forEach(function(el,i){el.classList.toggle('won',i===slotIdx)});document.getElementById('resultText').textContent=prize.emoji+' '+prize.name+' '+prize.mult+'x!';document.getElementById('resultSub').textContent='Won '+fmtBet(winAmount)+' tokens';document.getElementById('overlay').classList.add('show');spawnCoins(Math.min(40,prize.mult*3));dropping=false;document.getElementById('dropBtn').disabled=false}
+function reset(){document.getElementById('overlay').classList.remove('show');document.querySelectorAll('.prize-slot').forEach(function(el){el.classList.remove('won')});chip=null;drawBoard()}
+function cycleBet(dir){var idx=BETS.indexOf(bet);if(idx===-1)idx=2;idx+=dir;idx=Math.max(0,Math.min(BETS.length-1,idx));bet=BETS[idx];document.getElementById('betA').textContent=fmtBet(bet)}
+document.getElementById('betM').onclick=function(){cycleBet(-1)};document.getElementById('betP').onclick=function(){cycleBet(1)};
+document.getElementById('dropBtn').onclick=dropChip;document.getElementById('playAgain').onclick=reset;
+function spawnCoins(n){var l=document.getElementById('fxL');for(var i=0;i<n;i++){var c=document.createElement('div');c.className='coin';c.style.left=(10+Math.random()*80)+'%';c.style.setProperty('--dur',(1.5+Math.random()*1.5)+'s');c.style.animationDelay=(Math.random()*.4)+'s';l.appendChild(c);setTimeout(function(el){return function(){el.remove()}}(c),3500)}}
+window.addEventListener('resize',resize);resize();drawBoard();
 })();
 </script>
+<script src="/public/js/admin-bar.js"></script>
 </body>
 </html>
