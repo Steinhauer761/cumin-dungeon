@@ -1,2 +1,158 @@
-<!-- REDIRECT: Full file pushed in previous commit on feat branch. Syncing now. -->
-<script>window.location.href='/games/slots.html';</script>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dungeon Slots | CumIN Dungeon</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#050304;--surface:#0c0908;--surface-2:#141010;--gold:#d59a4b;--gold-light:#f5c77e;--gold-dim:#8b6230;--cream:#f5eee4;--muted:#7a6e64;--red:#9f2330;--green:#4ade80;--line:rgba(190,137,77,0.18);--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--cream);font-family:var(--sans);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;overflow:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 50% 20%,rgba(159,35,48,0.07),transparent 50%),radial-gradient(ellipse at 50% 80%,rgba(213,154,75,0.05),transparent 40%);pointer-events:none}
+button{font:inherit;color:inherit;cursor:pointer}
+.back-btn{position:fixed;top:12px;left:12px;padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:rgba(5,3,4,0.9);font-size:.65rem;font-weight:700;color:var(--cream);text-decoration:none;z-index:50}
+.app{width:min(480px,100%);display:flex;flex-direction:column;align-items:center;gap:12px}
+.title-area{text-align:center}
+.title-area h1{font-family:var(--serif);font-size:1.8rem;font-style:italic;font-weight:700;color:var(--gold-light)}
+.title-area p{font-size:.55rem;color:var(--muted);margin-top:2px}
+.info-bar{display:flex;gap:10px;width:100%}
+.info-box{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px;text-align:center}
+.info-box .lbl{font-size:.42rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+.info-box .val{font-size:.85rem;font-weight:800;color:var(--gold-light);font-variant-numeric:tabular-nums}
+.info-box.win-box .val{color:var(--green)}
+.machine{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px;box-shadow:0 0 40px rgba(0,0,0,0.5),inset 0 0 30px rgba(0,0,0,0.3);position:relative}
+.reels-frame{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;background:#030204;border-radius:10px;padding:8px;border:1px solid rgba(213,154,75,0.1);position:relative;overflow:hidden}
+.reels-frame::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.4) 0%,transparent 15%,transparent 85%,rgba(0,0,0,0.4) 100%);z-index:5;pointer-events:none;border-radius:10px}
+.reel{height:210px;overflow:hidden;border-radius:6px;background:#080506;border:1px solid rgba(190,137,77,0.08)}
+.reel-strip{display:flex;flex-direction:column;transition:none}
+.symbol{width:100%;height:70px;display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0}
+.controls{width:100%;display:flex;flex-direction:column;gap:10px}
+.bet-row{display:flex;align-items:center;justify-content:center;gap:10px}
+.bet-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:rgba(213,154,75,0.04);color:var(--gold);font-size:1rem;font-weight:700;display:grid;place-items:center}
+.bet-btn:active{transform:scale(0.9);background:rgba(213,154,75,0.12)}
+.bet-display{text-align:center;min-width:70px}
+.bet-display .bet-lbl{font-size:.42rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.bet-display .bet-val{font-size:.9rem;font-weight:800;color:var(--gold-light)}
+.max-btn{padding:7px 12px;border-radius:6px;border:1px solid var(--line);background:rgba(213,154,75,0.04);font-size:.55rem;font-weight:700;color:var(--gold);text-transform:uppercase}
+.action-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px}
+.side-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,0.02);color:var(--muted);font-size:.5rem;font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.side-btn .ico{font-size:.9rem}
+.side-btn:active{border-color:var(--gold);color:var(--gold)}
+.side-btn.on{border-color:var(--gold);color:var(--gold);background:rgba(213,154,75,0.06)}
+.action-left,.action-right{display:flex;gap:8px}
+.action-right{justify-content:flex-end}
+.spin-btn{width:64px;height:64px;border-radius:50%;border:2px solid var(--gold);background:linear-gradient(180deg,var(--gold-light),var(--gold-dim));color:var(--bg);font-family:var(--serif);font-weight:700;font-size:.75rem;font-style:italic;display:grid;place-items:center;box-shadow:0 4px 20px rgba(213,154,75,0.25);transition:transform .15s}
+.spin-btn:hover{transform:scale(1.05)}
+.spin-btn:active{transform:scale(0.95)}
+.spin-btn:disabled{opacity:.3;cursor:not-allowed;transform:none}
+.spin-btn.running{animation:spinPulse 1s ease-in-out infinite;pointer-events:none}
+@keyframes spinPulse{0%,100%{box-shadow:0 4px 20px rgba(213,154,75,0.25)}50%{box-shadow:0 4px 35px rgba(213,154,75,0.5)}}
+.paytable-btn{background:none;border:none;color:var(--muted);font-size:.55rem;cursor:pointer;text-transform:uppercase;letter-spacing:.1em}
+.paytable-panel{position:fixed;inset:0;z-index:1000;background:rgba(5,3,4,0.97);display:none;flex-direction:column;overflow-y:auto;padding:20px}
+.paytable-panel.open{display:flex}
+.paytable-panel h2{font-family:var(--serif);font-size:1.2rem;font-style:italic;color:var(--gold-light);text-align:center;margin-bottom:16px}
+.pt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-bottom:12px}
+.pt-item{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px;text-align:center}
+.pt-item .sym{font-size:1.5rem;margin-bottom:4px}
+.pt-item .name{font-size:.5rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.pt-item .pays{font-size:.55rem;color:var(--cream);line-height:1.5}
+.pt-rules{font-size:.6rem;color:var(--muted);line-height:1.6;margin-bottom:12px}
+.pt-rules b{color:var(--cream)}
+.pt-close{text-align:center;padding:12px}
+.pt-close button{padding:10px 20px;border-radius:8px;border:1px solid var(--gold);background:rgba(213,154,75,0.08);color:var(--gold);font-weight:700;cursor:pointer}
+.win-overlay{position:fixed;inset:0;z-index:900;display:none;align-items:center;justify-content:center;flex-direction:column;background:rgba(0,0,0,0.8)}
+.win-overlay.show{display:flex}
+.win-overlay .win-type{font-family:var(--serif);font-size:2.2rem;font-weight:700;font-style:italic;animation:winPop .5s ease-out}
+.win-overlay .win-type.big{color:var(--gold-light);text-shadow:0 0 30px rgba(213,154,75,0.5)}
+.win-overlay .win-type.mega{color:var(--red);text-shadow:0 0 40px rgba(159,35,48,0.6);font-size:2.8rem}
+.win-overlay .win-amount{font-size:1.6rem;font-weight:900;color:var(--green);margin-top:8px}
+@keyframes winPop{0%{transform:scale(0.3);opacity:0}60%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+.notice{text-align:center;font-size:.5rem;color:var(--muted);opacity:.6}
+.fx-layer{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:800}
+.coin{position:absolute;top:-20px;width:12px;height:12px;border-radius:50%;background:radial-gradient(circle at 30% 30%,var(--gold-light),var(--gold));animation:coinFall var(--dur) ease-in forwards}
+@keyframes coinFall{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+</style>
+</head>
+<body>
+<a href="/casino.html" class="back-btn">◂ Casino</a>
+<div class="app">
+  <div class="title-area"><h1>Dungeon Slots</h1><p>5 Reels · 25 Paylines · Wilds & Free Spins</p></div>
+  <div class="info-bar">
+    <div class="info-box"><div class="lbl">Balance</div><div class="val" id="balance">0</div></div>
+    <div class="info-box"><div class="lbl">Bet</div><div class="val" id="bet-display">1,000</div></div>
+    <div class="info-box win-box"><div class="lbl">Win</div><div class="val" id="win-display">0</div></div>
+  </div>
+  <div class="machine"><div class="reels-frame" id="reels-frame">
+    <div class="reel" id="reel-0"><div class="reel-strip" id="strip-0"></div></div>
+    <div class="reel" id="reel-1"><div class="reel-strip" id="strip-1"></div></div>
+    <div class="reel" id="reel-2"><div class="reel-strip" id="strip-2"></div></div>
+    <div class="reel" id="reel-3"><div class="reel-strip" id="strip-3"></div></div>
+    <div class="reel" id="reel-4"><div class="reel-strip" id="strip-4"></div></div>
+  </div></div>
+  <div class="controls">
+    <div class="bet-row">
+      <button class="bet-btn" id="bet-down">−</button>
+      <div class="bet-display"><div class="bet-lbl">Total Bet</div><div class="bet-val" id="bet-val">1K</div></div>
+      <button class="bet-btn" id="bet-up">+</button>
+      <button class="max-btn" id="max-bet">MAX</button>
+    </div>
+    <div class="action-row">
+      <div class="action-left"><button class="side-btn" id="turbo-btn"><span class="ico">⚡</span><span>Turbo</span></button><button class="side-btn" id="auto-btn"><span class="ico">↻</span><span>Auto</span></button></div>
+      <button class="spin-btn" id="spin-btn">SPIN</button>
+      <div class="action-right"><button class="side-btn" id="info-btn"><span class="ico">ℹ</span><span>Info</span></button></div>
+    </div>
+  </div>
+  <button class="paytable-btn" id="pt-btn">Paytable & Rules</button>
+  <p class="notice">Entertainment tokens only. No cash value.</p>
+</div>
+<div class="paytable-panel" id="paytable">
+  <h2>Dungeon Slots Paytable</h2>
+  <div class="pt-grid">
+    <div class="pt-item"><div class="sym">💋</div><div class="name">Kiss (Wild)</div><div class="pays">×5: 500x<br>×4: 100x<br>×3: 25x</div></div>
+    <div class="pt-item"><div class="sym">⛓️</div><div class="name">Chains</div><div class="pays">×5: 300x<br>×4: 60x<br>×3: 15x</div></div>
+    <div class="pt-item"><div class="sym">🔥</div><div class="name">Flame</div><div class="pays">×5: 200x<br>×4: 40x<br>×3: 10x</div></div>
+    <div class="pt-item"><div class="sym">👠</div><div class="name">Stiletto</div><div class="pays">×5: 150x<br>×4: 30x<br>×3: 8x</div></div>
+    <div class="pt-item"><div class="sym">🌹</div><div class="name">Rose</div><div class="pays">×5: 100x<br>×4: 20x<br>×3: 5x</div></div>
+    <div class="pt-item"><div class="sym">👑</div><div class="name">Crown</div><div class="pays">×5: 80x<br>×4: 15x<br>×3: 4x</div></div>
+    <div class="pt-item"><div class="sym">💎</div><div class="name">Gem (Scatter)</div><div class="pays">×3+: Free Spins<br>×4: 15<br>×5: 20</div></div>
+    <div class="pt-item"><div class="sym">🖤</div><div class="name">Heart</div><div class="pays">×5: 60x<br>×4: 12x<br>×3: 3x</div></div>
+  </div>
+  <div class="pt-rules"><b>25 Paylines</b> pay left to right.<br><b>Wild (💋):</b> Substitutes for all except Scatter. Can expand on reels 2-4.<br><b>Scatter (💎):</b> 3+ triggers 10 Free Spins. 2x multiplier during Free Spins.<br><b>Max Win:</b> 5,000x total bet. <b>RTP:</b> 96.2%</div>
+  <div class="pt-close"><button id="pt-close">Close</button></div>
+</div>
+<div class="win-overlay" id="win-overlay"><div class="win-type" id="win-type">BIG WIN</div><div class="win-amount" id="win-amount">0</div></div>
+<div class="fx-layer" id="fxL"></div>
+<script src="/public/js/balance.js"></script>
+<script>
+var CONFIG={REELS:5,ROWS:3,PAYLINES:25,BETS:[500,1000,2500,5000,10000,25000,50000,100000],SYMBOLS:{'heart':{emoji:'\ud83d\udda4',weight:8,pays:{3:3,4:12,5:60}},'crown':{emoji:'\ud83d\udc51',weight:7,pays:{3:4,4:15,5:80}},'rose':{emoji:'\ud83c\udf39',weight:6,pays:{3:5,4:20,5:100}},'heel':{emoji:'\ud83d\udc60',weight:5,pays:{3:8,4:30,5:150}},'flame':{emoji:'\ud83d\udd25',weight:4,pays:{3:10,4:40,5:200}},'chain':{emoji:'\u26d3\ufe0f',weight:3,pays:{3:15,4:60,5:300}},'kiss':{emoji:'\ud83d\udc8b',weight:2,pays:{3:25,4:100,5:500},wild:true},'gem':{emoji:'\ud83d\udc8e',weight:1,pays:{},scatter:true}},PAYLINE_MAP:[[1,1,1,1,1],[0,0,0,0,0],[2,2,2,2,2],[0,1,2,1,0],[2,1,0,1,2],[0,0,1,2,2],[2,2,1,0,0],[1,0,1,2,1],[1,2,1,0,1],[0,1,0,1,0],[2,1,2,1,2],[1,0,0,1,2],[1,2,2,1,0],[0,1,1,1,0],[2,1,1,1,2],[0,0,1,0,0],[2,2,1,2,2],[0,2,0,2,0],[2,0,2,0,2],[1,1,0,1,1],[0,0,2,0,0],[2,2,0,2,2],[1,0,0,0,1],[1,2,2,2,1],[0,1,2,2,2]]};
+var SYM_KEYS=Object.keys(CONFIG.SYMBOLS);
+var G={betIdx:1,bet:CONFIG.BETS[1],win:0,spinning:false,turbo:false,auto:false,freeSpins:0,freeSpinWin:0,inFreeSpins:false,grid:[]};
+var SFX=(function(){var c;function ctx(){if(!c)c=new(window.AudioContext||window.webkitAudioContext)();if(c.state==='suspended')c.resume();return c;}function tone(f,t,d,v,dl){var x=ctx(),o=x.createOscillator(),g=x.createGain();o.connect(g);g.connect(x.destination);o.type=t;o.frequency.value=f;g.gain.setValueAtTime(v||.04,x.currentTime+(dl||0));g.gain.exponentialRampToValueAtTime(.001,x.currentTime+(dl||0)+d);o.start(x.currentTime+(dl||0));o.stop(x.currentTime+(dl||0)+d);}return{spin:function(){tone(180,'sine',.08,.03)},stop:function(i){tone(350+i*50,'triangle',.05,.04,i*.015)},win:function(){tone(500,'sine',.1,.05);tone(700,'sine',.1,.05,.1);tone(900,'sine',.15,.05,.2)},big:function(){for(var i=0;i<6;i++)tone(400+i*80,'sine',.15,.06,i*.1)},mega:function(){for(var i=0;i<8;i++)tone(300+i*60,'sawtooth',.2,.04,i*.08)}};})();
+function weightedSymbol(){var t=0;SYM_KEYS.forEach(function(k){t+=CONFIG.SYMBOLS[k].weight});var r=Math.random()*t;for(var i=0;i<SYM_KEYS.length;i++){r-=CONFIG.SYMBOLS[SYM_KEYS[i]].weight;if(r<=0)return SYM_KEYS[i]}return SYM_KEYS[0]}
+function generateGrid(){var g=[];for(var c=0;c<5;c++){var col=[];for(var r=0;r<3;r++)col.push(weightedSymbol());g.push(col)}return g}
+function evaluateWins(grid){var res={lines:[],total:0,scatters:0};for(var c=0;c<5;c++)for(var r=0;r<3;r++){if(grid[c][r]==='gem')res.scatters++}var lb=G.bet/CONFIG.PAYLINES;for(var p=0;p<CONFIG.PAYLINES;p++){var map=CONFIG.PAYLINE_MAP[p];var syms=[];for(var c=0;c<5;c++)syms.push(grid[c][map[c]]);var ms=null;for(var i=0;i<5;i++){if(!CONFIG.SYMBOLS[syms[i]].wild&&!CONFIG.SYMBOLS[syms[i]].scatter){ms=syms[i];break}}if(!ms)continue;var cnt=0;for(var i=0;i<5;i++){if(syms[i]===ms||CONFIG.SYMBOLS[syms[i]].wild)cnt++;else break}if(cnt>=3&&CONFIG.SYMBOLS[ms].pays[cnt]){var m=CONFIG.SYMBOLS[ms].pays[cnt];var lw=Math.floor(lb*m);if(G.inFreeSpins)lw*=2;res.lines.push({payline:p,symbol:ms,count:cnt,win:lw});res.total+=lw}}return res}
+function renderGrid(grid){for(var c=0;c<5;c++){var s=document.getElementById('strip-'+c);s.innerHTML='';for(var r=0;r<3;r++){var d=document.createElement('div');d.className='symbol';d.textContent=CONFIG.SYMBOLS[grid[c][r]].emoji;s.appendChild(d)}s.style.transition='none';s.style.transform='translateY(0)'}}
+function animateSpin(finalGrid,cb){for(var c=0;c<5;c++){var s=document.getElementById('strip-'+c);var sc=12+c*4;s.innerHTML='';for(var j=0;j<sc;j++){var d=document.createElement('div');d.className='symbol';d.textContent=CONFIG.SYMBOLS[weightedSymbol()].emoji;s.appendChild(d)}for(var r=0;r<3;r++){var d=document.createElement('div');d.className='symbol';d.textContent=CONFIG.SYMBOLS[finalGrid[c][r]].emoji;s.appendChild(d)}s.style.transition='none';s.style.transform='translateY(0)'}requestAnimationFrame(function(){for(var c=0;c<5;c++){var s=document.getElementById('strip-'+c);var sc=12+c*4;s.style.transition='transform '+(1+c*.3)+'s cubic-bezier(.15,.85,.25,1)';s.style.transform='translateY(-'+(sc*70)+'px)'}});var tt=G.turbo?1200:2800;setTimeout(function(){SFX.stop(0);renderGrid(finalGrid);cb()},tt)}
+function spawnCoins(n){var l=document.getElementById('fxL');for(var i=0;i<n;i++){var c=document.createElement('div');c.className='coin';c.style.left=(10+Math.random()*80)+'%';c.style.setProperty('--dur',(1.5+Math.random()*1.5)+'s');c.style.animationDelay=(Math.random()*.5)+'s';l.appendChild(c);setTimeout((function(el){return function(){el.remove()}})(c),3500)}}
+function countUp(el,from,to,dur){var st=Date.now();(function tick(){var p=Math.min((Date.now()-st)/dur,1);el.textContent=TokenBank.fmt(Math.floor(from+(to-from)*p));if(p<1)requestAnimationFrame(tick)})()}
+async function presentWin(amount){var m=amount/G.bet;if(m>=50){SFX.mega();document.getElementById('win-type').textContent='MEGA WIN';document.getElementById('win-type').className='win-type mega';document.getElementById('win-overlay').classList.add('show');spawnCoins(40);countUp(document.getElementById('win-amount'),0,amount,2000);await wait(2500);document.getElementById('win-overlay').classList.remove('show')}else if(m>=10){SFX.big();document.getElementById('win-type').textContent='BIG WIN';document.getElementById('win-type').className='win-type big';document.getElementById('win-overlay').classList.add('show');spawnCoins(20);countUp(document.getElementById('win-amount'),0,amount,1500);await wait(2000);document.getElementById('win-overlay').classList.remove('show')}else if(amount>0){SFX.win();spawnCoins(Math.min(Math.floor(m*3),12))}G.win=amount;document.getElementById('win-display').textContent=TokenBank.fmt(amount)}
+async function doSpin(isFS){if(G.spinning)return;G.spinning=true;document.getElementById('spin-btn').classList.add('running');if(!isFS){if(TokenBank.get()<G.bet){G.spinning=false;document.getElementById('spin-btn').classList.remove('running');return}TokenBank.subtract(G.bet);G.win=0;document.getElementById('win-display').textContent='0';document.getElementById('balance').textContent=TokenBank.fmt(TokenBank.get())}SFX.spin();var grid=generateGrid();G.grid=grid;await new Promise(function(r){animateSpin(grid,r)});var res=evaluateWins(grid);if(res.total>0){TokenBank.add(res.total);if(isFS)G.freeSpinWin+=res.total;await presentWin(res.total);document.getElementById('balance').textContent=TokenBank.fmt(TokenBank.get())}G.spinning=false;document.getElementById('spin-btn').classList.remove('running');if(res.scatters>=3&&!G.inFreeSpins){var fc=res.scatters===3?10:res.scatters===4?15:20;await triggerFreeSpins(fc)}}
+async function triggerFreeSpins(count){G.inFreeSpins=true;G.freeSpinWin=0;for(var i=0;i<count;i++){await doSpin(true);await wait(G.turbo?300:700)}G.inFreeSpins=false;if(G.freeSpinWin>0){document.getElementById('win-type').textContent='FREE SPINS WIN';document.getElementById('win-type').className='win-type big';document.getElementById('win-overlay').classList.add('show');countUp(document.getElementById('win-amount'),0,G.freeSpinWin,1500);await wait(2000);document.getElementById('win-overlay').classList.remove('show')}}
+function wait(ms){return new Promise(function(r){setTimeout(r,ms)})}
+function updateDisplays(){document.getElementById('balance').textContent=TokenBank.fmt(TokenBank.get());document.getElementById('bet-display').textContent=TokenBank.fmt(G.bet);document.getElementById('bet-val').textContent=TokenBank.fmt(G.bet)}
+document.getElementById('spin-btn').addEventListener('click',function(){if(!G.inFreeSpins)doSpin(false)});
+document.getElementById('bet-down').addEventListener('click',function(){if(G.spinning)return;G.betIdx=Math.max(0,G.betIdx-1);G.bet=CONFIG.BETS[G.betIdx];updateDisplays()});
+document.getElementById('bet-up').addEventListener('click',function(){if(G.spinning)return;G.betIdx=Math.min(CONFIG.BETS.length-1,G.betIdx+1);G.bet=CONFIG.BETS[G.betIdx];updateDisplays()});
+document.getElementById('max-bet').addEventListener('click',function(){if(G.spinning)return;G.betIdx=CONFIG.BETS.length-1;G.bet=CONFIG.BETS[G.betIdx];updateDisplays()});
+document.getElementById('turbo-btn').addEventListener('click',function(){G.turbo=!G.turbo;this.classList.toggle('on',G.turbo)});
+var autoInt=null;document.getElementById('auto-btn').addEventListener('click',function(){G.auto=!G.auto;this.classList.toggle('on',G.auto);if(G.auto){autoInt=setInterval(function(){if(!G.spinning&&!G.inFreeSpins&&G.auto)doSpin(false)},G.turbo?1600:3200)}else clearInterval(autoInt)});
+document.getElementById('info-btn').addEventListener('click',function(){document.getElementById('paytable').classList.add('open')});
+document.getElementById('pt-btn').addEventListener('click',function(){document.getElementById('paytable').classList.add('open')});
+document.getElementById('pt-close').addEventListener('click',function(){document.getElementById('paytable').classList.remove('open')});
+document.addEventListener('keydown',function(e){if(e.code==='Space'&&!G.spinning&&!G.inFreeSpins){e.preventDefault();doSpin(false)}});
+var idleGrid=generateGrid();G.grid=idleGrid;renderGrid(idleGrid);updateDisplays();
+</script>
+<script src="/public/js/admin-bar.js"></script>
+</body>
+</html>
