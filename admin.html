@@ -3,26 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0a0604">
 <title>Admin | CumIN Dungeon</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/public/css/brand.css">
 <style>
-:root{--bg:#050304;--surface:#0c0908;--surface-2:#141010;--gold:#d59a4b;--gold-light:#f5c77e;--gold-dim:#8b6230;--cream:#f5eee4;--muted:#7a6e64;--red:#c0392b;--green:#4ade80;--purple:#7c3aed;--blue:#3b82f6;--line:rgba(190,137,77,.1);--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif}
-*{box-sizing:border-box;margin:0}
-body{background:var(--bg);color:var(--cream);font-family:var(--sans);min-height:100vh;font-size:14px}
-a{color:inherit;text-decoration:none}
-button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
-
-/* Layout */
+:root{--green:#4ade80;--purple:#7c3aed;--blue:#3b82f6}
+a{text-decoration:none}
+button{border:none;background:none}
 .admin-layout{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
 @media(max-width:768px){.admin-layout{grid-template-columns:1fr}.sidebar{display:none}.sidebar.mobile-open{display:flex;position:fixed;inset:0;z-index:100}}
-
-/* Sidebar */
 .sidebar{background:var(--surface);border-right:1px solid var(--line);padding:20px 0;display:flex;flex-direction:column}
 .sidebar-brand{padding:0 20px 20px;font:700 1.1rem var(--serif);color:var(--gold-light);font-style:italic;border-bottom:1px solid var(--line)}
 .sidebar-nav{padding:12px 0;flex:1}
 .nav-section{padding:0 12px;margin-bottom:16px}
 .nav-section-title{font-size:.5rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);padding:8px 8px 4px}
-.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:.72rem;font-weight:600;color:var(--muted);transition:all .12s;margin-bottom:2px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:.72rem;font-weight:600;color:var(--muted);transition:all .12s;margin-bottom:2px;cursor:pointer}
 .nav-item:hover{background:rgba(255,255,255,.03);color:var(--cream)}
 .nav-item.active{background:rgba(213,154,75,.08);color:var(--gold-light);font-weight:700}
 .nav-item .nav-icon{font-size:1rem;width:20px;text-align:center}
@@ -31,20 +26,16 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
 .sidebar-footer .ghost-toggle{display:flex;align-items:center;gap:8px;padding:6px 0;cursor:pointer}
 .sidebar-footer .ghost-dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}
 .sidebar-footer .ghost-dot.on{background:var(--green)}
-
-/* Main content */
 .main{padding:24px;overflow-y:auto}
 .main-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
 .main-header h1{font:700 1.5rem var(--serif);font-style:italic;color:var(--gold-light)}
-.mobile-menu{display:none;width:36px;height:36px;border-radius:8px;border:1px solid var(--line);place-items:center;font-size:1rem}
+.mobile-menu{display:none;width:36px;height:36px;border-radius:8px;border:1px solid var(--line);place-items:center;font-size:1rem;cursor:pointer}
 @media(max-width:768px){.mobile-menu{display:grid}}
 .header-actions{display:flex;gap:8px;align-items:center}
 .header-pill{padding:5px 12px;border-radius:100px;font-size:.6rem;font-weight:700;border:1px solid var(--line);color:var(--muted)}
 .header-pill.live{border-color:rgba(74,222,128,.3);color:var(--green)}
 .header-pill.live::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);margin-right:6px;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-
-/* Stats grid */
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:24px}
 .stat-card{padding:16px;border-radius:12px;background:var(--surface);border:1px solid var(--line)}
 .stat-card .sc-label{font-size:.5rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
@@ -52,15 +43,11 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
 .stat-card .sc-change{font-size:.55rem;font-weight:700;margin-top:4px}
 .stat-card .sc-change.up{color:var(--green)}
 .stat-card .sc-change.down{color:var(--red)}
-
-/* Sections */
 .section{margin-bottom:24px}
 .section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .section-title{font-size:.85rem;font-weight:800;color:var(--cream)}
 .section-action{font-size:.6rem;color:var(--gold-dim);font-weight:700;cursor:pointer}
 .section-action:hover{color:var(--gold-light)}
-
-/* Room list */
 .room-list{display:flex;flex-direction:column;gap:6px}
 .room-row{display:grid;grid-template-columns:auto 1fr auto auto auto;gap:12px;align-items:center;padding:10px 14px;border-radius:10px;background:var(--surface);border:1px solid var(--line)}
 .room-row .rr-status{width:8px;height:8px;border-radius:50%;background:var(--muted)}
@@ -68,23 +55,19 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
 .room-row .rr-name{font-size:.72rem;font-weight:700}
 .room-row .rr-viewers{font-size:.6rem;color:var(--muted);font-weight:600}
 .room-row .rr-performer{font-size:.58rem;color:var(--gold-dim);font-weight:600}
-.room-row .rr-actions button{padding:4px 8px;border-radius:4px;font-size:.5rem;font-weight:700;border:1px solid var(--line);color:var(--muted)}
+.room-row .rr-actions button{padding:4px 8px;border-radius:4px;font-size:.5rem;font-weight:700;border:1px solid var(--line);color:var(--muted);cursor:pointer}
 .room-row .rr-actions button:hover{border-color:var(--gold);color:var(--cream)}
-
-/* Activity feed */
 .feed{display:flex;flex-direction:column;gap:6px}
 .feed-item{display:flex;gap:10px;padding:8px 12px;border-radius:8px;background:var(--surface);border:1px solid var(--line)}
 .feed-item .fi-icon{width:24px;height:24px;border-radius:6px;display:grid;place-items:center;font-size:.7rem;flex-shrink:0}
-.feed-item .fi-icon.tip{background:rgba(213,154,75,.1);}
-.feed-item .fi-icon.join{background:rgba(74,222,128,.1);}
-.feed-item .fi-icon.report{background:rgba(192,57,43,.1);}
-.feed-item .fi-icon.game{background:rgba(124,58,237,.1);}
+.feed-item .fi-icon.tip{background:rgba(213,154,75,.1)}
+.feed-item .fi-icon.join{background:rgba(74,222,128,.1)}
+.feed-item .fi-icon.report{background:rgba(192,57,43,.1)}
+.feed-item .fi-icon.game{background:rgba(124,58,237,.1)}
 .feed-item .fi-content{flex:1}
 .feed-item .fi-text{font-size:.65rem;color:var(--cream);line-height:1.4}
 .feed-item .fi-text strong{font-weight:700}
 .feed-item .fi-time{font-size:.5rem;color:var(--muted);margin-top:2px}
-
-/* Moderation panel */
 .mod-list{display:flex;flex-direction:column;gap:6px}
 .mod-item{display:flex;gap:10px;align-items:center;padding:10px 14px;border-radius:10px;background:var(--surface);border:1px solid rgba(192,57,43,.2)}
 .mod-item .mi-icon{width:28px;height:28px;border-radius:50%;background:rgba(192,57,43,.1);display:grid;place-items:center;font-size:.7rem;color:var(--red);flex-shrink:0}
@@ -92,11 +75,9 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
 .mod-item .mi-text{font-size:.65rem;line-height:1.3}
 .mod-item .mi-meta{font-size:.5rem;color:var(--muted);margin-top:2px}
 .mod-item .mi-actions{display:flex;gap:4px}
-.mod-item .mi-actions button{padding:5px 10px;border-radius:5px;font-size:.5rem;font-weight:700;border:1px solid var(--line)}
+.mod-item .mi-actions button{padding:5px 10px;border-radius:5px;font-size:.5rem;font-weight:700;border:1px solid var(--line);cursor:pointer}
 .mod-item .mi-actions .ban{border-color:rgba(192,57,43,.3);color:var(--red)}
 .mod-item .mi-actions .dismiss{color:var(--muted)}
-
-/* Quick settings */
 .settings-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
 .setting-card{padding:14px;border-radius:10px;background:var(--surface);border:1px solid var(--line)}
 .setting-card .stg-label{font-size:.6rem;font-weight:700;color:var(--cream);margin-bottom:6px}
@@ -105,71 +86,24 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
 .toggle::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--muted);transition:all .2s}
 .toggle.on{background:rgba(74,222,128,.15);border-color:rgba(74,222,128,.3)}
 .toggle.on::after{left:18px;background:var(--green)}
-
-@media(max-width:768px){
-  .main{padding:16px}
-  .stats-grid{grid-template-columns:repeat(2,1fr)}
-  .room-row{grid-template-columns:auto 1fr auto}
-  .room-row .rr-performer,.room-row .rr-actions{display:none}
-}
+@media(max-width:768px){.main{padding:16px}.stats-grid{grid-template-columns:repeat(2,1fr)}.room-row{grid-template-columns:auto 1fr auto}.room-row .rr-performer,.room-row .rr-actions{display:none}}
 </style>
 </head>
 <body>
 <div class="admin-layout">
-  <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">CumIN Admin</div>
     <nav class="sidebar-nav">
-      <div class="nav-section">
-        <div class="nav-section-title">Overview</div>
-        <a class="nav-item active"><span class="nav-icon">⌂</span>Dashboard</a>
-        <a class="nav-item"><span class="nav-icon">◎</span>Analytics</a>
-      </div>
-      <div class="nav-section">
-        <div class="nav-section-title">Venue</div>
-        <a class="nav-item"><span class="nav-icon">▣</span>Rooms<span class="nav-badge">8</span></a>
-        <a class="nav-item"><span class="nav-icon">☆</span>Performers</a>
-        <a class="nav-item"><span class="nav-icon">♡</span>Members</a>
-      </div>
-      <div class="nav-section">
-        <div class="nav-section-title">Casino</div>
-        <a class="nav-item"><span class="nav-icon">♦</span>Games</a>
-        <a class="nav-item"><span class="nav-icon">◈</span>Token Economy</a>
-        <a class="nav-item"><span class="nav-icon">∴</span>Payouts</a>
-      </div>
-      <div class="nav-section">
-        <div class="nav-section-title">Safety</div>
-        <a class="nav-item"><span class="nav-icon">⚠</span>Moderation<span class="nav-badge">3</span></a>
-        <a class="nav-item"><span class="nav-icon">⚑</span>Reports</a>
-      </div>
-      <div class="nav-section">
-        <div class="nav-section-title">System</div>
-        <a class="nav-item"><span class="nav-icon">⚙</span>Settings</a>
-        <a class="nav-item"><span class="nav-icon">→</span>Deploy Status</a>
-      </div>
+      <div class="nav-section"><div class="nav-section-title">Overview</div><a class="nav-item active"><span class="nav-icon">⌂</span>Dashboard</a><a class="nav-item"><span class="nav-icon">◎</span>Analytics</a></div>
+      <div class="nav-section"><div class="nav-section-title">Venue</div><a class="nav-item"><span class="nav-icon">▣</span>Rooms<span class="nav-badge">8</span></a><a class="nav-item"><span class="nav-icon">☆</span>Performers</a><a class="nav-item"><span class="nav-icon">♡</span>Members</a></div>
+      <div class="nav-section"><div class="nav-section-title">Casino</div><a class="nav-item"><span class="nav-icon">♦</span>Games</a><a class="nav-item"><span class="nav-icon">◈</span>Token Economy</a><a class="nav-item"><span class="nav-icon">∴</span>Payouts</a></div>
+      <div class="nav-section"><div class="nav-section-title">Safety</div><a class="nav-item"><span class="nav-icon">⚠</span>Moderation<span class="nav-badge">3</span></a><a class="nav-item"><span class="nav-icon">⚑</span>Reports</a></div>
+      <div class="nav-section"><div class="nav-section-title">System</div><a class="nav-item"><span class="nav-icon">⚙</span>Settings</a><a class="nav-item"><span class="nav-icon">→</span>Deploy Status</a></div>
     </nav>
-    <div class="sidebar-footer">
-      <div class="ghost-toggle" id="ghostToggle">
-        <span class="ghost-dot" id="ghostDot"></span>
-        <span>Ghost Mode (Elias)</span>
-      </div>
-    </div>
+    <div class="sidebar-footer"><div class="ghost-toggle" id="ghostToggle"><span class="ghost-dot" id="ghostDot"></span><span>Ghost Mode (Elias)</span></div></div>
   </aside>
-
-  <!-- Main -->
   <main class="main">
-    <div class="main-header">
-      <div style="display:flex;align-items:center;gap:12px">
-        <button class="mobile-menu" id="menuBtn">☰</button>
-        <h1>Dashboard</h1>
-      </div>
-      <div class="header-actions">
-        <span class="header-pill live">Live</span>
-        <span class="header-pill">connex-network.vercel.app</span>
-      </div>
-    </div>
-
-    <!-- Stats -->
+    <div class="main-header"><div style="display:flex;align-items:center;gap:12px"><button class="mobile-menu" id="menuBtn">☰</button><h1>Dashboard</h1></div><div class="header-actions"><span class="header-pill live">Live</span><span class="header-pill">cumindungeon.company</span></div></div>
     <div class="stats-grid">
       <div class="stat-card"><div class="sc-label">Active Viewers</div><div class="sc-value">847</div><div class="sc-change up">↑ 12% vs yesterday</div></div>
       <div class="stat-card"><div class="sc-label">Tokens Spent (24h)</div><div class="sc-value">2.4M</div><div class="sc-change up">↑ 8% vs avg</div></div>
@@ -178,10 +112,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
       <div class="stat-card"><div class="sc-label">Active Performers</div><div class="sc-value">12</div><div class="sc-change up">3 streaming now</div></div>
       <div class="stat-card"><div class="sc-label">Reports (Open)</div><div class="sc-value">3</div><div class="sc-change down">1 urgent</div></div>
     </div>
-
-    <!-- Rooms -->
-    <div class="section">
-      <div class="section-header"><span class="section-title">Active Rooms</span><span class="section-action">Manage All →</span></div>
+    <div class="section"><div class="section-header"><span class="section-title">Active Rooms</span><span class="section-action">Manage All →</span></div>
       <div class="room-list">
         <div class="room-row"><span class="rr-status live"></span><span class="rr-name">Velvet Room</span><span class="rr-viewers">● 184 watching</span><span class="rr-performer">Luna_Dark</span><div class="rr-actions"><button>View</button></div></div>
         <div class="room-row"><span class="rr-status live"></span><span class="rr-name">Tangled Throne</span><span class="rr-viewers">● 92 watching</span><span class="rr-performer">CoupleXO</span><div class="rr-actions"><button>View</button></div></div>
@@ -190,10 +121,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
         <div class="room-row"><span class="rr-status"></span><span class="rr-name">Haley's Halo</span><span class="rr-viewers">Offline</span><span class="rr-performer">—</span><div class="rr-actions"><button>Config</button></div></div>
       </div>
     </div>
-
-    <!-- Activity feed -->
-    <div class="section">
-      <div class="section-header"><span class="section-title">Live Activity</span><span class="section-action">View All →</span></div>
+    <div class="section"><div class="section-header"><span class="section-title">Live Activity</span><span class="section-action">View All →</span></div>
       <div class="feed">
         <div class="feed-item"><span class="fi-icon tip">💎</span><div class="fi-content"><div class="fi-text"><strong>Guest_7kx2</strong> sent Crown (1000 tokens) to Luna_Dark</div><div class="fi-time">12 seconds ago</div></div></div>
         <div class="feed-item"><span class="fi-icon join">🚪</span><div class="fi-content"><div class="fi-text"><strong>Guest_m9p1</strong> entered Velvet Room</div><div class="fi-time">34 seconds ago</div></div></div>
@@ -202,20 +130,14 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
         <div class="feed-item"><span class="fi-icon report">⚠️</span><div class="fi-content"><div class="fi-text"><strong>Guest_x1y3</strong> reported for harassment in Devil's Playground</div><div class="fi-time">5 minutes ago</div></div></div>
       </div>
     </div>
-
-    <!-- Moderation -->
-    <div class="section">
-      <div class="section-header"><span class="section-title">Pending Moderation</span><span class="section-action">3 open</span></div>
+    <div class="section"><div class="section-header"><span class="section-title">Pending Moderation</span><span class="section-action">3 open</span></div>
       <div class="mod-list">
         <div class="mod-item"><span class="mi-icon">⚠</span><div class="mi-content"><div class="mi-text">Harassment report: Guest_x1y3 → repeated unwanted DMs in Devil's Playground</div><div class="mi-meta">Reported by Guest_a4b6 • 5 min ago</div></div><div class="mi-actions"><button class="ban">Ban</button><button class="dismiss">Dismiss</button></div></div>
         <div class="mod-item"><span class="mi-icon">⚠</span><div class="mi-content"><div class="mi-text">Spam: Guest_zz99 → posting links repeatedly in Grand Hall chat</div><div class="mi-meta">Auto-flagged • 12 min ago</div></div><div class="mi-actions"><button class="ban">Mute</button><button class="dismiss">Dismiss</button></div></div>
         <div class="mod-item"><span class="mi-icon">⚠</span><div class="mi-content"><div class="mi-text">Age concern: Guest_new1 → profile suggests under-18 in Pink Silk</div><div class="mi-meta">Auto-flagged • 28 min ago</div></div><div class="mi-actions"><button class="ban">Suspend</button><button class="dismiss">Verify</button></div></div>
       </div>
     </div>
-
-    <!-- Quick Settings -->
-    <div class="section">
-      <div class="section-header"><span class="section-title">Quick Settings</span></div>
+    <div class="section"><div class="section-header"><span class="section-title">Quick Settings</span></div>
       <div class="settings-grid">
         <div class="setting-card"><div class="stg-label">Maintenance Mode</div><div class="stg-desc">Block new visitors, show maintenance page</div><div class="toggle" id="toggleMaint"></div></div>
         <div class="setting-card"><div class="stg-label">Registration Open</div><div class="stg-desc">Allow new account creation</div><div class="toggle on" id="toggleReg"></div></div>
@@ -225,36 +147,17 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
         <div class="setting-card"><div class="stg-label">Auto-Moderation</div><div class="stg-desc">AI flags suspicious messages</div><div class="toggle on" id="toggleAutoMod"></div></div>
       </div>
     </div>
-
   </main>
 </div>
-
 <script>
 (function(){
-  // Ghost mode toggle
-  var ghostOn = localStorage.getItem('ghost_mode')==='true';
-  var dot = document.getElementById('ghostDot');
-  if(ghostOn) dot.classList.add('on');
-  document.getElementById('ghostToggle').addEventListener('click',function(){
-    ghostOn=!ghostOn;
-    localStorage.setItem('ghost_mode', ghostOn?'true':'false');
-    dot.classList.toggle('on',ghostOn);
-  });
-
-  // Toggle switches
-  document.querySelectorAll('.toggle').forEach(function(el){
-    el.addEventListener('click',function(){ el.classList.toggle('on'); });
-  });
-
-  // Mobile menu
-  document.getElementById('menuBtn').addEventListener('click',function(){
-    document.getElementById('sidebar').classList.toggle('mobile-open');
-  });
-
-  // Admin auth check
-  if(!localStorage.getItem('admin_key')){
-    document.body.innerHTML='<div style="min-height:100vh;display:grid;place-items:center;font-family:Inter,sans-serif;color:#7a6e64;font-size:.8rem;text-align:center;padding:20px"><div><h2 style="color:#f5c77e;font-family:Cormorant Garamond,serif;font-style:italic;margin-bottom:8px">Access Denied</h2><p>Admin key required. Set admin_key in localStorage.</p></div></div>';
-  }
+  var ghostOn=localStorage.getItem('ghost_mode')==='true';
+  var dot=document.getElementById('ghostDot');
+  if(ghostOn)dot.classList.add('on');
+  document.getElementById('ghostToggle').addEventListener('click',function(){ghostOn=!ghostOn;localStorage.setItem('ghost_mode',ghostOn?'true':'false');dot.classList.toggle('on',ghostOn)});
+  document.querySelectorAll('.toggle').forEach(function(el){el.addEventListener('click',function(){el.classList.toggle('on')})});
+  document.getElementById('menuBtn').addEventListener('click',function(){document.getElementById('sidebar').classList.toggle('mobile-open')});
+  if(!localStorage.getItem('admin_key')){document.body.innerHTML='<div style="min-height:100vh;display:grid;place-items:center;font-family:Inter,sans-serif;color:#7a6e64;font-size:.8rem;text-align:center;padding:20px"><div><h2 style="color:#f5c77e;font-family:Cormorant Garamond,serif;font-style:italic;margin-bottom:8px">Access Denied</h2><p>Admin key required. Set admin_key in localStorage.</p></div></div>'}
 })();
 </script>
 </body>
