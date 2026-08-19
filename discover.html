@@ -3,14 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#050304">
+<meta name="theme-color" content="#0a0604">
 <title>Discover | CumIN Dungeon</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/public/css/brand.css">
 <style>
-:root{--bg:#050304;--surface:#0c0908;--surface-2:#141010;--surface-3:#1a1414;--gold:#d59a4b;--gold-light:#f5c77e;--gold-dim:#8b6230;--cream:#f5eee4;--muted:#7a6e64;--red:#9f2330;--red-light:#e63946;--green:#4ade80;--purple:#a855f7;--line:rgba(190,137,77,0.12);--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif}
-*{box-sizing:border-box;margin:0}html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--cream);font-family:var(--sans);min-height:100vh;-webkit-font-smoothing:antialiased}
-button,input{font:inherit;color:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}
+:root{--surface-3:#1a1414;--red-light:#e63946;--green:#4ade80;--purple:#a855f7}
+button{cursor:pointer}a{text-decoration:none}
 .nav{position:sticky;top:0;z-index:100;background:rgba(5,3,4,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
 .nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;padding:0 16px;height:52px;gap:8px}
 .nav-brand{font-family:var(--serif);font-size:1rem;font-style:italic;white-space:nowrap;margin-right:12px}
@@ -43,7 +41,6 @@ button,input{font:inherit;color:inherit}button{cursor:pointer}a{color:inherit;te
 .section{max-width:1100px;margin:0 auto;padding:24px 16px 0}
 .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .section-title{font-family:var(--serif);font-size:1.1rem;font-weight:600;font-style:italic;color:var(--cream)}
-.section-more{font-size:.55rem;font-weight:700;color:var(--gold);padding:5px 10px;border:1px solid var(--line);border-radius:6px;background:transparent}
 .creators-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
 .creator-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:transform .2s cubic-bezier(.22,1,.36,1),border-color .2s;cursor:pointer}
 .creator-card:hover{transform:translateY(-3px);border-color:var(--gold-dim)}
@@ -93,10 +90,6 @@ button,input{font:inherit;color:inherit}button{cursor:pointer}a{color:inherit;te
 .toggle-btn.active{background:rgba(213,154,75,.1);color:var(--gold-light);border:1px solid var(--gold-dim)}
 .form-group{margin-bottom:14px}
 .form-group label{display:block;font-size:.52rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
-.form-group input,.form-group select,.form-group textarea{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--cream);font-size:.75rem;outline:none;transition:border-color .15s}
-.form-group input:focus,.form-group select:focus{border-color:var(--gold-dim)}
-.form-group input::placeholder{color:var(--muted)}
-.form-group textarea{resize:vertical;min-height:60px}
 .form-check{display:flex;align-items:flex-start;gap:8px;margin-bottom:10px}
 .form-check input[type=checkbox]{width:16px;height:16px;accent-color:var(--gold);margin-top:2px;flex-shrink:0}
 .form-check span{font-size:.6rem;color:var(--muted);line-height:1.4}
@@ -160,7 +153,6 @@ button,input{font:inherit;color:inherit}button{cursor:pointer}a{color:inherit;te
 
 <footer class="footer">&copy; 2026 CumIN Dungeon &middot; 18+ &middot; <a href="/terms.html">Terms</a> &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/2257.html">2257</a></footer>
 
-<!-- Sign Up Modal -->
 <div class="modal-backdrop" id="modalBackdrop">
   <div class="modal">
     <button class="modal-close" id="modalClose">✕</button>
@@ -188,216 +180,26 @@ button,input{font:inherit;color:inherit}button{cursor:pointer}a{color:inherit;te
 </div>
 
 <script>
-// ========== DATA ==========
-var CATEGORIES = [
-  { slug: 'all', name: 'All' },
-  { slug: 'women', name: 'Women' },
-  { slug: 'men', name: 'Men' },
-  { slug: 'couples', name: 'Couples' },
-  { slug: 'trans', name: 'Trans' },
-  { slug: 'groups', name: 'Groups' },
-  { slug: 'lgbtq', name: 'LGBTQ+' },
-  { slug: 'solo', name: 'Solo' },
-  { slug: 'fetish', name: 'Fetish' },
-  { slug: 'vip', name: 'VIP' }
-];
-
-var ROOMS = [
-  { name: 'Velvet Room', desc: 'Women performers live. Intimate, warm.', status: 'live', category: 'women', img: '/public/assets/art/rooms/velvet-room.jpg' },
-  { name: 'Tangled Throne', desc: 'Couples only. Watch together, play together.', status: 'live', category: 'couples', img: '/public/assets/art/rooms/tangled-throne.jpg' },
-  { name: 'Pink Silk', desc: 'Young performers 18-21. Fresh, bold.', status: 'live', category: 'women', img: '/public/assets/art/rooms/pink-silk.jpg' },
-  { name: "Devil's Playground", desc: 'Fetish and kink. Consensual, intense.', status: 'open', category: 'fetish', img: '/public/assets/art/rooms/devils-playground.jpg' },
-  { name: 'Back Room', desc: 'Gay and bi. Dark, discreet, real.', status: 'live', category: 'lgbtq', img: '/public/assets/art/rooms/back-room.jpg' },
-  { name: 'The Dungeon', desc: 'Very Intimate Pleasure. Private 1-on-1.', status: 'live', category: 'vip', img: '/public/assets/art/rooms/the-dungeon.jpg' },
-  { name: "Haley's Halo", desc: 'She looks innocent but she is not.', status: 'live', category: 'women', img: '/public/assets/art/rooms/haleys-halo.jpg' },
-  { name: 'Trans Kinks', desc: 'Trans performers. Bold, expressive, electric.', status: 'live', category: 'trans', img: '/public/assets/art/rooms/trans-kinks.jpg' }
-];
-
-var CREATORS = [
-  { name: 'Velvet Rose', verified: true, category: 'women', tags: ['Popular','Lovense','English'], online: true, viewers: 184, vip: false, isNew: false, avatar: '\ud83c\udf39' },
-  { name: 'DarkLord', verified: true, category: 'men', tags: ['Featured','BDSM','English'], online: true, viewers: 92, vip: true, isNew: false, avatar: '\ud83d\udc51' },
-  { name: 'Haley', verified: true, category: 'women', tags: ['Popular','Lingerie','English'], online: true, viewers: 156, vip: true, isNew: false, avatar: '\ud83e\udd8b' },
-  { name: 'Mistress Kay', verified: true, category: 'fetish', tags: ['Domination','Leather','English'], online: true, viewers: 47, vip: false, isNew: false, avatar: '\ud83d\udd25' },
-  { name: 'Jade & Mark', verified: false, category: 'couples', tags: ['New','Toys','English'], online: true, viewers: 68, vip: false, isNew: true, avatar: '\ud83d\udc8e' },
-  { name: 'Storm', verified: true, category: 'trans', tags: ['Popular','Cosplay','English'], online: true, viewers: 74, vip: false, isNew: false, avatar: '\u26a1' },
-  { name: 'Luna Noir', verified: false, category: 'women', tags: ['New','Petite','French'], online: false, viewers: 0, vip: false, isNew: true, avatar: '\ud83c\udf19' },
-  { name: 'Raven', verified: true, category: 'solo', tags: ['Featured','Athletic','English'], online: true, viewers: 203, vip: true, isNew: false, avatar: '\ud83d\udda4' },
-  { name: 'Phoenix Duo', verified: false, category: 'couples', tags: ['New','Roleplay','Spanish'], online: false, viewers: 0, vip: false, isNew: true, avatar: '\ud83d\udd25' },
-  { name: 'Siren', verified: true, category: 'women', tags: ['Popular','Curvy','English'], online: true, viewers: 128, vip: false, isNew: false, avatar: '\ud83e\udddc' },
-  { name: 'Kai', verified: true, category: 'men', tags: ['Muscular','Verified','English'], online: false, viewers: 0, vip: false, isNew: false, avatar: '\ud83d\udcaa' },
-  { name: 'Nyx', verified: false, category: 'lgbtq', tags: ['New','Free Chat','English'], online: true, viewers: 31, vip: false, isNew: true, avatar: '\u2728' }
-];
-
-// ========== STATE ==========
-var params = new URLSearchParams(window.location.search);
-var activeCategory = params.get('category') || 'all';
-var activeFilters = params.get('filter') ? [params.get('filter')] : [];
-
-// ========== RENDER CHIPS ==========
-function renderChips() {
-  var container = document.getElementById('categoryChips');
-  container.innerHTML = '';
-  CATEGORIES.forEach(function(cat) {
-    var btn = document.createElement('button');
-    btn.className = 'chip' + (activeCategory === cat.slug ? ' active' : '');
-    btn.dataset.cat = cat.slug;
-    btn.textContent = cat.name;
-    container.appendChild(btn);
-  });
-}
-
-// ========== RENDER ROOMS ==========
-function renderRooms() {
-  var el = document.getElementById('roomsGrid');
-  el.innerHTML = '';
-  var filtered = ROOMS.filter(function(r) {
-    if (activeCategory !== 'all' && r.category !== activeCategory) return false;
-    return true;
-  });
-  if (filtered.length === 0) {
-    el.innerHTML = '<div class="empty-state"><span class="emoji">\ud83d\udeaa</span>No rooms in this category yet</div>';
-    return;
-  }
-  var title = activeCategory === 'all' ? 'All Rooms' : CATEGORIES.find(function(c){return c.slug===activeCategory}).name + ' Rooms';
-  document.getElementById('roomsTitle').textContent = title;
-  filtered.forEach(function(r) {
-    var card = document.createElement('a');
-    card.className = 'room-card';
-    card.href = '/room.html?id=' + r.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/,'');
-    card.innerHTML = '<div class="room-img" style="background-image:url(' + r.img + ')">' +
-      '<span class="status ' + r.status + '">' + (r.status === 'live' ? 'LIVE' : 'OPEN') + '</span></div>' +
-      '<div class="room-info"><h3>' + r.name + '</h3><p>' + r.desc + '</p>' +
-      '<div class="room-category">' + r.category + '</div></div>';
-    el.appendChild(card);
-  });
-}
-
-// ========== RENDER CREATORS ==========
-function renderCreators() {
-  var el = document.getElementById('creatorsGrid');
-  el.innerHTML = '';
-  var filtered = CREATORS.filter(function(c) {
-    if (activeCategory !== 'all' && c.category !== activeCategory) return false;
-    if (activeFilters.indexOf('online') >= 0 && !c.online) return false;
-    if (activeFilters.indexOf('verified') >= 0 && !c.verified) return false;
-    if (activeFilters.indexOf('new') >= 0 && !c.isNew) return false;
-    if (activeFilters.indexOf('popular') >= 0 && c.tags.indexOf('Popular') < 0) return false;
-    if (activeFilters.indexOf('featured') >= 0 && c.tags.indexOf('Featured') < 0) return false;
-    if (activeFilters.indexOf('lovense') >= 0 && c.tags.indexOf('Lovense') < 0) return false;
-    return true;
-  });
-  if (filtered.length === 0) {
-    el.innerHTML = '<div class="empty-state"><span class="emoji">\ud83d\udc64</span>No creators match these filters</div>';
-    return;
-  }
-  filtered.forEach(function(c) {
-    var card = document.createElement('div');
-    card.className = 'creator-card';
-    card.innerHTML = '<div class="creator-img"><span class="placeholder">' + c.avatar + '</span>' +
-      (c.online ? '<span class="live-badge">LIVE</span>' : '') +
-      (c.viewers ? '<span class="viewers">' + c.viewers + '</span>' : '') +
-      (c.vip ? '<span class="vip-badge">VIP</span>' : '') +
-      '</div><div class="creator-info">' +
-      '<div class="creator-name">' + c.name + (c.verified ? ' <span class="verified">\u2713</span>' : '') + '</div>' +
-      '<div class="creator-category">' + c.category + '</div>' +
-      '<div class="creator-tags">' + c.tags.map(function(t){return '<span class="creator-tag">'+t+'</span>'}).join('') + '</div>' +
-      '<div class="creator-actions"><button class="creator-btn">Follow</button><button class="creator-btn primary">Enter</button></div></div>';
-    el.appendChild(card);
-  });
-}
-
-// ========== LIVE STRIP ==========
-function renderLiveStrip() {
-  var el = document.getElementById('liveStrip');
-  el.innerHTML = '';
-  CREATORS.filter(function(c){return c.online}).forEach(function(c) {
-    var thumb = document.createElement('div');
-    thumb.className = 'live-thumb';
-    thumb.innerHTML = '<div class="avatar">' + c.avatar + '</div><span class="name">' + c.name + '</span>';
-    el.appendChild(thumb);
-  });
-}
-
-// ========== EVENTS ==========
-document.getElementById('categoryChips').addEventListener('click', function(e) {
-  var chip = e.target.closest('.chip');
-  if (!chip) return;
-  activeCategory = chip.dataset.cat;
-  // Update URL without reload
-  var url = new URL(window.location);
-  if (activeCategory === 'all') url.searchParams.delete('category');
-  else url.searchParams.set('category', activeCategory);
-  history.replaceState(null, '', url);
-  renderChips();
-  renderRooms();
-  renderCreators();
-});
-
-document.getElementById('filterBar').addEventListener('click', function(e) {
-  var btn = e.target.closest('.filter-btn');
-  if (!btn) return;
-  btn.classList.toggle('active');
-  var f = btn.dataset.filter;
-  var idx = activeFilters.indexOf(f);
-  if (idx >= 0) activeFilters.splice(idx, 1);
-  else activeFilters.push(f);
-  document.getElementById('clearFilters').classList.toggle('show', activeFilters.length > 0);
-  renderCreators();
-});
-
-document.getElementById('clearFilters').addEventListener('click', function() {
-  activeFilters = [];
-  document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active')});
-  this.classList.remove('show');
-  renderCreators();
-});
-
-document.getElementById('searchInput').addEventListener('input', function() {
-  var q = this.value.toLowerCase().trim();
-  if (!q) { renderCreators(); renderRooms(); return; }
-  var fc = CREATORS.filter(function(c) {
-    return c.name.toLowerCase().indexOf(q) >= 0 || c.category.indexOf(q) >= 0 || c.tags.some(function(t){return t.toLowerCase().indexOf(q)>=0});
-  });
-  var fr = ROOMS.filter(function(r) {
-    return r.name.toLowerCase().indexOf(q) >= 0 || r.category.indexOf(q) >= 0 || r.desc.toLowerCase().indexOf(q) >= 0;
-  });
-  document.getElementById('creatorsGrid').innerHTML = '';
-  fc.forEach(function(c) {
-    var card = document.createElement('div'); card.className = 'creator-card';
-    card.innerHTML = '<div class="creator-img"><span class="placeholder">' + c.avatar + '</span>' + (c.online ? '<span class="live-badge">LIVE</span>' : '') + '</div><div class="creator-info"><div class="creator-name">' + c.name + (c.verified?' <span class="verified">\u2713</span>':'') + '</div><div class="creator-category">' + c.category + '</div></div>';
-    document.getElementById('creatorsGrid').appendChild(card);
-  });
-  document.getElementById('roomsGrid').innerHTML = '';
-  fr.forEach(function(r) {
-    var card = document.createElement('a'); card.className = 'room-card'; card.href = '#';
-    card.innerHTML = '<div class="room-img" style="background-image:url(' + r.img + ')"><span class="status ' + r.status + '">' + (r.status==='live'?'LIVE':'OPEN') + '</span></div><div class="room-info"><h3>' + r.name + '</h3><p>' + r.desc + '</p></div>';
-    document.getElementById('roomsGrid').appendChild(card);
-  });
-});
-
-// Apply URL filter on load (e.g. ?filter=online)
-if (activeFilters.length > 0) {
-  activeFilters.forEach(function(f) {
-    var btn = document.querySelector('[data-filter="' + f + '"]');
-    if (btn) btn.classList.add('active');
-  });
-  document.getElementById('clearFilters').classList.add('show');
-}
-
-// Modal
-var modal = document.getElementById('modalBackdrop');
-var signupType = 'member';
-document.getElementById('joinBtn').addEventListener('click', function(){modal.classList.add('show')});
-document.getElementById('modalClose').addEventListener('click', function(){modal.classList.remove('show')});
-modal.addEventListener('click', function(e){if(e.target===modal)modal.classList.remove('show')});
+var CATEGORIES=[{slug:'all',name:'All'},{slug:'women',name:'Women'},{slug:'men',name:'Men'},{slug:'couples',name:'Couples'},{slug:'trans',name:'Trans'},{slug:'groups',name:'Groups'},{slug:'lgbtq',name:'LGBTQ+'},{slug:'solo',name:'Solo'},{slug:'fetish',name:'Fetish'},{slug:'vip',name:'VIP'}];
+var ROOMS=[{name:'Velvet Room',desc:'Women performers live. Intimate, warm.',status:'live',category:'women',img:'/public/assets/art/rooms/velvet-room.jpg'},{name:'Tangled Throne',desc:'Couples only. Watch together, play together.',status:'live',category:'couples',img:'/public/assets/art/rooms/tangled-throne.jpg'},{name:'Pink Silk',desc:'Young performers 18-21. Fresh, bold.',status:'live',category:'women',img:'/public/assets/art/rooms/pink-silk.jpg'},{name:"Devil's Playground",desc:'Fetish and kink. Consensual, intense.',status:'open',category:'fetish',img:'/public/assets/art/rooms/devils-playground.jpg'},{name:'Back Room',desc:'Gay and bi. Dark, discreet, real.',status:'live',category:'lgbtq',img:'/public/assets/art/rooms/back-room.jpg'},{name:'The Dungeon',desc:'Very Intimate Pleasure. Private 1-on-1.',status:'live',category:'vip',img:'/public/assets/art/rooms/the-dungeon.jpg'},{name:"Haley's Halo",desc:'She looks innocent but she is not.',status:'live',category:'women',img:'/public/assets/art/rooms/haleys-halo.jpg'},{name:'Trans Kinks',desc:'Trans performers. Bold, expressive, electric.',status:'live',category:'trans',img:'/public/assets/art/rooms/trans-kinks.jpg'}];
+var CREATORS=[{name:'Velvet Rose',verified:true,category:'women',tags:['Popular','Lovense','English'],online:true,viewers:184,vip:false,isNew:false,avatar:'\ud83c\udf39'},{name:'DarkLord',verified:true,category:'men',tags:['Featured','BDSM','English'],online:true,viewers:92,vip:true,isNew:false,avatar:'\ud83d\udc51'},{name:'Haley',verified:true,category:'women',tags:['Popular','Lingerie','English'],online:true,viewers:156,vip:true,isNew:false,avatar:'\ud83e\udd8b'},{name:'Mistress Kay',verified:true,category:'fetish',tags:['Domination','Leather','English'],online:true,viewers:47,vip:false,isNew:false,avatar:'\ud83d\udd25'},{name:'Jade & Mark',verified:false,category:'couples',tags:['New','Toys','English'],online:true,viewers:68,vip:false,isNew:true,avatar:'\ud83d\udc8e'},{name:'Storm',verified:true,category:'trans',tags:['Popular','Cosplay','English'],online:true,viewers:74,vip:false,isNew:false,avatar:'\u26a1'},{name:'Luna Noir',verified:false,category:'women',tags:['New','Petite','French'],online:false,viewers:0,vip:false,isNew:true,avatar:'\ud83c\udf19'},{name:'Raven',verified:true,category:'solo',tags:['Featured','Athletic','English'],online:true,viewers:203,vip:true,isNew:false,avatar:'\ud83d\udda4'},{name:'Phoenix Duo',verified:false,category:'couples',tags:['New','Roleplay','Spanish'],online:false,viewers:0,vip:false,isNew:true,avatar:'\ud83d\udd25'},{name:'Siren',verified:true,category:'women',tags:['Popular','Curvy','English'],online:true,viewers:128,vip:false,isNew:false,avatar:'\ud83e\udddc'},{name:'Kai',verified:true,category:'men',tags:['Muscular','Verified','English'],online:false,viewers:0,vip:false,isNew:false,avatar:'\ud83d\udcaa'},{name:'Nyx',verified:false,category:'lgbtq',tags:['New','Free Chat','English'],online:true,viewers:31,vip:false,isNew:true,avatar:'\u2728'}];
+var params=new URLSearchParams(window.location.search);var activeCategory=params.get('category')||'all';var activeFilters=params.get('filter')?[params.get('filter')]:[];
+function renderChips(){var container=document.getElementById('categoryChips');container.innerHTML='';CATEGORIES.forEach(function(cat){var btn=document.createElement('button');btn.className='chip'+(activeCategory===cat.slug?' active':'');btn.dataset.cat=cat.slug;btn.textContent=cat.name;container.appendChild(btn)})}
+function renderRooms(){var el=document.getElementById('roomsGrid');el.innerHTML='';var filtered=ROOMS.filter(function(r){if(activeCategory!=='all'&&r.category!==activeCategory)return false;return true});if(filtered.length===0){el.innerHTML='<div class="empty-state"><span class="emoji">\ud83d\udeaa</span>No rooms in this category yet</div>';return}var title=activeCategory==='all'?'All Rooms':CATEGORIES.find(function(c){return c.slug===activeCategory}).name+' Rooms';document.getElementById('roomsTitle').textContent=title;filtered.forEach(function(r){var card=document.createElement('a');card.className='room-card';card.href='/room.html?id='+r.name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/-+$/,'');card.innerHTML='<div class="room-img" style="background-image:url('+r.img+')"><span class="status '+r.status+'">'+(r.status==='live'?'LIVE':'OPEN')+'</span></div><div class="room-info"><h3>'+r.name+'</h3><p>'+r.desc+'</p><div class="room-category">'+r.category+'</div></div>';el.appendChild(card)})}
+function renderCreators(){var el=document.getElementById('creatorsGrid');el.innerHTML='';var filtered=CREATORS.filter(function(c){if(activeCategory!=='all'&&c.category!==activeCategory)return false;if(activeFilters.indexOf('online')>=0&&!c.online)return false;if(activeFilters.indexOf('verified')>=0&&!c.verified)return false;if(activeFilters.indexOf('new')>=0&&!c.isNew)return false;if(activeFilters.indexOf('popular')>=0&&c.tags.indexOf('Popular')<0)return false;if(activeFilters.indexOf('featured')>=0&&c.tags.indexOf('Featured')<0)return false;if(activeFilters.indexOf('lovense')>=0&&c.tags.indexOf('Lovense')<0)return false;return true});if(filtered.length===0){el.innerHTML='<div class="empty-state"><span class="emoji">\ud83d\udc64</span>No creators match these filters</div>';return}filtered.forEach(function(c){var card=document.createElement('div');card.className='creator-card';card.innerHTML='<div class="creator-img"><span class="placeholder">'+c.avatar+'</span>'+(c.online?'<span class="live-badge">LIVE</span>':'')+(c.viewers?'<span class="viewers">'+c.viewers+'</span>':'')+(c.vip?'<span class="vip-badge">VIP</span>':'')+'</div><div class="creator-info"><div class="creator-name">'+c.name+(c.verified?' <span class="verified">\u2713</span>':'')+'</div><div class="creator-category">'+c.category+'</div><div class="creator-tags">'+c.tags.map(function(t){return'<span class="creator-tag">'+t+'</span>'}).join('')+'</div><div class="creator-actions"><button class="creator-btn">Follow</button><button class="creator-btn primary">Enter</button></div></div>';el.appendChild(card)})}
+function renderLiveStrip(){var el=document.getElementById('liveStrip');el.innerHTML='';CREATORS.filter(function(c){return c.online}).forEach(function(c){var thumb=document.createElement('div');thumb.className='live-thumb';thumb.innerHTML='<div class="avatar">'+c.avatar+'</div><span class="name">'+c.name+'</span>';el.appendChild(thumb)})}
+document.getElementById('categoryChips').addEventListener('click',function(e){var chip=e.target.closest('.chip');if(!chip)return;activeCategory=chip.dataset.cat;var url=new URL(window.location);if(activeCategory==='all')url.searchParams.delete('category');else url.searchParams.set('category',activeCategory);history.replaceState(null,'',url);renderChips();renderRooms();renderCreators()});
+document.getElementById('filterBar').addEventListener('click',function(e){var btn=e.target.closest('.filter-btn');if(!btn)return;btn.classList.toggle('active');var f=btn.dataset.filter;var idx=activeFilters.indexOf(f);if(idx>=0)activeFilters.splice(idx,1);else activeFilters.push(f);document.getElementById('clearFilters').classList.toggle('show',activeFilters.length>0);renderCreators()});
+document.getElementById('clearFilters').addEventListener('click',function(){activeFilters=[];document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active')});this.classList.remove('show');renderCreators()});
+document.getElementById('searchInput').addEventListener('input',function(){var q=this.value.toLowerCase().trim();if(!q){renderCreators();renderRooms();return}var fc=CREATORS.filter(function(c){return c.name.toLowerCase().indexOf(q)>=0||c.category.indexOf(q)>=0||c.tags.some(function(t){return t.toLowerCase().indexOf(q)>=0})});var fr=ROOMS.filter(function(r){return r.name.toLowerCase().indexOf(q)>=0||r.category.indexOf(q)>=0||r.desc.toLowerCase().indexOf(q)>=0});document.getElementById('creatorsGrid').innerHTML='';fc.forEach(function(c){var card=document.createElement('div');card.className='creator-card';card.innerHTML='<div class="creator-img"><span class="placeholder">'+c.avatar+'</span>'+(c.online?'<span class="live-badge">LIVE</span>':'')+'</div><div class="creator-info"><div class="creator-name">'+c.name+(c.verified?' <span class="verified">\u2713</span>':'')+'</div><div class="creator-category">'+c.category+'</div></div>';document.getElementById('creatorsGrid').appendChild(card)});document.getElementById('roomsGrid').innerHTML='';fr.forEach(function(r){var card=document.createElement('a');card.className='room-card';card.href='#';card.innerHTML='<div class="room-img" style="background-image:url('+r.img+')"><span class="status '+r.status+'">'+(r.status==='live'?'LIVE':'OPEN')+'</span></div><div class="room-info"><h3>'+r.name+'</h3><p>'+r.desc+'</p></div>';document.getElementById('roomsGrid').appendChild(card)})});
+if(activeFilters.length>0){activeFilters.forEach(function(f){var btn=document.querySelector('[data-filter="'+f+'"]');if(btn)btn.classList.add('active')});document.getElementById('clearFilters').classList.add('show')}
+var modal=document.getElementById('modalBackdrop');var signupType='member';
+document.getElementById('joinBtn').addEventListener('click',function(){modal.classList.add('show')});
+document.getElementById('modalClose').addEventListener('click',function(){modal.classList.remove('show')});
+modal.addEventListener('click',function(e){if(e.target===modal)modal.classList.remove('show')});
 document.querySelectorAll('.toggle-btn').forEach(function(btn){btn.addEventListener('click',function(){document.querySelectorAll('.toggle-btn').forEach(function(b){b.classList.remove('active')});this.classList.add('active');signupType=this.dataset.type;document.getElementById('performerFields').classList.toggle('show',signupType==='performer');document.getElementById('submitBtn').textContent=signupType==='performer'?'Apply as Performer':'Create Account'})});
 document.getElementById('signupForm').addEventListener('submit',function(e){e.preventDefault();alert(signupType==='performer'?'Performer application submitted! We\'ll review and get back to you.':'Account created! Welcome to the dungeon.');modal.classList.remove('show')});
-
-// Init
-renderChips();
-renderRooms();
-renderCreators();
-renderLiveStrip();
+renderChips();renderRooms();renderCreators();renderLiveStrip();
 </script>
 <script src="/public/js/admin-bar.js"></script>
 </body>
