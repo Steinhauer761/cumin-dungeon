@@ -3,61 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Private Show | Cum IN Dungeon</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#0a0604">
+<title>Private Show | CumIN Dungeon</title>
+<link rel="stylesheet" href="/public/css/brand.css">
 <style>
-:root { --bg: #0a0604; --surface: #141010; --gold: #d59a4b; --gold-light: #f5c77e; --red: #e63946; --green: #4ade80; --cream: #f5eee4; --muted: #a6998b; --line: rgba(190,137,77,0.18); --sans: 'Inter', system-ui, sans-serif; }
-* { box-sizing: border-box; margin: 0; }
-body { background: #000; color: var(--cream); font-family: var(--sans); font-size: 14px; }
-button { font: inherit; color: inherit; cursor: pointer; }
-
-.private-layout { display: grid; grid-template-columns: 1fr 300px; height: 100vh; }
-
-/* Video */
-.private-video { position: relative; background: #000; display: grid; place-items: center; }
-.private-video::before { content: '\265b'; font-size: 6rem; color: rgba(213,154,75,0.15); }
-.private-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 16px; pointer-events: none; }
-.private-overlay > * { pointer-events: auto; }
-
-.private-top { display: flex; justify-content: space-between; align-items: center; }
-.private-badge { padding: 6px 12px; border-radius: 100px; background: rgba(230,57,70,0.9); font-size: 0.6rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
-.private-timer { padding: 6px 14px; border-radius: 100px; background: rgba(10,6,4,0.85); border: 1px solid var(--gold); font-size: 0.8rem; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--gold-light); }
-
-.private-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
-.private-info h2 { font-size: 1.2rem; font-weight: 800; }
-.private-info p { font-size: 0.68rem; color: var(--muted); margin-top: 2px; }
-.private-cost { text-align: right; }
-.private-cost .amount { font-size: 1.4rem; font-weight: 800; color: var(--gold-light); }
-.private-cost .rate { font-size: 0.6rem; color: var(--muted); }
-
-.end-btn { padding: 10px 20px; border: none; border-radius: 8px; background: var(--red); color: white; font-weight: 800; font-size: 0.75rem; margin-top: 8px; }
-
-/* Chat */
-.private-chat { display: grid; grid-template-rows: auto 1fr auto; border-left: 1px solid var(--line); background: var(--surface); }
-.private-chat-header { padding: 14px 16px; border-bottom: 1px solid var(--line); }
-.private-chat-header h3 { font-size: 0.82rem; font-weight: 700; }
-.private-chat-header p { font-size: 0.6rem; color: var(--muted); margin-top: 2px; }
-.locked-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 100px; background: rgba(213,154,75,0.1); border: 1px solid var(--gold); font-size: 0.55rem; font-weight: 700; color: var(--gold); margin-top: 6px; }
-.private-messages { padding: 12px 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
-.chat-msg { display: grid; grid-template-columns: 24px 1fr; gap: 8px; }
-.chat-avatar { width: 24px; height: 24px; border-radius: 50%; background: rgba(213,154,75,0.15); display: grid; place-items: center; font-size: 0.55rem; font-weight: 800; color: var(--gold); }
-.chat-msg p { font-size: 0.72rem; color: #b8ada3; line-height: 1.4; }
-.chat-msg strong { color: var(--cream); }
-.private-chat-input { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 12px 16px; border-top: 1px solid var(--line); }
-.private-chat-input input { padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--cream); font-size: 0.75rem; }
-.private-chat-input button { padding: 10px 16px; border: none; border-radius: 8px; background: var(--gold); color: var(--bg); font-weight: 800; font-size: 0.72rem; }
-
-/* Admin spy mode banner */
-.admin-spy { display: none; position: fixed; top: 0; left: 0; right: 0; padding: 8px 16px; background: rgba(230,57,70,0.9); color: white; font-size: 0.7rem; font-weight: 800; text-align: center; z-index: 100; }
-.admin-spy.active { display: block; }
-
-@media (max-width: 768px) { .private-layout { grid-template-columns: 1fr; grid-template-rows: 50vh 1fr; } }
+:root{--green:#4ade80}
+button{cursor:pointer}
+.private-layout{display:grid;grid-template-columns:1fr 300px;height:100vh}
+.private-video{position:relative;background:#000;display:grid;place-items:center}
+.private-video::before{content:'\265b';font-size:6rem;color:rgba(213,154,75,0.15)}
+.private-overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:16px;pointer-events:none}
+.private-overlay > *{pointer-events:auto}
+.private-top{display:flex;justify-content:space-between;align-items:center}
+.private-badge{padding:6px 12px;border-radius:100px;background:rgba(230,57,70,0.9);font-size:0.6rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase}
+.private-timer{padding:6px 14px;border-radius:100px;background:rgba(10,6,4,0.85);border:1px solid var(--gold);font-size:0.8rem;font-weight:800;font-variant-numeric:tabular-nums;color:var(--gold-light)}
+.private-bottom{display:flex;justify-content:space-between;align-items:flex-end}
+.private-info h2{font-size:1.2rem;font-weight:800}
+.private-info p{font-size:0.68rem;color:var(--muted);margin-top:2px}
+.private-cost{text-align:right}
+.private-cost .amount{font-size:1.4rem;font-weight:800;color:var(--gold-light)}
+.private-cost .rate{font-size:0.6rem;color:var(--muted)}
+.end-btn{padding:10px 20px;border:none;border-radius:8px;background:var(--red);color:white;font-weight:800;font-size:0.75rem;margin-top:8px}
+.private-chat{display:grid;grid-template-rows:auto 1fr auto;border-left:1px solid var(--line);background:var(--surface)}
+.private-chat-header{padding:14px 16px;border-bottom:1px solid var(--line)}
+.private-chat-header h3{font-size:0.82rem;font-weight:700}
+.private-chat-header p{font-size:0.6rem;color:var(--muted);margin-top:2px}
+.locked-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:100px;background:rgba(213,154,75,0.1);border:1px solid var(--gold);font-size:0.55rem;font-weight:700;color:var(--gold);margin-top:6px}
+.private-messages{padding:12px 16px;overflow-y:auto;display:flex;flex-direction:column;gap:8px}
+.chat-msg{display:grid;grid-template-columns:24px 1fr;gap:8px}
+.chat-avatar{width:24px;height:24px;border-radius:50%;background:rgba(213,154,75,0.15);display:grid;place-items:center;font-size:0.55rem;font-weight:800;color:var(--gold)}
+.chat-msg p{font-size:0.72rem;color:#b8ada3;line-height:1.4}
+.chat-msg strong{color:var(--cream)}
+.private-chat-input{display:grid;grid-template-columns:1fr auto;gap:8px;padding:12px 16px;border-top:1px solid var(--line)}
+.private-chat-input input{padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--cream);font-size:0.75rem}
+.private-chat-input button{padding:10px 16px;border:none;border-radius:8px;background:var(--gold);color:var(--bg);font-weight:800;font-size:0.72rem}
+.admin-spy{display:none;position:fixed;top:0;left:0;right:0;padding:8px 16px;background:rgba(230,57,70,0.9);color:white;font-size:0.7rem;font-weight:800;text-align:center;z-index:100}
+.admin-spy.active{display:block}
+@media(max-width:768px){.private-layout{grid-template-columns:1fr;grid-template-rows:50vh 1fr}}
 </style>
 </head>
 <body>
-
 <div class="admin-spy" id="admin-spy">ADMIN VIEW: You are observing this private session. Neither party can see you.</div>
-
 <div class="private-layout">
   <div class="private-video">
     <div class="private-overlay">
@@ -78,7 +64,6 @@ button { font: inherit; color: inherit; cursor: pointer; }
       </div>
     </div>
   </div>
-
   <aside class="private-chat">
     <div class="private-chat-header">
       <h3>Private Chat</h3>
@@ -94,55 +79,19 @@ button { font: inherit; color: inherit; cursor: pointer; }
     </form>
   </aside>
 </div>
-
 <script>
-const params = new URLSearchParams(window.location.search);
-const performerName = params.get('performer') || 'Velvet';
-const rate = parseFloat(params.get('rate') || '5');
-const isAdmin = params.get('admin') === 'true';
-
-document.getElementById('performer-name').textContent = performerName;
-
-// Admin spy mode
-if (isAdmin) {
-  document.getElementById('admin-spy').classList.add('active');
-}
-
-// Timer
-let seconds = 0;
-const timerEl = document.getElementById('timer');
-const costEl = document.getElementById('cost-display');
-
-const timerInterval = setInterval(() => {
-  seconds++;
-  const min = Math.floor(seconds / 60);
-  const sec = seconds % 60;
-  timerEl.textContent = `${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
-  const cost = (seconds / 60) * rate;
-  costEl.textContent = `$${cost.toFixed(2)}`;
-}, 1000);
-
-// End session
-document.getElementById('end-btn').addEventListener('click', () => {
-  clearInterval(timerInterval);
-  const totalCost = ((seconds / 60) * rate).toFixed(2);
-  alert(`Session ended. Total: $${totalCost} (${Math.ceil(seconds/60)} min @ $${rate}/min)`);
-  window.location.href = '/';
-});
-
-// Chat
-document.getElementById('chat-form').addEventListener('submit', (e) => {
-  e.preventDefault();
-  const input = document.getElementById('chat-input');
-  const msg = input.value.trim();
-  if (!msg) return;
-  const div = document.createElement('div');
-  div.className = 'chat-msg';
-  div.innerHTML = `<span class="chat-avatar">Y</span><p><strong>You:</strong> ${msg}</p>`;
-  document.getElementById('private-messages').appendChild(div);
-  input.value = '';
-  div.scrollIntoView({ behavior: 'smooth' });
-});
+const params=new URLSearchParams(window.location.search);
+const performerName=params.get('performer')||'Velvet';
+const rate=parseFloat(params.get('rate')||'5');
+const isAdmin=params.get('admin')==='true';
+document.getElementById('performer-name').textContent=performerName;
+if(isAdmin){document.getElementById('admin-spy').classList.add('active')}
+let seconds=0;
+const timerEl=document.getElementById('timer');
+const costEl=document.getElementById('cost-display');
+const timerInterval=setInterval(()=>{seconds++;const min=Math.floor(seconds/60);const sec=seconds%60;timerEl.textContent=`${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;const cost=(seconds/60)*rate;costEl.textContent=`$${cost.toFixed(2)}`;},1000);
+document.getElementById('end-btn').addEventListener('click',()=>{clearInterval(timerInterval);const totalCost=((seconds/60)*rate).toFixed(2);alert(`Session ended. Total: $${totalCost} (${Math.ceil(seconds/60)} min @ $${rate}/min)`);window.location.href='/'});
+document.getElementById('chat-form').addEventListener('submit',(e)=>{e.preventDefault();const input=document.getElementById('chat-input');const msg=input.value.trim();if(!msg)return;const div=document.createElement('div');div.className='chat-msg';div.innerHTML=`<span class="chat-avatar">Y</span><p><strong>You:</strong> ${msg}</p>`;document.getElementById('private-messages').appendChild(div);input.value='';div.scrollIntoView({behavior:'smooth'})});
 </script>
 </body>
 </html>
