@@ -26,6 +26,8 @@ body{background:var(--bg);color:var(--cream);font-family:var(--sans);min-height:
 .card:first-child{margin-left:0}
 .card.deal-in{animation:dealIn .4s cubic-bezier(.16,1,.3,1) forwards}
 @keyframes dealIn{from{opacity:0;transform:translateY(-40px) scale(.6) rotateZ(-10deg)}to{opacity:1;transform:translateY(0) scale(1) rotateZ(0)}}
+.card.face-down.deal-in{animation:dealInHidden .4s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes dealInHidden{from{opacity:0;transform:translateY(-40px) scale(.6) rotateY(180deg) rotateZ(-10deg)}to{opacity:1;transform:rotateY(180deg)}}
 .card .c-front,.card .c-back{position:absolute;inset:0;border-radius:8px;backface-visibility:hidden}
 .card .c-front{background:linear-gradient(145deg,#fff,#f0ebe4);border:1.5px solid #ccc;box-shadow:0 4px 14px rgba(0,0,0,.3);display:flex;flex-direction:column;padding:5px}
 .card .c-front .card-tl{display:flex;flex-direction:column;align-items:center;line-height:1}
@@ -120,7 +122,6 @@ function renderCard(card,faceDown,delay){
   return el;
 }
 
-// KEY FIX: hideSecond hides index 1 (the hole card), not index 0
 function renderHand(containerId,hand,hideSecond){
   var ct=document.getElementById(containerId);ct.innerHTML='';
   hand.forEach(function(card,i){
@@ -133,7 +134,6 @@ function updateTotals(hideDealer){
   var dt=document.getElementById('dTotal');
   var pt=document.getElementById('pTotal');
   if(hideDealer){
-    // Show only first card value
     var firstVal=VAL[dealerHand[0].r];
     dt.textContent=firstVal+' + ?';
     dt.className='hand-total';
@@ -169,7 +169,7 @@ function deal(){
   hands=[[makeCard(),makeCard()]];
   dealerHand=[makeCard(),makeCard()];
   renderHand('pCards',hands[0],false);
-  renderHand('dCards',dealerHand,true); // hide dealer's SECOND card
+  renderHand('dCards',dealerHand,true);
   updateTotals(true);updateUI();
   if(handTotal(hands[0])===21){setTimeout(function(){dealerPlay()},600);return}
   setTimeout(function(){showActions()},500);
@@ -201,7 +201,6 @@ function nextHandOrStand(){
 }
 
 function dealerPlay(){
-  // Reveal hole card
   renderHand('dCards',dealerHand,false);updateTotals(false);
   function draw(){
     if(handTotal(dealerHand)<17){
